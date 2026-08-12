@@ -73,9 +73,9 @@ Three further routes exist so the footer has no dead links: `/privacy`, `/terms`
 
 `src/app/globals.css` holds the tokens, all taken from the file rather than eyeballed.
 
-- **Type** — EB Garamond headings (65 / 52 / 41 / 33 / 27, all `line-height: 1.2`), Albert Sans
-  body (17 / 14 / 11 at 1.6), Poppins for the nav and the large figures. Every heading size is a
-  `clamp()` anchored to its exact desktop value.
+- **Type** — EB Garamond headings (65 / 52 / 41 / 33 / 27, all `line-height: 1.2`) and Albert Sans
+  for body (17 / 14 / 11 at 1.6), the nav and the large figures. Every heading size is a `clamp()`
+  anchored to its exact desktop value.
 - **Colour** — ink `#0c0a10`, ink-soft `#212121`, muted `#667085`, footer text `#98a2b3`,
   divider `#a0a1a8`, mint `#e6f0de`, plus the accents used in the product visuals.
 - **Gradients** — `--gradient-brand` (`#fdfcff → #b1a4ff 45.68% → #4da8fd`), its vertical 80%
@@ -138,11 +138,12 @@ decorative artwork marked `alt=""`.
 ## 6. Deviations and assumptions
 
 1. **`Resources` is omitted from the nav.** It is the only nav item in the Figma with no designed
-   page behind it, and `talentilo.ai` was unreachable from this sandbox to mirror the live nav.
-   Adding it back is one entry in `src/config/navigation.ts`.
+   page behind it. Confirmed by Talentilo as the right call — the live site's nav is likewise
+   Platform / Solution / Migration / Pricing. Adding it back would be one entry in
+   `src/config/navigation.ts`.
 2. **Gilroy** (the large stat figures and pricing numbers) is a commercial font and cannot ship.
-   **Poppins SemiBold** stands in — already in the file for the nav, and the closest geometric
-   match. Swappable via `--font-figure`.
+   Talentilo has chosen **Albert Sans**, the body face, in its place, so `--font-figure` and
+   `--font-sans` now resolve to the same family. Licensing Gilroy later is one edit.
 3. **Tablet and mobile layouts are designed, not copied.** The Figma contains desktop-only frames
    at 1440. Breakpoints are 640 / 1024 / 1440; two-column splits stack copy-first, three-column
    grids collapse, the nav becomes a drawer below 1024, and oversized mockups scale rather than
@@ -155,13 +156,15 @@ decorative artwork marked `alt=""`.
    `/product/command` reuses a pricing toggle in the file (its labels read "Monthly / Yearly /
    Yearly"); the tabs ship with the persona labels the site actually has pages for, keeping the
    one real label the design shows, "The Owner/VP".
-6. **The monthly price is derived.** The file states ₹1,299 per seat per month billed annually and
-   a 20% annual saving. The monthly rate shown by the toggle (₹1,624) is that saving reversed out,
-   so the two prices stay consistent. Replace with the real figure when you have it.
+6. **The billing toggle in the Figma was removed.** The file draws a Monthly / Annually switch and
+   a "Save 20%" badge, but Talentilo sells one rate — ₹1,299 per seat per month, billed annually —
+   so there is no second price for a toggle to reveal. Shipping one would have meant publishing an
+   invented monthly figure. The card states the single rate instead, and the "What's Coming" list
+   matches the live site: AI Calling, Custom Reports, Growth Module (BD).
 7. **Four FAQ answers were written.** Only the first question has an authored answer in the file.
-   Two of the remaining four are answered from facts already on the page (annual discount,
-   per-seat upgrades); the two that depend on policy we do not have (trial scope, refunds) point
-   at the sales address rather than inventing terms.
+   Two of the remaining four are answered from facts already on the page (annual billing, per-seat
+   upgrades); the two that depend on policy we do not have (trial scope, refunds) point at the
+   sales address rather than inventing terms. Confirmed by Talentilo as correct.
 8. **Two empty placeholder panels were dropped.** `Frame 45` on `/product/talent-intelligence`
    (1312×518) and the reserved slot on `/product/command`'s mint band are flat colour blocks with
    no content in the Figma. Shipping an empty coloured rectangle adds nothing, so those sections

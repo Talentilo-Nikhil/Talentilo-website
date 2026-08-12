@@ -15,8 +15,8 @@ export const metadata: Metadata = {
   alternates: { canonical: '/pricing' },
 };
 
+/** The one rate Talentilo sells, per seat, billed annually. */
 const SEAT_COST = 1299;
-const ANNUAL_DISCOUNT = 0.2;
 
 const included: PlanFeature[] = [
   {
@@ -36,9 +36,8 @@ const included: PlanFeature[] = [
 
 const coming: PlanFeature[] = [
   { title: 'AI Calling:', detail: 'Initial call, screening, or follow-up by AI agent.' },
-  { title: 'Revenue Defense (Certainty)' },
-  { title: 'AI Workforce (Scale)' },
-  { title: 'Dedicated Ops Success Manager' },
+  { title: 'Custom Reports:', detail: 'Your operations, your reporting style.' },
+  { title: 'Growth Module (BD):', detail: 'Find clients, personalize outreach, close deals.' },
 ];
 
 const boltOns = [
@@ -71,12 +70,12 @@ const faqs: FaqItem[] = [
   {
     question: 'Can I upgrade my plan at any time?',
     answer:
-      'Yes. Talentilo Core is a single per-seat plan, so you add seats whenever your team grows and switch between monthly and annual billing at any renewal. Extra capability is added the same way — bolt on a Private Database, Legacy Migration or a Booster Pack when you need it, rather than paying for a higher tier up front.',
+      'Yes. Talentilo Core is a single per-seat plan, so you add seats whenever your team grows. Extra capability is added the same way — bolt on a Private Database, Legacy Migration or a Booster Pack when you need it, rather than paying for a higher tier up front.',
   },
   {
     question: 'Is there a discount for annual subscriptions?',
     answer:
-      'Yes — paying annually saves 20% against the monthly rate, which is how Talentilo Core comes to ₹1,299 per seat per month. The toggle above the plan shows both prices side by side.',
+      'Annual billing is how Talentilo Core is priced: ₹1,299 per seat per month, billed annually. There is no separate monthly rate to compare it against — the annual commitment is already reflected in the price.',
   },
   {
     question: 'What is included in the free trial?',
@@ -101,8 +100,8 @@ export default function PricingPage() {
         <div className="mt-10">
           <PricingPlan
             name="Talentilo Core"
-            annualMonthly={SEAT_COST}
-            annualDiscount={ANNUAL_DISCOUNT}
+            price={SEAT_COST}
+            billing="Billed Annually"
             included={included}
             coming={coming}
             cta={{ label: 'Start now', href: '/contact' }}

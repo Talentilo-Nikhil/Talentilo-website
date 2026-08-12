@@ -19,9 +19,9 @@ const esc = (s) =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const num = (n) => +(+n).toFixed(3);
 
-/** Gilroy is commercial and cannot ship; Poppins is the closest geometric match available. */
+/** Gilroy is commercial and cannot ship. Talentilo has chosen Albert Sans in its place. */
 const FONT_SUBSTITUTIONS = {
-  Gilroy: 'Poppins',
+  Gilroy: 'Albert Sans',
 };
 
 /** Figma font style name → CSS weight / italic. */

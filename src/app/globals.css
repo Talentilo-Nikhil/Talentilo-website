@@ -5,11 +5,12 @@
  * `tools/figma/extract.mjs` writes the numbers these mirror into design/spec/.
  */
 @theme {
-  /* Typefaces. Gilroy (the large stat figures) is commercial and cannot ship —
-     Poppins SemiBold is the closest geometric match and is already in the file. */
+  /* Typefaces. `--font-figure` is the role Gilroy plays in the Figma file — the large stat and
+     price figures. Gilroy is commercial, and Talentilo has chosen Albert Sans in its place, so
+     the role now resolves to the same family as body copy. Licensing Gilroy later is one edit. */
   --font-display: var(--font-eb-garamond), 'EB Garamond', Georgia, serif;
   --font-sans: var(--font-albert-sans), 'Albert Sans', system-ui, sans-serif;
-  --font-figure: var(--font-poppins), 'Poppins', system-ui, sans-serif;
+  --font-figure: var(--font-albert-sans), 'Albert Sans', system-ui, sans-serif;
 
   /* Ink and surfaces */
   --color-ink: #0c0a10;

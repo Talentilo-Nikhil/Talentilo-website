@@ -1,7 +1,7 @@
 # Open items
 
 Everything still outstanding on the Talentilo.ai site, in plain language.
-Last updated against commit `b934e6e`.
+Last updated against commit `88bf7e8`.
 
 ## Where to see the site
 
@@ -10,47 +10,57 @@ Every push updates it automatically within a couple of minutes — just refresh.
 
 ---
 
-## 1. Decisions only Talentilo can make
+## 1. Answered — now settled
 
-These are places where the Figma file did not contain the answer, so the site currently carries
-a stand-in. Each one is a single edit once the real answer is known.
-
-### Monthly price
-
-The design only states **₹1,299 per seat, billed annually**, alongside a "Save 20%" badge on the
-annual option. The monthly rate is therefore shown as **₹1,624**, reverse-calculated from that
-20%. If the real monthly price is different, it needs replacing.
-
-*Lives in `src/app/pricing/page.tsx`.*
-
-### The "Resources" menu item
-
-The Figma header includes **Resources**, but no Resources page was designed. Rather than ship a
-link that goes nowhere, it was left out. To add it back, it needs a destination — a blog, a help
-centre, case studies, or an external URL.
-
-*Lives in `src/config/navigation.ts`.*
-
-### The Gilroy typeface
-
-The large figures and pricing numbers are set in **Gilroy**, which is a commercial font that
-cannot be distributed without a licence. **Poppins SemiBold** is used in its place — the closest
-free geometric match, and already present in the Figma file for the navigation. If Talentilo owns
-a Gilroy licence, swapping it is a one-line change.
-
-*Lives in `src/app/globals.css`, the `--font-figure` variable.*
-
-### Four FAQ answers
-
-The Figma pricing page lists FAQ questions with no answers written. Four answers were drafted:
-two from facts already stated elsewhere on the page, and two — **free trial scope** and
-**refunds** — which point the reader at sales rather than invent commercial terms.
-
-*Lives in `src/app/pricing/page.tsx`.*
+- **Pricing.** Talentilo sells one rate: **₹1,299 per seat per month, billed annually**. The
+  Monthly / Annually toggle the Figma draws has been removed, along with the ₹1,624 monthly figure
+  that had been derived from the file's "Save 20%" badge. The "What's Coming" list now matches the
+  live site: AI Calling, Custom Reports, Growth Module (BD).
+- **"Resources" menu item.** Stays out. The live site's nav is Platform / Solution / Migration /
+  Pricing, which is what the site already ships.
+- **Gilroy.** Replaced with **Albert Sans**, the Google font already used for body copy. Poppins
+  is no longer loaded at all, which also removes a font download from every page.
+- **The four FAQ answers.** Confirmed correct as drafted.
 
 ---
 
-## 2. A design decision on mobile
+## 2. Open: the dropdown menus differ from the live site
+
+The top-level navigation matches the live site exactly. The **contents** of the two dropdowns do
+not, and five of the live entries have no page in this build.
+
+**Platform** — live shows five entries under a "CORE PLATFORM" heading:
+
+| Live entry | Live description | Page in this build |
+|---|---|---|
+| Recruitment OS | Your entire operations in one view. | `/product/command` |
+| Talent Intelligence | Semantic search and candidate ranking. | `/product/talent-intelligence` |
+| Faster Operations | Real-time velocity for your workflow. | **none** |
+| AI Powers | Scale your output, not your headcount. | **none** |
+| Revenue Defense | Protect your placements post-offer. | **none** |
+
+**Solution** — live shows four entries in two labelled columns, "FOR" and "RECRUITMENT TYPE":
+
+| Live entry | Live description | Page in this build |
+|---|---|---|
+| Agency Owner | Scale billing and automate ops. | `/for/agency-owner` |
+| Organization | Enterprise governance & security. | `/for/recruitment-operations` |
+| High Volume | Automate thousands of interactions. | `/solution/high-volume` |
+| Tech Recruitment | Deep semantic matching for devs. | `/solution/tech-recruitment` |
+
+The Figma file designed only the six pages listed above, so the menus were built from those. Three
+choices are open:
+
+1. **Keep the Figma structure** — what ships today. Every menu entry leads to a real page.
+2. **Adopt the live labels and grouping for the six pages that exist**, and leave out Faster
+   Operations, AI Powers and Revenue Defense until they have pages.
+3. **Adopt the live structure in full**, which means designing and building three more pages.
+
+*Lives in `src/config/navigation.ts`.*
+
+---
+
+## 3. A design decision on mobile
 
 The wide product mockups (homepage hero, both product pages, migration) are 1312px artworks shown
 at roughly 335px on a phone — a four-times reduction, at which the text inside them is not
@@ -68,7 +78,7 @@ phone.
 
 ---
 
-## 3. Setup still to be done
+## 4. Setup still to be done
 
 ### Email delivery for the contact form
 
@@ -105,7 +115,7 @@ opened against it.
 
 ---
 
-## 4. Known deviations from the Figma file
+## 5. Known deviations from the Figma file
 
 Recorded in full in [`FIGMA_IMPLEMENTATION_REPORT.md`](./FIGMA_IMPLEMENTATION_REPORT.md). The
 short version: no tablet or mobile frames existed in the file, so every layout below 1440px was
@@ -114,7 +124,7 @@ the copy (`support@artifact.com` and similar) were treated as placeholders, not 
 
 ---
 
-## 5. Fixed since first deployment
+## 6. Fixed since first deployment
 
 - **The mobile menu opened as an empty white bar.** It was rendered inside the frosted header, and
   a backdrop-filter makes that header the containing block for anything positioned `fixed` — so

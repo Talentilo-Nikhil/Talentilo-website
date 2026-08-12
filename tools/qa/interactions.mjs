@@ -112,18 +112,22 @@ async function accordion(page) {
   check('faq: clicking again collapses', (await second.getAttribute('aria-expanded')) === 'false');
 }
 
-async function pricingToggle(page) {
+async function pricing(page) {
   await page.goto(`${BASE}/pricing`, { waitUntil: 'networkidle' });
-  const annualPrice = await page.locator('text=/₹1,299\\/month/').first().isVisible();
-  check('pricing: annual price shown by default', annualPrice);
-
-  await page.getByRole('button', { name: 'Pay Monthly' }).click();
-  await page.waitForTimeout(200);
-  const monthly = await page.locator('text=/₹1,624\\/month/').first().isVisible();
-  check('pricing: toggle switches to the monthly rate', monthly);
   check(
-    'pricing: billing note follows the toggle',
-    await page.locator('text=Per Seat (Billed Monthly)').first().isVisible()
+    'pricing: states the one per-seat rate',
+    await page.locator('text=/₹1,299\\/month/').first().isVisible()
+  );
+  check(
+    'pricing: says how that rate is billed',
+    await page.locator('text=Per Seat (Billed Annually)').first().isVisible()
+  );
+  // Talentilo sells annually only. Nothing on the page may imply a monthly alternative exists.
+  const body = await page.locator('body').innerText();
+  check('pricing: no invented monthly rate anywhere on the page', !body.includes('₹1,624'), body.match(/₹[\d,]+/g)?.join(' ') ?? '');
+  check(
+    'pricing: no billing toggle',
+    (await page.getByRole('button', { name: /Pay Monthly|Pay Annually/ }).count()) === 0
   );
 }
 
@@ -248,7 +252,7 @@ async function main() {
   console.log('faq');
   await accordion(page);
   console.log('pricing');
-  await pricingToggle(page);
+  await pricing(page);
   console.log('roi');
   await roiSliders(page);
   console.log('tabs');

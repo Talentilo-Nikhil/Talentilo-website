@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Albert_Sans, EB_Garamond, Poppins } from 'next/font/google';
+import { Albert_Sans, EB_Garamond } from 'next/font/google';
 
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
@@ -15,14 +15,6 @@ const albertSans = Albert_Sans({
 const ebGaramond = EB_Garamond({
   variable: '--font-eb-garamond',
   subsets: ['latin'],
-  display: 'swap',
-});
-
-/** Stands in for Gilroy, which is commercial: same geometric grotesque proportions. */
-const poppins = Poppins({
-  variable: '--font-poppins',
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
   display: 'swap',
 });
 
@@ -52,7 +44,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="en"
-      className={`${albertSans.variable} ${ebGaramond.variable} ${poppins.variable} h-full antialiased`}
+      className={`${albertSans.variable} ${ebGaramond.variable} h-full antialiased`}
     >
       <head>
         {/* Scroll-reveal starts content hidden; without JS there is nothing to reveal it. */}
