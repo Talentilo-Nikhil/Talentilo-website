@@ -41,7 +41,7 @@ const guidKey = (g) => `${g.sessionID}:${g.localID}`;
  * overrides, keyed by the path of GUIDs down into the master). This resolves both into a lookup
  * keyed by the target layer's GUID.
  */
-function collectOverrides(instance, graph) {
+function collectOverrides(instance) {
   const byLayer = new Map();
 
   for (const override of instance.symbolData?.symbolOverrides ?? []) {
@@ -106,7 +106,7 @@ function variantProps(name) {
   return Object.keys(out).length ? out : null;
 }
 
-function buildTree(node, graph, blobs, ctx) {
+export function buildTree(node, graph, blobs, ctx) {
   const { parentTransform, depth, overrides, originX, originY } = ctx;
   const merged = mergeOverride(node, overrides);
 
@@ -175,6 +175,8 @@ function buildTree(node, graph, blobs, ctx) {
     out.strokes = strokes;
     out.strokeWeight = merged.strokeWeight ?? 1;
     out.strokeAlign = merged.strokeAlign ?? 'INSIDE';
+    if (merged.strokeCap && merged.strokeCap !== 'NONE') out.strokeCap = merged.strokeCap;
+    if (merged.strokeJoin) out.strokeJoin = merged.strokeJoin;
   }
 
   const radius = cornerRadius(merged);
@@ -224,7 +226,7 @@ function buildTree(node, graph, blobs, ctx) {
       const variants = variantProps(master.name);
       if (variants) out.variant = variants;
       children = graph.childrenOf(master);
-      childOverrides = collectOverrides(node, graph);
+      childOverrides = collectOverrides(node);
 
       // A resized instance of a plain (non-auto-layout) master scales its contents — the icon
       // sets in this file are all drawn at 20 or 24px and placed at half a dozen other sizes.
@@ -256,7 +258,7 @@ function buildTree(node, graph, blobs, ctx) {
 }
 
 function main() {
-  const { root, blobs, graph } = loadFig();
+  const { blobs, graph } = loadFig();
   const section = graph.nodes.find((n) => n.type === 'SECTION' && n.name === SECTION_NAME);
   if (!section) throw new Error(`section "${SECTION_NAME}" not found`);
 

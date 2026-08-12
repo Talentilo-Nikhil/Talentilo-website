@@ -1,69 +1,167 @@
-import Image from "next/image";
+import type { Metadata } from 'next';
 
-export default function Home() {
+import { CtaBanner } from '@/components/sections/CtaBanner';
+import { FeatureSplit } from '@/components/sections/FeatureSplit';
+import { LogoStrip } from '@/components/sections/LogoStrip';
+import { StatGrid, type Stat } from '@/components/sections/StatGrid';
+import { ButtonLink } from '@/components/ui/Button';
+import { Creative } from '@/components/ui/Creative';
+import { Reveal } from '@/components/ui/Reveal';
+import { Section } from '@/components/ui/Section';
+import { SectionHeading } from '@/components/ui/SectionHeading';
+
+export const metadata: Metadata = {
+  title: 'Talentilo.ai — The Recruitment Operating System',
+  description:
+    "Recruitment isn't about admin; it's about connection. Talentilo automates your workflow, closes the Speed Gap, and handles the end-to-end recruitment lifecycle.",
+  alternates: { canonical: '/' },
+};
+
+const clients = [
+  { name: 'logo-bell', label: 'Bell' },
+  { name: 'logo-asana', label: 'Asana' },
+  { name: 'logo-sap', label: 'SAP' },
+  { name: 'logo-salesforce', label: 'Salesforce' },
+  { name: 'logo-notion', label: 'Notion' },
+] as const;
+
+const stats: Stat[] = [
+  {
+    figure: '2.4X',
+    headline: 'Increased Revenue',
+    detail: 'Billings per recruiter without adding headcount',
+  },
+  {
+    figure: '87%',
+    headline: 'Placement Velocity',
+    detail: 'Reduction in time-to-submit using AI',
+  },
+  {
+    figure: '7 hrs.',
+    headline: 'Avg.Time to Submit',
+    detail: 'AI-indexed profiles, ranked by context',
+  },
+];
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      {/* Hero */}
+      <Section padding="normal" className="pb-0 lg:pb-0">
+        <div className="flex flex-col items-center gap-6">
+          <SectionHeading
+            as="h1"
+            level="display"
+            title={
+              <>Recruitment is All About Connection. Let Talentilo Handle Everything Else</>
+            }
+            lede={
+              <>
+                Recruitment isn&rsquo;t about admin; it&rsquo;s about connection. Talentilo is the
+                intelligent Operating System that automates your workflow, closes the &ldquo;Speed
+                Gap,&rdquo; and handles end-to-end recruitment lifecycle.
+              </>
+            }
+            className="max-w-[950px]"
+          >
+            <div className="mt-4 flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
+              <ButtonLink href="/product/command" variant="dark">
+                See the OS in Action
+              </ButtonLink>
+              <ButtonLink href="/pricing#roi" variant="ghost">
+                View ROI Calculator
+              </ButtonLink>
+            </div>
+          </SectionHeading>
+
+          <p className="pt-2 text-center text-small text-ink">
+            Replaces your Legacy ATS + CRM + Spreadsheet. Instantly.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <Reveal delay={120} className="mt-10 overflow-hidden rounded-card lg:mt-10">
+          <Creative
+            name="hero-command-center"
+            priority
+            sizes="(min-width: 1440px) 1312px, 100vw"
+          />
+        </Reveal>
+      </Section>
+
+      <LogoStrip title="Powering Recruitment for 200+ Recruiters Across" logos={[...clients]} />
+
+      {/* Proof */}
+      <Section padding="normal">
+        <SectionHeading
+          title={
+            <>
+              Break the Walls Between You &amp;
+              <br className="hidden sm:inline" /> the Candidate.
+            </>
+          }
+          lede="Legacy ATS software builds barriers with data entry and clunky forms. Talentilo's active operating system works in the background, so your connection is direct, unbroken, and human."
+        />
+        <div className="mt-15">
+          <StatGrid stats={stats} />
         </div>
-      </main>
-    </div>
+      </Section>
+
+      <FeatureSplit
+        title="We Find the Right Candidates Faster, Always."
+        body="Stop manual resume screening. Our Semantic Matching Engine instantly parses JDs and scans profiles to find context, skills, and fit, not just keywords."
+        points={[
+          'Eliminates Boolean search complexity',
+          'Ranks candidates by specific fit score',
+          'Shortlists top talent instantly, not in days',
+        ]}
+        cta={{ label: 'Explore AI Powers', href: '/product/talent-intelligence' }}
+        creative="semantic-matching"
+        tone="dark"
+        padding="loose"
+      />
+
+      <FeatureSplit
+        title={'Trust is Fragile.\nWe Are Your Safety Net.'}
+        body={
+          'Candidates ghost. Offers get rejected. Talentilo’s Offer Management System monitors ' +
+          'every deal in your pipeline, flagging “Risk Alerts” before you lose the commission.'
+        }
+        points={[
+          'Eliminates complex offer tracking',
+          'Flags at-risk deals with actionable insights',
+          'Saves lost revenue with timely follow-ups',
+        ]}
+        cta={{ label: 'Explore Revenue Defense', href: '/product/command' }}
+        creative="offer-risk-alerts"
+      />
+
+      <FeatureSplit
+        title="The Truth About Your Operations."
+        body="Most agencies scale blindly. Talentilo replaces gut feeling with the Agency Velocity Index (AVI)—a single dashboard that measures speed, bottlenecks, and true pipeline health."
+        points={[]}
+        cta={{ label: 'See the Dashboard', href: '/for/agency-owner' }}
+        creative="velocity-index"
+        media="left"
+      />
+
+      <CtaBanner
+        title={'Ready to\nBuild with Talentilo?'}
+        cta={{ label: 'Get Started', href: '/contact' }}
+      />
+
+      {/* Migration teaser */}
+      <Section tone="mint" padding="normal" className="isolate">
+        <SectionHeading
+          title="Zero Downtime."
+          lede="We migrate your data securely with 100% integrity guarantee."
+        />
+        {/* The soft dome from the file: a 735px circle whose top edge rises out of the band's floor. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-[72%] -z-10 mx-auto aspect-square w-[735px] max-w-[140vw]
+                     rounded-full bg-[linear-gradient(180deg,rgb(255_255_255/0.4)_0%,rgb(255_255_255/0)_100%)]"
+        />
+      </Section>
+    </>
   );
 }

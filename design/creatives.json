@@ -1,9 +1,29 @@
 {
+ "logo-talentilo": {
+  "src": "/figma/creatives/logo-talentilo.webp",
+  "fallback": "/figma/creatives/logo-talentilo.png",
+  "width": 720,
+  "height": 88,
+  "designWidth": 180,
+  "designHeight": 22.12,
+  "alt": "Talentilo.ai"
+ },
+ "logo-talentilo-light": {
+  "src": "/figma/creatives/logo-talentilo-light.webp",
+  "fallback": "/figma/creatives/logo-talentilo-light.png",
+  "width": 720,
+  "height": 88,
+  "designWidth": 180,
+  "designHeight": 22.12,
+  "alt": "Talentilo.ai"
+ },
  "hero-command-center": {
   "src": "/figma/creatives/hero-command-center.webp",
   "fallback": "/figma/creatives/hero-command-center.png",
   "width": 2624,
   "height": 1300,
+  "designWidth": 1312,
+  "designHeight": 650,
   "alt": "Talentilo command centre dashboard"
  },
  "logo-bell": {
@@ -11,6 +31,8 @@
   "fallback": "/figma/creatives/logo-bell.png",
   "width": 340,
   "height": 180,
+  "designWidth": 170,
+  "designHeight": 90,
   "alt": "Bell"
  },
  "logo-asana": {
@@ -18,6 +40,8 @@
   "fallback": "/figma/creatives/logo-asana.png",
   "width": 340,
   "height": 180,
+  "designWidth": 170,
+  "designHeight": 90,
   "alt": "Asana"
  },
  "logo-sap": {
@@ -25,6 +49,8 @@
   "fallback": "/figma/creatives/logo-sap.png",
   "width": 340,
   "height": 180,
+  "designWidth": 170,
+  "designHeight": 90,
   "alt": "SAP"
  },
  "logo-salesforce": {
@@ -32,6 +58,8 @@
   "fallback": "/figma/creatives/logo-salesforce.png",
   "width": 342,
   "height": 180,
+  "designWidth": 171,
+  "designHeight": 90,
   "alt": "Salesforce"
  },
  "logo-notion": {
@@ -39,6 +67,8 @@
   "fallback": "/figma/creatives/logo-notion.png",
   "width": 342,
   "height": 180,
+  "designWidth": 171,
+  "designHeight": 90,
   "alt": "Notion"
  },
  "semantic-matching": {
@@ -46,6 +76,8 @@
   "fallback": "/figma/creatives/semantic-matching.png",
   "width": 1242,
   "height": 834,
+  "designWidth": 620.79,
+  "designHeight": 416.81,
   "alt": "Semantic matching engine ranking 500+ profiles down to 3 perfect matches"
  },
  "offer-risk-alerts": {
@@ -53,6 +85,8 @@
   "fallback": "/figma/creatives/offer-risk-alerts.png",
   "width": 1176,
   "height": 1072,
+  "designWidth": 588,
+  "designHeight": 536,
   "alt": "Offer management system flagging at-risk deals"
  },
  "velocity-index": {
@@ -60,6 +94,8 @@
   "fallback": "/figma/creatives/velocity-index.png",
   "width": 1176,
   "height": 1072,
+  "designWidth": 588,
+  "designHeight": 536,
   "alt": "Agency Velocity Index dashboard"
  }
 }

@@ -1,7 +1,8 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // The dev overlay badge sits on top of the page and lands in every QA screenshot.
+  devIndicators: false,
 };
 
 export default nextConfig;

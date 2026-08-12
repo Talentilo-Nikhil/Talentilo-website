@@ -1541,6 +1541,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "radius": {
          "topLeft": 50,
          "topRight": 50,
@@ -1681,7 +1682,14 @@
             "offset": {
              "x": 0,
              "y": 0
-            }
+            },
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:338",
@@ -1705,7 +1713,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L14 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:339",
@@ -1729,7 +1746,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L4 4",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:340",
@@ -1753,7 +1779,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 4L4 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            }
           ]
          },
@@ -1831,7 +1866,14 @@
             "offset": {
              "x": 0,
              "y": 0
-            }
+            },
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:343",
@@ -1855,7 +1897,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L14 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:344",
@@ -1879,7 +1930,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 4L4 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:345",
@@ -1903,7 +1963,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L4 4",
+              "windingRule": "NONZERO"
+             }
+            ]
            }
           ]
          }
@@ -2158,6 +2227,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "paths": [
          {
           "kind": "fill",
@@ -2203,6 +2273,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "paths": [
          {
           "kind": "fill",
@@ -2239,6 +2310,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "paths": [
          {
           "kind": "fill",
@@ -2492,6 +2564,7 @@
             ],
             "strokeWeight": 1,
             "strokeAlign": "INSIDE",
+            "strokeJoin": "MITER",
             "radius": {
              "topLeft": 112.15718841552734,
              "topRight": 112.15718841552734,
@@ -2599,6 +2672,8 @@
                 ],
                 "strokeWeight": 2.8888888359069824,
                 "strokeAlign": "INSIDE",
+                "strokeCap": "SQUARE",
+                "strokeJoin": "MITER",
                 "paths": [
                  {
                   "kind": "stroke",
@@ -2648,6 +2723,13 @@
                  2.24314,
                  410.33813,
                  1099.91772
+                ],
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                  "windingRule": "NONZERO"
+                 }
                 ]
                },
                {
@@ -2680,7 +2762,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L14 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:344",
@@ -2712,7 +2803,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 4L4 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:345",
@@ -2744,7 +2844,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L4 4",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                }
               ]
              }

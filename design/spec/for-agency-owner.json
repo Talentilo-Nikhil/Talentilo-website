@@ -1541,6 +1541,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "radius": {
          "topLeft": 50,
          "topRight": 50,
@@ -1681,7 +1682,14 @@
             "offset": {
              "x": 0,
              "y": 0
-            }
+            },
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:338",
@@ -1705,7 +1713,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L14 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:339",
@@ -1729,7 +1746,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L4 4",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:340",
@@ -1753,7 +1779,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 4L4 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            }
           ]
          },
@@ -1831,7 +1866,14 @@
             "offset": {
              "x": 0,
              "y": 0
-            }
+            },
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:343",
@@ -1855,7 +1897,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L14 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:344",
@@ -1879,7 +1930,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 4L4 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:345",
@@ -1903,7 +1963,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L4 4",
+              "windingRule": "NONZERO"
+             }
+            ]
            }
           ]
          }
@@ -2247,7 +2316,14 @@
                 "offset": {
                  "x": 0,
                  "y": 0
-                }
+                },
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:338",
@@ -2271,7 +2347,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L14 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:339",
@@ -2295,7 +2380,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L4 4",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:340",
@@ -2319,7 +2413,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 4L4 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                }
               ]
              },
@@ -2397,7 +2500,14 @@
                 "offset": {
                  "x": 0,
                  "y": 0
-                }
+                },
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:343",
@@ -2421,7 +2531,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L14 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:344",
@@ -2445,7 +2564,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 4L4 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:345",
@@ -2469,7 +2597,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L4 4",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                }
               ]
              }
@@ -4008,6 +4145,7 @@
           ],
           "strokeWeight": 0.6354166865348816,
           "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER",
           "children": [
            {
             "id": "1:10307",
@@ -4056,6 +4194,7 @@
               ],
               "strokeWeight": 0.6354166865348816,
               "strokeAlign": "INSIDE",
+              "strokeJoin": "MITER",
               "radius": {
                "topLeft": 57.1875,
                "topRight": 57.1875,
@@ -4191,6 +4330,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "MITER",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -4230,6 +4371,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -4269,6 +4412,7 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeJoin": "MITER",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -4299,7 +4443,14 @@
                      1596.6566,
                      1618.12516
                     ],
-                    "opacity": 0
+                    "opacity": 0,
+                    "paths": [
+                     {
+                      "kind": "outline",
+                      "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                      "windingRule": "NONZERO"
+                     }
+                    ]
                    }
                   ]
                  }
@@ -4496,6 +4647,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -4528,7 +4681,14 @@
                     ],
                     "flipX": true,
                     "flipY": true,
-                    "opacity": 0
+                    "opacity": 0,
+                    "paths": [
+                     {
+                      "kind": "outline",
+                      "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                      "windingRule": "NONZERO"
+                     }
+                    ]
                    }
                   ]
                  }
@@ -4585,6 +4745,7 @@
               ],
               "strokeWeight": 0.6354166865348816,
               "strokeAlign": "INSIDE",
+              "strokeJoin": "MITER",
               "radius": {
                "topLeft": 44.47916793823242,
                "topRight": 44.47916793823242,
@@ -4733,6 +4894,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -4772,6 +4935,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -4802,7 +4967,14 @@
                      1095.31255,
                      1618.76058
                     ],
-                    "opacity": 0
+                    "opacity": 0,
+                    "paths": [
+                     {
+                      "kind": "outline",
+                      "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                      "windingRule": "NONZERO"
+                     }
+                    ]
                    }
                   ]
                  }
@@ -4845,6 +5017,7 @@
           ],
           "strokeWeight": 0.6354166865348816,
           "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER",
           "children": [
            {
             "id": "1:10320",
@@ -5356,7 +5529,14 @@
                           ],
                           "flipX": true,
                           "flipY": true,
-                          "opacity": 0
+                          "opacity": 0,
+                          "paths": [
+                           {
+                            "kind": "outline",
+                            "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                            "windingRule": "NONZERO"
+                           }
+                          ]
                          }
                         ]
                        }
@@ -5537,6 +5717,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "MITER",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -5576,6 +5758,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "MITER",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -5615,6 +5799,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "MITER",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -5654,6 +5840,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "MITER",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -5693,6 +5881,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -5732,6 +5922,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -5762,7 +5954,14 @@
                            898.33333,
                            1748.76042
                           ],
-                          "opacity": 0
+                          "opacity": 0,
+                          "paths": [
+                           {
+                            "kind": "outline",
+                            "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                            "windingRule": "NONZERO"
+                           }
+                          ]
                          }
                         ]
                        }
@@ -5943,6 +6142,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -5982,6 +6183,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -6021,6 +6224,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -6060,6 +6265,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -6090,7 +6297,14 @@
                            898.33333,
                            1786.09375
                           ],
-                          "opacity": 0
+                          "opacity": 0,
+                          "paths": [
+                           {
+                            "kind": "outline",
+                            "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                            "windingRule": "NONZERO"
+                           }
+                          ]
                          }
                         ]
                        }
@@ -6319,6 +6533,8 @@
                               ],
                               "strokeWeight": 1.5,
                               "strokeAlign": "CENTER",
+                              "strokeCap": "ROUND",
+                              "strokeJoin": "ROUND",
                               "paths": [
                                {
                                 "kind": "stroke",
@@ -6358,6 +6574,8 @@
                               ],
                               "strokeWeight": 1.5,
                               "strokeAlign": "CENTER",
+                              "strokeCap": "ROUND",
+                              "strokeJoin": "ROUND",
                               "paths": [
                                {
                                 "kind": "stroke",
@@ -6399,6 +6617,8 @@
                             ],
                             "strokeWeight": 1.5,
                             "strokeAlign": "CENTER",
+                            "strokeCap": "ROUND",
+                            "strokeJoin": "ROUND",
                             "paths": [
                              {
                               "kind": "stroke",
@@ -6440,6 +6660,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -6470,7 +6692,14 @@
                            898.33333,
                            1823.42709
                           ],
-                          "opacity": 0
+                          "opacity": 0,
+                          "paths": [
+                           {
+                            "kind": "outline",
+                            "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                            "windingRule": "NONZERO"
+                           }
+                          ]
                          }
                         ]
                        }
@@ -6651,6 +6880,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -6690,6 +6921,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -6731,6 +6964,8 @@
                         ],
                         "strokeWeight": 1.5,
                         "strokeAlign": "CENTER",
+                        "strokeCap": "ROUND",
+                        "strokeJoin": "ROUND",
                         "paths": [
                          {
                           "kind": "stroke",
@@ -6770,6 +7005,8 @@
                         ],
                         "strokeWeight": 1.5,
                         "strokeAlign": "CENTER",
+                        "strokeCap": "ROUND",
+                        "strokeJoin": "ROUND",
                         "paths": [
                          {
                           "kind": "stroke",
@@ -6833,6 +7070,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -6872,6 +7111,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -6911,6 +7152,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -6950,6 +7193,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -6982,7 +7227,14 @@
                          898.33333,
                          1860.76042
                         ],
-                        "opacity": 0
+                        "opacity": 0,
+                        "paths": [
+                         {
+                          "kind": "outline",
+                          "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                          "windingRule": "NONZERO"
+                         }
+                        ]
                        }
                       ]
                      }
@@ -7161,6 +7413,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -7200,6 +7454,8 @@
                           ],
                           "strokeWeight": 2,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -7239,6 +7495,8 @@
                           ],
                           "strokeWeight": 2,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -7278,6 +7536,8 @@
                           ],
                           "strokeWeight": 2,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -7308,7 +7568,14 @@
                            898.33333,
                            1898.09375
                           ],
-                          "opacity": 0
+                          "opacity": 0,
+                          "paths": [
+                           {
+                            "kind": "outline",
+                            "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                            "windingRule": "NONZERO"
+                           }
+                          ]
                          }
                         ]
                        }
@@ -7489,6 +7756,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -7528,6 +7797,8 @@
                           ],
                           "strokeWeight": 2,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -7567,6 +7838,8 @@
                           ],
                           "strokeWeight": 2,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -7606,6 +7879,8 @@
                           ],
                           "strokeWeight": 2,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -7636,7 +7911,14 @@
                            898.33333,
                            1935.42708
                           ],
-                          "opacity": 0
+                          "opacity": 0,
+                          "paths": [
+                           {
+                            "kind": "outline",
+                            "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                            "windingRule": "NONZERO"
+                           }
+                          ]
                          }
                         ]
                        }
@@ -7924,6 +8206,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -7963,6 +8247,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -7993,7 +8279,14 @@
                            898.33333,
                            2016.26042
                           ],
-                          "opacity": 0
+                          "opacity": 0,
+                          "paths": [
+                           {
+                            "kind": "outline",
+                            "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                            "windingRule": "NONZERO"
+                           }
+                          ]
                          }
                         ]
                        }
@@ -8174,6 +8467,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -8213,6 +8508,8 @@
                           ],
                           "strokeWeight": 1.5,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -8252,6 +8549,8 @@
                           ],
                           "strokeWeight": 2,
                           "strokeAlign": "CENTER",
+                          "strokeCap": "ROUND",
+                          "strokeJoin": "ROUND",
                           "paths": [
                            {
                             "kind": "stroke",
@@ -8282,7 +8581,14 @@
                            898.33333,
                            2053.59376
                           ],
-                          "opacity": 0
+                          "opacity": 0,
+                          "paths": [
+                           {
+                            "kind": "outline",
+                            "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                            "windingRule": "NONZERO"
+                           }
+                          ]
                          }
                         ]
                        }
@@ -8493,6 +8799,8 @@
                             ],
                             "strokeWeight": 1.5,
                             "strokeAlign": "CENTER",
+                            "strokeCap": "ROUND",
+                            "strokeJoin": "ROUND",
                             "paths": [
                              {
                               "kind": "stroke",
@@ -8532,6 +8840,8 @@
                             ],
                             "strokeWeight": 1.5,
                             "strokeAlign": "CENTER",
+                            "strokeCap": "ROUND",
+                            "strokeJoin": "ROUND",
                             "paths": [
                              {
                               "kind": "stroke",
@@ -8571,6 +8881,8 @@
                             ],
                             "strokeWeight": 1.5,
                             "strokeAlign": "CENTER",
+                            "strokeCap": "ROUND",
+                            "strokeJoin": "ROUND",
                             "paths": [
                              {
                               "kind": "stroke",
@@ -8610,6 +8922,8 @@
                             ],
                             "strokeWeight": 1.5,
                             "strokeAlign": "CENTER",
+                            "strokeCap": "ROUND",
+                            "strokeJoin": "ROUND",
                             "paths": [
                              {
                               "kind": "stroke",
@@ -8649,6 +8963,8 @@
                             ],
                             "strokeWeight": 1.5,
                             "strokeAlign": "CENTER",
+                            "strokeCap": "ROUND",
+                            "strokeJoin": "ROUND",
                             "paths": [
                              {
                               "kind": "stroke",
@@ -8681,7 +8997,14 @@
                             ],
                             "flipX": true,
                             "flipY": true,
-                            "opacity": 0
+                            "opacity": 0,
+                            "paths": [
+                             {
+                              "kind": "outline",
+                              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                              "windingRule": "NONZERO"
+                             }
+                            ]
                            }
                           ]
                          }
@@ -8876,6 +9199,8 @@
                             ],
                             "strokeWeight": 1.5,
                             "strokeAlign": "CENTER",
+                            "strokeCap": "ROUND",
+                            "strokeJoin": "ROUND",
                             "paths": [
                              {
                               "kind": "stroke",
@@ -8908,7 +9233,14 @@
                             ],
                             "flipX": true,
                             "flipY": true,
-                            "opacity": 0
+                            "opacity": 0,
+                            "paths": [
+                             {
+                              "kind": "outline",
+                              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                              "windingRule": "NONZERO"
+                             }
+                            ]
                            }
                           ]
                          }
@@ -9042,6 +9374,8 @@
                             ],
                             "strokeWeight": 1.5,
                             "strokeAlign": "CENTER",
+                            "strokeCap": "ROUND",
+                            "strokeJoin": "ROUND",
                             "paths": [
                              {
                               "kind": "stroke",
@@ -9081,6 +9415,8 @@
                             ],
                             "strokeWeight": 2,
                             "strokeAlign": "CENTER",
+                            "strokeCap": "ROUND",
+                            "strokeJoin": "ROUND",
                             "paths": [
                              {
                               "kind": "stroke",
@@ -9113,7 +9449,14 @@
                             ],
                             "flipX": true,
                             "flipY": true,
-                            "opacity": 0
+                            "opacity": 0,
+                            "paths": [
+                             {
+                              "kind": "outline",
+                              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                              "windingRule": "NONZERO"
+                             }
+                            ]
                            }
                           ]
                          }
@@ -9259,6 +9602,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -9298,6 +9643,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -9337,6 +9684,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -9369,7 +9718,14 @@
                     ],
                     "flipX": true,
                     "flipY": true,
-                    "opacity": 0
+                    "opacity": 0,
+                    "paths": [
+                     {
+                      "kind": "outline",
+                      "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                      "windingRule": "NONZERO"
+                     }
+                    ]
                    }
                   ]
                  }
@@ -9768,6 +10124,7 @@
               ],
               "strokeWeight": 0.6354166865348816,
               "strokeAlign": "CENTER",
+              "strokeJoin": "MITER",
               "paths": [
                {
                 "kind": "stroke",
@@ -9799,6 +10156,7 @@
               ],
               "strokeWeight": 0.6354166865348816,
               "strokeAlign": "CENTER",
+              "strokeJoin": "MITER",
               "paths": [
                {
                 "kind": "stroke",
@@ -9830,6 +10188,7 @@
               ],
               "strokeWeight": 0.6354166865348816,
               "strokeAlign": "CENTER",
+              "strokeJoin": "MITER",
               "paths": [
                {
                 "kind": "stroke",
@@ -9861,6 +10220,7 @@
               ],
               "strokeWeight": 0.6354166865348816,
               "strokeAlign": "CENTER",
+              "strokeJoin": "MITER",
               "paths": [
                {
                 "kind": "stroke",
@@ -9892,6 +10252,7 @@
               ],
               "strokeWeight": 0.6354166865348816,
               "strokeAlign": "CENTER",
+              "strokeJoin": "MITER",
               "paths": [
                {
                 "kind": "stroke",
@@ -11180,6 +11541,8 @@
                       ],
                       "strokeWeight": 1.5,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -11212,7 +11575,14 @@
                       ],
                       "flipX": true,
                       "flipY": true,
-                      "opacity": 0
+                      "opacity": 0,
+                      "paths": [
+                       {
+                        "kind": "outline",
+                        "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                        "windingRule": "NONZERO"
+                       }
+                      ]
                      }
                     ]
                    }
@@ -11365,6 +11735,8 @@
                       ],
                       "strokeWeight": 1.5,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -11397,7 +11769,14 @@
                       ],
                       "flipX": true,
                       "flipY": true,
-                      "opacity": 0
+                      "opacity": 0,
+                      "paths": [
+                       {
+                        "kind": "outline",
+                        "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                        "windingRule": "NONZERO"
+                       }
+                      ]
                      }
                     ]
                    }
@@ -11507,6 +11886,7 @@
             ],
             "strokeWeight": 0.6354166865348816,
             "strokeAlign": "INSIDE",
+            "strokeJoin": "MITER",
             "children": [
              {
               "id": "1:10432",
@@ -11722,6 +12102,8 @@
                       ],
                       "strokeWeight": 1.5,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -11754,7 +12136,14 @@
                       ],
                       "flipX": true,
                       "flipY": true,
-                      "opacity": 0
+                      "opacity": 0,
+                      "paths": [
+                       {
+                        "kind": "outline",
+                        "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                        "windingRule": "NONZERO"
+                       }
+                      ]
                      }
                     ]
                    }
@@ -11935,6 +12324,8 @@
                       ],
                       "strokeWeight": 1.5,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -11967,7 +12358,14 @@
                       ],
                       "flipX": true,
                       "flipY": true,
-                      "opacity": 0
+                      "opacity": 0,
+                      "paths": [
+                       {
+                        "kind": "outline",
+                        "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                        "windingRule": "NONZERO"
+                       }
+                      ]
                      }
                     ]
                    }
@@ -12148,6 +12546,8 @@
                       ],
                       "strokeWeight": 1.5,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -12180,7 +12580,14 @@
                       ],
                       "flipX": true,
                       "flipY": true,
-                      "opacity": 0
+                      "opacity": 0,
+                      "paths": [
+                       {
+                        "kind": "outline",
+                        "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                        "windingRule": "NONZERO"
+                       }
+                      ]
                      }
                     ]
                    }
@@ -12415,7 +12822,14 @@
                          1104.68487,
                          2115.49724
                         ],
-                        "opacity": 0
+                        "opacity": 0,
+                        "paths": [
+                         {
+                          "kind": "outline",
+                          "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                          "windingRule": "NONZERO"
+                         }
+                        ]
                        },
                        {
                         "id": "1:2654",
@@ -12455,6 +12869,8 @@
                         ],
                         "strokeWeight": 1.5,
                         "strokeAlign": "CENTER",
+                        "strokeCap": "ROUND",
+                        "strokeJoin": "ROUND",
                         "paths": [
                          {
                           "kind": "fill",
@@ -12969,6 +13385,7 @@
               ],
               "strokeWeight": 0.6354166865348816,
               "strokeAlign": "CENTER",
+              "strokeJoin": "MITER",
               "paths": [
                {
                 "kind": "stroke",
@@ -13445,6 +13862,7 @@
               ],
               "strokeWeight": 0.6354166865348816,
               "strokeAlign": "CENTER",
+              "strokeJoin": "MITER",
               "paths": [
                {
                 "kind": "stroke",
@@ -13950,6 +14368,7 @@
               ],
               "strokeWeight": 0.6354166865348816,
               "strokeAlign": "CENTER",
+              "strokeJoin": "MITER",
               "paths": [
                {
                 "kind": "stroke",
@@ -13998,6 +14417,7 @@
             ],
             "strokeWeight": 0.6354166865348816,
             "strokeAlign": "INSIDE",
+            "strokeJoin": "MITER",
             "radius": {
              "topLeft": 3.8125,
              "topRight": 3.8125,
@@ -14103,6 +14523,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -14142,6 +14564,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -14181,6 +14605,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -14220,6 +14646,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -14250,7 +14678,14 @@
                      1439.70832,
                      2040.67693
                     ],
-                    "opacity": 0
+                    "opacity": 0,
+                    "paths": [
+                     {
+                      "kind": "outline",
+                      "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                      "windingRule": "NONZERO"
+                     }
+                    ]
                    },
                    {
                     "id": "1:2723",
@@ -14283,6 +14718,8 @@
                     ],
                     "strokeWeight": 2,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -14322,6 +14759,8 @@
                     ],
                     "strokeWeight": 2,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -14361,6 +14800,8 @@
                     ],
                     "strokeWeight": 2,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -14400,6 +14841,8 @@
                     ],
                     "strokeWeight": 2,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -14439,6 +14882,8 @@
                     ],
                     "strokeWeight": 2,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -14478,6 +14923,8 @@
                     ],
                     "strokeWeight": 2,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -14935,6 +15382,7 @@
             ],
             "strokeWeight": 0.6354166865348816,
             "strokeAlign": "CENTER",
+            "strokeJoin": "MITER",
             "paths": [
              {
               "kind": "stroke",
@@ -15085,6 +15533,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -15124,6 +15574,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -15156,7 +15608,14 @@
                     ],
                     "flipX": true,
                     "flipY": true,
-                    "opacity": 0
+                    "opacity": 0,
+                    "paths": [
+                     {
+                      "kind": "outline",
+                      "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                      "windingRule": "NONZERO"
+                     }
+                    ]
                    }
                   ]
                  }
@@ -15308,6 +15767,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -15347,6 +15808,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -15379,7 +15842,14 @@
                     ],
                     "flipX": true,
                     "flipY": true,
-                    "opacity": 0
+                    "opacity": 0,
+                    "paths": [
+                     {
+                      "kind": "outline",
+                      "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                      "windingRule": "NONZERO"
+                     }
+                    ]
                    }
                   ]
                  }
@@ -15533,6 +16003,7 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeJoin": "MITER",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -15572,6 +16043,7 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeJoin": "MITER",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -15611,6 +16083,7 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeJoin": "MITER",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -15641,7 +16114,14 @@
                      1742.16667,
                      1686.75
                     ],
-                    "opacity": 0
+                    "opacity": 0,
+                    "paths": [
+                     {
+                      "kind": "outline",
+                      "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                      "windingRule": "NONZERO"
+                     }
+                    ]
                    }
                   ]
                  }
@@ -15903,6 +16383,7 @@
                 ],
                 "strokeWeight": 1.2708333730697632,
                 "strokeAlign": "INSIDE",
+                "strokeJoin": "MITER",
                 "radius": {
                  "topLeft": 6.3541669845581055,
                  "topRight": 6.3541669845581055,
@@ -16051,6 +16532,8 @@
                       ],
                       "strokeWeight": 1.5,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -16090,6 +16573,8 @@
                       ],
                       "strokeWeight": 1.5,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -16131,6 +16616,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -16170,6 +16657,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -16209,6 +16698,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -16239,7 +16730,14 @@
                      1684.97925,
                      1803.66667
                     ],
-                    "opacity": 0
+                    "opacity": 0,
+                    "paths": [
+                     {
+                      "kind": "outline",
+                      "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                      "windingRule": "NONZERO"
+                     }
+                    ]
                    }
                   ]
                  }
@@ -16432,6 +16930,8 @@
                       ],
                       "strokeWeight": 1.5,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -16471,6 +16971,8 @@
                       ],
                       "strokeWeight": 1.5,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -16512,6 +17014,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -16551,6 +17055,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -16590,6 +17096,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -16620,7 +17128,14 @@
                      1584.58333,
                      1803.66667
                     ],
-                    "opacity": 0
+                    "opacity": 0,
+                    "paths": [
+                     {
+                      "kind": "outline",
+                      "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                      "windingRule": "NONZERO"
+                     }
+                    ]
                    }
                   ]
                  }
@@ -16774,6 +17289,7 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeJoin": "MITER",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -16813,6 +17329,7 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeJoin": "MITER",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -16852,6 +17369,7 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeJoin": "MITER",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -16882,7 +17400,14 @@
                      1742.16667,
                      1686.75
                     ],
-                    "opacity": 0
+                    "opacity": 0,
+                    "paths": [
+                     {
+                      "kind": "outline",
+                      "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                      "windingRule": "NONZERO"
+                     }
+                    ]
                    }
                   ]
                  }
@@ -17144,6 +17669,7 @@
                 ],
                 "strokeWeight": 1.2708333730697632,
                 "strokeAlign": "INSIDE",
+                "strokeJoin": "MITER",
                 "radius": {
                  "topLeft": 6.3541669845581055,
                  "topRight": 6.3541669845581055,
@@ -17292,6 +17818,8 @@
                       ],
                       "strokeWeight": 1.5,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -17331,6 +17859,8 @@
                       ],
                       "strokeWeight": 1.5,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -17372,6 +17902,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -17411,6 +17943,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -17450,6 +17984,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -17480,7 +18016,14 @@
                      1684.97925,
                      1803.66667
                     ],
-                    "opacity": 0
+                    "opacity": 0,
+                    "paths": [
+                     {
+                      "kind": "outline",
+                      "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                      "windingRule": "NONZERO"
+                     }
+                    ]
                    }
                   ]
                  }
@@ -17673,6 +18216,8 @@
                       ],
                       "strokeWeight": 1.5,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -17712,6 +18257,8 @@
                       ],
                       "strokeWeight": 1.5,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -17753,6 +18300,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -17792,6 +18341,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -17831,6 +18382,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -17861,7 +18414,14 @@
                      1584.58333,
                      1803.66667
                     ],
-                    "opacity": 0
+                    "opacity": 0,
+                    "paths": [
+                     {
+                      "kind": "outline",
+                      "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                      "windingRule": "NONZERO"
+                     }
+                    ]
                    }
                   ]
                  }
@@ -18015,6 +18575,7 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeJoin": "MITER",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -18054,6 +18615,7 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeJoin": "MITER",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -18093,6 +18655,7 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeJoin": "MITER",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -18123,7 +18686,14 @@
                      1742.16667,
                      1874.19774
                     ],
-                    "opacity": 0
+                    "opacity": 0,
+                    "paths": [
+                     {
+                      "kind": "outline",
+                      "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                      "windingRule": "NONZERO"
+                     }
+                    ]
                    }
                   ]
                  }
@@ -19464,7 +20034,8 @@
            }
           ],
           "strokeWeight": 1.2000000476837158,
-          "strokeAlign": "INSIDE"
+          "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER"
          },
          {
           "id": "1:10580",
@@ -19488,7 +20059,8 @@
            }
           ],
           "strokeWeight": 1.2000000476837158,
-          "strokeAlign": "INSIDE"
+          "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER"
          },
          {
           "id": "1:10581",
@@ -19512,7 +20084,8 @@
            }
           ],
           "strokeWeight": 1.2000000476837158,
-          "strokeAlign": "INSIDE"
+          "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER"
          },
          {
           "id": "1:10582",
@@ -19536,7 +20109,8 @@
            }
           ],
           "strokeWeight": 1.2000000476837158,
-          "strokeAlign": "INSIDE"
+          "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER"
          }
         ]
        },
@@ -19704,7 +20278,14 @@
                   ],
                   "flipX": true,
                   "flipY": true,
-                  "opacity": 0
+                  "opacity": 0,
+                  "paths": [
+                   {
+                    "kind": "outline",
+                    "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                    "windingRule": "NONZERO"
+                   }
+                  ]
                  }
                 ]
                }
@@ -19923,7 +20504,14 @@
                   ],
                   "flipX": true,
                   "flipY": true,
-                  "opacity": 0
+                  "opacity": 0,
+                  "paths": [
+                   {
+                    "kind": "outline",
+                    "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                    "windingRule": "NONZERO"
+                   }
+                  ]
                  }
                 ]
                }
@@ -20142,7 +20730,14 @@
                   ],
                   "flipX": true,
                   "flipY": true,
-                  "opacity": 0
+                  "opacity": 0,
+                  "paths": [
+                   {
+                    "kind": "outline",
+                    "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                    "windingRule": "NONZERO"
+                   }
+                  ]
                  }
                 ]
                }
@@ -20338,7 +20933,8 @@
            }
           ],
           "strokeWeight": 1.2000000476837158,
-          "strokeAlign": "INSIDE"
+          "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER"
          },
          {
           "id": "1:10599",
@@ -20372,6 +20968,7 @@
           ],
           "strokeWeight": 1.2000000476837158,
           "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER",
           "paths": [
            {
             "kind": "fill",
@@ -20417,6 +21014,7 @@
           ],
           "strokeWeight": 1.2000000476837158,
           "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER",
           "paths": [
            {
             "kind": "fill",
@@ -20462,6 +21060,7 @@
           ],
           "strokeWeight": 1.2000000476837158,
           "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER",
           "paths": [
            {
             "kind": "fill",
@@ -20530,6 +21129,7 @@
           ],
           "strokeWeight": 1.0661157369613647,
           "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER",
           "children": [
            {
             "id": "1:10604",
@@ -20745,6 +21345,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -20777,7 +21379,14 @@
                     ],
                     "flipX": true,
                     "flipY": true,
-                    "opacity": 0
+                    "opacity": 0,
+                    "paths": [
+                     {
+                      "kind": "outline",
+                      "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                      "windingRule": "NONZERO"
+                     }
+                    ]
                    }
                   ]
                  }
@@ -20958,6 +21567,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -20990,7 +21601,14 @@
                     ],
                     "flipX": true,
                     "flipY": true,
-                    "opacity": 0
+                    "opacity": 0,
+                    "paths": [
+                     {
+                      "kind": "outline",
+                      "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                      "windingRule": "NONZERO"
+                     }
+                    ]
                    }
                   ]
                  }
@@ -21171,6 +21789,8 @@
                     ],
                     "strokeWeight": 1.5,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -21203,7 +21823,14 @@
                     ],
                     "flipX": true,
                     "flipY": true,
-                    "opacity": 0
+                    "opacity": 0,
+                    "paths": [
+                     {
+                      "kind": "outline",
+                      "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                      "windingRule": "NONZERO"
+                     }
+                    ]
                    }
                   ]
                  }
@@ -21438,7 +22065,14 @@
                        192.62055,
                        2459.29196
                       ],
-                      "opacity": 0
+                      "opacity": 0,
+                      "paths": [
+                       {
+                        "kind": "outline",
+                        "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                        "windingRule": "NONZERO"
+                       }
+                      ]
                      },
                      {
                       "id": "1:2654",
@@ -21478,6 +22112,8 @@
                       ],
                       "strokeWeight": 1.5,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "fill",
@@ -21992,6 +22628,7 @@
             ],
             "strokeWeight": 1.0661157369613647,
             "strokeAlign": "CENTER",
+            "strokeJoin": "MITER",
             "paths": [
              {
               "kind": "stroke",
@@ -22468,6 +23105,7 @@
             ],
             "strokeWeight": 1.0661157369613647,
             "strokeAlign": "CENTER",
+            "strokeJoin": "MITER",
             "paths": [
              {
               "kind": "stroke",
@@ -22973,6 +23611,7 @@
             ],
             "strokeWeight": 1.0661157369613647,
             "strokeAlign": "CENTER",
+            "strokeJoin": "MITER",
             "paths": [
              {
               "kind": "stroke",
@@ -23021,6 +23660,7 @@
           ],
           "strokeWeight": 1.0661157369613647,
           "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER",
           "radius": {
            "topLeft": 6.396694183349609,
            "topRight": 6.396694183349609,
@@ -23126,6 +23766,8 @@
                   ],
                   "strokeWeight": 1.5,
                   "strokeAlign": "CENTER",
+                  "strokeCap": "ROUND",
+                  "strokeJoin": "ROUND",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -23165,6 +23807,8 @@
                   ],
                   "strokeWeight": 1.5,
                   "strokeAlign": "CENTER",
+                  "strokeCap": "ROUND",
+                  "strokeJoin": "ROUND",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -23204,6 +23848,8 @@
                   ],
                   "strokeWeight": 1.5,
                   "strokeAlign": "CENTER",
+                  "strokeCap": "ROUND",
+                  "strokeJoin": "ROUND",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -23243,6 +23889,8 @@
                   ],
                   "strokeWeight": 1.5,
                   "strokeAlign": "CENTER",
+                  "strokeCap": "ROUND",
+                  "strokeJoin": "ROUND",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -23273,7 +23921,14 @@
                    754.73009,
                    2333.7568
                   ],
-                  "opacity": 0
+                  "opacity": 0,
+                  "paths": [
+                   {
+                    "kind": "outline",
+                    "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                    "windingRule": "NONZERO"
+                   }
+                  ]
                  },
                  {
                   "id": "1:2723",
@@ -23306,6 +23961,8 @@
                   ],
                   "strokeWeight": 2,
                   "strokeAlign": "CENTER",
+                  "strokeCap": "ROUND",
+                  "strokeJoin": "ROUND",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -23345,6 +24002,8 @@
                   ],
                   "strokeWeight": 2,
                   "strokeAlign": "CENTER",
+                  "strokeCap": "ROUND",
+                  "strokeJoin": "ROUND",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -23384,6 +24043,8 @@
                   ],
                   "strokeWeight": 2,
                   "strokeAlign": "CENTER",
+                  "strokeCap": "ROUND",
+                  "strokeJoin": "ROUND",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -23423,6 +24084,8 @@
                   ],
                   "strokeWeight": 2,
                   "strokeAlign": "CENTER",
+                  "strokeCap": "ROUND",
+                  "strokeJoin": "ROUND",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -23462,6 +24125,8 @@
                   ],
                   "strokeWeight": 2,
                   "strokeAlign": "CENTER",
+                  "strokeCap": "ROUND",
+                  "strokeJoin": "ROUND",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -23501,6 +24166,8 @@
                   ],
                   "strokeWeight": 2,
                   "strokeAlign": "CENTER",
+                  "strokeCap": "ROUND",
+                  "strokeJoin": "ROUND",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -24502,7 +25169,14 @@
             "offset": {
              "x": 0,
              "y": 0
-            }
+            },
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:338",
@@ -24526,7 +25200,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L14 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:339",
@@ -24550,7 +25233,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L4 4",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:340",
@@ -24574,7 +25266,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 4L4 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            }
           ]
          },
@@ -24652,7 +25353,14 @@
             "offset": {
              "x": 0,
              "y": 0
-            }
+            },
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:343",
@@ -24676,7 +25384,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L14 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:344",
@@ -24700,7 +25417,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 4L4 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:345",
@@ -24724,7 +25450,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L4 4",
+              "windingRule": "NONZERO"
+             }
+            ]
            }
           ]
          }
@@ -24970,6 +25705,7 @@
             ],
             "strokeWeight": 1,
             "strokeAlign": "INSIDE",
+            "strokeJoin": "MITER",
             "radius": {
              "topLeft": 112.15718841552734,
              "topRight": 112.15718841552734,
@@ -25077,6 +25813,8 @@
                 ],
                 "strokeWeight": 2.8888888359069824,
                 "strokeAlign": "INSIDE",
+                "strokeCap": "SQUARE",
+                "strokeJoin": "MITER",
                 "paths": [
                  {
                   "kind": "stroke",
@@ -25126,6 +25864,13 @@
                  2.24314,
                  410.33813,
                  4135.91772
+                ],
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                  "windingRule": "NONZERO"
+                 }
                 ]
                },
                {
@@ -25158,7 +25903,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L14 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:344",
@@ -25190,7 +25944,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 4L4 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:345",
@@ -25222,7 +25985,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L4 4",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                }
               ]
              }

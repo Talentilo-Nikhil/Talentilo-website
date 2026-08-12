@@ -1541,6 +1541,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "radius": {
          "topLeft": 50,
          "topRight": 50,
@@ -1681,7 +1682,14 @@
             "offset": {
              "x": 0,
              "y": 0
-            }
+            },
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:338",
@@ -1705,7 +1713,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L14 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:339",
@@ -1729,7 +1746,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L4 4",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:340",
@@ -1753,7 +1779,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 4L4 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            }
           ]
          },
@@ -1831,7 +1866,14 @@
             "offset": {
              "x": 0,
              "y": 0
-            }
+            },
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:343",
@@ -1855,7 +1897,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L14 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:344",
@@ -1879,7 +1930,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 4L4 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:345",
@@ -1903,7 +1963,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L4 4",
+              "windingRule": "NONZERO"
+             }
+            ]
            }
           ]
          }
@@ -2738,7 +2807,14 @@
               "offset": {
                "x": 0,
                "y": 0
-              }
+              },
+              "paths": [
+               {
+                "kind": "outline",
+                "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                "windingRule": "NONZERO"
+               }
+              ]
              },
              {
               "id": "1:338",
@@ -2762,7 +2838,16 @@
                }
               ],
               "strokeWeight": 1.5,
-              "strokeAlign": "CENTER"
+              "strokeAlign": "CENTER",
+              "strokeCap": "ROUND",
+              "strokeJoin": "ROUND",
+              "paths": [
+               {
+                "kind": "outline",
+                "d": "M0 0L14 0",
+                "windingRule": "NONZERO"
+               }
+              ]
              },
              {
               "id": "1:339",
@@ -2786,7 +2871,16 @@
                }
               ],
               "strokeWeight": 1.5,
-              "strokeAlign": "CENTER"
+              "strokeAlign": "CENTER",
+              "strokeCap": "ROUND",
+              "strokeJoin": "ROUND",
+              "paths": [
+               {
+                "kind": "outline",
+                "d": "M0 0L4 4",
+                "windingRule": "NONZERO"
+               }
+              ]
              },
              {
               "id": "1:340",
@@ -2810,7 +2904,16 @@
                }
               ],
               "strokeWeight": 1.5,
-              "strokeAlign": "CENTER"
+              "strokeAlign": "CENTER",
+              "strokeCap": "ROUND",
+              "strokeJoin": "ROUND",
+              "paths": [
+               {
+                "kind": "outline",
+                "d": "M0 4L4 0",
+                "windingRule": "NONZERO"
+               }
+              ]
              }
             ]
            },
@@ -2888,7 +2991,14 @@
               "offset": {
                "x": 0,
                "y": 0
-              }
+              },
+              "paths": [
+               {
+                "kind": "outline",
+                "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                "windingRule": "NONZERO"
+               }
+              ]
              },
              {
               "id": "1:343",
@@ -2912,7 +3022,16 @@
                }
               ],
               "strokeWeight": 1.5,
-              "strokeAlign": "CENTER"
+              "strokeAlign": "CENTER",
+              "strokeCap": "ROUND",
+              "strokeJoin": "ROUND",
+              "paths": [
+               {
+                "kind": "outline",
+                "d": "M0 0L14 0",
+                "windingRule": "NONZERO"
+               }
+              ]
              },
              {
               "id": "1:344",
@@ -2936,7 +3055,16 @@
                }
               ],
               "strokeWeight": 1.5,
-              "strokeAlign": "CENTER"
+              "strokeAlign": "CENTER",
+              "strokeCap": "ROUND",
+              "strokeJoin": "ROUND",
+              "paths": [
+               {
+                "kind": "outline",
+                "d": "M0 4L4 0",
+                "windingRule": "NONZERO"
+               }
+              ]
              },
              {
               "id": "1:345",
@@ -2960,7 +3088,16 @@
                }
               ],
               "strokeWeight": 1.5,
-              "strokeAlign": "CENTER"
+              "strokeAlign": "CENTER",
+              "strokeCap": "ROUND",
+              "strokeJoin": "ROUND",
+              "paths": [
+               {
+                "kind": "outline",
+                "d": "M0 0L4 4",
+                "windingRule": "NONZERO"
+               }
+              ]
              }
             ]
            }
@@ -6152,6 +6289,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "radius": {
          "topLeft": 12,
          "topRight": 12,
@@ -6384,6 +6522,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "radius": {
          "topLeft": 12,
          "topRight": 12,
@@ -6616,6 +6755,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "radius": {
          "topLeft": 12,
          "topRight": 12,
@@ -7318,6 +7458,7 @@
             ],
             "strokeWeight": 1,
             "strokeAlign": "CENTER",
+            "strokeJoin": "MITER",
             "paths": [
              {
               "kind": "stroke",
@@ -7392,6 +7533,7 @@
             ],
             "strokeWeight": 1,
             "strokeAlign": "CENTER",
+            "strokeJoin": "MITER",
             "paths": [
              {
               "kind": "stroke",
@@ -7500,6 +7642,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "radius": {
          "topLeft": 12,
          "topRight": 12,
@@ -7824,6 +7967,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "children": [
          {
           "id": "1:5292",
@@ -7956,6 +8100,13 @@
                 "color": "rgba(0, 0, 0, 1)",
                 "hex": "#000000"
                }
+              ],
+              "paths": [
+               {
+                "kind": "fill",
+                "d": "M5.575 6.55C5.442 6.55 5.317 6.529 5.2 6.488C5.083 6.446 4.975 6.375 4.875 6.275L0.275 1.675C0.092 1.492 0 1.258 0 0.975C0 0.692 0.092 0.458 0.275 0.275C0.458 0.092 0.692 0 0.975 0C1.258 0 1.492 0.092 1.675 0.275L5.575 4.175L9.475 0.275C9.658 0.092 9.892 0 10.175 0C10.458 0 10.692 0.092 10.875 0.275C11.058 0.458 11.15 0.692 11.15 0.975C11.15 1.258 11.058 1.492 10.875 1.675L6.275 6.275C6.175 6.375 6.067 6.446 5.95 6.488C5.833 6.529 5.708 6.55 5.575 6.55Z",
+                "windingRule": "NONZERO"
+               }
               ]
              }
             ]
@@ -8058,6 +8209,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "children": [
          {
           "id": "1:5297",
@@ -8140,6 +8292,13 @@
               "color": "rgba(0, 0, 0, 1)",
               "hex": "#000000"
              }
+            ],
+            "paths": [
+             {
+              "kind": "fill",
+              "d": "M5.575 6.55C5.442 6.55 5.317 6.529 5.2 6.488C5.083 6.446 4.975 6.375 4.875 6.275L0.275 1.675C0.092 1.492 0 1.258 0 0.975C0 0.692 0.092 0.458 0.275 0.275C0.458 0.092 0.692 0 0.975 0C1.258 0 1.492 0.092 1.675 0.275L5.575 4.175L9.475 0.275C9.658 0.092 9.892 0 10.175 0C10.458 0 10.692 0.092 10.875 0.275C11.058 0.458 11.15 0.692 11.15 0.975C11.15 1.258 11.058 1.492 10.875 1.675L6.275 6.275C6.175 6.375 6.067 6.446 5.95 6.488C5.833 6.529 5.708 6.55 5.575 6.55Z",
+              "windingRule": "NONZERO"
+             }
             ]
            }
           ]
@@ -8185,6 +8344,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "children": [
          {
           "id": "1:5300",
@@ -8267,6 +8427,13 @@
               "color": "rgba(0, 0, 0, 1)",
               "hex": "#000000"
              }
+            ],
+            "paths": [
+             {
+              "kind": "fill",
+              "d": "M5.575 6.55C5.442 6.55 5.317 6.529 5.2 6.488C5.083 6.446 4.975 6.375 4.875 6.275L0.275 1.675C0.092 1.492 0 1.258 0 0.975C0 0.692 0.092 0.458 0.275 0.275C0.458 0.092 0.692 0 0.975 0C1.258 0 1.492 0.092 1.675 0.275L5.575 4.175L9.475 0.275C9.658 0.092 9.892 0 10.175 0C10.458 0 10.692 0.092 10.875 0.275C11.058 0.458 11.15 0.692 11.15 0.975C11.15 1.258 11.058 1.492 10.875 1.675L6.275 6.275C6.175 6.375 6.067 6.446 5.95 6.488C5.833 6.529 5.708 6.55 5.575 6.55Z",
+              "windingRule": "NONZERO"
+             }
             ]
            }
           ]
@@ -8312,6 +8479,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "children": [
          {
           "id": "1:5303",
@@ -8394,6 +8562,13 @@
               "color": "rgba(0, 0, 0, 1)",
               "hex": "#000000"
              }
+            ],
+            "paths": [
+             {
+              "kind": "fill",
+              "d": "M5.575 6.55C5.442 6.55 5.317 6.529 5.2 6.488C5.083 6.446 4.975 6.375 4.875 6.275L0.275 1.675C0.092 1.492 0 1.258 0 0.975C0 0.692 0.092 0.458 0.275 0.275C0.458 0.092 0.692 0 0.975 0C1.258 0 1.492 0.092 1.675 0.275L5.575 4.175L9.475 0.275C9.658 0.092 9.892 0 10.175 0C10.458 0 10.692 0.092 10.875 0.275C11.058 0.458 11.15 0.692 11.15 0.975C11.15 1.258 11.058 1.492 10.875 1.675L6.275 6.275C6.175 6.375 6.067 6.446 5.95 6.488C5.833 6.529 5.708 6.55 5.575 6.55Z",
+              "windingRule": "NONZERO"
+             }
             ]
            }
           ]
@@ -8439,6 +8614,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "children": [
          {
           "id": "1:5306",
@@ -8520,6 +8696,13 @@
               "kind": "solid",
               "color": "rgba(0, 0, 0, 1)",
               "hex": "#000000"
+             }
+            ],
+            "paths": [
+             {
+              "kind": "fill",
+              "d": "M5.575 6.55C5.442 6.55 5.317 6.529 5.2 6.488C5.083 6.446 4.975 6.375 4.875 6.275L0.275 1.675C0.092 1.492 0 1.258 0 0.975C0 0.692 0.092 0.458 0.275 0.275C0.458 0.092 0.692 0 0.975 0C1.258 0 1.492 0.092 1.675 0.275L5.575 4.175L9.475 0.275C9.658 0.092 9.892 0 10.175 0C10.458 0 10.692 0.092 10.875 0.275C11.058 0.458 11.15 0.692 11.15 0.975C11.15 1.258 11.058 1.492 10.875 1.675L6.275 6.275C6.175 6.375 6.067 6.446 5.95 6.488C5.833 6.529 5.708 6.55 5.575 6.55Z",
+              "windingRule": "NONZERO"
              }
             ]
            }
@@ -8767,6 +8950,7 @@
             ],
             "strokeWeight": 1,
             "strokeAlign": "INSIDE",
+            "strokeJoin": "MITER",
             "radius": {
              "topLeft": 112.15718841552734,
              "topRight": 112.15718841552734,
@@ -8874,6 +9058,8 @@
                 ],
                 "strokeWeight": 2.8888888359069824,
                 "strokeAlign": "INSIDE",
+                "strokeCap": "SQUARE",
+                "strokeJoin": "MITER",
                 "paths": [
                  {
                   "kind": "stroke",
@@ -8923,6 +9109,13 @@
                  2.24314,
                  410.33813,
                  3481.11768
+                ],
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                  "windingRule": "NONZERO"
+                 }
                 ]
                },
                {
@@ -8955,7 +9148,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L14 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:344",
@@ -8987,7 +9189,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 4L4 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:345",
@@ -9019,7 +9230,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L4 4",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                }
               ]
              }

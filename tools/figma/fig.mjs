@@ -9,9 +9,7 @@
  */
 import { execFileSync } from 'node:child_process';
 import { inflateRawSync, zstdDecompressSync } from 'node:zlib';
-import { readFileSync } from 'node:fs';
 
-const BUILT_IN = ['bool', 'byte', 'int', 'uint', 'float', 'string', 'int64', 'uint64'];
 const ENUM = 0;
 const STRUCT = 1;
 
@@ -266,8 +264,7 @@ export function buildSceneGraph(root) {
 
 export function loadFig(figPath = new URL('../../design/Talentilowebsite.fig', import.meta.url)) {
   const path = typeof figPath === 'string' ? figPath : figPath.pathname;
-  // Touch the file first so a missing archive fails with a clear message.
-  readFileSync(path).length;
+  // Read the archive up front so a missing file fails with a clear message.
   const { root, blobs } = readFigArchive(path);
   return { path, root, blobs, graph: buildSceneGraph(root) };
 }

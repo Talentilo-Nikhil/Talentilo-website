@@ -106,6 +106,72 @@ export function rotationDegrees(t) {
   return +((Math.atan2(t.m10, t.m00) * 180) / Math.PI).toFixed(3);
 }
 
+/**
+ * Decode a vector-network blob into an SVG path.
+ *
+ * Layout: `<uint32 vertices><uint32 segments><uint32 regions>` then
+ * vertices  `<uint32 styleID><float32 x><float32 y>`,
+ * segments  `<uint32 styleID><uint32 startVertex><float32 tx><float32 ty><uint32 endVertex><float32 tx><float32 ty>`
+ * (tangents are relative to their vertex, so they are cubic control-point offsets), then regions.
+ *
+ * Most shapes also ship pre-flattened `fillGeometry`; this covers the ~5% that don't — chiefly
+ * the stroked icon sets, whose outlines Figma never had to rasterise.
+ */
+export function vectorNetworkToPath(buffer, { precision = 3, scale } = {}) {
+  if (!buffer || buffer.length < 12) return null;
+  const vertexCount = buffer.readUInt32LE(0);
+  const segmentCount = buffer.readUInt32LE(4);
+  if (12 + vertexCount * 12 + segmentCount * 28 > buffer.length) return null;
+
+  const sx = scale?.x ?? 1;
+  const sy = scale?.y ?? 1;
+  const pt = (x, y) => `${round(x * sx, precision)} ${round(y * sy, precision)}`;
+
+  let o = 12;
+  const vertices = [];
+  for (let i = 0; i < vertexCount; i++) {
+    vertices.push({ x: buffer.readFloatLE(o + 4), y: buffer.readFloatLE(o + 8) });
+    o += 12;
+  }
+
+  const segments = [];
+  for (let i = 0; i < segmentCount; i++) {
+    const start = buffer.readUInt32LE(o + 4);
+    const end = buffer.readUInt32LE(o + 16);
+    if (start >= vertexCount || end >= vertexCount) return null;
+    segments.push({
+      start,
+      end,
+      st: { x: buffer.readFloatLE(o + 8), y: buffer.readFloatLE(o + 12) },
+      et: { x: buffer.readFloatLE(o + 20), y: buffer.readFloatLE(o + 24) },
+    });
+    o += 28;
+  }
+  if (!segments.length) return null;
+
+  // Chain consecutive segments into subpaths; a subpath that returns to its first vertex closes.
+  const subpaths = [];
+  let current = null;
+  for (const seg of segments) {
+    if (!current || current.last !== seg.start) {
+      if (current) subpaths.push(current);
+      const v = vertices[seg.start];
+      current = { d: [`M${pt(v.x, v.y)}`], first: seg.start, last: seg.start };
+    }
+    const a = vertices[seg.start];
+    const b = vertices[seg.end];
+    if (seg.st.x || seg.st.y || seg.et.x || seg.et.y) {
+      current.d.push(`C${pt(a.x + seg.st.x, a.y + seg.st.y)} ${pt(b.x + seg.et.x, b.y + seg.et.y)} ${pt(b.x, b.y)}`);
+    } else {
+      current.d.push(`L${pt(b.x, b.y)}`);
+    }
+    current.last = seg.end;
+  }
+  subpaths.push(current);
+
+  return subpaths.map((s) => s.d.join('') + (s.last === s.first ? 'Z' : '')).join('');
+}
+
 /** Collect a node's fill + stroke geometry as SVG paths. */
 export function nodePaths(node, blobs) {
   const paths = [];
@@ -119,6 +185,20 @@ export function nodePaths(node, blobs) {
       if (!d) continue;
       paths.push({ kind, d, windingRule: path.windingRule ?? 'NONZERO' });
     }
+  }
+  if (paths.length) return paths;
+
+  const network = node.vectorData;
+  if (network?.vectorNetworkBlob !== undefined) {
+    const normalized = network.normalizedSize;
+    const size = node.size;
+    const scale =
+      normalized && size && normalized.x && normalized.y
+        ? { x: size.x / normalized.x, y: size.y / normalized.y }
+        : null;
+    const d = vectorNetworkToPath(blobs[network.vectorNetworkBlob], { scale });
+    // Nothing filled it in, so an unfilled network is drawn as its outline.
+    if (d) paths.push({ kind: node.fillPaints?.length ? 'fill' : 'outline', d, windingRule: 'NONZERO' });
   }
   return paths;
 }

@@ -1541,6 +1541,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "radius": {
          "topLeft": 50,
          "topRight": 50,
@@ -1681,7 +1682,14 @@
             "offset": {
              "x": 0,
              "y": 0
-            }
+            },
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:338",
@@ -1705,7 +1713,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L14 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:339",
@@ -1729,7 +1746,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L4 4",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:340",
@@ -1753,7 +1779,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 4L4 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            }
           ]
          },
@@ -1831,7 +1866,14 @@
             "offset": {
              "x": 0,
              "y": 0
-            }
+            },
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:343",
@@ -1855,7 +1897,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L14 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:344",
@@ -1879,7 +1930,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 4L4 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:345",
@@ -1903,7 +1963,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L4 4",
+              "windingRule": "NONZERO"
+             }
+            ]
            }
           ]
          }
@@ -2247,7 +2316,14 @@
                 "offset": {
                  "x": 0,
                  "y": 0
-                }
+                },
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:338",
@@ -2271,7 +2347,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L14 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:339",
@@ -2295,7 +2380,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L4 4",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:340",
@@ -2319,7 +2413,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 4L4 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                }
               ]
              },
@@ -2397,7 +2500,14 @@
                 "offset": {
                  "x": 0,
                  "y": 0
-                }
+                },
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:343",
@@ -2421,7 +2531,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L14 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:344",
@@ -2445,7 +2564,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 4L4 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:345",
@@ -2469,7 +2597,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L4 4",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                }
               ]
              }
@@ -2536,7 +2673,14 @@
                 "offset": {
                  "x": 0,
                  "y": 0
-                }
+                },
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:338",
@@ -2560,7 +2704,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L14 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:339",
@@ -2584,7 +2737,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L4 4",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:340",
@@ -2608,7 +2770,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 4L4 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                }
               ]
              },
@@ -2684,7 +2855,14 @@
                 "offset": {
                  "x": 0,
                  "y": 0
-                }
+                },
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:5610",
@@ -2709,6 +2887,8 @@
                 ],
                 "strokeWeight": 1.5,
                 "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
                 "paths": [
                  {
                   "kind": "stroke",
@@ -2740,6 +2920,8 @@
                 ],
                 "strokeWeight": 1.5,
                 "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
                 "paths": [
                  {
                   "kind": "stroke",
@@ -2771,6 +2953,8 @@
                 ],
                 "strokeWeight": 1.5,
                 "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
                 "paths": [
                  {
                   "kind": "stroke",
@@ -2812,7 +2996,14 @@
                 "offset": {
                  "x": 0,
                  "y": 0
-                }
+                },
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:343",
@@ -2836,7 +3027,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L14 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:344",
@@ -2860,7 +3060,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 4L4 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:345",
@@ -2884,7 +3093,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L4 4",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                }
               ]
              }
@@ -3015,6 +3233,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "paths": [
          {
           "kind": "fill",
@@ -3051,6 +3270,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "paths": [
          {
           "kind": "fill",
@@ -3087,6 +3307,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "paths": [
          {
           "kind": "fill",
@@ -3123,6 +3344,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "paths": [
          {
           "kind": "fill",
@@ -4344,6 +4566,8 @@
                   ],
                   "strokeWeight": 0.7818209528923035,
                   "strokeAlign": "CENTER",
+                  "strokeCap": "ROUND",
+                  "strokeJoin": "ROUND",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -4375,6 +4599,8 @@
                   ],
                   "strokeWeight": 0.7818209528923035,
                   "strokeAlign": "CENTER",
+                  "strokeCap": "ROUND",
+                  "strokeJoin": "ROUND",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -4406,6 +4632,8 @@
                   ],
                   "strokeWeight": 0.7818209528923035,
                   "strokeAlign": "CENTER",
+                  "strokeCap": "ROUND",
+                  "strokeJoin": "ROUND",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -4555,6 +4783,8 @@
                       ],
                       "strokeWeight": 0.7818209528923035,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -4586,6 +4816,8 @@
                       ],
                       "strokeWeight": 0.7818209528923035,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -4617,6 +4849,8 @@
                       ],
                       "strokeWeight": 0.7818209528923035,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -4648,6 +4882,8 @@
                       ],
                       "strokeWeight": 0.7818209528923035,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -4780,6 +5016,8 @@
                       ],
                       "strokeWeight": 0.7818209528923035,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -4811,6 +5049,8 @@
                       ],
                       "strokeWeight": 0.7818209528923035,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -4842,6 +5082,8 @@
                       ],
                       "strokeWeight": 0.7818209528923035,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -4873,6 +5115,8 @@
                       ],
                       "strokeWeight": 0.7818209528923035,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -5048,6 +5292,8 @@
                       ],
                       "strokeWeight": 0.7818209528923035,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -5079,6 +5325,8 @@
                       ],
                       "strokeWeight": 0.7818209528923035,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -5110,6 +5358,8 @@
                       ],
                       "strokeWeight": 0.7818209528923035,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -5242,6 +5492,8 @@
                       ],
                       "strokeWeight": 0.7818209528923035,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -5273,6 +5525,8 @@
                       ],
                       "strokeWeight": 0.7818209528923035,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -5304,6 +5558,8 @@
                       ],
                       "strokeWeight": 0.7818209528923035,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -5461,6 +5717,8 @@
                         ],
                         "strokeWeight": 0.7818209528923035,
                         "strokeAlign": "CENTER",
+                        "strokeCap": "ROUND",
+                        "strokeJoin": "ROUND",
                         "paths": [
                          {
                           "kind": "stroke",
@@ -5492,6 +5750,8 @@
                         ],
                         "strokeWeight": 0.7818209528923035,
                         "strokeAlign": "CENTER",
+                        "strokeCap": "ROUND",
+                        "strokeJoin": "ROUND",
                         "paths": [
                          {
                           "kind": "stroke",
@@ -5523,6 +5783,8 @@
                         ],
                         "strokeWeight": 0.7818209528923035,
                         "strokeAlign": "CENTER",
+                        "strokeCap": "ROUND",
+                        "strokeJoin": "ROUND",
                         "paths": [
                          {
                           "kind": "stroke",
@@ -5554,6 +5816,8 @@
                         ],
                         "strokeWeight": 0.7818209528923035,
                         "strokeAlign": "CENTER",
+                        "strokeCap": "ROUND",
+                        "strokeJoin": "ROUND",
                         "paths": [
                          {
                           "kind": "stroke",
@@ -5585,6 +5849,8 @@
                         ],
                         "strokeWeight": 0.7818209528923035,
                         "strokeAlign": "CENTER",
+                        "strokeCap": "ROUND",
+                        "strokeJoin": "ROUND",
                         "paths": [
                          {
                           "kind": "stroke",
@@ -5616,6 +5882,8 @@
                         ],
                         "strokeWeight": 0.7818209528923035,
                         "strokeAlign": "CENTER",
+                        "strokeCap": "ROUND",
+                        "strokeJoin": "ROUND",
                         "paths": [
                          {
                           "kind": "stroke",
@@ -6179,6 +6447,7 @@
                       ],
                       "strokeWeight": 0.6254567503929138,
                       "strokeAlign": "CENTER",
+                      "strokeJoin": "MITER",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -6341,6 +6610,7 @@
                   ],
                   "strokeWeight": 0.2501826882362366,
                   "strokeAlign": "CENTER",
+                  "strokeJoin": "MITER",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -6381,6 +6651,7 @@
                   ],
                   "strokeWeight": 0.2501826882362366,
                   "strokeAlign": "CENTER",
+                  "strokeJoin": "MITER",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -6421,6 +6692,7 @@
                   ],
                   "strokeWeight": 0.2501826882362366,
                   "strokeAlign": "CENTER",
+                  "strokeJoin": "MITER",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -6560,6 +6832,8 @@
                     ],
                     "strokeWeight": 0.36654672026634216,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -6591,6 +6865,8 @@
                     ],
                     "strokeWeight": 0.36654672026634216,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -6682,6 +6958,8 @@
                     ],
                     "strokeWeight": 0.36654672026634216,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -6713,6 +6991,8 @@
                     ],
                     "strokeWeight": 0.36654672026634216,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -7500,6 +7780,8 @@
                       ],
                       "strokeWeight": 0.24436450004577637,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -7531,6 +7813,8 @@
                       ],
                       "strokeWeight": 0.24436450004577637,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -7622,6 +7906,8 @@
                       ],
                       "strokeWeight": 0.24436450004577637,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -7653,6 +7939,8 @@
                       ],
                       "strokeWeight": 0.24436450004577637,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -7747,6 +8035,8 @@
                     ],
                     "strokeWeight": 0.7818209528923035,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -7778,6 +8068,8 @@
                     ],
                     "strokeWeight": 0.7818209528923035,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -7809,6 +8101,8 @@
                     ],
                     "strokeWeight": 0.7818209528923035,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -7858,6 +8152,8 @@
                     ],
                     "strokeWeight": 0.7818209528923035,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -7889,6 +8185,8 @@
                     ],
                     "strokeWeight": 0.7818209528923035,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -8188,6 +8486,7 @@
                     ],
                     "strokeWeight": 0.9381850361824036,
                     "strokeAlign": "OUTSIDE",
+                    "strokeJoin": "MITER",
                     "radius": {
                      "topLeft": 3.127283811569214,
                      "topRight": 3.127283811569214,
@@ -8415,6 +8714,8 @@
                     ],
                     "strokeWeight": 0.9381850361824036,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -8446,6 +8747,8 @@
                     ],
                     "strokeWeight": 0.9381850361824036,
                     "strokeAlign": "CENTER",
+                    "strokeCap": "ROUND",
+                    "strokeJoin": "ROUND",
                     "paths": [
                      {
                       "kind": "stroke",
@@ -8568,6 +8871,8 @@
                         ],
                         "strokeWeight": 0.7818209528923035,
                         "strokeAlign": "CENTER",
+                        "strokeCap": "ROUND",
+                        "strokeJoin": "ROUND",
                         "paths": [
                          {
                           "kind": "stroke",
@@ -8599,6 +8904,8 @@
                         ],
                         "strokeWeight": 0.7818209528923035,
                         "strokeAlign": "CENTER",
+                        "strokeCap": "ROUND",
+                        "strokeJoin": "ROUND",
                         "paths": [
                          {
                           "kind": "stroke",
@@ -8692,6 +8999,7 @@
                     ],
                     "strokeWeight": 0.6254567503929138,
                     "strokeAlign": "INSIDE",
+                    "strokeJoin": "MITER",
                     "radius": {
                      "topLeft": 31.272836685180664,
                      "topRight": 31.272836685180664,
@@ -8738,6 +9046,8 @@
                         ],
                         "strokeWeight": 0.7818209528923035,
                         "strokeAlign": "CENTER",
+                        "strokeCap": "ROUND",
+                        "strokeJoin": "ROUND",
                         "paths": [
                          {
                           "kind": "stroke",
@@ -8769,6 +9079,8 @@
                         ],
                         "strokeWeight": 0.7818209528923035,
                         "strokeAlign": "CENTER",
+                        "strokeCap": "ROUND",
+                        "strokeJoin": "ROUND",
                         "paths": [
                          {
                           "kind": "stroke",
@@ -8800,6 +9112,8 @@
                         ],
                         "strokeWeight": 0.7818209528923035,
                         "strokeAlign": "CENTER",
+                        "strokeCap": "ROUND",
+                        "strokeJoin": "ROUND",
                         "paths": [
                          {
                           "kind": "stroke",
@@ -8831,6 +9145,8 @@
                         ],
                         "strokeWeight": 0.7818209528923035,
                         "strokeAlign": "CENTER",
+                        "strokeCap": "ROUND",
+                        "strokeJoin": "ROUND",
                         "paths": [
                          {
                           "kind": "stroke",
@@ -9175,6 +9491,7 @@
                         ],
                         "strokeWeight": 0.6254567503929138,
                         "strokeAlign": "INSIDE",
+                        "strokeJoin": "MITER",
                         "children": [
                          {
                           "id": "1:5800",
@@ -9487,6 +9804,7 @@
                         ],
                         "strokeWeight": 0.6254567503929138,
                         "strokeAlign": "INSIDE",
+                        "strokeJoin": "MITER",
                         "children": [
                          {
                           "id": "1:5808",
@@ -9799,6 +10117,7 @@
                         ],
                         "strokeWeight": 0.6254567503929138,
                         "strokeAlign": "INSIDE",
+                        "strokeJoin": "MITER",
                         "children": [
                          {
                           "id": "1:5816",
@@ -10231,6 +10550,8 @@
                         ],
                         "strokeWeight": 0.6254567503929138,
                         "strokeAlign": "CENTER",
+                        "strokeCap": "ROUND",
+                        "strokeJoin": "ROUND",
                         "paths": [
                          {
                           "kind": "stroke",
@@ -11153,6 +11474,7 @@
                         ],
                         "strokeWeight": 0.6254567503929138,
                         "strokeAlign": "INSIDE",
+                        "strokeJoin": "MITER",
                         "radius": {
                          "topLeft": 31.272836685180664,
                          "topRight": 31.272836685180664,
@@ -11365,6 +11687,7 @@
                           ],
                           "strokeWeight": 0.6254567503929138,
                           "strokeAlign": "CENTER",
+                          "strokeJoin": "MITER",
                           "paths": [
                            {
                             "kind": "fill",
@@ -11832,6 +12155,7 @@
                               ],
                               "strokeWeight": 0.6254567503929138,
                               "strokeAlign": "CENTER",
+                              "strokeJoin": "MITER",
                               "paths": [
                                {
                                 "kind": "stroke",
@@ -11863,6 +12187,7 @@
                               ],
                               "strokeWeight": 0.6254567503929138,
                               "strokeAlign": "CENTER",
+                              "strokeJoin": "MITER",
                               "paths": [
                                {
                                 "kind": "stroke",
@@ -11894,6 +12219,7 @@
                               ],
                               "strokeWeight": 0.6254567503929138,
                               "strokeAlign": "CENTER",
+                              "strokeJoin": "MITER",
                               "paths": [
                                {
                                 "kind": "stroke",
@@ -11925,6 +12251,7 @@
                               ],
                               "strokeWeight": 0.6254567503929138,
                               "strokeAlign": "CENTER",
+                              "strokeJoin": "MITER",
                               "paths": [
                                {
                                 "kind": "stroke",
@@ -11956,6 +12283,7 @@
                               ],
                               "strokeWeight": 0.6254567503929138,
                               "strokeAlign": "CENTER",
+                              "strokeJoin": "MITER",
                               "paths": [
                                {
                                 "kind": "stroke",
@@ -12065,6 +12393,7 @@
                             ],
                             "strokeWeight": 0.6254567503929138,
                             "strokeAlign": "CENTER",
+                            "strokeJoin": "MITER",
                             "paths": [
                              {
                               "kind": "stroke",
@@ -12183,6 +12512,7 @@
                             ],
                             "strokeWeight": 0.6254567503929138,
                             "strokeAlign": "CENTER",
+                            "strokeJoin": "MITER",
                             "paths": [
                              {
                               "kind": "stroke",
@@ -12301,6 +12631,7 @@
                             ],
                             "strokeWeight": 0.6254567503929138,
                             "strokeAlign": "CENTER",
+                            "strokeJoin": "MITER",
                             "paths": [
                              {
                               "kind": "stroke",
@@ -12419,6 +12750,7 @@
                             ],
                             "strokeWeight": 0.6254567503929138,
                             "strokeAlign": "CENTER",
+                            "strokeJoin": "MITER",
                             "paths": [
                              {
                               "kind": "stroke",
@@ -13170,6 +13502,8 @@
                               ],
                               "strokeWeight": 0.6254567503929138,
                               "strokeAlign": "CENTER",
+                              "strokeCap": "ROUND",
+                              "strokeJoin": "ROUND",
                               "paths": [
                                {
                                 "kind": "stroke",
@@ -13201,6 +13535,8 @@
                               ],
                               "strokeWeight": 0.6254567503929138,
                               "strokeAlign": "CENTER",
+                              "strokeCap": "ROUND",
+                              "strokeJoin": "ROUND",
                               "paths": [
                                {
                                 "kind": "stroke",
@@ -13232,6 +13568,8 @@
                               ],
                               "strokeWeight": 0.6254567503929138,
                               "strokeAlign": "CENTER",
+                              "strokeCap": "ROUND",
+                              "strokeJoin": "ROUND",
                               "paths": [
                                {
                                 "kind": "stroke",
@@ -13753,6 +14091,8 @@
                               ],
                               "strokeWeight": 0.6254567503929138,
                               "strokeAlign": "CENTER",
+                              "strokeCap": "ROUND",
+                              "strokeJoin": "MITER",
                               "paths": [
                                {
                                 "kind": "stroke",
@@ -13793,6 +14133,8 @@
                               ],
                               "strokeWeight": 0.6254567503929138,
                               "strokeAlign": "CENTER",
+                              "strokeCap": "ROUND",
+                              "strokeJoin": "MITER",
                               "paths": [
                                {
                                 "kind": "stroke",
@@ -13833,6 +14175,8 @@
                               ],
                               "strokeWeight": 0.6254567503929138,
                               "strokeAlign": "CENTER",
+                              "strokeCap": "ROUND",
+                              "strokeJoin": "MITER",
                               "paths": [
                                {
                                 "kind": "stroke",
@@ -13873,6 +14217,8 @@
                               ],
                               "strokeWeight": 0.6254567503929138,
                               "strokeAlign": "CENTER",
+                              "strokeCap": "ROUND",
+                              "strokeJoin": "MITER",
                               "paths": [
                                {
                                 "kind": "stroke",
@@ -15977,6 +16323,8 @@
                         ],
                         "strokeWeight": 0.6254567503929138,
                         "strokeAlign": "CENTER",
+                        "strokeCap": "ROUND",
+                        "strokeJoin": "ROUND",
                         "paths": [
                          {
                           "kind": "stroke",
@@ -16677,6 +17025,7 @@
                             ],
                             "strokeWeight": 0.6254567503929138,
                             "strokeAlign": "INSIDE",
+                            "strokeJoin": "MITER",
                             "children": [
                              {
                               "id": "1:6007",
@@ -17124,6 +17473,8 @@
                                 ],
                                 "strokeWeight": 0.7818209528923035,
                                 "strokeAlign": "CENTER",
+                                "strokeCap": "ROUND",
+                                "strokeJoin": "ROUND",
                                 "paths": [
                                  {
                                   "kind": "stroke",
@@ -17155,6 +17506,8 @@
                                 ],
                                 "strokeWeight": 0.7818209528923035,
                                 "strokeAlign": "CENTER",
+                                "strokeCap": "ROUND",
+                                "strokeJoin": "ROUND",
                                 "paths": [
                                  {
                                   "kind": "stroke",
@@ -17186,6 +17539,8 @@
                                 ],
                                 "strokeWeight": 0.7818209528923035,
                                 "strokeAlign": "CENTER",
+                                "strokeCap": "ROUND",
+                                "strokeJoin": "ROUND",
                                 "paths": [
                                  {
                                   "kind": "stroke",
@@ -17217,6 +17572,8 @@
                                 ],
                                 "strokeWeight": 0.7818209528923035,
                                 "strokeAlign": "CENTER",
+                                "strokeCap": "ROUND",
+                                "strokeJoin": "ROUND",
                                 "paths": [
                                  {
                                   "kind": "stroke",
@@ -17248,6 +17605,8 @@
                                 ],
                                 "strokeWeight": 0.7818209528923035,
                                 "strokeAlign": "CENTER",
+                                "strokeCap": "ROUND",
+                                "strokeJoin": "ROUND",
                                 "paths": [
                                  {
                                   "kind": "stroke",
@@ -17331,6 +17690,7 @@
                             ],
                             "strokeWeight": 0.6254567503929138,
                             "strokeAlign": "INSIDE",
+                            "strokeJoin": "MITER",
                             "children": [
                              {
                               "id": "1:6026",
@@ -17778,6 +18138,8 @@
                                 ],
                                 "strokeWeight": 0.7818209528923035,
                                 "strokeAlign": "CENTER",
+                                "strokeCap": "ROUND",
+                                "strokeJoin": "ROUND",
                                 "paths": [
                                  {
                                   "kind": "stroke",
@@ -17809,6 +18171,8 @@
                                 ],
                                 "strokeWeight": 0.7818209528923035,
                                 "strokeAlign": "CENTER",
+                                "strokeCap": "ROUND",
+                                "strokeJoin": "ROUND",
                                 "paths": [
                                  {
                                   "kind": "stroke",
@@ -17840,6 +18204,8 @@
                                 ],
                                 "strokeWeight": 0.7818209528923035,
                                 "strokeAlign": "CENTER",
+                                "strokeCap": "ROUND",
+                                "strokeJoin": "ROUND",
                                 "paths": [
                                  {
                                   "kind": "stroke",
@@ -17871,6 +18237,8 @@
                                 ],
                                 "strokeWeight": 0.7818209528923035,
                                 "strokeAlign": "CENTER",
+                                "strokeCap": "ROUND",
+                                "strokeJoin": "ROUND",
                                 "paths": [
                                  {
                                   "kind": "stroke",
@@ -17902,6 +18270,8 @@
                                 ],
                                 "strokeWeight": 0.7818209528923035,
                                 "strokeAlign": "CENTER",
+                                "strokeCap": "ROUND",
+                                "strokeJoin": "ROUND",
                                 "paths": [
                                  {
                                   "kind": "stroke",
@@ -17985,6 +18355,7 @@
                             ],
                             "strokeWeight": 0.6254567503929138,
                             "strokeAlign": "INSIDE",
+                            "strokeJoin": "MITER",
                             "children": [
                              {
                               "id": "1:6045",
@@ -18432,6 +18803,8 @@
                                 ],
                                 "strokeWeight": 0.7818209528923035,
                                 "strokeAlign": "CENTER",
+                                "strokeCap": "ROUND",
+                                "strokeJoin": "ROUND",
                                 "paths": [
                                  {
                                   "kind": "stroke",
@@ -18463,6 +18836,8 @@
                                 ],
                                 "strokeWeight": 0.7818209528923035,
                                 "strokeAlign": "CENTER",
+                                "strokeCap": "ROUND",
+                                "strokeJoin": "ROUND",
                                 "paths": [
                                  {
                                   "kind": "stroke",
@@ -18494,6 +18869,8 @@
                                 ],
                                 "strokeWeight": 0.7818209528923035,
                                 "strokeAlign": "CENTER",
+                                "strokeCap": "ROUND",
+                                "strokeJoin": "ROUND",
                                 "paths": [
                                  {
                                   "kind": "stroke",
@@ -18525,6 +18902,8 @@
                                 ],
                                 "strokeWeight": 0.7818209528923035,
                                 "strokeAlign": "CENTER",
+                                "strokeCap": "ROUND",
+                                "strokeJoin": "ROUND",
                                 "paths": [
                                  {
                                   "kind": "stroke",
@@ -18556,6 +18935,8 @@
                                 ],
                                 "strokeWeight": 0.7818209528923035,
                                 "strokeAlign": "CENTER",
+                                "strokeCap": "ROUND",
+                                "strokeJoin": "ROUND",
                                 "paths": [
                                  {
                                   "kind": "stroke",
@@ -18688,6 +19069,8 @@
                         ],
                         "strokeWeight": 0.6254567503929138,
                         "strokeAlign": "CENTER",
+                        "strokeCap": "ROUND",
+                        "strokeJoin": "ROUND",
                         "paths": [
                          {
                           "kind": "stroke",
@@ -18821,6 +19204,13 @@
                             "color": "rgba(48, 48, 48, 1)",
                             "hex": "#303030"
                            }
+                          ],
+                          "paths": [
+                           {
+                            "kind": "fill",
+                            "d": "M8.345 0.789C9.397 -0.263 11.103 -0.263 12.155 0.789M7.746 1.388L8.345 0.789M7.737 1.379L7.746 1.388M6.677 2.44L7.737 1.379M6.686 2.448L6.677 2.44M0.805 8.329L6.686 2.448M0 10.273C0 9.544 0.29 8.844 0.805 8.329M0 12.195L0 10.273M0.22 12.725C0.079 12.584 0 12.394 0 12.195M0.75 12.945C0.551 12.945 0.36 12.866 0.22 12.725M2.672 12.945L0.75 12.945M4.616 12.139C4.1 12.655 3.401 12.945 2.672 12.945M12.155 4.6L4.616 12.139M12.155 0.789C13.208 1.841 13.208 3.548 12.155 4.6M7.746 3.509L1.866 9.389C1.632 9.624 1.5 9.942 1.5 10.273L1.5 11.445L2.672 11.445C3.003 11.445 3.321 11.313 3.555 11.079L9.435 5.198L7.746 3.509ZM10.496 4.138L11.095 3.539C11.561 3.073 11.561 2.316 11.095 1.85C10.628 1.383 9.872 1.383 9.405 1.85L8.807 2.448L10.496 4.138Z",
+                            "windingRule": "NONZERO"
+                           }
                           ]
                          }
                         ]
@@ -18918,6 +19308,13 @@
                             "kind": "solid",
                             "color": "rgba(48, 48, 48, 1)",
                             "hex": "#303030"
+                           }
+                          ],
+                          "paths": [
+                           {
+                            "kind": "fill",
+                            "d": "M8.345 0.789C9.397 -0.263 11.103 -0.263 12.155 0.789M7.746 1.388L8.345 0.789M7.737 1.379L7.746 1.388M6.677 2.44L7.737 1.379M6.686 2.448L6.677 2.44M0.805 8.329L6.686 2.448M0 10.273C0 9.544 0.29 8.844 0.805 8.329M0 12.195L0 10.273M0.22 12.725C0.079 12.584 0 12.394 0 12.195M0.75 12.945C0.551 12.945 0.36 12.866 0.22 12.725M2.672 12.945L0.75 12.945M4.616 12.139C4.1 12.655 3.401 12.945 2.672 12.945M12.155 4.6L4.616 12.139M12.155 0.789C13.208 1.841 13.208 3.548 12.155 4.6M7.746 3.509L1.866 9.389C1.632 9.624 1.5 9.942 1.5 10.273L1.5 11.445L2.672 11.445C3.003 11.445 3.321 11.313 3.555 11.079L9.435 5.198L7.746 3.509ZM10.496 4.138L11.095 3.539C11.561 3.073 11.561 2.316 11.095 1.85C10.628 1.383 9.872 1.383 9.405 1.85L8.807 2.448L10.496 4.138Z",
+                            "windingRule": "NONZERO"
                            }
                           ]
                          }
@@ -21203,6 +21600,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "children": [
          {
           "id": "1:6142",
@@ -21344,6 +21742,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "children": [
          {
           "id": "1:6145",
@@ -21479,6 +21878,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "children": [
          {
           "id": "1:6148",
@@ -21921,7 +22321,14 @@
             "offset": {
              "x": 0,
              "y": 0
-            }
+            },
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:338",
@@ -21945,7 +22352,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L14 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:339",
@@ -21969,7 +22385,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L4 4",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:340",
@@ -21993,7 +22418,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 4L4 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            }
           ]
          },
@@ -22071,7 +22505,14 @@
             "offset": {
              "x": 0,
              "y": 0
-            }
+            },
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:343",
@@ -22095,7 +22536,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L14 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:344",
@@ -22119,7 +22569,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 4L4 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:345",
@@ -22143,7 +22602,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L4 4",
+              "windingRule": "NONZERO"
+             }
+            ]
            }
           ]
          }
@@ -24651,6 +25119,7 @@
             ],
             "strokeWeight": 1.1484971046447754,
             "strokeAlign": "INSIDE",
+            "strokeJoin": "MITER",
             "radius": {
              "topLeft": 24,
              "topRight": 24,
@@ -24884,6 +25353,8 @@
                 ],
                 "strokeWeight": 1.25,
                 "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
                 "paths": [
                  {
                   "kind": "stroke",
@@ -25305,7 +25776,14 @@
             "offset": {
              "x": 0,
              "y": 0
-            }
+            },
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:338",
@@ -25329,7 +25807,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L14 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:339",
@@ -25353,7 +25840,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L4 4",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:340",
@@ -25377,7 +25873,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 4L4 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            }
           ]
          },
@@ -25455,7 +25960,14 @@
             "offset": {
              "x": 0,
              "y": 0
-            }
+            },
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:343",
@@ -25479,7 +25991,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L14 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:344",
@@ -25503,7 +26024,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 4L4 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:345",
@@ -25527,7 +26057,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L4 4",
+              "windingRule": "NONZERO"
+             }
+            ]
            }
           ]
          }
@@ -25616,7 +26155,8 @@
            }
           ],
           "strokeWeight": 1.2000000476837158,
-          "strokeAlign": "INSIDE"
+          "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER"
          },
          {
           "id": "1:6268",
@@ -25640,7 +26180,8 @@
            }
           ],
           "strokeWeight": 1.2000000476837158,
-          "strokeAlign": "INSIDE"
+          "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER"
          },
          {
           "id": "1:6269",
@@ -25664,7 +26205,8 @@
            }
           ],
           "strokeWeight": 1.2000000476837158,
-          "strokeAlign": "INSIDE"
+          "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER"
          }
         ]
        },
@@ -26020,6 +26562,7 @@
               ],
               "strokeWeight": 0.6827493906021118,
               "strokeAlign": "INSIDE",
+              "strokeJoin": "MITER",
               "children": [
                {
                 "id": "1:6279",
@@ -26192,6 +26735,7 @@
               ],
               "strokeWeight": 0.6827493906021118,
               "strokeAlign": "INSIDE",
+              "strokeJoin": "MITER",
               "children": [
                {
                 "id": "1:6284",
@@ -26798,6 +27342,7 @@
                   ],
                   "strokeWeight": 0.6827493906021118,
                   "strokeAlign": "INSIDE",
+                  "strokeJoin": "MITER",
                   "radius": {
                    "topLeft": 4.09649658203125,
                    "topRight": 4.09649658203125,
@@ -26844,6 +27389,8 @@
                       ],
                       "strokeWeight": 1.3654987812042236,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -26974,6 +27521,7 @@
               ],
               "strokeWeight": 0.6827493906021118,
               "strokeAlign": "INSIDE",
+              "strokeJoin": "MITER",
               "children": [
                {
                 "id": "1:6309",
@@ -27037,6 +27585,7 @@
                   ],
                   "strokeWeight": 0.6827493906021118,
                   "strokeAlign": "INSIDE",
+                  "strokeJoin": "MITER",
                   "radius": {
                    "topLeft": 4.09649658203125,
                    "topRight": 4.09649658203125,
@@ -27083,6 +27632,8 @@
                       ],
                       "strokeWeight": 1.3654987812042236,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -27220,6 +27771,7 @@
               ],
               "strokeWeight": 0.6827493906021118,
               "strokeAlign": "INSIDE",
+              "strokeJoin": "MITER",
               "children": [
                {
                 "id": "1:6316",
@@ -27283,6 +27835,7 @@
                   ],
                   "strokeWeight": 0.6827493906021118,
                   "strokeAlign": "INSIDE",
+                  "strokeJoin": "MITER",
                   "radius": {
                    "topLeft": 4.09649658203125,
                    "topRight": 4.09649658203125,
@@ -27329,6 +27882,8 @@
                       ],
                       "strokeWeight": 1.3654987812042236,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -27513,6 +28068,7 @@
                   ],
                   "strokeWeight": 0.6827493906021118,
                   "strokeAlign": "INSIDE",
+                  "strokeJoin": "MITER",
                   "radius": {
                    "topLeft": 4.09649658203125,
                    "topRight": 4.09649658203125,
@@ -27785,6 +28341,7 @@
               ],
               "strokeWeight": 0.6827493906021118,
               "strokeAlign": "INSIDE",
+              "strokeJoin": "MITER",
               "children": [
                {
                 "id": "1:6332",
@@ -27925,6 +28482,7 @@
               ],
               "strokeWeight": 0.6827493906021118,
               "strokeAlign": "INSIDE",
+              "strokeJoin": "MITER",
               "children": [
                {
                 "id": "1:6336",
@@ -28566,6 +29124,7 @@
               ],
               "strokeWeight": 0.6827493906021118,
               "strokeAlign": "INSIDE",
+              "strokeJoin": "MITER",
               "children": [
                {
                 "id": "1:6356",
@@ -28751,6 +29310,7 @@
               ],
               "strokeWeight": 0.6827493906021118,
               "strokeAlign": "INSIDE",
+              "strokeJoin": "MITER",
               "children": [
                {
                 "id": "1:6361",
@@ -29438,6 +29998,7 @@
               ],
               "strokeWeight": 0.6827493906021118,
               "strokeAlign": "INSIDE",
+              "strokeJoin": "MITER",
               "children": [
                {
                 "id": "1:6382",
@@ -29623,6 +30184,7 @@
               ],
               "strokeWeight": 0.6827493906021118,
               "strokeAlign": "INSIDE",
+              "strokeJoin": "MITER",
               "children": [
                {
                 "id": "1:6387",
@@ -30283,6 +30845,7 @@
               ],
               "strokeWeight": 0.6827493906021118,
               "strokeAlign": "INSIDE",
+              "strokeJoin": "MITER",
               "children": [
                {
                 "id": "1:6407",
@@ -30440,6 +31003,8 @@
                       ],
                       "strokeWeight": 1.1379156112670898,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -30567,6 +31132,8 @@
                       ],
                       "strokeWeight": 1.1379156112670898,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -30629,6 +31196,7 @@
               ],
               "strokeWeight": 0.6827493906021118,
               "strokeAlign": "INSIDE",
+              "strokeJoin": "MITER",
               "children": [
                {
                 "id": "1:6417",
@@ -30786,6 +31354,8 @@
                       ],
                       "strokeWeight": 1.1379156112670898,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -30913,6 +31483,8 @@
                       ],
                       "strokeWeight": 1.1379156112670898,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -31116,6 +31688,8 @@
                       ],
                       "strokeWeight": 1.1379156112670898,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -31243,6 +31817,8 @@
                       ],
                       "strokeWeight": 1.1379156112670898,
                       "strokeAlign": "CENTER",
+                      "strokeCap": "ROUND",
+                      "strokeJoin": "ROUND",
                       "paths": [
                        {
                         "kind": "stroke",
@@ -31938,7 +32514,8 @@
            }
           ],
           "strokeWeight": 1.2000000476837158,
-          "strokeAlign": "INSIDE"
+          "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER"
          },
          {
           "id": "1:6454",
@@ -31972,6 +32549,7 @@
           ],
           "strokeWeight": 1.2000000476837158,
           "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER",
           "paths": [
            {
             "kind": "fill",
@@ -32017,6 +32595,7 @@
           ],
           "strokeWeight": 1.2000000476837158,
           "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER",
           "paths": [
            {
             "kind": "fill",
@@ -32062,6 +32641,7 @@
           ],
           "strokeWeight": 1.2000000476837158,
           "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER",
           "paths": [
            {
             "kind": "fill",
@@ -32122,6 +32702,7 @@
         ],
         "strokeWeight": 0.844337522983551,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "radius": {
          "topLeft": 13.509400367736816,
          "topRight": 13.509400367736816,
@@ -32436,6 +33017,7 @@
           ],
           "strokeWeight": 0.844337522983551,
           "strokeAlign": "CENTER",
+          "strokeJoin": "MITER",
           "paths": [
            {
             "kind": "stroke",
@@ -32567,6 +33149,7 @@
         ],
         "strokeWeight": 1,
         "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
         "radius": {
          "topLeft": 16,
          "topRight": 16,
@@ -33156,6 +33739,7 @@
             ],
             "strokeWeight": 0.80144864320755,
             "strokeAlign": "INSIDE",
+            "strokeJoin": "MITER",
             "radius": {
              "topLeft": 40.07243347167969,
              "topRight": 40.07243347167969,
@@ -33368,6 +33952,7 @@
               ],
               "strokeWeight": 0.80144864320755,
               "strokeAlign": "CENTER",
+              "strokeJoin": "MITER",
               "paths": [
                {
                 "kind": "fill",
@@ -33835,6 +34420,7 @@
                   ],
                   "strokeWeight": 0.80144864320755,
                   "strokeAlign": "CENTER",
+                  "strokeJoin": "MITER",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -33866,6 +34452,7 @@
                   ],
                   "strokeWeight": 0.80144864320755,
                   "strokeAlign": "CENTER",
+                  "strokeJoin": "MITER",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -33897,6 +34484,7 @@
                   ],
                   "strokeWeight": 0.80144864320755,
                   "strokeAlign": "CENTER",
+                  "strokeJoin": "MITER",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -33928,6 +34516,7 @@
                   ],
                   "strokeWeight": 0.80144864320755,
                   "strokeAlign": "CENTER",
+                  "strokeJoin": "MITER",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -33959,6 +34548,7 @@
                   ],
                   "strokeWeight": 0.80144864320755,
                   "strokeAlign": "CENTER",
+                  "strokeJoin": "MITER",
                   "paths": [
                    {
                     "kind": "stroke",
@@ -34068,6 +34658,7 @@
                 ],
                 "strokeWeight": 0.80144864320755,
                 "strokeAlign": "CENTER",
+                "strokeJoin": "MITER",
                 "paths": [
                  {
                   "kind": "stroke",
@@ -34186,6 +34777,7 @@
                 ],
                 "strokeWeight": 0.80144864320755,
                 "strokeAlign": "CENTER",
+                "strokeJoin": "MITER",
                 "paths": [
                  {
                   "kind": "stroke",
@@ -34304,6 +34896,7 @@
                 ],
                 "strokeWeight": 0.80144864320755,
                 "strokeAlign": "CENTER",
+                "strokeJoin": "MITER",
                 "paths": [
                  {
                   "kind": "stroke",
@@ -34422,6 +35015,7 @@
                 ],
                 "strokeWeight": 0.80144864320755,
                 "strokeAlign": "CENTER",
+                "strokeJoin": "MITER",
                 "paths": [
                  {
                   "kind": "stroke",
@@ -34691,7 +35285,14 @@
             "offset": {
              "x": 0,
              "y": 0
-            }
+            },
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:338",
@@ -34715,7 +35316,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L14 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:339",
@@ -34739,7 +35349,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L4 4",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:340",
@@ -34763,7 +35382,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 4L4 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            }
           ]
          },
@@ -34841,7 +35469,14 @@
             "offset": {
              "x": 0,
              "y": 0
-            }
+            },
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:343",
@@ -34865,7 +35500,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L14 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:344",
@@ -34889,7 +35533,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 4L4 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:345",
@@ -34913,7 +35566,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L4 4",
+              "windingRule": "NONZERO"
+             }
+            ]
            }
           ]
          }
@@ -35135,7 +35797,14 @@
             "offset": {
              "x": 0,
              "y": 0
-            }
+            },
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:338",
@@ -35159,7 +35828,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L14 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:339",
@@ -35183,7 +35861,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L4 4",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:340",
@@ -35207,7 +35894,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 4L4 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            }
           ]
          },
@@ -35285,7 +35981,14 @@
             "offset": {
              "x": 0,
              "y": 0
-            }
+            },
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L24 0L24 24L0 24L0 0Z",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:343",
@@ -35309,7 +36012,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L14 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:344",
@@ -35333,7 +36045,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 4L4 0",
+              "windingRule": "NONZERO"
+             }
+            ]
            },
            {
             "id": "1:345",
@@ -35357,7 +36078,16 @@
              }
             ],
             "strokeWeight": 1.5,
-            "strokeAlign": "CENTER"
+            "strokeAlign": "CENTER",
+            "strokeCap": "ROUND",
+            "strokeJoin": "ROUND",
+            "paths": [
+             {
+              "kind": "outline",
+              "d": "M0 0L4 4",
+              "windingRule": "NONZERO"
+             }
+            ]
            }
           ]
          }
@@ -35575,6 +36305,7 @@
       ],
       "strokeWeight": 3.6761715412139893,
       "strokeAlign": "INSIDE",
+      "strokeJoin": "MITER",
       "paths": [
        {
         "kind": "fill",
@@ -35826,6 +36557,7 @@
             ],
             "strokeWeight": 1,
             "strokeAlign": "INSIDE",
+            "strokeJoin": "MITER",
             "radius": {
              "topLeft": 112.15718841552734,
              "topRight": 112.15718841552734,
@@ -35933,6 +36665,8 @@
                 ],
                 "strokeWeight": 2.8888888359069824,
                 "strokeAlign": "INSIDE",
+                "strokeCap": "SQUARE",
+                "strokeJoin": "MITER",
                 "paths": [
                  {
                   "kind": "stroke",
@@ -35982,6 +36716,13 @@
                  2.24314,
                  410.33813,
                  5581.91772
+                ],
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L24 0L24 24L0 24L0 0Z",
+                  "windingRule": "NONZERO"
+                 }
                 ]
                },
                {
@@ -36014,7 +36755,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L14 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:344",
@@ -36046,7 +36796,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 4L4 0",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                },
                {
                 "id": "1:345",
@@ -36078,7 +36837,16 @@
                  }
                 ],
                 "strokeWeight": 1.5,
-                "strokeAlign": "CENTER"
+                "strokeAlign": "CENTER",
+                "strokeCap": "ROUND",
+                "strokeJoin": "ROUND",
+                "paths": [
+                 {
+                  "kind": "outline",
+                  "d": "M0 0L4 4",
+                  "windingRule": "NONZERO"
+                 }
+                ]
                }
               ]
              }

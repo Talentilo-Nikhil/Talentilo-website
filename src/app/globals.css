@@ -1,26 +1,167 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Design tokens, taken from the Figma file rather than eyeballed.
+ * `tools/figma/extract.mjs` writes the numbers these mirror into design/spec/.
+ */
+@theme {
+  /* Typefaces. Gilroy (the large stat figures) is commercial and cannot ship —
+     Poppins SemiBold is the closest geometric match and is already in the file. */
+  --font-display: var(--font-eb-garamond), 'EB Garamond', Georgia, serif;
+  --font-sans: var(--font-albert-sans), 'Albert Sans', system-ui, sans-serif;
+  --font-figure: var(--font-poppins), 'Poppins', system-ui, sans-serif;
+
+  /* Ink and surfaces */
+  --color-ink: #0c0a10;
+  --color-ink-soft: #212121;
+  --color-neutral-grey: #8e8e93;
+  --color-muted: #667085;
+  --color-footer-text: #98a2b3;
+  --color-divider: #a0a1a8;
+  --color-hairline: #e4e4e7;
+  --color-surface: #ffffff;
+  --color-surface-mint: #e6f0de;
+  --color-surface-tint: #f6f5fb;
+
+  /* Accents pulled from the product visuals */
+  --color-brand-blue: #4da8fd;
+  --color-brand-violet: #b1a4ff;
+  --color-brand-pink: #ff3aaf;
+  --color-brand-orange: #fe7c34;
+  --color-brand-ember: #e66239;
+  --color-positive: #17803d;
+  --color-negative: #d92c20;
+
+  /* Type scale — every size is a literal from the file, at its 1.2 / 1.6 line height */
+  --text-display: 65px;
+  --text-display--line-height: 1.2;
+  --text-h2: 52px;
+  --text-h2--line-height: 1.2;
+  --text-h3: 41px;
+  --text-h3--line-height: 1.2;
+  --text-h4: 33px;
+  --text-h4--line-height: 1.2;
+  --text-h5: 27px;
+  --text-h5--line-height: 1.2;
+  --text-lede: 23px;
+  --text-lede--line-height: 1.6;
+  --text-body: 17px;
+  --text-body--line-height: 1.6;
+  --text-small: 14px;
+  --text-small--line-height: 1.6;
+  --text-caption: 11px;
+  --text-caption--line-height: 1.6;
+
+  /* Layout: a 1440 frame with 64px gutters leaves 1312 of content */
+  --spacing-gutter: 64px;
+  --container-content: 1312px;
+  --container-shell: 1440px;
+
+  --radius-card: 12px;
+  --radius-pill: 50px;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--color-surface);
+  --color-foreground: var(--color-ink);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  /* The three brand washes, with the exact stops and midpoints from the file. */
+  --gradient-brand: linear-gradient(270deg, #fdfcff 0%, #b1a4ff 45.68%, #4da8fd 100%);
+  --gradient-brand-vertical: linear-gradient(
+    180deg,
+    rgb(253 252 255 / 0.8) 0%,
+    rgb(177 164 255 / 0.8) 69.09%,
+    rgb(77 168 253 / 0.8) 100%
+  );
+  --gradient-warm: linear-gradient(270deg, #fdfcff 0%, #ffddb1 45.68%, #fe7c34 100%);
+  --gradient-magenta: linear-gradient(90deg, #fdfcff 0%, #da8dff 45.68%, #ff3aaf 100%);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* The fixed header must not cover the target of an in-page link. */
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  /* One visible focus treatment everywhere, including inside dark sections. */
+  :focus-visible {
+    outline: 2px solid var(--color-brand-blue);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--color-brand-violet);
+    color: var(--color-ink);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .text-gradient-brand {
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Scroll-reveal: elements start displaced and settle when observed. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.6s var(--ease-out-soft),
+      transform 0.6s var(--ease-out-soft);
+  }
+
+  .reveal-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Anything that moves is opt-in. Honour the OS switch across the whole site. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }

@@ -116,16 +116,25 @@ class SvgWriter {
 
     // Vector geometry wins when present — it is the resolved outline Figma renders.
     if (node.paths?.length) {
-      const fillPaths = node.paths.filter((p) => p.kind === 'fill');
-      const strokePaths = node.paths.filter((p) => p.kind === 'stroke');
       const paint = fills[0] ? this.fillValue(fills[0], box) : 'none';
-      for (const p of fillPaths) {
-        const rule = p.windingRule === 'EVENODD' ? ' fill-rule="evenodd" clip-rule="evenodd"' : '';
-        parts.push(`<path d="${p.d}" fill="${paint}"${rule}/>`);
-      }
       const strokePaint = node.strokes?.[0] ? this.fillValue(node.strokes[0], box) : null;
-      for (const p of strokePaths) {
-        parts.push(`<path d="${p.d}" fill="${strokePaint ?? paint}"/>`);
+      const cap = { ROUND: 'round', SQUARE: 'square' }[node.strokeCap] ?? 'butt';
+      const join = { ROUND: 'round', BEVEL: 'bevel' }[node.strokeJoin] ?? 'miter';
+
+      for (const p of node.paths) {
+        if (p.kind === 'outline') {
+          // A network Figma never flattened: it is drawn as a stroked line, not a filled area.
+          parts.push(
+            `<path d="${p.d}" fill="none" stroke="${strokePaint ?? paint}" stroke-width="${num(
+              node.strokeWeight ?? 1
+            )}" stroke-linecap="${cap}" stroke-linejoin="${join}"/>`
+          );
+        } else if (p.kind === 'stroke') {
+          parts.push(`<path d="${p.d}" fill="${strokePaint ?? paint}"/>`);
+        } else {
+          const rule = p.windingRule === 'EVENODD' ? ' fill-rule="evenodd" clip-rule="evenodd"' : '';
+          parts.push(`<path d="${p.d}" fill="${paint}"${rule}/>`);
+        }
       }
     } else if (box.w > 0 && box.h > 0 && (fills.length || node.strokes?.length)) {
       const rx = radius
@@ -162,7 +171,9 @@ class SvgWriter {
     const size = s.size ?? 16;
     const lineHeight =
       typeof s.lineHeight === 'string' ? parseFloat(s.lineHeight) : (s.lineHeight ?? 1.2) * size;
-    const fill = node.fills?.find((f) => f.kind === 'solid')?.color ?? '#000';
+    // Type can carry a gradient just like a shape can — "3 Perfect Matches" is a warm wash.
+    const paint = node.fills?.find((f) => f.kind === 'solid' || f.kind === 'gradient');
+    const fill = paint ? this.fillValue(paint, node.box) : '#000';
     let anchor = s.align === 'CENTER' ? 'middle' : s.align === 'RIGHT' ? 'end' : 'start';
     let tspans;
 
