@@ -1,0 +1,65 @@
+{
+ "hero-command-center": {
+  "src": "/figma/creatives/hero-command-center.webp",
+  "fallback": "/figma/creatives/hero-command-center.png",
+  "width": 2624,
+  "height": 1300,
+  "alt": "Talentilo command centre dashboard"
+ },
+ "logo-bell": {
+  "src": "/figma/creatives/logo-bell.webp",
+  "fallback": "/figma/creatives/logo-bell.png",
+  "width": 340,
+  "height": 180,
+  "alt": "Bell"
+ },
+ "logo-asana": {
+  "src": "/figma/creatives/logo-asana.webp",
+  "fallback": "/figma/creatives/logo-asana.png",
+  "width": 340,
+  "height": 180,
+  "alt": "Asana"
+ },
+ "logo-sap": {
+  "src": "/figma/creatives/logo-sap.webp",
+  "fallback": "/figma/creatives/logo-sap.png",
+  "width": 340,
+  "height": 180,
+  "alt": "SAP"
+ },
+ "logo-salesforce": {
+  "src": "/figma/creatives/logo-salesforce.webp",
+  "fallback": "/figma/creatives/logo-salesforce.png",
+  "width": 342,
+  "height": 180,
+  "alt": "Salesforce"
+ },
+ "logo-notion": {
+  "src": "/figma/creatives/logo-notion.webp",
+  "fallback": "/figma/creatives/logo-notion.png",
+  "width": 342,
+  "height": 180,
+  "alt": "Notion"
+ },
+ "semantic-matching": {
+  "src": "/figma/creatives/semantic-matching.webp",
+  "fallback": "/figma/creatives/semantic-matching.png",
+  "width": 1242,
+  "height": 834,
+  "alt": "Semantic matching engine ranking 500+ profiles down to 3 perfect matches"
+ },
+ "offer-risk-alerts": {
+  "src": "/figma/creatives/offer-risk-alerts.webp",
+  "fallback": "/figma/creatives/offer-risk-alerts.png",
+  "width": 1176,
+  "height": 1072,
+  "alt": "Offer management system flagging at-risk deals"
+ },
+ "velocity-index": {
+  "src": "/figma/creatives/velocity-index.webp",
+  "fallback": "/figma/creatives/velocity-index.png",
+  "width": 1176,
+  "height": 1072,
+  "alt": "Agency Velocity Index dashboard"
+ }
+}

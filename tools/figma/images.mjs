@@ -1,0 +1,92 @@
+/**
+ * Exports the raster assets referenced by the website pages.
+ *
+ * Figma stores images content-addressed by hash inside the `.fig` archive. This pulls out only
+ * the hashes the 11 pages actually reference, writes the original alongside a webp, and emits a
+ * manifest so components can look an asset up by hash.
+ *
+ * Usage: node tools/figma/images.mjs
+ */
+import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import sharp from 'sharp';
+
+import { listArchiveImages, readArchiveEntry } from './fig.mjs';
+
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
+const FIG = resolve(ROOT, 'design/Talentilowebsite.fig');
+const OUT = resolve(ROOT, 'public/figma/images');
+
+function sniffExtension(buffer) {
+  if (buffer.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) return 'png';
+  if (buffer[0] === 0xff && buffer[1] === 0xd8) return 'jpg';
+  if (buffer.subarray(0, 4).toString('latin1') === 'RIFF' && buffer.subarray(8, 12).toString('latin1') === 'WEBP') {
+    return 'webp';
+  }
+  if (buffer.subarray(0, 4).toString('latin1') === 'GIF8') return 'gif';
+  return 'bin';
+}
+
+/** Every image hash referenced by any extracted page spec. */
+function referencedHashes() {
+  const specDir = resolve(ROOT, 'design/spec');
+  const hashes = new Set();
+  const visit = (node) => {
+    for (const fill of node.fills ?? []) {
+      if (fill.kind === 'image' && fill.hash) hashes.add(fill.hash);
+    }
+    for (const child of node.children ?? []) visit(child);
+  };
+  for (const file of readdirSync(specDir)) {
+    if (file === 'manifest.json' || !file.endsWith('.json')) continue;
+    visit(JSON.parse(readFileSync(resolve(specDir, file), 'utf8')).tree);
+  }
+  return hashes;
+}
+
+async function main() {
+  mkdirSync(OUT, { recursive: true });
+  const wanted = referencedHashes();
+  const available = new Set(listArchiveImages(FIG).map((e) => e.slice('images/'.length)));
+
+  const manifest = {};
+  let missing = 0;
+
+  for (const hash of [...wanted].sort()) {
+    if (!available.has(hash)) {
+      console.warn(`  ! missing from archive: ${hash}`);
+      missing++;
+      continue;
+    }
+    const bytes = readArchiveEntry(FIG, `images/${hash}`);
+    const ext = sniffExtension(bytes);
+    const short = hash.slice(0, 12);
+
+    writeFileSync(resolve(OUT, `${short}.${ext}`), bytes);
+
+    const meta = await sharp(bytes).metadata();
+    const entry = {
+      src: `/figma/images/${short}.${ext}`,
+      width: meta.width,
+      height: meta.height,
+    };
+
+    // A webp alternative for anything large enough to benefit.
+    if (ext !== 'webp' && meta.width * meta.height > 40_000) {
+      const webp = await sharp(bytes).webp({ quality: 82 }).toBuffer();
+      if (webp.length < bytes.length * 0.92) {
+        writeFileSync(resolve(OUT, `${short}.webp`), webp);
+        entry.webp = `/figma/images/${short}.webp`;
+      }
+    }
+
+    manifest[hash] = entry;
+    console.log(`  ${short}  ${String(meta.width).padStart(5)}x${String(meta.height).padEnd(5)} ${ext}`);
+  }
+
+  writeFileSync(resolve(ROOT, 'design/images.json'), `${JSON.stringify(manifest, null, 1)}\n`);
+  console.log(`\nExported ${Object.keys(manifest).length} images${missing ? `, ${missing} missing` : ''}`);
+}
+
+main();

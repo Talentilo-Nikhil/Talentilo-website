@@ -1,0 +1,90 @@
+[
+ {
+  "frame": "Homepage",
+  "slug": "homepage",
+  "route": "/",
+  "width": 1440,
+  "height": 5905.12,
+  "sections": 10
+ },
+ {
+  "frame": "Product/command",
+  "slug": "product-command",
+  "route": "/product/command",
+  "width": 1440,
+  "height": 5541.12,
+  "sections": 8
+ },
+ {
+  "frame": "Product/talent-intelligence",
+  "slug": "product-talent-intelligence",
+  "route": "/product/talent-intelligence",
+  "width": 1440,
+  "height": 5866.12,
+  "sections": 8
+ },
+ {
+  "frame": "for/agency-owner",
+  "slug": "for-agency-owner",
+  "route": "/for/agency-owner",
+  "width": 1440,
+  "height": 4459.12,
+  "sections": 8
+ },
+ {
+  "frame": "for/recruitment-operations",
+  "slug": "for-recruitment-operations",
+  "route": "/for/recruitment-operations",
+  "width": 1440,
+  "height": 4381.12,
+  "sections": 8
+ },
+ {
+  "frame": "solution/high-volume",
+  "slug": "solution-high-volume",
+  "route": "/solution/high-volume",
+  "width": 1440,
+  "height": 3990.12,
+  "sections": 7
+ },
+ {
+  "frame": "/solution/tech-recruitment",
+  "slug": "solution-tech-recruitment",
+  "route": "/solution/tech-recruitment",
+  "width": 1440,
+  "height": 3928.12,
+  "sections": 7
+ },
+ {
+  "frame": "/migration",
+  "slug": "migration",
+  "route": "/migration",
+  "width": 1440,
+  "height": 4659,
+  "sections": 7
+ },
+ {
+  "frame": "/Pricing",
+  "slug": "pricing",
+  "route": "/pricing",
+  "width": 1440,
+  "height": 3804.32,
+  "sections": 6
+ },
+ {
+  "frame": "Contact-us",
+  "slug": "contact",
+  "route": "/contact",
+  "width": 1440,
+  "height": 2114.12,
+  "sections": 4
+ },
+ {
+  "frame": "/404",
+  "slug": "not-found",
+  "route": "/404",
+  "width": 1440,
+  "height": 1423.12,
+  "sections": 3
+ }
+]
