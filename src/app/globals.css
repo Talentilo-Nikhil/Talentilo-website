@@ -83,7 +83,12 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
+    /*
+     * Deliberately not `scroll-behavior: smooth`. The App Router resets the scroll position on
+     * every navigation, and a smooth reset animates against a document whose height is still
+     * settling — so pages land part-way down instead of at the hero.
+     */
+    scroll-behavior: auto;
     /* The fixed header must not cover the target of an in-page link. */
     scroll-padding-top: 6rem;
     -webkit-text-size-adjust: 100%;
@@ -147,10 +152,6 @@
 
 /* Anything that moves is opt-in. Honour the OS switch across the whole site. */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
   *,
   *::before,
   *::after {

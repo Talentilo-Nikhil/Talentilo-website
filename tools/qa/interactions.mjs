@@ -10,6 +10,12 @@ import { CHROME } from './browser.mjs';
 const BASE = process.env.BASE ?? 'http://localhost:3000';
 const results = [];
 
+/**
+ * Everything src/config/navigation.ts puts in the drawer: two Platform pages, four Solution
+ * pages, Migration, Pricing, Sign In and Request Demo.
+ */
+const DRAWER_LINKS = 10;
+
 function check(name, condition, detail = '') {
   results.push({ name, pass: Boolean(condition), detail });
   console.log(`  ${condition ? 'ok  ' : 'FAIL'} ${name}${detail && !condition ? ` — ${detail}` : ''}`);
@@ -53,6 +59,18 @@ async function mobileDrawer(browser) {
 
   const dialog = page.getByRole('dialog', { name: 'Site menu' });
   check('drawer: opens', await dialog.isVisible());
+
+  // The drawer used to render inside the sticky header, whose `backdrop-filter` becomes the
+  // containing block for fixed children — so it collapsed to the 79px header strip and showed
+  // nothing but a close button. Assert it really spans the viewport, not just that it exists.
+  const viewport = page.viewportSize();
+  const box = await dialog.boundingBox();
+  check('drawer: fills the viewport height', box !== null && box.height >= viewport.height - 1);
+  check(
+    'drawer: every nav destination is reachable',
+    (await dialog.locator('a[href]:visible').count()) === DRAWER_LINKS
+  );
+
   check(
     'drawer: locks background scroll',
     (await page.evaluate(() => document.body.style.overflow)) === 'hidden'
@@ -136,6 +154,45 @@ async function tabs(page) {
   );
 }
 
+/** The pill group is wider than a phone, so it has to scroll rather than break onto two rows. */
+async function tabsOnPhone(browser) {
+  const context = await browser.newContext({ viewport: { width: 320, height: 812 } });
+  const page = await context.newPage();
+  await page.goto(`${BASE}/product/command`, { waitUntil: 'networkidle' });
+  const layout = await page.evaluate(() => {
+    const list = document.querySelector('[role="tablist"]');
+    const tops = [...list.querySelectorAll('[role="tab"]')].map((tab) =>
+      Math.round(tab.getBoundingClientRect().top)
+    );
+    return { rows: new Set(tops).size, scrolls: list.scrollWidth > list.clientWidth };
+  });
+  check('tabs: stay on one row at 320px', layout.rows === 1, `${layout.rows} rows`);
+  check('tabs: overflow scrolls instead of wrapping', layout.scrolls);
+  await context.close();
+}
+
+/**
+ * Every route has to open at the hero. A smooth `scroll-behavior` on <html> used to animate the
+ * router's scroll reset against a document that was still growing, landing part-way down.
+ */
+async function landsAtTop(browser) {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await context.newPage();
+  await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+
+  for (const label of ['Pricing', 'Migration']) {
+    await page.evaluate(() => window.scrollTo(0, 3000));
+    await page.waitForTimeout(200);
+    await page.getByRole('link', { name: label, exact: true }).first().click();
+    await page.waitForTimeout(1200);
+    const y = await page.evaluate(() => window.scrollY);
+    check(`scroll: ${label} opens at the top`, y === 0, `scrollY ${y}`);
+    await page.goBack({ waitUntil: 'networkidle' });
+    await page.waitForTimeout(400);
+  }
+  await context.close();
+}
+
 async function contactForm(page) {
   await page.goto(`${BASE}/contact`, { waitUntil: 'networkidle' });
 
@@ -196,6 +253,9 @@ async function main() {
   await roiSliders(page);
   console.log('tabs');
   await tabs(page);
+  await tabsOnPhone(browser);
+  console.log('scroll');
+  await landsAtTop(browser);
   console.log('contact');
   await contactForm(page);
   console.log('motion');

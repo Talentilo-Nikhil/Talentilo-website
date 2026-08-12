@@ -37,7 +37,10 @@ export function TabbedViews({ tabs }: { tabs: ViewTab[] }) {
         ref={list}
         role="tablist"
         aria-label="Choose a view"
-        className="flex flex-wrap items-center justify-center gap-2 rounded-full bg-surface-tint p-1"
+        className="flex max-w-full items-center gap-2 self-stretch overflow-x-auto rounded-full
+                   bg-surface-tint p-1 [-ms-overflow-style:none] [scrollbar-width:none]
+                   [&::-webkit-scrollbar]:hidden
+                   sm:max-w-none sm:flex-wrap sm:justify-center sm:self-auto sm:overflow-visible"
         onKeyDown={(event) => {
           if (event.key === 'ArrowRight') {
             event.preventDefault();
@@ -59,7 +62,7 @@ export function TabbedViews({ tabs }: { tabs: ViewTab[] }) {
             tabIndex={active === index ? 0 : -1}
             onClick={() => setActive(index)}
             className={cn(
-              'rounded-full px-4 py-2.5 text-small font-medium transition-colors duration-200',
+              'shrink-0 rounded-full px-4 py-2.5 text-small font-medium whitespace-nowrap transition-colors duration-200',
               active === index ? 'bg-ink text-white' : 'text-ink/80 hover:text-ink'
             )}
           >

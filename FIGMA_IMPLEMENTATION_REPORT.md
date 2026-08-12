@@ -185,7 +185,7 @@ npm run typecheck        # TypeScript strict, 0 errors
 npm run lint             # eslint, 0 errors 0 warnings
 npm run build            # 15 routes, all static except /api/contact
 npm run qa:audit         # 39 page/viewport combinations — no failures
-npm run qa:interactions  # 29/29 interaction checks passed
+npm run qa:interactions  # 35/35 interaction checks passed
 npm run qa:spec-diff     # section geometry vs the Figma spec at 1440
 npm run qa:shots         # full-page screenshots at 1440 / 768 / 375
 ```
