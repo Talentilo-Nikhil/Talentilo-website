@@ -137,6 +137,12 @@
 
   /* Layout: a 1440 frame with 64px gutters leaves 1312 of content */
   --spacing-gutter: 64px;
+  /*
+   * The column gap of a two-column section. Thirteen of the file's fourteen splits divide the
+   * 1312 content column as 588 | 132 | 592, so 132px at 1440 is the design's own figure; it
+   * eases down to 80px by 1024 so the columns keep a usable measure on smaller desktops.
+   */
+  --spacing-split: clamp(5rem, 12.5vw - 3rem, 8.25rem);
   --container-content: 1312px;
   --container-shell: 1440px;
 

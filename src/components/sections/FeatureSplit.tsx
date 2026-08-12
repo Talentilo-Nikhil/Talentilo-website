@@ -40,7 +40,7 @@ export function FeatureSplit({
 
   return (
     <Section id={id} tone={tone} padding={padding}>
-      <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-10">
+      <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-x-split">
         <Reveal className={cn('flex flex-col gap-6', media === 'left' && 'lg:order-2')}>
           <h2
             className={cn(

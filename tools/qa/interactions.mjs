@@ -176,6 +176,52 @@ async function tabsOnPhone(browser) {
 }
 
 /**
+ * Every two-column section divides the 1312 content column the same way. The file splits it
+ * 588 | 132 | 592 in thirteen of its fourteen splits, so the columns must mirror each other and
+ * the gap must be the same in every section on the page.
+ */
+async function splitRhythm(browser) {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+  const page = await context.newPage();
+  await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+
+  const splits = await page.evaluate(() => {
+    const out = [];
+    for (const section of document.querySelectorAll('main > section')) {
+      const grid = section.querySelector('.grid');
+      if (!grid || grid.children.length !== 2) continue;
+      if (getComputedStyle(grid).gridTemplateColumns.split(' ').length !== 2) continue;
+      const [a, b] = [...grid.children]
+        .map((el) => el.getBoundingClientRect())
+        .sort((x, y) => x.left - y.left);
+      out.push({
+        left: Math.round(a.left),
+        right: Math.round(b.right),
+        gap: Math.round(b.left - a.right),
+        widths: [Math.round(a.width), Math.round(b.width)],
+      });
+    }
+    return out;
+  });
+
+  check('split: the homepage has two-column sections to measure', splits.length >= 2, `${splits.length}`);
+  const gaps = [...new Set(splits.map((s) => s.gap))];
+  check('split: every section uses the same gap', gaps.length === 1, `gaps ${gaps.join(', ')}`);
+  check('split: the design gap of 132px at 1440', gaps[0] === 132, `${gaps[0]}px`);
+  check(
+    'split: columns mirror each other',
+    splits.every((s) => Math.abs(s.widths[0] - s.widths[1]) <= 1),
+    JSON.stringify(splits.map((s) => s.widths))
+  );
+  check(
+    'split: columns span the 1312 content width',
+    splits.every((s) => s.left === 64 && s.right === 1376),
+    JSON.stringify(splits.map((s) => `${s.left}→${s.right}`))
+  );
+  await context.close();
+}
+
+/**
  * Every route has to open at the hero. A smooth `scroll-behavior` on <html> used to animate the
  * router's scroll reset against a document that was still growing, landing part-way down.
  */
@@ -258,6 +304,8 @@ async function main() {
   console.log('tabs');
   await tabs(page);
   await tabsOnPhone(browser);
+  console.log('layout');
+  await splitRhythm(browser);
   console.log('scroll');
   await landsAtTop(browser);
   console.log('contact');
