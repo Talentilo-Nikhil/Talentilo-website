@@ -41,16 +41,26 @@ function at(tree, path) {
 
 /** page slug → [{ file, path, label, scale? }] */
 const EXPORTS = {
-  homepage: [
-    // The wordmark is artwork, not type — exported straight from the file at 4x so it stays
-    // crisp, rather than being redrawn.
-    { file: 'logo-talentilo', path: '#0/Group 15', label: 'Talentilo.ai', scale: 4 },
+  // The four approved lockups, taken from the Design system canvas rather than lifted off a page.
+  // Each frame is 1495px wide — roughly eight times its largest use — so scale 1 is plenty.
+  'ds-logo': [
     {
-      file: 'logo-talentilo-light',
-      path: '#9/Divider/Frame 53026/Frame 2085665228/Group 15',
+      file: 'logo-color',
+      path: 'Logo-color,bg-white/Frame 4374',
       label: 'Talentilo.ai',
-      scale: 4,
+      scale: 1,
     },
+    {
+      file: 'logo-color-on-dark',
+      path: 'Logo-color,bg-black/Frame 4374',
+      label: 'Talentilo.ai',
+      scale: 1,
+    },
+    { file: 'logo-mono-black', path: 'Logo-black,bg-white/Frame 4374', label: 'Talentilo.ai', scale: 1 },
+    { file: 'logo-mono-white', path: 'Logo-white,bg-black/Frame 4374', label: 'Talentilo.ai', scale: 1 },
+  ],
+
+  homepage: [
     { file: 'hero-command-center', path: '#1/Visual-1', label: 'Talentilo command centre dashboard' },
     { file: 'logo-bell', path: '#2/#1/Bell Logo', label: 'Bell' },
     { file: 'logo-asana', path: '#2/#1/Asana Logo', label: 'Asana' },

@@ -1,5 +1,6 @@
 /**
- * Extracts a resolved, CSS-shaped spec for every website page in the Figma file.
+ * Extracts a resolved, CSS-shaped spec for every website page in the Figma file, plus the
+ * Design system canvas that defines the logo, typography and colour palette.
  *
  * Output: design/spec/<slug>.json — a tree of nodes carrying absolute + relative boxes,
  * auto-layout, paints, text and geometry, with component instances resolved against their
@@ -17,6 +18,19 @@ import { IDENTITY, isRotated, multiply, nodePaths, nodeTransform, rotationDegree
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const SECTION_NAME = 'Website UI-Draft-V3';
+
+/**
+ * The Design system canvas is the source of truth for the brand, and is authored separately from
+ * the page designs. Its frames are extracted alongside the pages so tokens and logo assets come
+ * from the file rather than from measuring a page.
+ */
+const DESIGN_SYSTEM_CANVAS = 'Design system';
+export const DESIGN_SYSTEM_MAP = [
+  { frame: 'Logo', slug: 'ds-logo' },
+  { frame: 'Talentilo.ai-typography', slug: 'ds-typography' },
+  { frame: 'color-palatte', slug: 'ds-colors' },
+  { frame: 'components', slug: 'ds-components' },
+];
 
 /** Figma frame name → route slug used for the spec filename. */
 export const PAGE_MAP = [
@@ -266,6 +280,18 @@ function main() {
   const outDir = resolve(ROOT, 'design/spec');
   mkdirSync(outDir, { recursive: true });
 
+  /** Resolve one top-level frame into a spec tree rooted at its own top-left corner. */
+  const treeOf = (frame) => {
+    const world = nodeTransform(frame);
+    return buildTree(frame, graph, blobs, {
+      parentTransform: IDENTITY,
+      depth: 40,
+      overrides: null,
+      originX: world.m02,
+      originY: world.m12,
+    });
+  };
+
   const manifest = [];
   for (const page of PAGE_MAP) {
     const frame = frames.find((f) => f.name === page.frame);
@@ -273,14 +299,7 @@ function main() {
       console.warn(`  ! frame not found: ${page.frame}`);
       continue;
     }
-    const world = nodeTransform(frame);
-    const tree = buildTree(frame, graph, blobs, {
-      parentTransform: IDENTITY,
-      depth: 40,
-      overrides: null,
-      originX: world.m02,
-      originY: world.m12,
-    });
+    const tree = treeOf(frame);
 
     const file = resolve(outDir, `${page.slug}.json`);
     writeFileSync(file, `${JSON.stringify({ ...page, tree }, null, 1)}\n`);
@@ -290,6 +309,23 @@ function main() {
 
   writeFileSync(resolve(outDir, 'manifest.json'), `${JSON.stringify(manifest, null, 1)}\n`);
   console.log(`\nWrote ${manifest.length} page specs to design/spec/`);
+
+  const canvas = graph.nodes.find((n) => n.type === 'CANVAS' && n.name === DESIGN_SYSTEM_CANVAS);
+  if (!canvas) {
+    console.warn(`  ! canvas "${DESIGN_SYSTEM_CANVAS}" not found`);
+    return;
+  }
+  const dsFrames = graph.childrenOf(canvas);
+  for (const entry of DESIGN_SYSTEM_MAP) {
+    const frame = dsFrames.find((f) => f.name === entry.frame);
+    if (!frame) {
+      console.warn(`  ! design-system frame not found: ${entry.frame}`);
+      continue;
+    }
+    const tree = treeOf(frame);
+    writeFileSync(resolve(outDir, `${entry.slug}.json`), `${JSON.stringify({ ...entry, tree }, null, 1)}\n`);
+    console.log(`  ${entry.slug.padEnd(30)} ${tree.box.w}x${tree.box.h}`);
+  }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main();

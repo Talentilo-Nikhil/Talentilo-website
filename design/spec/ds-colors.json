@@ -1,0 +1,178 @@
+{
+ "frame": "color-palatte",
+ "slug": "ds-colors",
+ "tree": {
+  "id": "1:13418",
+  "type": "FRAME",
+  "name": "color-palatte",
+  "box": {
+   "x": 0,
+   "y": 0,
+   "w": 1259,
+   "h": 1629.75
+  },
+  "offset": {
+   "x": 1777,
+   "y": 30
+  },
+  "layout": {
+   "direction": "column",
+   "gap": 83,
+   "padding": {
+    "top": 0,
+    "right": 0,
+    "bottom": 0,
+    "left": 0
+   },
+   "justifyContent": "flex-start",
+   "alignItems": "center",
+   "wrap": false,
+   "primarySizing": null,
+   "counterSizing": null
+  },
+  "children": [
+   {
+    "id": "1:13419",
+    "type": "ROUNDED_RECTANGLE",
+    "name": "image 45",
+    "box": {
+     "x": 10.5,
+     "y": 0,
+     "w": 1238,
+     "h": 149
+    },
+    "offset": {
+     "x": 10.5,
+     "y": 0
+    },
+    "fills": [
+     {
+      "kind": "image",
+      "hash": "e38de38cbea11b8ba721cf32842f0f16d875f671",
+      "scaleMode": "FILL",
+      "opacity": 1
+     }
+    ]
+   },
+   {
+    "id": "1:13420",
+    "type": "ROUNDED_RECTANGLE",
+    "name": "image 46",
+    "box": {
+     "x": 0,
+     "y": 232,
+     "w": 1259,
+     "h": 196
+    },
+    "offset": {
+     "x": 0,
+     "y": 232
+    },
+    "alignSelf": "STRETCH",
+    "fills": [
+     {
+      "kind": "image",
+      "hash": "20ae710a47a6bceeca5fd66cb8c129b0454a6e74",
+      "scaleMode": "FILL",
+      "opacity": 1
+     }
+    ]
+   },
+   {
+    "id": "1:13421",
+    "type": "ROUNDED_RECTANGLE",
+    "name": "image 47",
+    "box": {
+     "x": 6.5,
+     "y": 511,
+     "w": 1246,
+     "h": 212
+    },
+    "offset": {
+     "x": 6.5,
+     "y": 511
+    },
+    "fills": [
+     {
+      "kind": "image",
+      "hash": "d45fbf09998223e1e8f808c9a9cce1ebb55eef35",
+      "scaleMode": "FILL",
+      "opacity": 1
+     }
+    ]
+   },
+   {
+    "id": "1:13422",
+    "type": "ROUNDED_RECTANGLE",
+    "name": "image 48",
+    "box": {
+     "x": 0,
+     "y": 806,
+     "w": 1259,
+     "h": 202.81
+    },
+    "offset": {
+     "x": 0,
+     "y": 806
+    },
+    "alignSelf": "STRETCH",
+    "fills": [
+     {
+      "kind": "image",
+      "hash": "69623334a5efb73a4c95d0ab127e9d575d57476e",
+      "scaleMode": "FILL",
+      "opacity": 1
+     }
+    ]
+   },
+   {
+    "id": "1:13423",
+    "type": "ROUNDED_RECTANGLE",
+    "name": "image 49",
+    "box": {
+     "x": 0,
+     "y": 1091.81,
+     "w": 1259,
+     "h": 253.21
+    },
+    "offset": {
+     "x": 0,
+     "y": 1091.81
+    },
+    "alignSelf": "STRETCH",
+    "fills": [
+     {
+      "kind": "image",
+      "hash": "defeb3705c86e6a3be359e3549fa9d6e5e9987c6",
+      "scaleMode": "FILL",
+      "opacity": 1
+     }
+    ]
+   },
+   {
+    "id": "1:13424",
+    "type": "ROUNDED_RECTANGLE",
+    "name": "image 50",
+    "box": {
+     "x": 0,
+     "y": 1428.01,
+     "w": 1259,
+     "h": 201.74
+    },
+    "offset": {
+     "x": 0,
+     "y": 1428.01
+    },
+    "alignSelf": "STRETCH",
+    "fills": [
+     {
+      "kind": "image",
+      "hash": "5a6ae4c33e96c169ae24994372d39fad85650d3d",
+      "scaleMode": "FILL",
+      "opacity": 1
+     }
+    ]
+   }
+  ]
+ }
+}

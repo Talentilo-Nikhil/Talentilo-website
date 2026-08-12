@@ -15,6 +15,7 @@ npm run dev        # http://localhost:3000
 design/                  the .fig and the data extracted from it
   Talentilowebsite.fig   source of truth, committed so extraction is reproducible
   spec/<page>.json       resolved per-page tree: geometry, layout, paints, type
+  spec/ds-*.json         the Design system canvas: logo lockups, typography, palette
 src/
   app/                   one directory per route, plus api/contact
   components/

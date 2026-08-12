@@ -5,6 +5,7 @@ import { site } from '@/config/site';
 import { cn } from '@/lib/cn';
 
 type LogoProps = {
+  /** `dark` is the wordmark in ink for light backgrounds; `light` is the white one for dark ones. */
   tone?: 'dark' | 'light';
   className?: string;
   /** The header logo is the site's home link; the footer one repeats it, so it is hidden from AT. */
@@ -21,7 +22,8 @@ export function Logo({ tone = 'dark', className, label = site.name }: LogoProps)
         className
       )}
     >
-      <Creative name={tone === 'light' ? 'logo-talentilo-light' : 'logo-talentilo'} alt={label} priority />
+      {/* The approved lockups off the Design system canvas, not a wordmark lifted from a page. */}
+      <Creative name={tone === 'light' ? 'logo-color-on-dark' : 'logo-color'} alt={label} priority />
     </Link>
   );
 }

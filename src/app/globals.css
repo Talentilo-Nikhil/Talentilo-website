@@ -12,8 +12,85 @@
   --font-sans: var(--font-albert-sans), 'Albert Sans', system-ui, sans-serif;
   --font-figure: var(--font-albert-sans), 'Albert Sans', system-ui, sans-serif;
 
+  /*
+   * The six ramps from the Design system canvas, transcribed step for step. The step the palette
+   * padlocks is the brand anchor for that ramp and is aliased below: azure 400, lavender 300,
+   * crusta 400, rose 500, frost 50, woodsmoke 950.
+   */
+  --color-azure-50: #eff7ff;
+  --color-azure-100: #daedff;
+  --color-azure-200: #bedfff;
+  --color-azure-300: #91cdff;
+  --color-azure-400: #4da8fd;
+  --color-azure-500: #378efa;
+  --color-azure-600: #216fef;
+  --color-azure-700: #1959dc;
+  --color-azure-800: #1b48b2;
+  --color-azure-900: #1c418c;
+  --color-azure-950: #162855;
+
+  --color-lavender-50: #f4f3ff;
+  --color-lavender-100: #ebe8ff;
+  --color-lavender-200: #d9d5ff;
+  --color-lavender-300: #ab9dff;
+  --color-lavender-400: #9d88fd;
+  --color-lavender-500: #7e58fa;
+  --color-lavender-600: #6f35f2;
+  --color-lavender-700: #6023de;
+  --color-lavender-800: #501dba;
+  --color-lavender-900: #431a98;
+  --color-lavender-950: #270e67;
+
+  --color-crusta-50: #fff5ed;
+  --color-crusta-100: #ffe9d4;
+  --color-crusta-200: #ffcea8;
+  --color-crusta-300: #ffac71;
+  --color-crusta-400: #ff7d37;
+  --color-crusta-500: #fe5a11;
+  --color-crusta-600: #ef4007;
+  --color-crusta-700: #c62c08;
+  --color-crusta-800: #9d250f;
+  --color-crusta-900: #7e2110;
+  --color-crusta-950: #440d06;
+
+  --color-rose-50: #fef1f9;
+  --color-rose-100: #fee5f6;
+  --color-rose-200: #ffcaee;
+  --color-rose-300: #ff9fdf;
+  --color-rose-400: #ff63c7;
+  --color-rose-500: #ff3aaf;
+  --color-rose-600: #f0128b;
+  --color-rose-700: #d1056e;
+  --color-rose-800: #ad075b;
+  --color-rose-900: #8f0c4e;
+  --color-rose-950: #58002b;
+
+  --color-frost-50: #eff8e2;
+  --color-frost-100: #e6f4d3;
+  --color-frost-200: #ceeaac;
+  --color-frost-300: #aeda7c;
+  --color-frost-400: #90c853;
+  --color-frost-500: #71ad35;
+  --color-frost-600: #578a26;
+  --color-frost-700: #426a21;
+  --color-frost-800: #37551f;
+  --color-frost-900: #31481f;
+  --color-frost-950: #17270c;
+
+  --color-woodsmoke-50: #f7f5fa;
+  --color-woodsmoke-100: #edebf3;
+  --color-woodsmoke-200: #d7d2e5;
+  --color-woodsmoke-300: #b4aacf;
+  --color-woodsmoke-400: #897cb4;
+  --color-woodsmoke-500: #6c5c9b;
+  --color-woodsmoke-600: #574881;
+  --color-woodsmoke-700: #483b69;
+  --color-woodsmoke-800: #3f3458;
+  --color-woodsmoke-900: #372f4b;
+  --color-woodsmoke-950: #0c0a10;
+
   /* Ink and surfaces */
-  --color-ink: #0c0a10;
+  --color-ink: var(--color-woodsmoke-950);
   --color-ink-soft: #212121;
   --color-neutral-grey: #8e8e93;
   --color-muted: #667085;
@@ -24,10 +101,15 @@
   --color-surface-mint: #e6f0de;
   --color-surface-tint: #f6f5fb;
 
-  /* Accents pulled from the product visuals */
-  --color-brand-blue: #4da8fd;
+  /*
+   * Brand anchors. Blue and pink are the padlocked ramp steps exactly. Violet and orange are the
+   * literals the page gradients are drawn with, which sit a shade off their ramp anchors
+   * (lavender-300 #ab9dff, crusta-400 #ff7d37) — the pages win here, so the gradients render as
+   * designed rather than as the palette rounds them.
+   */
+  --color-brand-blue: var(--color-azure-400);
   --color-brand-violet: #b1a4ff;
-  --color-brand-pink: #ff3aaf;
+  --color-brand-pink: var(--color-rose-500);
   --color-brand-orange: #fe7c34;
   --color-brand-ember: #e66239;
   --color-positive: #17803d;

@@ -71,13 +71,26 @@ Three further routes exist so the footer has no dead links: `/privacy`, `/terms`
 
 ## 3. Design system
 
-`src/app/globals.css` holds the tokens, all taken from the file rather than eyeballed.
+`src/app/globals.css` holds the tokens, all taken from the file rather than eyeballed. The file
+carries a **Design system** canvas alongside the page designs — logo lockups, a typography sheet
+and a colour palette — and `design/spec/ds-*.json` is extracted from it by the same pipeline that
+reads the pages.
 
-- **Type** — EB Garamond headings (65 / 52 / 41 / 33 / 27, all `line-height: 1.2`) and Albert Sans
-  for body (17 / 14 / 11 at 1.6), the nav and the large figures. Every heading size is a `clamp()`
-  anchored to its exact desktop value.
-- **Colour** — ink `#0c0a10`, ink-soft `#212121`, muted `#667085`, footer text `#98a2b3`,
-  divider `#a0a1a8`, mint `#e6f0de`, plus the accents used in the product visuals.
+- **Type** — matches the `Talentilo.ai-typography` sheet exactly: EB Garamond H1–H5 at
+  65 / 52 / 41 / 33 / 27, all `line-height: 1.2`; Albert Sans body at 17 with `1.6`. The sheet
+  declares Regular and Medium for every heading and Regular / Medium / SemiBold for body; both
+  families load as variable fonts, so every declared step is reachable. The pages themselves use
+  EB Garamond Regular throughout, which is the default the base layer sets. Sizes 23 / 14 / 11 are
+  the lede, small and caption steps the pages use but the sheet does not name.
+- **Typefaces** — the sheet declares exactly two, EB Garamond and Albert Sans. The nav in the page
+  designs is drawn in Poppins, which the sheet does not sanction; the site follows the sheet.
+- **Colour** — the palette's six ramps are transcribed step for step as `--color-<ramp>-<step>`:
+  **azure**, **lavender**, **crusta**, **rose**, **frost** and **woodsmoke**, 50 through 950. The
+  step each ramp padlocks is its brand anchor — azure 400 `#4da8fd`, lavender 300, crusta 400,
+  rose 500 `#ff3aaf`, frost 50, woodsmoke 950 `#0c0a10`, which is the site's ink. Semantic tokens
+  (ink, muted, hairline, surfaces) alias the ramps where the intent matches.
+- **Logo** — the four approved lockups (colour, black and white, on light and dark grounds) are
+  exported from the Design system canvas, not lifted off a page.
 - **Gradients** — `--gradient-brand` (`#fdfcff → #b1a4ff 45.68% → #4da8fd`), its vertical 80%
   variant, `--gradient-warm`, `--gradient-magenta`; midpoints are the file's.
 - **Layout** — 1440 shell, 1312 content, 64px desktop gutter tapering to 20px on phones.

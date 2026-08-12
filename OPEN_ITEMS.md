@@ -19,8 +19,15 @@ Every push updates it automatically within a couple of minutes — just refresh.
 - **"Resources" menu item.** Stays out. The live site's nav is Platform / Solution / Migration /
   Pricing, which is what the site already ships.
 - **Gilroy.** Replaced with **Albert Sans**, the Google font already used for body copy. Poppins
-  is no longer loaded at all, which also removes a font download from every page.
+  is no longer loaded at all, which also removes a font download from every page. This turns out
+  to match the file's own typography sheet, which sanctions exactly two typefaces — EB Garamond
+  and Albert Sans — and never mentions Gilroy.
 - **The four FAQ answers.** Confirmed correct as drafted.
+- **The Design system canvas is now used.** The Figma file carries a `Design system` page next to
+  the page designs, holding the logo lockups, the typography sheet and a six-ramp colour palette.
+  The first build read only the page designs. All four frames are now extracted to
+  `design/spec/ds-*.json`, the six ramps ship as tokens (50–950 each), and the header and footer
+  use the approved logo lockups rather than a wordmark lifted off the homepage.
 
 ---
 
