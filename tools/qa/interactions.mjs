@@ -1,0 +1,211 @@
+/**
+ * Drives every interactive component the way a person would, and asserts what should happen.
+ *
+ * Usage: node tools/qa/interactions.mjs      (needs the site running on :3000)
+ */
+import { chromium } from 'playwright';
+
+import { CHROME } from './browser.mjs';
+
+const BASE = process.env.BASE ?? 'http://localhost:3000';
+const results = [];
+
+function check(name, condition, detail = '') {
+  results.push({ name, pass: Boolean(condition), detail });
+  console.log(`  ${condition ? 'ok  ' : 'FAIL'} ${name}${detail && !condition ? ` — ${detail}` : ''}`);
+}
+
+async function navDropdown(page) {
+  await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+  const trigger = page.getByRole('button', { name: 'Platform' });
+
+  await trigger.hover();
+  await page.waitForTimeout(250);
+  check('nav: dropdown opens on hover', await page.getByRole('link', { name: /Command Center/ }).isVisible());
+  check('nav: aria-expanded tracks state', (await trigger.getAttribute('aria-expanded')) === 'true');
+
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(250);
+  check('nav: Escape closes the dropdown', (await trigger.getAttribute('aria-expanded')) === 'false');
+
+  await trigger.focus();
+  await page.keyboard.press('Enter');
+  await page.waitForTimeout(250);
+  check('nav: keyboard opens the dropdown', (await trigger.getAttribute('aria-expanded')) === 'true');
+
+  await page.getByRole('link', { name: /Talent Intelligence/ }).first().click();
+  await page.waitForURL('**/product/talent-intelligence');
+  check('nav: dropdown links navigate', page.url().endsWith('/product/talent-intelligence'));
+  check(
+    'nav: dropdown closes after navigating',
+    (await page.getByRole('button', { name: 'Platform' }).getAttribute('aria-expanded')) === 'false'
+  );
+}
+
+async function mobileDrawer(browser) {
+  const context = await browser.newContext({ viewport: { width: 375, height: 812 } });
+  const page = await context.newPage();
+  await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+
+  const open = page.getByRole('button', { name: 'Open menu' });
+  await open.click();
+  await page.waitForTimeout(400);
+
+  const dialog = page.getByRole('dialog', { name: 'Site menu' });
+  check('drawer: opens', await dialog.isVisible());
+  check(
+    'drawer: locks background scroll',
+    (await page.evaluate(() => document.body.style.overflow)) === 'hidden'
+  );
+  check(
+    'drawer: focus moves inside',
+    await page.evaluate(() => document.querySelector('#mobile-nav')?.contains(document.activeElement))
+  );
+
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(400);
+  check('drawer: Escape closes it', (await open.getAttribute('aria-expanded')) === 'false');
+  check(
+    'drawer: scroll lock released',
+    (await page.evaluate(() => document.body.style.overflow)) !== 'hidden'
+  );
+
+  await open.click();
+  await page.waitForTimeout(300);
+  await dialog.getByRole('link', { name: 'Pricing', exact: true }).click();
+  await page.waitForURL('**/pricing');
+  check('drawer: closes after navigating', (await open.getAttribute('aria-expanded')) === 'false');
+
+  await context.close();
+}
+
+async function accordion(page) {
+  await page.goto(`${BASE}/pricing`, { waitUntil: 'networkidle' });
+  const first = page.getByRole('button', { name: /Is Talentilo just an ATS/ });
+  const second = page.getByRole('button', { name: /Can I upgrade my plan/ });
+
+  check('faq: first item starts open', (await first.getAttribute('aria-expanded')) === 'true');
+  await second.click();
+  await page.waitForTimeout(400);
+  check('faq: opening one closes the other', (await first.getAttribute('aria-expanded')) === 'false');
+  check('faq: clicked item opens', (await second.getAttribute('aria-expanded')) === 'true');
+  await second.click();
+  await page.waitForTimeout(400);
+  check('faq: clicking again collapses', (await second.getAttribute('aria-expanded')) === 'false');
+}
+
+async function pricingToggle(page) {
+  await page.goto(`${BASE}/pricing`, { waitUntil: 'networkidle' });
+  const annualPrice = await page.locator('text=/₹1,299\\/month/').first().isVisible();
+  check('pricing: annual price shown by default', annualPrice);
+
+  await page.getByRole('button', { name: 'Pay Monthly' }).click();
+  await page.waitForTimeout(200);
+  const monthly = await page.locator('text=/₹1,624\\/month/').first().isVisible();
+  check('pricing: toggle switches to the monthly rate', monthly);
+  check(
+    'pricing: billing note follows the toggle',
+    await page.locator('text=Per Seat (Billed Monthly)').first().isVisible()
+  );
+}
+
+async function roiSliders(page) {
+  await page.goto(`${BASE}/pricing#roi`, { waitUntil: 'networkidle' });
+  const before = await page.locator('text=/Recovered value each month/').locator('..').innerText();
+  const slider = page.getByLabel('Billable value per hour');
+  await slider.focus();
+  for (let i = 0; i < 5; i++) await page.keyboard.press('ArrowRight');
+  await page.waitForTimeout(150);
+  const after = await page.locator('text=/Recovered value each month/').locator('..').innerText();
+  check('roi: slider recomputes the output', before !== after, `${before} -> ${after}`);
+}
+
+async function tabs(page) {
+  await page.goto(`${BASE}/product/command`, { waitUntil: 'networkidle' });
+  const owner = page.getByRole('tab', { name: 'The Owner/VP' });
+  const recruiter = page.getByRole('tab', { name: 'The Recruiter' });
+
+  check('tabs: first tab selected', (await owner.getAttribute('aria-selected')) === 'true');
+  await owner.focus();
+  await page.keyboard.press('ArrowLeft');
+  await page.waitForTimeout(150);
+  check('tabs: arrow keys wrap around', (await recruiter.getAttribute('aria-selected')) === 'true');
+  check(
+    'tabs: panel follows selection',
+    await page.getByText('Today’s pipeline, today’s follow-ups, nothing else in the way.').isVisible()
+  );
+}
+
+async function contactForm(page) {
+  await page.goto(`${BASE}/contact`, { waitUntil: 'networkidle' });
+
+  await page.getByRole('button', { name: /Send message/ }).click();
+  await page.waitForTimeout(200);
+  check('form: blocks an empty submit', await page.getByText('Please tell us your name.').isVisible());
+
+  await page.getByLabel(/Your Name/).fill('Alex Recruiter');
+  await page.getByLabel(/Your Email/).fill('not-an-email');
+  await page.getByLabel(/Message/).fill('Short');
+  await page.getByRole('button', { name: /Send message/ }).click();
+  await page.waitForTimeout(200);
+  check('form: rejects a malformed email', await page.getByText(/Enter an email address/).isVisible());
+  check('form: rejects a too-short message', await page.getByText(/A little more detail/).isVisible());
+
+  await page.getByLabel(/Your Email/).fill('alex@example.com');
+  await page.getByLabel(/Message/).fill('We run a 40-seat desk and would like to see the Command Center.');
+  await page.getByRole('button', { name: /Send message/ }).click();
+  await page.waitForTimeout(1500);
+  check('form: submits successfully', await page.getByText(/your message is on its way/i).isVisible());
+
+  // And the server rejects what the client would have caught.
+  const bad = await page.evaluate(async (base) => {
+    const response = await fetch(`${base}/api/contact`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ name: 'x', email: 'nope', message: 'hi' }),
+    });
+    return { status: response.status, body: await response.json() };
+  }, BASE);
+  check('api: validates server-side too', bad.status === 422 && Boolean(bad.body.fields));
+}
+
+async function reducedMotion(browser) {
+  const context = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 900 } });
+  const page = await context.newPage();
+  await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+  const hidden = await page.evaluate(() =>
+    [...document.querySelectorAll('.reveal')].some((el) => Number(getComputedStyle(el).opacity) < 0.99)
+  );
+  check('motion: nothing stays hidden under prefers-reduced-motion', !hidden);
+  await context.close();
+}
+
+async function main() {
+  const browser = await chromium.launch({ executablePath: CHROME });
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+
+  console.log('navigation');
+  await navDropdown(page);
+  console.log('mobile drawer');
+  await mobileDrawer(browser);
+  console.log('faq');
+  await accordion(page);
+  console.log('pricing');
+  await pricingToggle(page);
+  console.log('roi');
+  await roiSliders(page);
+  console.log('tabs');
+  await tabs(page);
+  console.log('contact');
+  await contactForm(page);
+  console.log('motion');
+  await reducedMotion(browser);
+
+  await browser.close();
+
+  const failed = results.filter((r) => !r.pass);
+  console.log(`\n${results.length - failed.length}/${results.length} interaction checks passed.`);
+  if (failed.length) process.exitCode = 1;
+}
+
+main();

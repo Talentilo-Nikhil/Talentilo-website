@@ -98,6 +98,213 @@ export const creatives = {
     "designWidth": 588,
     "designHeight": 536,
     "alt": "Agency Velocity Index dashboard"
+  },
+  "pc-hero-dashboard": {
+    "src": "/figma/creatives/pc-hero-dashboard.webp",
+    "fallback": "/figma/creatives/pc-hero-dashboard.png",
+    "width": 2138,
+    "height": 1519,
+    "designWidth": 1068.8,
+    "designHeight": 759.61,
+    "alt": "The Command Center dashboard"
+  },
+  "pc-velocity": {
+    "src": "/figma/creatives/pc-velocity.webp",
+    "fallback": "/figma/creatives/pc-velocity.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Time-to-fill measured at every pipeline stage"
+  },
+  "pc-guardrails": {
+    "src": "/figma/creatives/pc-guardrails.webp",
+    "fallback": "/figma/creatives/pc-guardrails.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Operational guardrails alerting leadership"
+  },
+  "pc-tailored-views": {
+    "src": "/figma/creatives/pc-tailored-views.webp",
+    "fallback": "/figma/creatives/pc-tailored-views.png",
+    "width": 2624,
+    "height": 1228,
+    "designWidth": 1312,
+    "designHeight": 614,
+    "alt": "The Command Center adapted to a leadership view"
+  },
+  "ti-hero-shapes": {
+    "src": "/figma/creatives/ti-hero-shapes.webp",
+    "fallback": "/figma/creatives/ti-hero-shapes.png",
+    "width": 1270,
+    "height": 423,
+    "designWidth": 635.03,
+    "designHeight": 211.68,
+    "alt": ""
+  },
+  "ti-boolean": {
+    "src": "/figma/creatives/ti-boolean.webp",
+    "fallback": "/figma/creatives/ti-boolean.png",
+    "width": 2624,
+    "height": 890,
+    "designWidth": 1312,
+    "designHeight": 445,
+    "alt": "Semantic reading of a candidate profile"
+  },
+  "ti-ranking": {
+    "src": "/figma/creatives/ti-ranking.webp",
+    "fallback": "/figma/creatives/ti-ranking.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Candidates scored 0–100% by contextual fit"
+  },
+  "ti-recall": {
+    "src": "/figma/creatives/ti-recall.webp",
+    "fallback": "/figma/creatives/ti-recall.png",
+    "width": 2624,
+    "height": 1036,
+    "designWidth": 1312,
+    "designHeight": 518,
+    "alt": "External search cost compared with Active Recall"
+  },
+  "ao-testimonial": {
+    "src": "/figma/creatives/ao-testimonial.webp",
+    "fallback": "/figma/creatives/ao-testimonial.png",
+    "width": 2624,
+    "height": 1162,
+    "designWidth": 1312,
+    "designHeight": 581,
+    "alt": "Customer testimonial"
+  },
+  "ao-superstar": {
+    "src": "/figma/creatives/ao-superstar.webp",
+    "fallback": "/figma/creatives/ao-superstar.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Workflow intelligence held in the platform, not one recruiter"
+  },
+  "ao-margins": {
+    "src": "/figma/creatives/ao-margins.webp",
+    "fallback": "/figma/creatives/ao-margins.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Revenue per seat driving margin"
+  },
+  "ro-testimonial": {
+    "src": "/figma/creatives/ro-testimonial.webp",
+    "fallback": "/figma/creatives/ro-testimonial.png",
+    "width": 2624,
+    "height": 1162,
+    "designWidth": 1312,
+    "designHeight": 581,
+    "alt": "Customer testimonial"
+  },
+  "ro-governance": {
+    "src": "/figma/creatives/ro-governance.webp",
+    "fallback": "/figma/creatives/ro-governance.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Global compliance rules applied to local teams"
+  },
+  "ro-single-truth": {
+    "src": "/figma/creatives/ro-single-truth.webp",
+    "fallback": "/figma/creatives/ro-single-truth.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Disjointed tools unified into one flow"
+  },
+  "hv-engaging": {
+    "src": "/figma/creatives/hv-engaging.webp",
+    "fallback": "/figma/creatives/hv-engaging.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "AI voice agents engaging 500+ candidates"
+  },
+  "hv-always-on": {
+    "src": "/figma/creatives/hv-always-on.webp",
+    "fallback": "/figma/creatives/hv-always-on.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "AI capacity absorbing an overnight application spike"
+  },
+  "tr-semantic": {
+    "src": "/figma/creatives/tr-semantic.webp",
+    "fallback": "/figma/creatives/tr-semantic.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Semantic matching across a real tech stack"
+  },
+  "tr-verify": {
+    "src": "/figma/creatives/tr-verify.webp",
+    "fallback": "/figma/creatives/tr-verify.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Candidates ranked by assessment pass rate"
+  },
+  "mg-transfer": {
+    "src": "/figma/creatives/mg-transfer.webp",
+    "fallback": "/figma/creatives/mg-transfer.png",
+    "width": 2624,
+    "height": 1120,
+    "designWidth": 1312,
+    "designHeight": 560,
+    "alt": "Data moving from a legacy ATS into Talentilo"
+  },
+  "mg-card-bullhorn": {
+    "src": "/figma/creatives/mg-card-bullhorn.webp",
+    "fallback": "/figma/creatives/mg-card-bullhorn.png",
+    "width": 960,
+    "height": 640,
+    "designWidth": 480,
+    "designHeight": 320,
+    "alt": "On-premises and cloud ATS deployments being retired"
+  },
+  "mg-card-zoho": {
+    "src": "/figma/creatives/mg-card-zoho.webp",
+    "fallback": "/figma/creatives/mg-card-zoho.png",
+    "width": 960,
+    "height": 640,
+    "designWidth": 480,
+    "designHeight": 320,
+    "alt": "A small-business tool outgrown by enterprise-scale activity"
+  },
+  "mg-terminal": {
+    "src": "/figma/creatives/mg-terminal.webp",
+    "fallback": "/figma/creatives/mg-terminal.png",
+    "width": 1592,
+    "height": 1146,
+    "designWidth": 796,
+    "designHeight": 573,
+    "alt": "The Talentilo translation layer mapping a legacy export"
+  },
+  "nf-shapes": {
+    "src": "/figma/creatives/nf-shapes.webp",
+    "fallback": "/figma/creatives/nf-shapes.png",
+    "width": 686,
+    "height": 280,
+    "designWidth": 343.02,
+    "designHeight": 140,
+    "alt": ""
   }
 } as const;
 

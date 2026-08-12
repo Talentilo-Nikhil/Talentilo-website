@@ -93,7 +93,8 @@ class SvgWriter {
       if (!meta) return 'none';
       const w = Math.max(1, Math.round(box.w));
       const h = Math.max(1, Math.round(box.h));
-      const preserve = fill.scaleMode === 'FIT' ? 'xMidYMid meet' : 'xMidYMid slice';
+      const preserve =
+        fill.scaleMode === 'FIT' ? 'xMidYMid meet' : fill.scaleMode === 'STRETCH' ? 'none' : 'xMidYMid slice';
       // Data URI is filled in later, once sharp has resampled it.
       this.defs.push({ placeholder: id, hash: fill.hash, w, h, preserve, opacity: fill.opacity ?? 1 });
       return `url(#${id})`;
@@ -306,14 +307,22 @@ class SvgWriter {
       const meta = this.images[def.hash];
       const file = resolve(ROOT, 'public', meta.src.replace(/^\//, ''));
       const target = Math.min(meta.width, def.w * 2);
-      const buf = await sharp(readFileSync(file))
-        .resize({ width: Math.max(1, Math.round(target)), withoutEnlargement: true })
-        .webp({ quality: 80 })
-        .toBuffer();
-      const href = `data:image/webp;base64,${buf.toString('base64')}`;
+      const resized = sharp(readFileSync(file)).resize({
+        width: Math.max(1, Math.round(target)),
+        withoutEnlargement: true,
+      });
+      // The rasteriser's SVG backend decodes PNG and JPEG but not WebP, so embedded fills have
+      // to be one of those two: PNG where transparency matters, JPEG for everything else.
+      const { hasAlpha } = await sharp(readFileSync(file)).metadata();
+      const buf = hasAlpha
+        ? await resized.png({ compressionLevel: 9 }).toBuffer()
+        : await resized.jpeg({ quality: 82 }).toBuffer();
+      const href = `data:image/${hasAlpha ? 'png' : 'jpeg'};base64,${buf.toString('base64')}`;
+      // userSpaceOnUse with explicit pixel dimensions: objectBoundingBox patterns with a nested
+      // 1x1 <image> are not rendered by the resvg backend sharp uses.
       defs.push(
-        `<pattern id="${def.placeholder}" patternContentUnits="objectBoundingBox" width="1" height="1">` +
-          `<image href="${href}" width="1" height="1" preserveAspectRatio="${def.preserve}"/></pattern>`
+        `<pattern id="${def.placeholder}" patternUnits="userSpaceOnUse" width="${def.w}" height="${def.h}">` +
+          `<image href="${href}" width="${def.w}" height="${def.h}" preserveAspectRatio="${def.preserve}"/></pattern>`
       );
     }
 

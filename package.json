@@ -1,18 +1,31 @@
 {
-  "name": "talentilo-site",
+  "name": "talentilo-website",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "figma:extract": "node tools/figma/extract.mjs",
+    "figma:images": "node tools/figma/images.mjs",
+    "figma:icons": "node tools/figma/icons.mjs",
+    "figma:creatives": "node tools/figma/illustrations.mjs",
+    "figma:fonts": "node tools/figma/fonts.mjs",
+    "figma:all": "npm run figma:extract && npm run figma:images && npm run figma:icons && npm run figma:creatives",
+    "qa:shots": "node tools/qa/shoot.mjs",
+    "qa:audit": "node tools/qa/audit.mjs",
+    "qa:interactions": "node tools/qa/interactions.mjs",
+    "qa:spec-diff": "node tools/qa/spec-diff.mjs"
   },
   "dependencies": {
     "next": "16.3.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "sharp": "^0.35.3"
+    "resend": "^6.19.0",
+    "sharp": "^0.35.3",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",

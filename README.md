@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Talentilo.ai
 
-## Getting Started
+The Talentilo.ai marketing site, built from `design/Talentilowebsite.fig`.
 
-First, run the development server:
+Next.js 16 (App Router) · React 19 · TypeScript strict · Tailwind v4.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## What is where
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+design/                  the .fig and the data extracted from it
+  Talentilowebsite.fig   source of truth, committed so extraction is reproducible
+  spec/<page>.json       resolved per-page tree: geometry, layout, paints, type
+src/
+  app/                   one directory per route, plus api/contact
+  components/
+    layout/              header, mobile drawer, footer, logo
+    sections/            the page-level building blocks
+    ui/                  primitives: Container, Section, Button, Creative, Reveal
+    icons/               generated from the file's vector geometry — do not hand-edit
+  config/                navigation.ts and site.ts: the only place URLs and copy-of-record live
+  data/                  generated asset manifests — do not hand-edit
+tools/
+  figma/                 the offline .fig decoder and asset pipeline
+  qa/                    Playwright audit, interaction suite, spec diff, screenshots
+public/figma/            exported creatives and raster assets
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Regenerating assets from the `.fig`
 
-## Learn More
+```bash
+npm run figma:fonts      # once: installs the design's typefaces for the rasteriser
+npm run figma:all        # spec + images + icons + creatives
+```
 
-To learn more about Next.js, take a look at the following resources:
+Everything under `design/spec/`, `src/data/`, `src/components/icons/` and `public/figma/` is
+generated. Edit the pipeline, not the output.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## QA
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+With the site running on `:3000`:
 
-## Deploy on Vercel
+```bash
+npm run qa:audit         # console errors, overflow, link resolution, axe-core
+npm run qa:interactions  # dropdowns, drawer, accordion, toggles, sliders, form
+npm run qa:spec-diff     # rendered section geometry vs the Figma spec at 1440
+npm run qa:shots         # full-page screenshots at 1440 / 768 / 375 into .qa/
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contact form
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`POST /api/contact` validates with the same zod schema as the client and sends through Resend
+when `RESEND_API_KEY` is set. Without a key it logs the message and returns
+`{ ok: true, delivered: false }`, so nothing is dropped silently. Copy `.env.example` to
+`.env.local` to configure.
+
+## Implementation notes
+
+See [`FIGMA_IMPLEMENTATION_REPORT.md`](./FIGMA_IMPLEMENTATION_REPORT.md) for how the Figma file
+was decoded, what deviates from the design and why, and the verification results.

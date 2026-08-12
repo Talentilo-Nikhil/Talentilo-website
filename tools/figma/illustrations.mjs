@@ -11,7 +11,7 @@
  *
  * Usage: node tools/figma/illustrations.mjs
  */
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
@@ -65,6 +65,65 @@ const EXPORTS = {
     { file: 'offer-risk-alerts', path: '#5/Visual-2', label: 'Offer management system flagging at-risk deals' },
     { file: 'velocity-index', path: '#6/Visual-3', label: 'Agency Velocity Index dashboard' },
   ],
+
+  'product-command': [
+    { file: 'pc-hero-dashboard', path: '#1/#0/Dashboard', label: 'The Command Center dashboard' },
+    { file: 'pc-velocity', path: '#2/Content', label: 'Time-to-fill measured at every pipeline stage' },
+    { file: 'pc-guardrails', path: '#3/Content', label: 'Operational guardrails alerting leadership' },
+    {
+      file: 'pc-tailored-views',
+      path: '#5/Frame 2085665277/Background image',
+      label: 'The Command Center adapted to a leadership view',
+    },
+  ],
+
+  'product-talent-intelligence': [
+    { file: 'ti-hero-shapes', path: '#1/#0/Group 57', label: '' },
+    { file: 'ti-boolean', path: '#2/Frame 2085665278', label: 'Semantic reading of a candidate profile' },
+    { file: 'ti-ranking', path: '#3/Content', label: 'Candidates scored 0–100% by contextual fit' },
+    { file: 'ti-recall', path: '#4/Frame 2085665278', label: 'External search cost compared with Active Recall' },
+  ],
+
+  'for-agency-owner': [
+    { file: 'ao-testimonial', path: '#1/Frame 2085665273', label: 'Customer testimonial' },
+    { file: 'ao-superstar', path: '#3/Content', label: 'Workflow intelligence held in the platform, not one recruiter' },
+    { file: 'ao-margins', path: '#4/Content', label: 'Revenue per seat driving margin' },
+  ],
+
+  'for-recruitment-operations': [
+    { file: 'ro-testimonial', path: '#1/Frame 2085665273', label: 'Customer testimonial' },
+    { file: 'ro-governance', path: '#3/Content', label: 'Global compliance rules applied to local teams' },
+    { file: 'ro-single-truth', path: '#4/Content', label: 'Disjointed tools unified into one flow' },
+  ],
+
+  'solution-high-volume': [
+    { file: 'hv-engaging', path: '#2/Visuals-1', label: 'AI voice agents engaging 500+ candidates' },
+    { file: 'hv-always-on', path: '#3/Visuals-2', label: 'AI capacity absorbing an overnight application spike' },
+  ],
+
+  'solution-tech-recruitment': [
+    { file: 'tr-semantic', path: '#2/Content', label: 'Semantic matching across a real tech stack' },
+    { file: 'tr-verify', path: '#3/Content', label: 'Candidates ranked by assessment pass rate' },
+  ],
+
+  migration: [
+    { file: 'mg-transfer', path: '#1/Frame 2085665236', label: 'Data moving from a legacy ATS into Talentilo' },
+    // Only the artwork at the top of each comparison card — the copy and button under it are
+    // real HTML, so exporting the whole card would ship the same words twice.
+    {
+      file: 'mg-card-bullhorn',
+      path: '#2/Frame 2085665258/#0/Frame 1597881567',
+      label: 'On-premises and cloud ATS deployments being retired',
+    },
+    {
+      file: 'mg-card-zoho',
+      path: '#2/Frame 2085665258/#2/Frame 2085665757',
+      label: 'A small-business tool outgrown by enterprise-scale activity',
+    },
+    { file: 'mg-terminal', path: '#4/Frame 52/Frame 45', label: 'The Talentilo translation layer mapping a legacy export' },
+  ],
+
+  'not-found': [{ file: 'nf-shapes', path: '#1/Group 1597881551', label: '' }],
 };
 
 async function main() {
@@ -108,6 +167,14 @@ async function main() {
         ).toFixed(0)}kb`
       );
     }
+  }
+
+  // Drop anything left behind by an earlier run so the directory always matches the manifest.
+  const wanted = new Set(Object.keys(index).flatMap((name) => [`${name}.webp`, `${name}.png`]));
+  for (const file of readdirSync(OUT)) {
+    if (wanted.has(file)) continue;
+    rmSync(resolve(OUT, file));
+    console.log(`  - removed stale ${file}`);
   }
 
   writeFileSync(resolve(ROOT, 'design/creatives.json'), `${JSON.stringify(index, null, 1)}\n`);

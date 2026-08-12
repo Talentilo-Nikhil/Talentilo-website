@@ -37,8 +37,11 @@ if (depthArg === '--text') {
   };
   walk(at(spec.tree, pathArg));
   seen.sort((a, b) => a.y - b.y || a.x - b.x);
+  // Product mockups are full of 7–13px chrome text; MIN filters down to real page copy.
+  const min = Number(process.env.MIN ?? 0);
   for (const s of seen) {
     const f = s.style ?? {};
+    if ((f.size ?? 0) < min) continue;
     console.log(
       `${String(Math.round(s.y)).padStart(5)} ${String(Math.round(s.x)).padStart(5)}  ` +
         `${(f.family ?? '?') + ' ' + (f.style ?? '')}/${f.size ?? '?'}  ${JSON.stringify(s.text)}`

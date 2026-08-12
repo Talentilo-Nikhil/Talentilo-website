@@ -10,18 +10,13 @@ import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 
 import { CHROME } from './browser.mjs';
+import { MISSING_ROUTE, ROUTES, VIEWPORTS } from './routes.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const OUT = resolve(ROOT, '.qa/shots');
 const BASE = process.env.BASE ?? 'http://localhost:3000';
 
-export const VIEWPORTS = [
-  { name: 'desktop', width: 1440, height: 1200 },
-  { name: 'tablet', width: 768, height: 1024 },
-  { name: 'mobile', width: 375, height: 812 },
-];
-
-const routes = process.argv.slice(2).length ? process.argv.slice(2) : ['/'];
+const routes = process.argv.slice(2).length ? process.argv.slice(2) : [...ROUTES, MISSING_ROUTE];
 
 const slug = (route) => (route === '/' ? 'home' : route.replace(/^\//, '').replace(/\//g, '-'));
 
@@ -81,4 +76,4 @@ async function main() {
   writeFileSync(resolve(ROOT, '.qa/shots.json'), `${JSON.stringify(report, null, 1)}\n`);
 }
 
-main();
+if (import.meta.url === `file://${process.argv[1]}`) main();

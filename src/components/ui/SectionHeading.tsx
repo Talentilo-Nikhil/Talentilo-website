@@ -53,6 +53,7 @@ export function SectionHeading({
           level === 'display'
             ? 'text-[clamp(2.25rem,1.35rem+3.9vw,4.0625rem)]'
             : 'text-[clamp(2rem,1.35rem+2.7vw,3.25rem)]',
+          'whitespace-pre-line',
           tone === 'dark' ? 'text-white' : 'text-ink',
           centered && 'max-w-[68rem]'
         )}
