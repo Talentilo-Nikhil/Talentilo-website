@@ -93,7 +93,11 @@ reads the pages.
   exported from the Design system canvas, not lifted off a page.
 - **Gradients** — `--gradient-brand` (`#fdfcff → #b1a4ff 45.68% → #4da8fd`), its vertical 80%
   variant, `--gradient-warm`, `--gradient-magenta`; midpoints are the file's.
-- **Layout** — 1440 shell, 1312 content, 64px desktop gutter tapering to 20px on phones.
+- **Layout** — 1440 shell, 1312 content, 64px desktop gutter tapering to 20px on phones. A
+  two-column section divides that content column as 588 | 132 | 592 in thirteen of the file's
+  fourteen splits, so `--spacing-split` carries 132px at 1440, easing to 80px by 1024. Every
+  split renders 590 | 132 | 590 across 64→1376; the file's single 86px outlier (homepage, "We
+  Find the Right Candidates Faster") is normalised to match the other thirteen.
 - **Shape** — 12px cards, 50px pills, 112px on the oversized footer CTA.
 
 ### Components
@@ -201,7 +205,7 @@ npm run typecheck        # TypeScript strict, 0 errors
 npm run lint             # eslint, 0 errors 0 warnings
 npm run build            # 15 routes, all static except /api/contact
 npm run qa:audit         # 39 page/viewport combinations — no failures
-npm run qa:interactions  # 35/35 interaction checks passed
+npm run qa:interactions  # 41/41 interaction checks passed
 npm run qa:spec-diff     # section geometry vs the Figma spec at 1440
 npm run qa:shots         # full-page screenshots at 1440 / 768 / 375
 ```

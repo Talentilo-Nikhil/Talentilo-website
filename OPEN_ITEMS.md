@@ -1,7 +1,7 @@
 # Open items
 
 Everything still outstanding on the Talentilo.ai site, in plain language.
-Last updated against commit `88bf7e8`.
+Last updated against commit `c6c2376`.
 
 ## Where to see the site
 
@@ -142,5 +142,11 @@ the copy (`support@artifact.com` and similar) were treated as placeholders, not 
   growing as artwork loaded.
 - **The persona tab row broke onto two lines** inside its pill on every phone width. It now
   scrolls horizontally below 640px.
+- **Two-column sections used the wrong column rhythm.** They rendered as 636 | 40 | 636, where the
+  file divides the 1312 content column as 588 | 132 | 592 in thirteen of its fourteen splits. The
+  gap was less than a third of the design's, and because adjacent sections alternate which side
+  the artwork sits on, they did not line up with one another. Now 590 | 132 | 590 spanning
+  64→1376, from a single `--spacing-split` token, identical in every split on every page. The
+  file's one 86px outlier was normalised to match the other thirteen rather than reproduced.
 
-All three are covered by regression checks in `npm run qa:interactions`.
+All of these are covered by regression checks in `npm run qa:interactions`.
