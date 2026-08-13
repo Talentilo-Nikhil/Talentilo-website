@@ -4,7 +4,6 @@ import { CenteredFeature } from '@/components/sections/CenteredFeature';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
-import { Reveal } from '@/components/ui/Reveal';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 
@@ -58,15 +57,15 @@ export default function TalentIntelligencePage() {
 
       <Section>
         <div className="grid items-center gap-12 lg:grid-cols-[620px_1fr] lg:gap-[150px]">
-          <Reveal>
+          <div>
             <SectionHeading
               align="left"
               title={'The Universal Translator\nfor Talent'}
               lede="PDFs, LinkedIn profiles, and email attachments are unstructured chaos. Our Universal Parser acts as the gateway, stripping formatting and structuring every data point into a clean, uniform profile that the Semantic Engine can actually read"
               className="[&_h2]:whitespace-pre-line"
             />
-          </Reveal>
-          <Reveal delay={80}>
+          </div>
+          <div>
             <ul className="flex flex-col gap-3">
               {parserPoints.map((point) => (
                 <li
@@ -77,7 +76,7 @@ export default function TalentIntelligencePage() {
                 </li>
               ))}
             </ul>
-          </Reveal>
+          </div>
         </div>
       </Section>
 

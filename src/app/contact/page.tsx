@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 
 import { ContactForm } from '@/components/sections/ContactForm';
 import { FigmaImage } from '@/components/ui/Creative';
-import { Reveal } from '@/components/ui/Reveal';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { site } from '@/config/site';
@@ -42,7 +41,7 @@ export default function ContactPage() {
         />
 
         <div className="mt-10 grid gap-5 lg:grid-cols-[740px_552px] lg:justify-center">
-          <Reveal className="relative isolate flex min-h-[420px] flex-col justify-end overflow-hidden rounded-card bg-ink p-6 sm:p-8">
+          <div className="relative isolate flex min-h-[420px] flex-col justify-end overflow-hidden rounded-card bg-ink p-6 sm:p-8">
             <div className="absolute inset-0 -z-10 [&_img]:size-full [&_img]:object-cover [&_picture]:block [&_picture]:size-full">
               <FigmaImage hash={PANEL_IMAGE} alt="" sizes="(min-width: 1024px) 740px, 100vw" />
             </div>
@@ -57,11 +56,11 @@ export default function ContactPage() {
                 Sana&rsquo;s Member
               </figcaption>
             </figure>
-          </Reveal>
+          </div>
 
-          <Reveal delay={80}>
+          <div>
             <ContactForm />
-          </Reveal>
+          </div>
         </div>
       </Section>
 

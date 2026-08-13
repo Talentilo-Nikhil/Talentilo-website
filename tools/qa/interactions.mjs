@@ -341,14 +341,58 @@ async function contactForm(page) {
   check('api: validates server-side too', bad.status === 422 && Boolean(bad.body.fields));
 }
 
+/**
+ * A page must be whole on arrival. Sections below the fold used to start transparent and settle
+ * in only once scrolled to, which reads as the page still loading.
+ */
+async function loadsWhole(browser) {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await context.newPage();
+
+  for (const route of ['/', '/solution/high-volume', '/pricing']) {
+    await page.goto(`${BASE}${route}`, { waitUntil: 'networkidle' });
+    const faded = await page.evaluate(() => {
+      const bad = [];
+      for (const section of document.querySelectorAll('main > section')) {
+        for (const el of [section, ...section.querySelectorAll('*')]) {
+          const style = getComputedStyle(el);
+          if (style.visibility === 'hidden' || style.display === 'none') continue;
+          // Deliberately hidden UI — a button's collapsed arrow, a closed accordion panel — is
+          // decorative or takes no space. What must not happen is content occupying the layout
+          // while being invisible.
+          if (el.closest('[aria-hidden="true"]')) continue;
+          const box = el.getBoundingClientRect();
+          if (box.width < 1 || box.height < 1) continue;
+          if (Number(style.opacity) < 0.05) {
+            bad.push(el.tagName.toLowerCase() + '.' + String(el.className).split(' ')[0]);
+          }
+        }
+      }
+      return [...new Set(bad)];
+    });
+    check(`load: ${route} renders every section on arrival`, faded.length === 0, faded.slice(0, 3).join(', '));
+  }
+
+  const shifted = await page.evaluate(() =>
+    [...document.querySelectorAll('main > section')].some(
+      (s) => getComputedStyle(s).transform !== 'none'
+    )
+  );
+  check('load: no section waits on a scroll transform', !shifted);
+  await context.close();
+}
+
 async function reducedMotion(browser) {
   const context = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 900 } });
   const page = await context.newPage();
   await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
-  const hidden = await page.evaluate(() =>
-    [...document.querySelectorAll('.reveal')].some((el) => Number(getComputedStyle(el).opacity) < 0.99)
+  const animated = await page.evaluate(() =>
+    [...document.querySelectorAll('main *')].some((el) => {
+      const duration = getComputedStyle(el).transitionDuration;
+      return duration && Number.parseFloat(duration) > 0.05;
+    })
   );
-  check('motion: nothing stays hidden under prefers-reduced-motion', !hidden);
+  check('motion: transitions are neutralised under prefers-reduced-motion', !animated);
   await context.close();
 }
 
@@ -377,6 +421,8 @@ async function main() {
   await landsAtTop(browser);
   console.log('contact');
   await contactForm(page);
+  console.log('load');
+  await loadsWhole(browser);
   console.log('motion');
   await reducedMotion(browser);
 

@@ -2,7 +2,6 @@ import type { ReactNode } from 'react';
 
 import { ButtonLink } from '@/components/ui/Button';
 import { Creative } from '@/components/ui/Creative';
-import { Reveal } from '@/components/ui/Reveal';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import type { CreativeName } from '@/data/creatives';
@@ -36,9 +35,9 @@ export function CenteredFeature({
       {children}
 
       {creative ? (
-        <Reveal delay={80} className="mt-10 overflow-hidden rounded-card">
+        <div className="mt-10 overflow-hidden rounded-card">
           <Creative name={creative} alt={creativeAlt} sizes="(min-width: 1440px) 1312px, 100vw" />
-        </Reveal>
+        </div>
       ) : null}
 
       {cta ? (

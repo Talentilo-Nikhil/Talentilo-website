@@ -40,7 +40,6 @@ async function main() {
       page.on('requestfailed', (request) => problems.push(`request failed: ${request.url()}`));
 
       const response = await page.goto(`${BASE}${route}`, { waitUntil: 'networkidle', timeout: 60_000 });
-      // Let scroll-reveal transitions settle before capturing.
       await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
       await page.waitForTimeout(700);
       await page.evaluate(() => window.scrollTo(0, 0));

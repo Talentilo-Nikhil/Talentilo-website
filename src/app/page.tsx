@@ -6,7 +6,6 @@ import { LogoStrip } from '@/components/sections/LogoStrip';
 import { StatGrid, type Stat } from '@/components/sections/StatGrid';
 import { ButtonLink } from '@/components/ui/Button';
 import { Creative } from '@/components/ui/Creative';
-import { Reveal } from '@/components/ui/Reveal';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 
@@ -79,13 +78,13 @@ export default function HomePage() {
           </p>
         </div>
 
-        <Reveal delay={120} className="mt-10 overflow-hidden rounded-card lg:mt-10">
+        <div className="mt-10 overflow-hidden rounded-card lg:mt-10">
           <Creative
             name="hero-command-center"
             priority
             sizes="(min-width: 1440px) 1312px, 100vw"
           />
-        </Reveal>
+        </div>
       </Section>
 
       <LogoStrip title="Powering Recruitment for 200+ Recruiters Across" logos={[...clients]} />

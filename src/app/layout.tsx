@@ -46,12 +46,6 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       lang="en"
       className={`${albertSans.variable} ${ebGaramond.variable} h-full antialiased`}
     >
-      <head>
-        {/* Scroll-reveal starts content hidden; without JS there is nothing to reveal it. */}
-        <noscript>
-          <style>{'.reveal{opacity:1 !important;transform:none !important}'}</style>
-        </noscript>
-      </head>
       <body className="flex min-h-full flex-col">
         <Header />
         <main id="main" className="flex-1">

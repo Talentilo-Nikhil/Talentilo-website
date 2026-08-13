@@ -3,7 +3,6 @@ import type { ReactNode } from 'react';
 import { ButtonLink } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
 import { Creative } from '@/components/ui/Creative';
-import { Reveal } from '@/components/ui/Reveal';
 import { creatives, type CreativeName } from '@/data/creatives';
 import { cn } from '@/lib/cn';
 
@@ -67,7 +66,7 @@ export function PageHero({
         </div>
 
         {creative ? (
-          <Reveal delay={120} className="mt-10 lg:mt-12">
+          <div className="mt-10 lg:mt-12">
             <div style={{ maxWidth }} className="relative mx-auto overflow-hidden rounded-t-card">
               {reveal < 1 ? <div style={{ paddingTop: aspect }} aria-hidden="true" /> : null}
               <div className={reveal < 1 ? 'absolute inset-x-0 top-0' : undefined}>
@@ -79,7 +78,7 @@ export function PageHero({
                 />
               </div>
             </div>
-          </Reveal>
+          </div>
         ) : null}
       </Container>
     </section>

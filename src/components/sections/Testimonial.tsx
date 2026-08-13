@@ -1,4 +1,3 @@
-import { Reveal } from '@/components/ui/Reveal';
 import { Section } from '@/components/ui/Section';
 
 type TestimonialProps = {
@@ -11,7 +10,7 @@ type TestimonialProps = {
 export function Testimonial({ quote, name, role }: TestimonialProps) {
   return (
     <Section padding="normal">
-      <Reveal>
+      <div>
         <figure className="mx-auto flex max-w-[1088px] flex-col gap-10">
           <blockquote className="font-sans text-[clamp(1.375rem,1rem+1.5vw,2.0625rem)] leading-[1.4] font-medium text-ink">
             &ldquo;{quote}&rdquo;
@@ -21,7 +20,7 @@ export function Testimonial({ quote, name, role }: TestimonialProps) {
             {role}
           </figcaption>
         </figure>
-      </Reveal>
+      </div>
     </Section>
   );
 }

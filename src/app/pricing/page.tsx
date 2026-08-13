@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import { Faq, type FaqItem } from '@/components/sections/Faq';
 import { PricingPlan, type PlanFeature } from '@/components/sections/PricingPlan';
 import { RoiCalculator } from '@/components/sections/RoiCalculator';
-import { Reveal } from '@/components/ui/Reveal';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { site } from '@/config/site';
@@ -116,8 +115,8 @@ export default function PricingPage() {
         />
 
         <ul className="mt-10 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-          {boltOns.map((item, index) => (
-            <Reveal as="li" key={item.name} delay={index * 90} className="flex flex-col gap-4">
+          {boltOns.map((item) => (
+            <li key={item.name} className="flex flex-col gap-4">
               <p className="font-figure text-[clamp(1.5rem,1.2rem+1.2vw,2.0625rem)] leading-[1.4] text-ink">
                 {item.name}
                 <br />
@@ -125,7 +124,7 @@ export default function PricingPage() {
               </p>
               <p className="text-body font-semibold text-ink">{item.qualifier}</p>
               <p className="text-body text-ink/85">{item.detail}</p>
-            </Reveal>
+            </li>
           ))}
         </ul>
 

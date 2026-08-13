@@ -4,7 +4,6 @@ import { CtaCentered } from '@/components/sections/CtaCentered';
 import { PageHero } from '@/components/sections/PageHero';
 import { ButtonLink } from '@/components/ui/Button';
 import { Creative } from '@/components/ui/Creative';
-import { Reveal } from '@/components/ui/Reveal';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 
@@ -50,12 +49,8 @@ export default function MigrationPage() {
         />
 
         <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-25">
-          {paths.map((path, index) => (
-            <Reveal
-              key={path.title}
-              delay={index * 90}
-              className="flex flex-col gap-10 rounded-card border border-hairline p-6"
-            >
+          {paths.map((path) => (
+            <div key={path.title} className="flex flex-col gap-10 rounded-card border border-hairline p-6">
               <Creative name={path.creative} sizes="(min-width: 1024px) 480px, 100vw" />
               <div className="flex flex-1 flex-col gap-6">
                 <h2 className="font-sans text-[clamp(1.75rem,1.3rem+1.8vw,2.75rem)] font-medium text-ink">
@@ -73,14 +68,14 @@ export default function MigrationPage() {
                   </ButtonLink>
                 </div>
               </div>
-            </Reveal>
+            </div>
           ))}
         </div>
       </Section>
 
       <Section>
         <div className="grid items-center gap-12 lg:grid-cols-[456px_1fr] lg:gap-15">
-          <Reveal className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6">
             <SectionHeading
               align="left"
               title="We Speak Your Data's Language."
@@ -98,11 +93,11 @@ export default function MigrationPage() {
                 Plan Your Safe Switch
               </ButtonLink>
             </div>
-          </Reveal>
+          </div>
 
-          <Reveal delay={80} className="overflow-hidden rounded-card">
+          <div className="overflow-hidden rounded-card">
             <Creative name="mg-terminal" sizes="(min-width: 1024px) 796px, 100vw" />
-          </Reveal>
+          </div>
         </div>
       </Section>
 
