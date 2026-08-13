@@ -28,9 +28,19 @@ function FeatureList({ heading, features }: { heading: string; features: PlanFea
       <p className="text-body font-semibold text-white">{heading}</p>
       <ul className="flex flex-col gap-3">
         {features.map((feature) => (
-          <li key={feature.title}>
-            <p className="text-body font-semibold text-white">{feature.title}</p>
-            {feature.detail ? <p className="text-body text-white/70">{feature.detail}</p> : null}
+          <li key={feature.title} className="flex items-start gap-0">
+            {/*
+              `items-start` on the row keeps this column sized to its own content instead of
+              stretching to match the title+detail block, so `place-items-center` centres the dot
+              on itself — then `mt` carries it down to the title's own line, not the block's.
+            */}
+            <span className="mt-[11px] grid w-6 shrink-0 place-items-center">
+              <span aria-hidden="true" className="size-1.5 rounded-full bg-[#b0b8c7]" />
+            </span>
+            <div>
+              <p className="text-body font-semibold text-white">{feature.title}</p>
+              {feature.detail ? <p className="text-body text-white/70">{feature.detail}</p> : null}
+            </div>
           </li>
         ))}
       </ul>

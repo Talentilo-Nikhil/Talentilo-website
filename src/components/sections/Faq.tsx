@@ -25,13 +25,9 @@ export function Faq({ items }: { items: FaqItem[] }) {
       {items.map((item, index) => {
         const expanded = open === index;
         return (
-          <div
-            key={item.question}
-            className={cn(
-              'rounded-card border transition-colors duration-300',
-              expanded ? 'border-hairline bg-surface-tint' : 'border-transparent bg-surface-tint/60'
-            )}
-          >
+          // The file draws every item the same — a hairline border on white, open or closed —
+          // rather than a filled tint that changes with state.
+          <div key={item.question} className="rounded-card border border-hairline">
             <h3>
               <button
                 type="button"

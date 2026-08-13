@@ -96,7 +96,8 @@
   --color-muted: #667085;
   --color-footer-text: #98a2b3;
   --color-divider: #a0a1a8;
-  --color-hairline: #e4e4e7;
+  /* #e4e4e7 never appears anywhere in the file; every hairline stroke it draws is this ramp step. */
+  --color-hairline: var(--color-woodsmoke-200);
   --color-surface: #ffffff;
   --color-surface-mint: #e6f0de;
   --color-surface-tint: #f6f5fb;

@@ -116,7 +116,10 @@ export default function PricingPage() {
 
         <ul className="mt-10 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
           {boltOns.map((item) => (
-            <li key={item.name} className="flex flex-col gap-4">
+            <li
+              key={item.name}
+              className="flex flex-col gap-4 rounded-card border border-hairline px-7 py-6"
+            >
               <p className="font-figure text-[clamp(1.5rem,1.2rem+1.2vw,2.0625rem)] leading-[1.4] text-ink">
                 {item.name}
                 <br />

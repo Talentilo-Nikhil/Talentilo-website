@@ -15,6 +15,8 @@ export const metadata: Metadata = {
 
 /** The photograph behind the testimonial panel, from the file's image fill. */
 const PANEL_IMAGE = '8b4fc046b6a14ec7293f0af2b03e2519cec94957' as const;
+/** The reviewer's headshot, also an image fill rather than an initial or icon. */
+const AVATAR_IMAGE = '3d81068413f1faecb4c870bb763d0dae05babf7d' as const;
 
 const desks = [
   {
@@ -51,9 +53,19 @@ export default function ContactPage() {
               <blockquote className="text-body font-medium text-ink">
                 &ldquo;Finally, a platform that honors intentional Recruitment&rdquo;
               </blockquote>
-              <figcaption className="mt-4 text-body text-muted">
-                <span className="block font-semibold text-ink">Alissa Josh</span>
-                Sana&rsquo;s Member
+              <figcaption className="mt-4 flex flex-col gap-2">
+                <span className="text-body text-ink">Sana&rsquo;s Member</span>
+                <span className="flex items-center gap-1">
+                  {/*
+                    Sized by the wrapper rather than by overriding FigmaImage's own w-full/h-auto:
+                    the source photo is square, so h-auto already resolves to a 32px square once
+                    the wrapper fixes the width — no competing height utility to fight over.
+                  */}
+                  <span className="size-8 shrink-0 overflow-hidden rounded-full">
+                    <FigmaImage hash={AVATAR_IMAGE} alt="" />
+                  </span>
+                  <span className="text-body font-semibold text-ink">Alissa Josh</span>
+                </span>
               </figcaption>
             </figure>
           </div>
@@ -65,9 +77,10 @@ export default function ContactPage() {
       </Section>
 
       <Section padding="normal">
-        <ul className="mx-auto grid max-w-[843px] gap-10 sm:grid-cols-2">
+        {/* Every line in this block is centered in the file — heading, email and body alike. */}
+        <ul className="mx-auto grid max-w-[843px] gap-10 text-center sm:grid-cols-2">
           {desks.map((desk) => (
-            <li key={desk.name} className="flex flex-col gap-3">
+            <li key={desk.name} className="flex flex-col items-center gap-3">
               <h2 className="font-sans text-[clamp(1.5rem,1.25rem+0.9vw,1.75rem)] font-semibold text-ink">
                 {desk.name}
               </h2>
