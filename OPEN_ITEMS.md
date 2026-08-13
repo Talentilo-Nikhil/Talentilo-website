@@ -1,7 +1,7 @@
 # Open items
 
 Everything still outstanding on the Talentilo.ai site, in plain language.
-Last updated against commit `c6c2376`.
+Last updated against commit `1d72dda`.
 
 ## Where to see the site
 
@@ -31,12 +31,34 @@ Every push updates it automatically within a couple of minutes — just refresh.
 
 ---
 
-## 2. Open: the dropdown menus differ from the live site
+## 2. Done: the dropdown menus now follow the live site
 
-The top-level navigation matches the live site exactly. The **contents** of the two dropdowns do
-not, and five of the live entries have no page in this build.
+Settled — the menus use the live labels, descriptions and grouping. Platform sits under a
+**Core Platform** heading; Solution is two labelled columns, **For** and **Recruitment Type**.
 
-**Platform** — live shows five entries under a "CORE PLATFORM" heading:
+The live Platform menu also lists **Faster Operations**, **AI Powers** and **Revenue Defense**.
+The Figma designed no pages for those three, so they are left out rather than shipped as links
+that go nowhere. Each becomes a one-line entry in `src/config/navigation.ts` the moment it has a
+page to point at.
+
+The mapping in use:
+
+| Menu entry | Page |
+|---|---|
+| Recruitment OS | `/product/command` |
+| Talent Intelligence | `/product/talent-intelligence` |
+| Agency Owner | `/for/agency-owner` |
+| Organization | `/for/recruitment-operations` |
+| High Volume | `/solution/high-volume` |
+| Tech Recruitment | `/solution/tech-recruitment` |
+
+---
+
+## 2b. For reference: what the live menus contain
+
+Transcribed from the screenshots Talentilo supplied, since the sandbox cannot reach the live site.
+
+**Platform** — five entries under a "CORE PLATFORM" heading:
 
 | Live entry | Live description | Page in this build |
 |---|---|---|
@@ -46,7 +68,7 @@ not, and five of the live entries have no page in this build.
 | AI Powers | Scale your output, not your headcount. | **none** |
 | Revenue Defense | Protect your placements post-offer. | **none** |
 
-**Solution** — live shows four entries in two labelled columns, "FOR" and "RECRUITMENT TYPE":
+**Solution** — four entries in two labelled columns, "FOR" and "RECRUITMENT TYPE":
 
 | Live entry | Live description | Page in this build |
 |---|---|---|
@@ -55,33 +77,21 @@ not, and five of the live entries have no page in this build.
 | High Volume | Automate thousands of interactions. | `/solution/high-volume` |
 | Tech Recruitment | Deep semantic matching for devs. | `/solution/tech-recruitment` |
 
-The Figma file designed only the six pages listed above, so the menus were built from those. Three
-choices are open:
-
-1. **Keep the Figma structure** — what ships today. Every menu entry leads to a real page.
-2. **Adopt the live labels and grouping for the six pages that exist**, and leave out Faster
-   Operations, AI Powers and Revenue Defense until they have pages.
-3. **Adopt the live structure in full**, which means designing and building three more pages.
-
 *Lives in `src/config/navigation.ts`.*
 
 ---
 
-## 3. A design decision on mobile
+## 3. Done: wide mockups can be enlarged on a phone
 
-The wide product mockups (homepage hero, both product pages, migration) are 1312px artworks shown
-at roughly 335px on a phone — a four-times reduction, at which the text inside them is not
-readable.
+Settled — **tap to enlarge**. Artwork authored at least 1000px across lands near 335px on a phone,
+a four-times reduction that puts its contents past reading. Below the desktop breakpoint each such
+mockup now carries a control that opens it at its full design width in a dialog the reader can pan.
+Escape closes it, focus is trapped while it is open and returns to the artwork afterwards, and the
+page behind cannot scroll.
 
-Two options:
-
-- **Scroll sideways.** The mockup stays legible and the reader drags it horizontally. This is the
-  usual treatment for dashboards and wide tables on phones.
-- **Leave as is.** The mockups read as a decorative impression of the product rather than
-  something to be examined.
-
-Nothing is broken either way — it is a judgement call about how the product should feel on a
-phone.
+Above the desktop breakpoint nothing is added and no control enters the tab order, because the
+artwork already reads at that size. Eight mockups qualify; the logo lockups are wider still but are
+not mockups, so they are excluded explicitly.
 
 ---
 

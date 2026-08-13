@@ -154,10 +154,12 @@ decorative artwork marked `alt=""`.
 
 ## 6. Deviations and assumptions
 
-1. **`Resources` is omitted from the nav.** It is the only nav item in the Figma with no designed
-   page behind it. Confirmed by Talentilo as the right call — the live site's nav is likewise
-   Platform / Solution / Migration / Pricing. Adding it back would be one entry in
-   `src/config/navigation.ts`.
+1. **The nav follows the live site, not the file.** At Talentilo's direction the dropdowns carry
+   the live labels, descriptions and grouping — Platform under a Core Platform heading, Solution
+   in two columns headed For and Recruitment Type. `Resources`, which the Figma header carries,
+   is omitted: it has no designed page and the live nav does not show it. The live Platform menu
+   additionally lists Faster Operations, AI Powers and Revenue Defense, which the Figma designed
+   no pages for; those are left out rather than shipped as dead links.
 2. **Gilroy** (the large stat figures and pricing numbers) is a commercial font and cannot ship.
    Talentilo has chosen **Albert Sans**, the body face, in its place, so `--font-figure` and
    `--font-sans` now resolve to the same family. Licensing Gilroy later is one edit.
@@ -205,7 +207,7 @@ npm run typecheck        # TypeScript strict, 0 errors
 npm run lint             # eslint, 0 errors 0 warnings
 npm run build            # 15 routes, all static except /api/contact
 npm run qa:audit         # 39 page/viewport combinations — no failures
-npm run qa:interactions  # 41/41 interaction checks passed
+npm run qa:interactions  # 51/51 interaction checks passed
 npm run qa:spec-diff     # section geometry vs the Figma spec at 1440
 npm run qa:shots         # full-page screenshots at 1440 / 768 / 375
 ```
