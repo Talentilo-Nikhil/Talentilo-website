@@ -5,10 +5,16 @@ import { ArrowRight } from '@/components/icons';
 import { cn } from '@/lib/cn';
 
 const VARIANT = {
-  /** The brand wash used for the primary call to action. */
+  /**
+   * The brand wash used for the primary call to action.
+   *
+   * `--gradient-brand` runs to a near-white `#fdfcff`, and the file sets this label to white, so
+   * the pale end of the gradient cannot sit under the text. The background is scaled to 180% and
+   * held at its saturated end — no hover slide, which is what used to wash the label out.
+   */
   gradient:
     'text-white [background-image:var(--gradient-brand)] bg-[length:180%_100%] bg-[position:0%_50%] ' +
-    'hover:bg-[position:100%_50%] shadow-[0_1px_2px_rgb(12_10_16/0.08)]',
+    'shadow-[0_1px_2px_rgb(12_10_16/0.08)]',
   /** Ink hairline on a transparent field — the header "Sign In". */
   outline:
     'text-ink border border-ink bg-transparent hover:bg-ink hover:text-white',
@@ -39,7 +45,7 @@ type ButtonBaseProps = {
 
 const base =
   'group inline-flex items-center justify-center gap-4 rounded-pill font-sans font-medium ' +
-  'whitespace-nowrap transition-[background-position,background-color,color,box-shadow,transform] ' +
+  'whitespace-nowrap transition-[background-color,color,box-shadow,transform] ' +
   'duration-300 ease-[var(--ease-out-soft)] active:translate-y-px ' +
   'disabled:pointer-events-none disabled:opacity-60';
 
