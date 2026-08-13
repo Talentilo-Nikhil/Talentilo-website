@@ -123,7 +123,7 @@ export function MobileNav({ pathname }: { pathname: string }) {
           <ul className="flex flex-col gap-2">
             {primaryNav.map((item) => (
               <li key={item.label}>
-                {item.children ? (
+                {item.groups ? (
                   <details className="group" open>
                     <summary
                       className="flex cursor-pointer list-none items-center justify-between rounded-xl
@@ -132,21 +132,35 @@ export function MobileNav({ pathname }: { pathname: string }) {
                       {item.label}
                       <ChevronDown className="text-[20px] text-muted transition-transform duration-200 group-open:-scale-y-100" />
                     </summary>
-                    <ul className="mt-1 flex flex-col gap-1 pl-3">
-                      {item.children.map((child) => (
-                        <li key={child.href}>
-                          <Link
-                            href={child.href}
-                            className={cn(
-                              'block rounded-xl px-3 py-2.5 text-body text-ink/80 transition-colors duration-200 hover:bg-surface-tint',
-                              pathname === child.href && 'bg-surface-tint text-ink'
-                            )}
-                          >
-                            {child.label}
-                          </Link>
-                        </li>
+                    <div className="mt-1 flex flex-col gap-4 pl-3">
+                      {item.groups.map((group) => (
+                        <div key={group.heading ?? 'links'}>
+                          {group.heading ? (
+                            <p
+                              className="px-3 pb-1 font-sans text-caption font-semibold tracking-[0.1em]
+                                         text-brand-violet uppercase"
+                            >
+                              {group.heading}
+                            </p>
+                          ) : null}
+                          <ul className="flex flex-col gap-1">
+                            {group.links.map((child) => (
+                              <li key={child.href}>
+                                <Link
+                                  href={child.href}
+                                  className={cn(
+                                    'block rounded-xl px-3 py-2.5 text-body text-ink/80 transition-colors duration-200 hover:bg-surface-tint',
+                                    pathname === child.href && 'bg-surface-tint text-ink'
+                                  )}
+                                >
+                                  {child.label}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                       ))}
-                    </ul>
+                    </div>
                   </details>
                 ) : (
                   <Link

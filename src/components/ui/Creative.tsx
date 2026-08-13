@@ -1,6 +1,14 @@
+import { CreativeZoom } from '@/components/ui/CreativeZoom';
 import { creatives, type CreativeName } from '@/data/creatives';
 import { figmaImages } from '@/data/images';
 import { cn } from '@/lib/cn';
+
+/**
+ * Artwork authored at least this wide is a full-bleed product mockup. On a phone it lands around
+ * 335px — a four-times reduction that puts its content past reading — so it gets a tap-to-enlarge
+ * control. Everything narrower survives the squeeze.
+ */
+const ZOOM_FROM = 1000;
 
 type CreativeProps = {
   name: CreativeName;
@@ -9,6 +17,8 @@ type CreativeProps = {
   className?: string;
   priority?: boolean;
   sizes?: string;
+  /** Defaults to on for wide mockups. The logo lockups are wide but are not mockups. */
+  zoom?: boolean;
 };
 
 /**
@@ -18,11 +28,11 @@ type CreativeProps = {
  * served first with the PNG as the fallback, and both carry the design's intrinsic aspect ratio
  * so the layout never shifts while they load.
  */
-export function Creative({ name, alt, className, priority = false, sizes }: CreativeProps) {
+export function Creative({ name, alt, className, priority = false, sizes, zoom }: CreativeProps) {
   const asset = creatives[name];
   const label = alt ?? asset.alt;
 
-  return (
+  const picture = (
     <picture className={cn('block', className)}>
       <source srcSet={asset.src} type="image/webp" sizes={sizes} />
       <img
@@ -38,6 +48,16 @@ export function Creative({ name, alt, className, priority = false, sizes }: Crea
         aria-hidden={label === '' ? true : undefined}
       />
     </picture>
+  );
+
+  // Decorative artwork has nothing to read, so enlarging it would offer a control for nothing.
+  const enlargeable = zoom ?? (asset.designWidth >= ZOOM_FROM && label !== '');
+  if (!enlargeable) return picture;
+
+  return (
+    <CreativeZoom asset={asset} alt={label}>
+      {picture}
+    </CreativeZoom>
   );
 }
 

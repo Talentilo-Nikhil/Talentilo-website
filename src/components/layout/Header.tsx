@@ -8,13 +8,13 @@ import { ChevronDown } from '@/components/icons';
 import { Logo } from '@/components/layout/Logo';
 import { MobileNav } from '@/components/layout/MobileNav';
 import { ButtonLink } from '@/components/ui/Button';
-import { headerActions, primaryNav, type NavItem } from '@/config/navigation';
+import { headerActions, linksOf, primaryNav, type NavItem } from '@/config/navigation';
 import { cn } from '@/lib/cn';
 
 /** True when the current route is the item or lives underneath it. */
 function isActive(item: NavItem, pathname: string) {
   if (item.href) return pathname === item.href;
-  return (item.children ?? []).some((child) => pathname === child.href);
+  return linksOf(item).some((link) => pathname === link.href);
 }
 
 const linkClasses =
@@ -22,6 +22,7 @@ const linkClasses =
   'hover:text-ink hover:bg-ink/5';
 
 function NavDropdown({ item, pathname }: { item: NavItem; pathname: string }) {
+  const groups = item.groups ?? [];
   const [open, setOpen] = useState(false);
   const menuId = useId();
   const wrapper = useRef<HTMLDivElement>(null);
@@ -100,30 +101,53 @@ function NavDropdown({ item, pathname }: { item: NavItem; pathname: string }) {
       <div
         id={menuId}
         className={cn(
-          'absolute top-full left-1/2 z-50 w-[22rem] -translate-x-1/2 pt-3',
+          'absolute top-full left-1/2 z-50 -translate-x-1/2 pt-3',
+          groups.length > 1 ? 'w-[34rem]' : 'w-[22rem]',
           'transition-[opacity,transform] duration-200 ease-[var(--ease-out-soft)]',
           open ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-1 opacity-0'
         )}
       >
-        <ul className="rounded-2xl border border-hairline bg-white p-2 shadow-[0_16px_48px_rgb(12_10_16/0.12)]">
-          {(item.children ?? []).map((child) => (
-            <li key={child.href}>
-              <Link
-                href={child.href}
-                tabIndex={open ? undefined : -1}
-                className={cn(
-                  'block rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-surface-tint',
-                  pathname === child.href && 'bg-surface-tint'
-                )}
-              >
-                <span className="block font-sans text-body font-medium text-ink">{child.label}</span>
-                {child.description ? (
-                  <span className="mt-0.5 block text-small text-muted">{child.description}</span>
+        <div className="relative rounded-2xl border border-hairline bg-white p-4 shadow-[0_16px_48px_rgb(12_10_16/0.12)]">
+          {/* The pointer that ties the panel back to its trigger. */}
+          <span
+            aria-hidden="true"
+            className="absolute -top-[7px] left-1/2 size-3 -translate-x-1/2 rotate-45 rounded-tl-[3px]
+                       border-t border-l border-hairline bg-white"
+          />
+          <div className={cn('grid gap-x-4 gap-y-5', groups.length > 1 && 'sm:grid-cols-2')}>
+            {groups.map((group) => (
+              <div key={group.heading ?? 'links'}>
+                {group.heading ? (
+                  <p
+                    className="px-3 pb-2 font-sans text-caption font-semibold tracking-[0.1em] text-brand-violet
+                               uppercase"
+                  >
+                    {group.heading}
+                  </p>
                 ) : null}
-              </Link>
-            </li>
-          ))}
-        </ul>
+                <ul>
+                  {group.links.map((child) => (
+                    <li key={child.href}>
+                      <Link
+                        href={child.href}
+                        tabIndex={open ? undefined : -1}
+                        className={cn(
+                          'block rounded-xl px-3 py-2.5 transition-colors duration-200 hover:bg-surface-tint',
+                          pathname === child.href && 'bg-surface-tint'
+                        )}
+                      >
+                        <span className="block font-sans text-body font-medium text-ink">{child.label}</span>
+                        {child.description ? (
+                          <span className="mt-0.5 block text-small text-muted">{child.description}</span>
+                        ) : null}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -162,7 +186,7 @@ export function Header() {
           <ul className="flex items-center gap-6">
             {primaryNav.map((item) => (
               <li key={item.label}>
-                {item.children ? (
+                {item.groups ? (
                   <NavDropdown item={item} pathname={pathname} />
                 ) : (
                   <Link

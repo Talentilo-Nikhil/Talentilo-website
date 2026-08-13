@@ -2,9 +2,13 @@
  * The single source of truth for site navigation — header, mobile drawer and footer all read
  * from here, so adding a section is a one-line change.
  *
- * The Figma header lists Platform · Solution · Migration · Resources · Pricing. `Resources` is
- * the only item with no designed page behind it, so it is omitted rather than shipped as a dead
- * link; restoring it is a matter of adding an entry with a real `href`.
+ * Labels, descriptions and column headings follow the live talentilo.ai nav rather than the
+ * Figma file, at Talentilo's direction. The live Platform menu also lists Faster Operations,
+ * AI Powers and Revenue Defense; the Figma designed no pages for those three, so they are left
+ * out rather than shipped as dead links. Adding one is an entry with a real `href`.
+ *
+ * `Resources`, which the Figma header carries, is likewise omitted — it has no page either, and
+ * the live nav does not show it.
  */
 
 export type NavLink = {
@@ -13,50 +17,76 @@ export type NavLink = {
   description?: string;
 };
 
+/** One labelled column of a dropdown. A single unheaded group renders as a plain list. */
+export type NavGroup = {
+  heading?: string;
+  links: NavLink[];
+};
+
 export type NavItem = {
   label: string;
   href?: string;
-  children?: NavLink[];
+  groups?: NavGroup[];
 };
+
+/** Every destination under a dropdown, flattened — for active state and link checking. */
+export function linksOf(item: NavItem): NavLink[] {
+  return (item.groups ?? []).flatMap((group) => group.links);
+}
 
 export const primaryNav: NavItem[] = [
   {
     label: 'Platform',
-    children: [
+    groups: [
       {
-        label: 'Command Center',
-        href: '/product/command',
-        description: 'Run the whole desk from one workspace.',
-      },
-      {
-        label: 'Talent Intelligence',
-        href: '/product/talent-intelligence',
-        description: 'Semantic matching that ranks by context, not keywords.',
+        heading: 'Core Platform',
+        links: [
+          {
+            label: 'Recruitment OS',
+            href: '/product/command',
+            description: 'Your entire operations in one view.',
+          },
+          {
+            label: 'Talent Intelligence',
+            href: '/product/talent-intelligence',
+            description: 'Semantic search and candidate ranking.',
+          },
+        ],
       },
     ],
   },
   {
     label: 'Solution',
-    children: [
+    groups: [
       {
-        label: 'High Volume Hiring',
-        href: '/solution/high-volume',
-        description: 'Throughput without adding headcount.',
+        heading: 'For',
+        links: [
+          {
+            label: 'Agency Owner',
+            href: '/for/agency-owner',
+            description: 'Scale billing and automate ops.',
+          },
+          {
+            label: 'Organization',
+            href: '/for/recruitment-operations',
+            description: 'Enterprise governance & security.',
+          },
+        ],
       },
       {
-        label: 'Tech Recruitment',
-        href: '/solution/tech-recruitment',
-        description: 'Depth on engineering and GenAI roles.',
-      },
-      {
-        label: 'For Agency Owners',
-        href: '/for/agency-owner',
-        description: 'Margin, velocity and pipeline health.',
-      },
-      {
-        label: 'For Recruitment Operations',
-        href: '/for/recruitment-operations',
-        description: 'Standardise the process across the floor.',
+        heading: 'Recruitment Type',
+        links: [
+          {
+            label: 'High Volume',
+            href: '/solution/high-volume',
+            description: 'Automate thousands of interactions.',
+          },
+          {
+            label: 'Tech Recruitment',
+            href: '/solution/tech-recruitment',
+            description: 'Deep semantic matching for devs.',
+          },
+        ],
       },
     ],
   },

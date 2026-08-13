@@ -27,8 +27,25 @@ async function navDropdown(page) {
 
   await trigger.hover();
   await page.waitForTimeout(250);
-  check('nav: dropdown opens on hover', await page.getByRole('link', { name: /Command Center/ }).isVisible());
+  check('nav: dropdown opens on hover', await page.getByRole('link', { name: /Recruitment OS/ }).isVisible());
   check('nav: aria-expanded tracks state', (await trigger.getAttribute('aria-expanded')) === 'true');
+  // The drawer carries the same headings, so these are scoped to the desktop nav.
+  const primary = page.getByLabel('Primary');
+  check('nav: Platform is grouped under its heading', await primary.getByText('Core Platform').isVisible());
+
+  // The live Solution menu is two labelled columns, not one list.
+  await page.getByRole('button', { name: 'Solution' }).hover();
+  await page.waitForTimeout(300);
+  check(
+    'nav: Solution shows both column headings',
+    (await primary.getByText(/^(For|Recruitment Type)$/).count()) === 2
+  );
+  check(
+    'nav: Solution lists all four destinations',
+    (await primary.getByRole('link', { name: /Agency Owner|Organization|High Volume|Tech Recruitment/ }).count()) === 4
+  );
+  await trigger.hover();
+  await page.waitForTimeout(300);
 
   await page.keyboard.press('Escape');
   await page.waitForTimeout(250);
@@ -176,6 +193,54 @@ async function tabsOnPhone(browser) {
 }
 
 /**
+ * Wide product mockups are authored 1312px across and land near 335px on a phone, so they carry a
+ * tap-to-enlarge control below `lg` and none above it.
+ */
+async function enlargeMockups(browser) {
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  const page = await context.newPage();
+  await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+
+  const trigger = page.getByRole('button', { name: /^Enlarge:/ }).first();
+  check('zoom: a phone gets the control', (await page.getByRole('button', { name: /^Enlarge:/ }).count()) > 0);
+
+  await trigger.scrollIntoViewIfNeeded();
+  await trigger.click();
+  await page.waitForTimeout(500);
+
+  const dialog = page.getByRole('dialog', { name: /.+/ }).last();
+  const box = await dialog.boundingBox();
+  check('zoom: the dialog covers the screen', box?.width === 390 && box?.height === 844);
+  check(
+    'zoom: the mockup opens at its design width',
+    Math.round((await dialog.locator('img').boundingBox()).width) === 1312
+  );
+  check(
+    'zoom: the page behind is locked',
+    (await page.evaluate(() => document.body.style.overflow)) === 'hidden'
+  );
+
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(400);
+  check('zoom: Escape closes it', !(await dialog.isVisible()));
+  check(
+    'zoom: scroll lock released',
+    (await page.evaluate(() => document.body.style.overflow)) !== 'hidden'
+  );
+  await context.close();
+
+  const wide = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const desktop = await wide.newPage();
+  await desktop.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+  await desktop.waitForTimeout(400);
+  check(
+    'zoom: no control on desktop, where the artwork already reads',
+    (await desktop.getByRole('button', { name: /^Enlarge:/ }).count()) === 0
+  );
+  await wide.close();
+}
+
+/**
  * Every two-column section divides the 1312 content column the same way. The file splits it
  * 588 | 132 | 592 in thirteen of its fourteen splits, so the columns must mirror each other and
  * the gap must be the same in every section on the page.
@@ -306,6 +371,8 @@ async function main() {
   await tabsOnPhone(browser);
   console.log('layout');
   await splitRhythm(browser);
+  console.log('zoom');
+  await enlargeMockups(browser);
   console.log('scroll');
   await landsAtTop(browser);
   console.log('contact');

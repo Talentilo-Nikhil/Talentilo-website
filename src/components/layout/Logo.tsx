@@ -23,7 +23,12 @@ export function Logo({ tone = 'dark', className, label = site.name }: LogoProps)
       )}
     >
       {/* The approved lockups off the Design system canvas, not a wordmark lifted from a page. */}
-      <Creative name={tone === 'light' ? 'logo-color-on-dark' : 'logo-color'} alt={label} priority />
+      <Creative
+        name={tone === 'light' ? 'logo-color-on-dark' : 'logo-color'}
+        alt={label}
+        priority
+        zoom={false}
+      />
     </Link>
   );
 }
