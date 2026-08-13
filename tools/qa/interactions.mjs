@@ -6,6 +6,7 @@
 import { chromium } from 'playwright';
 
 import { CHROME } from './browser.mjs';
+import { ROUTES } from './routes.mjs';
 
 const BASE = process.env.BASE ?? 'http://localhost:3000';
 const results = [];
@@ -189,6 +190,76 @@ async function tabsOnPhone(browser) {
   });
   check('tabs: stay on one row at 320px', layout.rows === 1, `${layout.rows} rows`);
   check('tabs: overflow scrolls instead of wrapping', layout.scrolls);
+  await context.close();
+}
+
+/**
+ * One content edge down the whole page, on every route.
+ *
+ * The 1440 frame carries a 64px gutter, leaving 1312 of content. Header, every section and the
+ * footer must start at 64 and end at 1376 — a vertical line down the page should touch the left
+ * edge of every block.
+ */
+async function contentEdges(browser) {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await context.newPage();
+  const offenders = [];
+
+  for (const route of ROUTES) {
+    await page.goto(`${BASE}${route}`, { waitUntil: 'networkidle' });
+    const rows = await page.evaluate(() => {
+      const measured = [];
+
+      /**
+       * The container spans the frame and holds the measure in its padding, so the content edge
+       * is the padding box, not the border box.
+       */
+      const contentBox = (el) => {
+        const box = el.getBoundingClientRect();
+        const style = getComputedStyle(el);
+        return {
+          left: Math.round(box.left + Number.parseFloat(style.paddingLeft)),
+          right: Math.round(box.right - Number.parseFloat(style.paddingRight)),
+        };
+      };
+
+      /** The container is the first descendant capped at the 1440 frame. */
+      const container = (root) => {
+        if (!root) return null;
+        if (getComputedStyle(root).maxWidth === '1440px') return root;
+        for (const child of root.querySelectorAll(':scope > *')) {
+          const found = container(child);
+          if (found) return found;
+        }
+        return null;
+      };
+
+      const record = (label, root) => {
+        const el = container(root);
+        if (!el) return;
+        measured.push({ label, ...contentBox(el) });
+      };
+
+      record('header', document.querySelector('header'));
+      document.querySelectorAll('main > section').forEach((section, index) => {
+        record(`section ${index}`, section);
+      });
+      record('footer', document.querySelector('footer'));
+      return measured;
+    });
+
+    for (const row of rows) {
+      if (row.left !== 64 || row.right !== 1376) {
+        offenders.push(`${route} ${row.label}: ${row.left}→${row.right}`);
+      }
+    }
+  }
+
+  check(
+    'width: every block on every page sits on the 64→1376 measure',
+    offenders.length === 0,
+    offenders.slice(0, 6).join(' | ')
+  );
   await context.close();
 }
 
@@ -415,6 +486,7 @@ async function main() {
   await tabsOnPhone(browser);
   console.log('layout');
   await splitRhythm(browser);
+  await contentEdges(browser);
   console.log('zoom');
   await enlargeMockups(browser);
   console.log('scroll');

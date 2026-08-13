@@ -8,3 +8,4 @@ export { Minus } from './Minus';
 export { LinkedIn } from './LinkedIn';
 export { X } from './X';
 export { Instagram } from './Instagram';
+export { ArrowUpRight } from './ArrowUpRight';

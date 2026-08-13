@@ -24,7 +24,6 @@ type SectionProps = {
   as?: ElementType;
   tone?: keyof typeof TONE;
   padding?: keyof typeof PADDING;
-  width?: 'content' | 'narrow';
   className?: string;
   innerClassName?: string;
   /** Skip the container when a section needs to bleed to the viewport edge. */
@@ -37,7 +36,6 @@ export function Section({
   as: Tag = 'section',
   tone = 'light',
   padding = 'normal',
-  width = 'content',
   className,
   innerClassName,
   bleed = false,
@@ -45,7 +43,7 @@ export function Section({
   return (
     <Tag id={id} className={cn('relative overflow-hidden', TONE[tone], PADDING[padding], className)}>
       {bleed ? children : (
-        <Container width={width} className={innerClassName}>
+        <Container className={innerClassName}>
           {children}
         </Container>
       )}

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { ArrowRight, Instagram, LinkedIn, X } from '@/components/icons';
+import { ArrowUpRight, Instagram, LinkedIn, X } from '@/components/icons';
 import { Logo } from '@/components/layout/Logo';
 import { footerNav, legalNav } from '@/config/navigation';
 import { site } from '@/config/site';
@@ -14,7 +14,12 @@ const socials = [
 export function Footer() {
   return (
     <footer className="bg-ink text-white">
-      <div className="mx-auto w-full max-w-[1440px] px-5 pt-16 pb-10 sm:px-8 lg:px-28 lg:pt-25">
+      {/*
+        The file insets the footer to a 112px gutter while every page section sits at 64. Talentilo
+        asked for one content edge down the whole page, so the footer follows the site's measure and
+        lines up with the header rather than reproducing that inset.
+      */}
+      <div className="mx-auto w-full max-w-[1440px] px-5 pt-16 pb-10 sm:px-8 lg:px-16 lg:pt-25">
         <div className="flex flex-col gap-16 lg:flex-row lg:justify-between lg:gap-[155px]">
           <div className="flex flex-col gap-10 lg:gap-20">
             <h2 className="max-w-[642px] text-[clamp(2.25rem,1.35rem+3.9vw,4.0625rem)] text-white">
@@ -35,12 +40,14 @@ export function Footer() {
                 <span className="font-sans text-[clamp(1.75rem,1.2rem+2.2vw,2.375rem)] font-medium text-white">
                   Let&rsquo;s Talk
                 </span>
+                {/* The file draws a bare diagonal arrow here, not the ringed one used elsewhere. */}
                 <span
                   aria-hidden="true"
-                  className="grid size-13 shrink-0 place-items-center rounded-full border border-white/30 text-[24px]
-                             text-white transition-transform duration-300 ease-[var(--ease-out-soft)] group-hover:translate-x-1"
+                  className="grid shrink-0 place-items-center text-[38px] text-white transition-transform
+                             duration-300 ease-[var(--ease-out-soft)] group-hover:-translate-y-0.5
+                             group-hover:translate-x-0.5"
                 >
-                  <ArrowRight />
+                  <ArrowUpRight />
                 </span>
               </span>
             </Link>

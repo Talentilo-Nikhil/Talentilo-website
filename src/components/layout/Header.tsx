@@ -17,9 +17,18 @@ function isActive(item: NavItem, pathname: string) {
   return linksOf(item).some((link) => pathname === link.href);
 }
 
-const linkClasses =
-  'rounded-full px-2 py-1 font-figure text-small text-ink/90 transition-colors duration-200 ' +
-  'hover:text-ink hover:bg-ink/5';
+/**
+ * The file draws every nav item the same — plain ink, no pill, no active state. A background pill
+ * meant two items could look emphasised at once (the hovered one and the current page), so the
+ * emphasis is carried by the label's colour instead: ink on hover, azure for the page you are on.
+ */
+const linkClasses = 'rounded-full px-2 py-1 font-figure text-small transition-colors duration-200';
+
+/**
+ * `cn` is a plain join, so a colour here would have to beat the base one on stylesheet order
+ * rather than on intent. The two are mutually exclusive instead.
+ */
+const toneClasses = (active: boolean) => (active ? 'text-azure-700' : 'text-ink/80 hover:text-ink');
 
 function NavDropdown({ item, pathname }: { item: NavItem; pathname: string }) {
   const groups = item.groups ?? [];
@@ -88,8 +97,8 @@ function NavDropdown({ item, pathname }: { item: NavItem; pathname: string }) {
         onClick={() => setOpen((value) => !value)}
         className={cn(
           linkClasses,
-          'inline-flex items-center gap-1.5',
-          isActive(item, pathname) && 'bg-ink/5 text-ink'
+          toneClasses(isActive(item, pathname)),
+          'inline-flex items-center gap-1.5'
         )}
       >
         {item.label}
@@ -192,7 +201,7 @@ export function Header() {
                   <Link
                     href={item.href ?? '/'}
                     aria-current={isActive(item, pathname) ? 'page' : undefined}
-                    className={cn(linkClasses, isActive(item, pathname) && 'bg-ink/5 text-ink')}
+                    className={cn(linkClasses, toneClasses(isActive(item, pathname)))}
                   >
                     {item.label}
                   </Link>
