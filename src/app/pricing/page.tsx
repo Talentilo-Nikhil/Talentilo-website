@@ -123,7 +123,8 @@ export default function PricingPage() {
               <p className="font-figure text-[clamp(1.5rem,1.2rem+1.2vw,2.0625rem)] leading-[1.4] text-ink">
                 {item.name}
                 <br />
-                <span className="font-bold text-azure-700">{item.price}</span>
+                <span className="font-bold text-azure-700">{item.price.split('/')[0]}</span>
+                <span className="font-medium text-azure-400">/{item.price.split('/')[1]}</span>
               </p>
               <p className="text-body font-semibold text-ink">{item.qualifier}</p>
               <p className="text-body text-ink/85">{item.detail}</p>
