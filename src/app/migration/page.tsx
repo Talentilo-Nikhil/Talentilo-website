@@ -73,25 +73,39 @@ export default function MigrationPage() {
         </div>
       </Section>
 
+      <Section padding="tight">
+        <div className="flex flex-col gap-10 rounded-card bg-ink p-8 lg:flex-row lg:items-center lg:justify-between lg:p-20">
+          <h2 className="max-w-[701px] font-sans text-[clamp(1.75rem,1.3rem+1.8vw,2.75rem)] font-medium text-white">
+            Your Workflow Survives The Move.
+          </h2>
+          <ButtonLink href="/contact" variant="light" className="self-start lg:self-auto">
+            Get started
+          </ButtonLink>
+        </div>
+      </Section>
+
       <Section>
         <div className="grid items-center gap-12 lg:grid-cols-[456px_1fr] lg:gap-15">
           <div className="flex flex-col gap-6">
-            <SectionHeading
-              align="left"
-              title="We Speak Your Data's Language."
-              lede="Most Data Migration Services fail because they force you to fit their rigid template. Talentilo fits yours."
-            />
+            <SectionHeading align="left" title="We Speak Your Data's Language." />
+            <div>
+              <ButtonLink href="/contact" variant="dark">
+                Plan Your Safe Switch
+              </ButtonLink>
+            </div>
+            <div className="flex flex-col gap-6 border-b border-crusta-200 pb-6">
+              <p className="font-sans text-h5 font-semibold text-ink">Data Migration</p>
+              <p className="text-body text-ink/85">
+                Most Data Migration Services fail because they force you to fit their rigid template.
+                Talentilo fits yours.
+              </p>
+            </div>
             <div>
               <p className="font-sans text-h5 font-semibold text-ink">Workflow inside our OS</p>
               <p className="mt-2 text-body text-ink/85">
                 Talentilo reads fields, specific tags, and weird formatting—and reconstructs your exact
                 workflow inside our OS.
               </p>
-            </div>
-            <div className="mt-2">
-              <ButtonLink href="/contact" variant="dark">
-                Plan Your Safe Switch
-              </ButtonLink>
             </div>
           </div>
 
