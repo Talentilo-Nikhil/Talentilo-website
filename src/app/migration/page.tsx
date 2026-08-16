@@ -116,9 +116,9 @@ export default function MigrationPage() {
             </div>
           </div>
 
-          <div className="grid items-start gap-12 lg:grid-cols-[456px_1fr] lg:gap-15">
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col gap-4 border-b border-crusta-200 pb-6">
+          <div className="grid items-center gap-12 lg:grid-cols-[456px_1fr] lg:gap-15">
+            <div className="flex flex-col gap-10">
+              <div className="flex flex-col gap-4 border-b border-crusta-200 pb-10">
                 <p className="font-sans text-h5 font-semibold text-ink">Data Migration</p>
                 <p className="text-body text-ink/85">
                   Most Data Migration Services fail because they force you to fit their rigid
