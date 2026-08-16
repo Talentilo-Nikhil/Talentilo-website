@@ -123,7 +123,7 @@ export default function PricingPage() {
               <p className="font-figure text-[clamp(1.5rem,1.2rem+1.2vw,2.0625rem)] leading-[1.4] text-ink">
                 {item.name}
                 <br />
-                {item.price}
+                <span className="font-bold">{item.price}</span>
               </p>
               <p className="text-body font-semibold text-ink">{item.qualifier}</p>
               <p className="text-body text-ink/85">{item.detail}</p>
