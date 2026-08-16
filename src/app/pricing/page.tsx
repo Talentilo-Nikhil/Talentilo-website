@@ -108,7 +108,7 @@ export default function PricingPage() {
         </div>
       </Section>
 
-      <Section>
+      <Section className="pb-0 lg:pb-0">
         <SectionHeading
           title="Bolt-On&rsquo;s"
           lede={'Don’t pay for "Pro" features if you don’t need them. Bolt them on as you grow.'}
