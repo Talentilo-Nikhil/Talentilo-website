@@ -16,6 +16,9 @@ const ebGaramond = EB_Garamond({
   variable: '--font-eb-garamond',
   subsets: ['latin'],
   display: 'swap',
+  // The file sets one word per heading in italic ("Everything Else", "Human") — without this,
+  // font-style: italic falls back to the browser's synthetic slant instead of the real face.
+  style: ['normal', 'italic'],
 });
 
 export const metadata: Metadata = {

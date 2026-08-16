@@ -52,7 +52,16 @@ export default function HomePage() {
             as="h1"
             level="display"
             title={
-              <>Recruitment is All About Connection. Let Talentilo Handle Everything Else</>
+              // The file wraps this exact line-for-line at 1440 and sets the last two words in
+              // Medium Italic — hard-coded rather than left to fluid wrap + font-style, since
+              // the file's own resolved layout is the source of truth here, not a browser's.
+              <>
+                Recruitment is All About
+                <br />
+                Connection. Let Talentilo Handle
+                <br />
+                <span className="font-medium italic">Everything Else</span>
+              </>
             }
             lede={
               <>
