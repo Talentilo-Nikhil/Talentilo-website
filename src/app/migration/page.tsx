@@ -1,11 +1,31 @@
 import type { Metadata } from 'next';
 
-import { CtaCentered } from '@/components/sections/CtaCentered';
+import { CtaPhoto } from '@/components/sections/CtaPhoto';
 import { PageHero } from '@/components/sections/PageHero';
 import { ButtonLink } from '@/components/ui/Button';
 import { Creative } from '@/components/ui/Creative';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+
+/**
+ * The file routes each "Old ATS" row into the Talentilo OS card with a dashed connector — but
+ * those are Figma CONNECTOR nodes, which the offline exporter can't rasterize, so they're absent
+ * from the exported artwork. Redrawn here at the file's own coordinates (a 1312x560 canvas)
+ * rather than left blank.
+ */
+function TransferConnectors() {
+  return (
+    <svg viewBox="0 0 1312 560" className="size-full" fill="none">
+      <path d="M440,234 C584,234 584,313 728,313" stroke="#c3cad4" strokeWidth="1.5" strokeDasharray="4 4" strokeLinecap="round" />
+      <path d="M440,313 L728,313" stroke="#c3cad4" strokeWidth="1.5" strokeDasharray="4 4" strokeLinecap="round" />
+      <path d="M440,392 C584,392 584,313 728,313" stroke="#c3cad4" strokeWidth="1.5" strokeDasharray="4 4" strokeLinecap="round" />
+      <circle cx="440" cy="234" r="3" fill="#c3cad4" />
+      <circle cx="440" cy="313" r="3" fill="#c3cad4" />
+      <circle cx="440" cy="392" r="3" fill="#c3cad4" />
+      <circle cx="728" cy="313" r="5" fill="#fdfcff" stroke="#c3cad4" strokeWidth="1.5" />
+    </svg>
+  );
+}
 
 export const metadata: Metadata = {
   title: 'Migration',
@@ -40,6 +60,7 @@ export default function MigrationPage() {
         cta={{ label: 'Plan Your Switch', href: '/contact' }}
         note="100% Data Integrity Guarantee"
         creative="mg-transfer"
+        overlay={<TransferConnectors />}
       />
 
       <Section>
@@ -50,7 +71,7 @@ export default function MigrationPage() {
 
         <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-25">
           {paths.map((path) => (
-            <div key={path.title} className="flex flex-col gap-10 rounded-card border border-hairline p-6">
+            <div key={path.title} className="flex flex-col gap-10 p-6">
               <Creative name={path.creative} sizes="(min-width: 1024px) 480px, 100vw" />
               <div className="flex flex-1 flex-col gap-6">
                 <h2 className="font-sans text-[clamp(1.75rem,1.3rem+1.8vw,2.75rem)] font-medium text-ink">
@@ -85,7 +106,7 @@ export default function MigrationPage() {
       </Section>
 
       <Section>
-        <div className="grid items-center gap-12 lg:grid-cols-[456px_1fr] lg:gap-15">
+        <div className="flex flex-col gap-12">
           <div className="flex flex-col gap-6">
             <SectionHeading align="left" title="We Speak Your Data's Language." />
             <div>
@@ -93,32 +114,39 @@ export default function MigrationPage() {
                 Plan Your Safe Switch
               </ButtonLink>
             </div>
-            <div className="flex flex-col gap-6 border-b border-crusta-200 pb-6">
-              <p className="font-sans text-h5 font-semibold text-ink">Data Migration</p>
-              <p className="text-body text-ink/85">
-                Most Data Migration Services fail because they force you to fit their rigid template.
-                Talentilo fits yours.
-              </p>
-            </div>
-            <div>
-              <p className="font-sans text-h5 font-semibold text-ink">Workflow inside our OS</p>
-              <p className="mt-2 text-body text-ink/85">
-                Talentilo reads fields, specific tags, and weird formatting—and reconstructs your exact
-                workflow inside our OS.
-              </p>
-            </div>
           </div>
 
-          <div className="overflow-hidden rounded-card">
-            <Creative name="mg-terminal" sizes="(min-width: 1024px) 796px, 100vw" />
+          <div className="grid items-start gap-12 lg:grid-cols-[456px_1fr] lg:gap-15">
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-4 border-b border-crusta-200 pb-6">
+                <p className="font-sans text-h5 font-semibold text-ink">Data Migration</p>
+                <p className="text-body text-ink/85">
+                  Most Data Migration Services fail because they force you to fit their rigid
+                  template. Talentilo fits yours.
+                </p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <p className="font-sans text-h5 font-semibold text-ink">Workflow inside our OS</p>
+                <p className="text-body text-ink/85">
+                  Talentilo reads fields, specific tags, and weird formatting—and reconstructs your
+                  exact workflow inside our OS.
+                </p>
+              </div>
+            </div>
+
+            <div className="overflow-hidden rounded-card">
+              <Creative name="mg-terminal" sizes="(min-width: 1024px) 796px, 100vw" />
+            </div>
           </div>
         </div>
       </Section>
 
-      <CtaCentered
+      <CtaPhoto
         title={'Don’t Let Fear of Switching\nStall Your Growth.'}
+        lede="Get a free Data Migration Assessment before you commit."
         cta={{ label: "Let's Talk Integration", href: '/contact' }}
         note="Zero downtime. Zero data loss."
+        imageHash="314902fc64e8d97d98ed5a69c66ff248b822ec2e"
       />
     </>
   );

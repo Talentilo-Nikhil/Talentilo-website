@@ -21,6 +21,8 @@ type PageHeroProps = {
    * mockup runs off the bottom edge. 1 shows the whole thing.
    */
   reveal?: number;
+  /** Absolutely positioned over the artwork, scaled with it — for detail the export dropped. */
+  overlay?: ReactNode;
 };
 
 /**
@@ -36,6 +38,7 @@ export function PageHero({
   creativeAlt,
   wash = 'none',
   reveal = 1,
+  overlay,
 }: PageHeroProps) {
   // Hold the artwork to the width it occupies in the 1440 frame so the band shows either side.
   const asset = creative ? creatives[creative] : null;
@@ -77,6 +80,11 @@ export function PageHero({
                   sizes={`(min-width: 1440px) ${maxWidth}, 100vw`}
                 />
               </div>
+              {overlay ? (
+                <div aria-hidden="true" className="absolute inset-0">
+                  {overlay}
+                </div>
+              ) : null}
             </div>
           </div>
         ) : null}

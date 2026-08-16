@@ -25,7 +25,7 @@ export function Footer() {
             <h2 className="max-w-[642px] text-[clamp(2.25rem,1.35rem+3.9vw,4.0625rem)] text-white">
               Bring Back the
               <br />
-              <span className="italic">Human</span> in Recruitment.
+              <span className="text-brand-orange italic">Human</span> in Recruitment.
             </h2>
 
             {/* The oversized pill CTA from the file: ink fill inside a gradient hairline. */}
