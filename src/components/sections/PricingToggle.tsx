@@ -23,7 +23,7 @@ export function PricingToggle({ name, annualSeatCost, included, coming, cta }: P
 
   return (
     <div className="flex flex-col items-center gap-10">
-      <div className="inline-flex items-center gap-1 rounded-full border border-hairline bg-surface-tint p-1.5">
+      <div className="inline-flex items-center gap-1 rounded-full bg-surface-tint p-1.5">
         <button
           type="button"
           onClick={() => setAnnual(false)}
