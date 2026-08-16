@@ -90,7 +90,7 @@ const faqs: FaqItem[] = [
 export default function PricingPage() {
   return (
     <>
-      <Section padding="normal">
+      <Section padding="normal" className="pb-0 lg:pb-0">
         <SectionHeading
           as="h1"
           level="display"
