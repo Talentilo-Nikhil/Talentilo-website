@@ -72,7 +72,7 @@ export default function MigrationPage() {
         <div className="relative mt-10 grid gap-10 lg:grid-cols-2 lg:gap-25">
           <div
             aria-hidden="true"
-            className="absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 bg-hairline lg:block"
+            className="absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 bg-crusta-200 lg:block"
           />
           {paths.map((path) => (
             <div key={path.title} className="flex flex-col gap-10 p-6">
