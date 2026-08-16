@@ -133,19 +133,22 @@ async function accordion(page) {
 async function pricing(page) {
   await page.goto(`${BASE}/pricing`, { waitUntil: 'networkidle' });
   check(
-    'pricing: states the one per-seat rate',
+    'pricing: states the annual per-seat rate by default',
     await page.locator('text=/₹1,299\\/month/').first().isVisible()
   );
   check(
     'pricing: says how that rate is billed',
     await page.locator('text=Per Seat (Billed Annually)').first().isVisible()
   );
-  // Talentilo sells annually only. Nothing on the page may imply a monthly alternative exists.
-  const body = await page.locator('body').innerText();
-  check('pricing: no invented monthly rate anywhere on the page', !body.includes('₹1,624'), body.match(/₹[\d,]+/g)?.join(' ') ?? '');
   check(
-    'pricing: no billing toggle',
-    (await page.getByRole('button', { name: /Pay Monthly|Pay Annually/ }).count()) === 0
+    'pricing: billing toggle present',
+    (await page.getByRole('button', { name: /Pay Monthly|Pay Annually/ }).count()) === 2
+  );
+  await page.getByRole('button', { name: 'Pay Monthly' }).click();
+  await page.waitForTimeout(150);
+  check(
+    'pricing: switching the toggle updates the billing label',
+    await page.locator('text=Per Seat (Billed Monthly)').first().isVisible()
   );
 }
 

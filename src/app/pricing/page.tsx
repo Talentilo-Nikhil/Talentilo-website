@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 
 import { Faq, type FaqItem } from '@/components/sections/Faq';
-import { PricingPlan, type PlanFeature } from '@/components/sections/PricingPlan';
+import { type PlanFeature } from '@/components/sections/PricingPlan';
+import { PricingToggle } from '@/components/sections/PricingToggle';
 import { RoiCalculator } from '@/components/sections/RoiCalculator';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -97,10 +98,9 @@ export default function PricingPage() {
           lede="Talentilo is a clean, visual Execution Recruitment OS. We give your team 100% visibility, protect your offered candidates from ghosting, and organize your chaos."
         />
         <div className="mt-10">
-          <PricingPlan
+          <PricingToggle
             name="Talentilo Core"
-            price={SEAT_COST}
-            billing="Billed Annually"
+            annualSeatCost={SEAT_COST}
             included={included}
             coming={coming}
             cta={{ label: 'Start now', href: '/contact' }}

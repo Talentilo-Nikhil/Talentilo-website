@@ -21,13 +21,12 @@ export function Faq({ items }: { items: FaqItem[] }) {
   const id = useId();
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col">
       {items.map((item, index) => {
         const expanded = open === index;
         return (
-          // The file draws every item the same — a hairline border on white, open or closed —
-          // rather than a filled tint that changes with state.
-          <div key={item.question} className="rounded-card border border-hairline">
+          // The file draws every item as an open row divided by a hairline, not a boxed card.
+          <div key={item.question} className="border-b border-hairline first:border-t">
             <h3>
               <button
                 type="button"
