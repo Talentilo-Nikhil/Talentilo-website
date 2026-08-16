@@ -69,7 +69,11 @@ export default function MigrationPage() {
           lede="Whether you Switch from Bullhorn or Switch from Zoho Recruit, we make it as easy as switching a tab on your browser. Stop paying for legacy limits."
         />
 
-        <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-25">
+        <div className="relative mt-10 grid gap-10 lg:grid-cols-2 lg:gap-25">
+          <div
+            aria-hidden="true"
+            className="absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 bg-hairline lg:block"
+          />
           {paths.map((path) => (
             <div key={path.title} className="flex flex-col gap-10 p-6">
               <Creative name={path.creative} sizes="(min-width: 1024px) 480px, 100vw" />
