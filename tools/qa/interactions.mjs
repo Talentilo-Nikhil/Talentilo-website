@@ -28,10 +28,11 @@ async function navDropdown(page) {
 
   await trigger.hover();
   await page.waitForTimeout(250);
-  check('nav: dropdown opens on hover', await page.getByRole('link', { name: /Recruitment OS/ }).isVisible());
-  check('nav: aria-expanded tracks state', (await trigger.getAttribute('aria-expanded')) === 'true');
-  // The drawer carries the same headings, so these are scoped to the desktop nav.
+  // Scoped to the desktop nav: the footer now links every destination too, so an unscoped
+  // lookup would resolve to both and fail Playwright's strict mode.
   const primary = page.getByLabel('Primary');
+  check('nav: dropdown opens on hover', await primary.getByRole('link', { name: /Recruitment OS/ }).isVisible());
+  check('nav: aria-expanded tracks state', (await trigger.getAttribute('aria-expanded')) === 'true');
   check('nav: Platform is grouped under its heading', await primary.getByText('Core Platform').isVisible());
 
   // The live Solution menu is two labelled columns, not one list.

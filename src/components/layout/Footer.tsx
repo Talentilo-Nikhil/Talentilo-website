@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { ArrowUpRight, Instagram, LinkedIn, X } from '@/components/icons';
 import { Logo } from '@/components/layout/Logo';
-import { footerNav, legalNav } from '@/config/navigation';
+import { footerColumns, legalNav } from '@/config/navigation';
 import { site } from '@/config/site';
 
 const socials = [
@@ -53,20 +53,29 @@ export function Footer() {
             </Link>
           </div>
 
-          <div className="flex flex-col gap-10 lg:gap-20">
+          <div className="flex flex-col gap-10 lg:gap-16">
             <nav aria-label="Footer">
-              <ul className="flex flex-col gap-4 lg:gap-8">
-                {footerNav.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className="text-body text-white/90 transition-colors duration-200 hover:text-white"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
+              <div className="grid grid-cols-2 gap-x-10 gap-y-10 sm:grid-cols-3">
+                {footerColumns.map((column) => (
+                  <div key={column.heading} className="flex flex-col gap-4">
+                    <p className="font-sans text-caption font-semibold tracking-[0.1em] text-footer-text uppercase">
+                      {column.heading}
+                    </p>
+                    <ul className="flex flex-col gap-3">
+                      {column.links.map((link) => (
+                        <li key={link.href}>
+                          <Link
+                            href={link.href}
+                            className="text-body text-white/90 transition-colors duration-200 hover:text-white"
+                          >
+                            {link.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </nav>
 
             <ul className="flex items-center gap-6">

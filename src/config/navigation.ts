@@ -99,12 +99,27 @@ export const headerActions = {
   demo: { label: 'Request Demo', href: '/contact' },
 } as const;
 
-export const footerNav: NavLink[] = [
-  { label: 'Platform', href: '/product/command' },
-  { label: 'Solution', href: '/solution/high-volume' },
-  { label: 'Migration', href: '/migration' },
-  { label: 'Pricing', href: '/pricing' },
-  { label: 'Contact', href: '/contact' },
+export type FooterColumn = {
+  heading: string;
+  links: NavLink[];
+};
+
+/**
+ * The footer used to repeat just the four top-level labels. It now mirrors the header's own
+ * Platform/Solution dropdowns in full, grouped under the same headings, plus a third column for
+ * the flat routes — so every destination in the header nav is also reachable from the footer.
+ */
+export const footerColumns: FooterColumn[] = [
+  { heading: 'Platform', links: linksOf(primaryNav.find((item) => item.label === 'Platform')!) },
+  { heading: 'Solution', links: linksOf(primaryNav.find((item) => item.label === 'Solution')!) },
+  {
+    heading: 'Company',
+    links: [
+      { label: 'Migration', href: '/migration' },
+      { label: 'Pricing', href: '/pricing' },
+      { label: 'Contact', href: '/contact' },
+    ],
+  },
 ];
 
 export const legalNav: NavLink[] = [
