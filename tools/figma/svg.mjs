@@ -19,6 +19,26 @@ const esc = (s) =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const num = (n) => +(+n).toFixed(3);
 
+/**
+ * A rect path with an independent radius per corner — Figma's "Frame 2085665731" banner style,
+ * rounded on top and square on the bottom, is a real, common pattern (headers merging into a
+ * table below them), not a uniform-radius shape with two corners set to zero. A plain SVG `<rect
+ * rx>` can't express that, so every rounded fill goes through this instead.
+ */
+function roundedRectPath(w, h, radius) {
+  const clamp = (r) => Math.max(0, Math.min(r, w / 2, h / 2));
+  const tl = clamp(radius?.topLeft ?? 0);
+  const tr = clamp(radius?.topRight ?? 0);
+  const br = clamp(radius?.bottomRight ?? 0);
+  const bl = clamp(radius?.bottomLeft ?? 0);
+  return (
+    `M${num(tl)},0 H${num(w - tr)} A${num(tr)},${num(tr)} 0 0 1 ${num(w)},${num(tr)} ` +
+    `V${num(h - br)} A${num(br)},${num(br)} 0 0 1 ${num(w - br)},${num(h)} ` +
+    `H${num(bl)} A${num(bl)},${num(bl)} 0 0 1 0,${num(h - bl)} ` +
+    `V${num(tl)} A${num(tl)},${num(tl)} 0 0 1 ${num(tl)},0 Z`
+  );
+}
+
 /** Gilroy is commercial and cannot ship. Talentilo has chosen Albert Sans in its place. */
 const FONT_SUBSTITUTIONS = {
   Gilroy: 'Albert Sans',
@@ -138,26 +158,31 @@ class SvgWriter {
         }
       }
     } else if (box.w > 0 && box.h > 0 && (fills.length || node.strokes?.length)) {
-      const rx = radius
-        ? Math.min(Math.max(radius.topLeft, radius.topRight, radius.bottomLeft, radius.bottomRight), box.w / 2, box.h / 2)
-        : 0;
+      const hasRadius = radius && (radius.topLeft || radius.topRight || radius.bottomRight || radius.bottomLeft);
       for (const fill of fills) {
         parts.push(
-          `<rect width="${num(box.w)}" height="${num(box.h)}"${rx ? ` rx="${num(rx)}"` : ''} fill="${this.fillValue(
-            fill,
-            box
-          )}"/>`
+          hasRadius
+            ? `<path d="${roundedRectPath(box.w, box.h, radius)}" fill="${this.fillValue(fill, box)}"/>`
+            : `<rect width="${num(box.w)}" height="${num(box.h)}" fill="${this.fillValue(fill, box)}"/>`
         );
       }
       if (node.strokes?.length) {
         const inset = (node.strokeWeight ?? 1) / 2;
+        const insetRadius = hasRadius
+          ? {
+              topLeft: Math.max(0, radius.topLeft - inset),
+              topRight: Math.max(0, radius.topRight - inset),
+              bottomRight: Math.max(0, radius.bottomRight - inset),
+              bottomLeft: Math.max(0, radius.bottomLeft - inset),
+            }
+          : null;
+        const strokeBox = { w: Math.max(0, box.w - inset * 2), h: Math.max(0, box.h - inset * 2) };
         parts.push(
-          `<rect x="${num(inset)}" y="${num(inset)}" width="${num(Math.max(0, box.w - inset * 2))}" height="${num(
-            Math.max(0, box.h - inset * 2)
-          )}"${rx ? ` rx="${num(Math.max(0, rx - inset))}"` : ''} fill="none" stroke="${this.fillValue(
-            node.strokes[0],
-            box
-          )}" stroke-width="${num(node.strokeWeight ?? 1)}"/>`
+          `<g transform="translate(${num(inset)} ${num(inset)})">${
+            hasRadius
+              ? `<path d="${roundedRectPath(strokeBox.w, strokeBox.h, insetRadius)}" fill="none"`
+              : `<rect width="${num(strokeBox.w)}" height="${num(strokeBox.h)}" fill="none"`
+          } stroke="${this.fillValue(node.strokes[0], box)}" stroke-width="${num(node.strokeWeight ?? 1)}"/></g>`
         );
       }
     }
@@ -223,16 +248,11 @@ class SvgWriter {
         .join('');
     }
     if (!shape) {
-      const r = node.radius
-        ? Math.min(
-            Math.max(node.radius.topLeft, node.radius.topRight, node.radius.bottomLeft, node.radius.bottomRight),
-            node.box.w / 2,
-            node.box.h / 2
-          )
-        : 0;
-      shape = `<rect width="${num(node.box.w)}" height="${num(node.box.h)}"${
-        r ? ` rx="${num(r)}"` : ''
-      } transform="${t}"/>`;
+      const { radius } = node;
+      const hasRadius = radius && (radius.topLeft || radius.topRight || radius.bottomRight || radius.bottomLeft);
+      shape = hasRadius
+        ? `<path d="${roundedRectPath(node.box.w, node.box.h, radius)}" transform="${t}"/>`
+        : `<rect width="${num(node.box.w)}" height="${num(node.box.h)}" transform="${t}"/>`;
     }
     this.defs.push(`<clipPath id="${id}" clipPathUnits="userSpaceOnUse">${shape}</clipPath>`);
     return id;
