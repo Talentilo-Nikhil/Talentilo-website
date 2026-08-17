@@ -134,7 +134,7 @@ function NavDropdown({ item, pathname }: { item: NavItem; pathname: string }) {
                     {group.heading}
                   </p>
                 ) : null}
-                <ul>
+                <ul className="flex flex-col gap-1">
                   {group.links.map((child) => (
                     <li key={child.href}>
                       <Link
