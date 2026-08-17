@@ -28,21 +28,10 @@ const VARIANT = {
 
 const SIZE = {
   /** 43px tall, matching the header buttons. */
-  sm: 'min-h-[43px] py-2 text-body',
+  sm: 'min-h-[43px] px-6 py-2 text-body',
   /** 48px tall, matching the in-page buttons. */
-  md: 'min-h-12 py-3 text-body',
-  lg: 'min-h-[64px] py-4 text-h5',
-} as const;
-
-/**
- * Horizontal padding, split from SIZE. The arrow variant keeps the left side untouched and only
- * widens the right side by roughly one icon's width, so the reserved space for the arrow reads
- * as "part of the button's padding" rather than a second element that changes the pill's width.
- */
-const PADDING = {
-  sm: { plain: 'px-6', arrow: 'pl-6 pr-11' },
-  md: { plain: 'px-6', arrow: 'pl-6 pr-11' },
-  lg: { plain: 'px-10', arrow: 'pl-10 pr-16' },
+  md: 'min-h-12 px-6 py-3 text-body',
+  lg: 'min-h-[64px] px-10 py-4 text-h5',
 } as const;
 
 type ButtonBaseProps = {
@@ -55,47 +44,28 @@ type ButtonBaseProps = {
 };
 
 const base =
-  'group relative inline-flex items-center justify-center gap-4 rounded-pill font-sans font-medium ' +
+  'group inline-flex items-center justify-center gap-2 rounded-pill font-sans font-medium ' +
   'whitespace-nowrap transition-[background-color,color,box-shadow,transform] ' +
   'duration-300 ease-[var(--ease-out-soft)] active:translate-y-px ' +
   'disabled:pointer-events-none disabled:opacity-60';
 
-function Inner({
-  children,
-  withArrow,
-  size,
-}: {
-  children: ReactNode;
-  withArrow: boolean;
-  size: keyof typeof SIZE;
-}) {
+function Inner({ children, withArrow }: { children: ReactNode; withArrow: boolean }) {
   if (!withArrow) return <>{children}</>;
   return (
     <>
       <span>{children}</span>
       {/*
-        Absolutely positioned inside the button's own right padding, so it never takes part in the
-        layout — the button's width is set by the label alone, exactly like the arrow-less design,
-        and hover only fades and nudges the arrow a couple of pixels within that existing space.
-      */}
+        A small, fixed slot in the normal flow — its own box never changes size, so the button's
+        width is constant. The arrow itself just slides the last couple of pixels into place on
+        hover, the same "settle into position" trick as the reference CTA button.
+        */}
       <span
         aria-hidden="true"
-        className={cn(
-          'pointer-events-none absolute inset-y-0 flex items-center',
-          size === 'lg' ? 'right-6' : 'right-4'
-        )}
+        className="grid size-4 shrink-0 -translate-x-1.5 place-items-center text-[16px]
+                   transition-transform duration-300 ease-[var(--ease-out-soft)]
+                   group-hover:translate-x-0 group-focus-visible:translate-x-0"
       >
-        <span
-          className={cn(
-            'grid -translate-x-1 place-items-center opacity-0',
-            'transition-[opacity,transform] duration-300 ease-[var(--ease-out-soft)]',
-            'group-hover:translate-x-0 group-hover:opacity-100',
-            'group-focus-visible:translate-x-0 group-focus-visible:opacity-100',
-            size === 'lg' ? 'size-6 text-[24px]' : 'size-4 text-[16px]'
-          )}
-        >
-          <ArrowRight />
-        </span>
+        <ArrowRight />
       </span>
     </>
   );
@@ -116,29 +86,19 @@ export function ButtonLink({
   ...rest
 }: ButtonLinkProps) {
   const external = /^https?:|^mailto:|^tel:/.test(href);
-  const classes = cn(
-    base,
-    VARIANT[variant],
-    SIZE[size],
-    PADDING[size][withArrow ? 'arrow' : 'plain'],
-    className
-  );
+  const classes = cn(base, VARIANT[variant], SIZE[size], className);
 
   if (external) {
     return (
       <a href={href} className={classes} rel="noreferrer noopener" target="_blank">
-        <Inner withArrow={withArrow} size={size}>
-          {children}
-        </Inner>
+        <Inner withArrow={withArrow}>{children}</Inner>
       </a>
     );
   }
 
   return (
     <Link href={href} className={classes} {...rest}>
-      <Inner withArrow={withArrow} size={size}>
-        {children}
-      </Inner>
+      <Inner withArrow={withArrow}>{children}</Inner>
     </Link>
   );
 }
@@ -155,20 +115,8 @@ export function Button({
   ...rest
 }: ButtonProps) {
   return (
-    <button
-      type={type}
-      className={cn(
-        base,
-        VARIANT[variant],
-        SIZE[size],
-        PADDING[size][withArrow ? 'arrow' : 'plain'],
-        className
-      )}
-      {...rest}
-    >
-      <Inner withArrow={withArrow} size={size}>
-        {children}
-      </Inner>
+    <button type={type} className={cn(base, VARIANT[variant], SIZE[size], className)} {...rest}>
+      <Inner withArrow={withArrow}>{children}</Inner>
     </button>
   );
 }
