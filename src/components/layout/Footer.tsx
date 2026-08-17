@@ -103,14 +103,14 @@ export function Footer() {
               ))}
             </ul>
 
-            <ul className="flex items-center gap-6">
+            <ul className="flex items-center gap-4">
               {socials.map(({ label, href, Icon }) => (
                 <li key={label}>
                   <a
                     href={href}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="inline-flex size-6 items-center justify-center text-[24px] text-white/80
+                    className="inline-flex size-4 items-center justify-center text-[16px] text-white/70
                                transition-colors duration-200 hover:text-white"
                   >
                     <Icon />
