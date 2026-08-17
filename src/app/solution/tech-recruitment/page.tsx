@@ -66,6 +66,7 @@ export default function TechRecruitmentPage() {
       <CtaBanner
         title="Build Your Technical Bench"
         cta={{ label: 'Run a Technical Pipeline Audit', href: '/contact' }}
+        imageHash="6c652468288e770c845ef5aa877e4ead5e6b85db"
       />
     </>
   );
