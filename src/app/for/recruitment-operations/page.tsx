@@ -42,6 +42,8 @@ export default function RecruitmentOperationsPage() {
         quote="Talentilo.ai had everything we needed to build a stunning website in no time. The attention to detail in this product is simply remarkable."
         name="John Doe"
         role="VP of Product Development, Morance"
+        avatarHash="2f3ff23866f54c09473c12da8fca1cdaf6e98b2b"
+        tone="crusta"
       />
 
       <LogoStrip title="Trusted by industry leaders and developers worldwide" logos={[...clients]} />
