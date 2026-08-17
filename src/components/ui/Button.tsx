@@ -53,12 +53,14 @@ function Inner({ children, withArrow }: { children: ReactNode; withArrow: boolea
   if (!withArrow) return <>{children}</>;
   return (
     <>
-      <span>{children}</span>
-      {/*
-        A small, fixed slot in the normal flow — its own box never changes size, so the button's
-        width is constant. The arrow itself just slides the last couple of pixels into place on
-        hover, the same "settle into position" trick as the reference CTA button.
-        */}
+      {/* The label gives way as the arrow slides in — both move on hover, neither changes the
+          button's width, since it's transform on fixed-size boxes rather than layout. */}
+      <span
+        className="transition-transform duration-300 ease-[var(--ease-out-soft)]
+                   group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+      >
+        {children}
+      </span>
       <span
         aria-hidden="true"
         className="grid size-4 shrink-0 -translate-x-1.5 place-items-center text-[16px]
