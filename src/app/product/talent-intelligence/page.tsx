@@ -4,8 +4,6 @@ import { CenteredFeature } from '@/components/sections/CenteredFeature';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
-import { Section } from '@/components/ui/Section';
-import { SectionHeading } from '@/components/ui/SectionHeading';
 
 export const metadata: Metadata = {
   title: 'Talent Intelligence',
@@ -55,30 +53,20 @@ export default function TalentIntelligencePage() {
         cta={{ label: 'See the Dashboard Live', href: '/contact' }}
       />
 
-      <Section>
-        <div className="grid items-center gap-12 lg:grid-cols-[620px_1fr] lg:gap-[150px]">
-          <div>
-            <SectionHeading
-              align="left"
-              title={'The Universal Translator\nfor Talent'}
-              lede="PDFs, LinkedIn profiles, and email attachments are unstructured chaos. Our Universal Parser acts as the gateway, stripping formatting and structuring every data point into a clean, uniform profile that the Semantic Engine can actually read"
-              className="[&_h2]:whitespace-pre-line"
-            />
-          </div>
-          <div>
-            <ul className="flex flex-col gap-3">
-              {parserPoints.map((point) => (
-                <li
-                  key={point}
-                  className="rounded-card border border-hairline px-6 py-5 text-lede font-semibold text-ink"
-                >
-                  {point}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </Section>
+      <CenteredFeature
+        title={'The Universal Translator\nfor Talent'}
+        lede="PDFs, LinkedIn profiles, and email attachments are unstructured chaos. Our Universal Parser acts as the gateway, stripping formatting and structuring every data point into a clean, uniform profile that the Semantic Engine can actually read"
+        media={<div className="aspect-[1312/518] bg-crusta-200" />}
+      >
+        <ul className="mt-10 flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
+          {parserPoints.map((point) => (
+            <li key={point} className="flex items-center gap-2.5 text-lede font-semibold text-ink">
+              <span aria-hidden="true" className="size-1.5 shrink-0 rounded-full bg-ink" />
+              {point}
+            </li>
+          ))}
+        </ul>
+      </CenteredFeature>
 
       <CtaCentered
         title="Reveal the Hidden Value in Your Pipeline"

@@ -12,6 +12,8 @@ type CenteredFeatureProps = {
   lede?: ReactNode;
   creative?: CreativeName;
   creativeAlt?: string;
+  /** A custom full-width panel in place of an exported creative, e.g. a flat colour block. */
+  media?: ReactNode;
   cta?: { label: string; href: string };
   tone?: 'light' | 'mint' | 'dark';
   children?: ReactNode;
@@ -24,6 +26,7 @@ export function CenteredFeature({
   lede,
   creative,
   creativeAlt,
+  media,
   cta,
   tone = 'light',
   children,
@@ -34,7 +37,9 @@ export function CenteredFeature({
 
       {children}
 
-      {creative ? (
+      {media ? (
+        <div className="mt-10 overflow-hidden rounded-card">{media}</div>
+      ) : creative ? (
         <div className="mt-10 overflow-hidden rounded-card">
           <Creative name={creative} alt={creativeAlt} sizes="(min-width: 1440px) 1312px, 100vw" />
         </div>
