@@ -54,13 +54,16 @@ function Inner({ children, withArrow }: { children: ReactNode; withArrow: boolea
   return (
     <>
       <span>{children}</span>
-      {/* Collapsed at rest so the button's resting width matches the design exactly. */}
+      {/*
+        Held at a fixed size so hovering never changes the button's width — only the arrow's own
+        opacity and position move, a couple of pixels, rather than the whole pill growing.
+      */}
       <span
         aria-hidden="true"
-        className="-ml-4 grid w-0 shrink-0 place-items-center overflow-hidden text-[24px] opacity-0
-                   transition-all duration-300 ease-[var(--ease-out-soft)]
-                   group-hover:ml-0 group-hover:w-6 group-hover:opacity-100
-                   group-focus-visible:ml-0 group-focus-visible:w-6 group-focus-visible:opacity-100"
+        className="grid size-5 shrink-0 place-items-center text-[20px] opacity-50
+                   transition-[opacity,transform] duration-300 ease-[var(--ease-out-soft)]
+                   group-hover:translate-x-0.5 group-hover:opacity-100
+                   group-focus-visible:translate-x-0.5 group-focus-visible:opacity-100"
       >
         <ArrowRight />
       </span>
