@@ -16,6 +16,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
+import { customCreatives } from './custom-creatives.mjs';
 import { subtreeToSvg } from './svg.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
@@ -102,8 +103,8 @@ const EXPORTS = {
 
   'for-recruitment-operations': [
     { file: 'ro-testimonial', path: '#1/Frame 2085665273', label: 'Customer testimonial' },
-    { file: 'ro-governance', path: '#3/Content', label: 'Global compliance rules applied to local teams' },
-    { file: 'ro-single-truth', path: '#4/Content', label: 'Disjointed tools unified into one flow' },
+    // `#3/Content` and `#4/Content` hold a pasted "Spend.In" invoice template, not real design —
+    // see custom-creatives.mjs for the hand-authored `ro-governance` / `ro-single-truth` artwork.
   ],
 
   'solution-high-volume': [
@@ -136,6 +137,35 @@ const EXPORTS = {
   'not-found': [{ file: 'nf-shapes', path: '#1/Group 1597881551', label: '' }],
 };
 
+/** Rasterise one SVG string to webp+png at `width`x`height`, write both, return its manifest entry. */
+async function rasterize({ file, label, svg, width, height, designWidth, designHeight, scale = SCALE }) {
+  const raster = sharp(Buffer.from(svg), { density: 72 * scale }).resize(width, height, {
+    fit: 'fill',
+    background: { r: 0, g: 0, b: 0, alpha: 0 },
+  });
+
+  const webp = await raster.clone().webp({ quality: 90, effort: 5 }).toBuffer();
+  writeFileSync(resolve(OUT, `${file}.webp`), webp);
+  // A PNG sibling keeps transparency for the handful of very old clients without WebP.
+  const png = await raster.clone().png({ compressionLevel: 9 }).toBuffer();
+  writeFileSync(resolve(OUT, `${file}.png`), png);
+
+  console.log(
+    `  ${file.padEnd(24)} ${width}x${height}  webp ${(webp.length / 1024).toFixed(0)}kb  png ${(png.length / 1024).toFixed(0)}kb`
+  );
+
+  return {
+    src: `/figma/creatives/${file}.webp`,
+    fallback: `/figma/creatives/${file}.png`,
+    // Pixel dimensions of the exported file, plus the size it occupies in the 1440 design.
+    width,
+    height,
+    designWidth,
+    designHeight,
+    alt: label,
+  };
+}
+
 async function main() {
   mkdirSync(OUT, { recursive: true });
   const images = JSON.parse(readFileSync(resolve(ROOT, 'design/images.json'), 'utf8'));
@@ -146,37 +176,28 @@ async function main() {
     for (const entry of entries) {
       const node = at(spec.tree, entry.path);
       const svg = await subtreeToSvg(node, images, { label: entry.label });
-
       const scale = entry.scale ?? SCALE;
-      const width = Math.round(node.box.w * scale);
-      const height = Math.round(node.box.h * scale);
-      const raster = sharp(Buffer.from(svg), { density: 72 * scale }).resize(width, height, {
-        fit: 'fill',
-        background: { r: 0, g: 0, b: 0, alpha: 0 },
-      });
 
-      const webp = await raster.clone().webp({ quality: 90, effort: 5 }).toBuffer();
-      writeFileSync(resolve(OUT, `${entry.file}.webp`), webp);
-      // A PNG sibling keeps transparency for the handful of very old clients without WebP.
-      const png = await raster.clone().png({ compressionLevel: 9 }).toBuffer();
-      writeFileSync(resolve(OUT, `${entry.file}.png`), png);
-
-      index[entry.file] = {
-        src: `/figma/creatives/${entry.file}.webp`,
-        fallback: `/figma/creatives/${entry.file}.png`,
-        // Pixel dimensions of the exported file, plus the size it occupies in the 1440 design.
-        width,
-        height,
+      index[entry.file] = await rasterize({
+        file: entry.file,
+        label: entry.label,
+        svg,
+        scale,
+        width: Math.round(node.box.w * scale),
+        height: Math.round(node.box.h * scale),
         designWidth: +node.box.w.toFixed(2),
         designHeight: +node.box.h.toFixed(2),
-        alt: entry.label,
-      };
-      console.log(
-        `  ${entry.file.padEnd(24)} ${width}x${height}  webp ${(webp.length / 1024).toFixed(0)}kb  png ${(
-          png.length / 1024
-        ).toFixed(0)}kb`
-      );
+      });
     }
+  }
+
+  // Hand-authored artwork for frames whose Figma content is a placeholder, not a real design.
+  for (const entry of customCreatives()) {
+    index[entry.file] = await rasterize({
+      ...entry,
+      width: Math.round(entry.designWidth * SCALE),
+      height: Math.round(entry.designHeight * SCALE),
+    });
   }
 
   // Drop anything left behind by an earlier run so the directory always matches the manifest.

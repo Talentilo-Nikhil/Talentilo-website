@@ -225,24 +225,6 @@ export const creatives = {
     "designHeight": 581,
     "alt": "Customer testimonial"
   },
-  "ro-governance": {
-    "src": "/figma/creatives/ro-governance.webp",
-    "fallback": "/figma/creatives/ro-governance.png",
-    "width": 1176,
-    "height": 1072,
-    "designWidth": 588,
-    "designHeight": 536,
-    "alt": "Global compliance rules applied to local teams"
-  },
-  "ro-single-truth": {
-    "src": "/figma/creatives/ro-single-truth.webp",
-    "fallback": "/figma/creatives/ro-single-truth.png",
-    "width": 1176,
-    "height": 1072,
-    "designWidth": 588,
-    "designHeight": 536,
-    "alt": "Disjointed tools unified into one flow"
-  },
   "hv-engaging": {
     "src": "/figma/creatives/hv-engaging.webp",
     "fallback": "/figma/creatives/hv-engaging.png",
@@ -323,6 +305,24 @@ export const creatives = {
     "designWidth": 343.02,
     "designHeight": 140,
     "alt": ""
+  },
+  "ro-governance": {
+    "src": "/figma/creatives/ro-governance.webp",
+    "fallback": "/figma/creatives/ro-governance.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Global compliance rules applied to local teams"
+  },
+  "ro-single-truth": {
+    "src": "/figma/creatives/ro-single-truth.webp",
+    "fallback": "/figma/creatives/ro-single-truth.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Disjointed tools unified into one flow"
   }
 } as const;
 
