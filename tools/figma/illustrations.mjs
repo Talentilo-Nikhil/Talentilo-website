@@ -78,9 +78,11 @@ const EXPORTS = {
   ],
 
   'product-command': [
+    // `#1/#0/Dashboard` and the tailored-views background are also the "Spend.In" placeholder —
+    // still on the Figma path pending the hero-scale replacements in custom-creatives.mjs.
     { file: 'pc-hero-dashboard', path: '#1/#0/Dashboard', label: 'The Command Center dashboard' },
-    { file: 'pc-velocity', path: '#2/Content', label: 'Time-to-fill measured at every pipeline stage' },
-    { file: 'pc-guardrails', path: '#3/Content', label: 'Operational guardrails alerting leadership' },
+    // `#2/Content` and `#3/Content` hold the same placeholder — see custom-creatives.mjs for the
+    // hand-authored `pc-velocity` / `pc-guardrails` artwork.
     {
       file: 'pc-tailored-views',
       path: '#5/Frame 2085665277/Background image',
@@ -90,15 +92,16 @@ const EXPORTS = {
 
   'product-talent-intelligence': [
     { file: 'ti-hero-shapes', path: '#1/#0/Group 57', label: '' },
+    // `#2/Frame 2085665278` holds the same placeholder — pending a hero-scale replacement.
     { file: 'ti-boolean', path: '#2/Frame 2085665278', label: 'Semantic reading of a candidate profile' },
-    { file: 'ti-ranking', path: '#3/Content', label: 'Candidates scored 0–100% by contextual fit' },
+    // `#3/Content` holds the same placeholder — see custom-creatives.mjs for `ti-ranking`.
     { file: 'ti-recall', path: '#4/Frame 2085665278', label: 'External search cost compared with Active Recall' },
   ],
 
   'for-agency-owner': [
     { file: 'ao-testimonial', path: '#1/Frame 2085665273', label: 'Customer testimonial' },
-    { file: 'ao-superstar', path: '#3/Content', label: 'Workflow intelligence held in the platform, not one recruiter' },
-    { file: 'ao-margins', path: '#4/Content', label: 'Revenue per seat driving margin' },
+    // `#3/Content` and `#4/Content` hold the same placeholder — see custom-creatives.mjs for the
+    // hand-authored `ao-superstar` / `ao-margins` artwork.
   ],
 
   'for-recruitment-operations': [
@@ -113,8 +116,8 @@ const EXPORTS = {
   ],
 
   'solution-tech-recruitment': [
-    { file: 'tr-semantic', path: '#2/Content', label: 'Semantic matching across a real tech stack' },
-    { file: 'tr-verify', path: '#3/Content', label: 'Candidates ranked by assessment pass rate' },
+    // `#2/Content` and `#3/Content` hold the "Spend.In" placeholder — see custom-creatives.mjs
+    // for the hand-authored `tr-semantic` / `tr-verify` artwork.
   ],
 
   migration: [

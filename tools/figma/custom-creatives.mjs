@@ -90,12 +90,62 @@ function arrowIcon(cx, cy, color) {
   return `<path d="M${cx - 4},${cy - 5} L${cx + 4},${cy} L${cx - 4},${cy + 5}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />`;
 }
 
-function button(x, y, w, h, label) {
+function alertIcon(cx, cy, size, color) {
+  const s = size / 16;
   return (
-    `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="${INK}" />` +
-    text(x + 18, y + h / 2 + 5, label, { size: 14, weight: 600, fill: 'white' }) +
-    arrowIcon(x + w - 22, y + h / 2, 'white')
+    `<g transform="translate(${cx - 8 * s},${cy - 8 * s}) scale(${s})">` +
+    `<path d="M8 1.5 15 14 H1 Z" fill="none" stroke="${color}" stroke-width="1.6" stroke-linejoin="round" />` +
+    `<line x1="8" y1="6.2" x2="8" y2="9.8" stroke="${color}" stroke-width="1.6" stroke-linecap="round" />` +
+    `<circle cx="8" cy="12" r="0.9" fill="${color}" />` +
+    '</g>'
   );
+}
+
+/** Width auto-sizes to the label so longer copy (e.g. "Notify Manager") doesn't collide with the arrow. */
+function button(right, y, h, label) {
+  const w = Math.max(132, 44 + label.length * 9);
+  const x = right - w;
+  return {
+    width: w,
+    markup:
+      `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="${INK}" />` +
+      text(x + 18, y + h / 2 + 5, label, { size: 14, weight: 600, fill: 'white' }) +
+      arrowIcon(x + w - 22, y + h / 2, 'white'),
+  };
+}
+
+/** A row inside a rules-style card: a lock glyph, a label, and a status pill on the right. */
+function ruleRow(x, rightEdge, midY, label, pillText, pillColors) {
+  const pillW = Math.max(72, pillText.length * 7 + 44);
+  const pillH = 28;
+  return (
+    lockIcon(x, midY, 14, '#9aa0ab') +
+    text(x + 20, midY + 5, label, { size: 15, weight: 500 }) +
+    pill(rightEdge - pillW, midY - pillH / 2, pillW, pillH, { fill: pillColors.bg, text: pillText, textFill: pillColors.text })
+  );
+}
+
+/** The recurring "icon + headline + subtext (+ button)" card that floats below the main card. */
+function floatingCard(id, x, y, w, h, { icon = 'check', headline, subtext, buttonLabel }) {
+  const c = card(id, x, y, w, h);
+  const iconCx = x + 40;
+  const iconCy = y + 34;
+  const glyph = icon === 'alert' ? alertIcon(iconCx, iconCy, 18, 'white') : checkIcon(iconCx, iconCy, 18, 'white');
+  const textX = x + 78;
+  const btn = buttonLabel ? button(x + w - 20, y + h - 60, 40, buttonLabel).markup : '';
+  return {
+    defs: c.defs,
+    markup: `
+      ${c.shadowRect}
+      <g clip-path="url(#${c.clipId})">
+        <circle cx="${iconCx}" cy="${iconCy}" r="22" fill="${INK}" />
+        ${glyph}
+        ${text(textX, y + 30, headline, { size: 17, weight: 600 })}
+        ${text(textX, y + 54, subtext, { size: 14, fill: INK_SOFT })}
+        ${btn}
+      </g>
+    `,
+  };
 }
 
 function roGovernance() {
@@ -126,7 +176,12 @@ function roGovernance() {
     })
     .join('');
 
-  const alert = card('alert', 88, 346, 420, 124);
+  const alert = floatingCard('alert', 88, 346, 420, 124, {
+    icon: 'check',
+    headline: 'Background Check Required',
+    subtext: "Locked at HQ — can't be bypassed locally",
+    buttonLabel: 'View Policy',
+  });
 
   return {
     file: 'ro-governance',
@@ -149,14 +204,7 @@ function roGovernance() {
         ${rowsMarkup}
       </g>
 
-      ${alert.shadowRect}
-      <g clip-path="url(#${alert.clipId})">
-        <circle cx="128" cy="380" r="22" fill="${INK}" />
-        ${checkIcon(128, 380, 18, 'white')}
-        ${text(166, 376, 'Background Check Required', { size: 17, weight: 600 })}
-        ${text(166, 400, "Locked at HQ — can't be bypassed locally", { size: 14, fill: INK_SOFT })}
-        ${button(352, 410, 132, 40, 'View Policy')}
-      </g>
+      ${alert.markup}
     </svg>`,
   };
 }
@@ -273,7 +321,395 @@ function roSingleTruth() {
   };
 }
 
+function pcGuardrails() {
+  const bg = backdrop({ from: '#ff3aaf', mid: '#da8dff', to: '#fdfcff', flip: true });
+
+  const mainCard = card('pcg-main', 40, 84, 460, 270);
+  const headerH = 56;
+  const rows = [
+    { label: 'Time-in-Stage Limit', pill: '5 Days Max' },
+    { label: 'Mandatory Feedback', pill: 'Required' },
+    { label: 'Auto-Escalation', pill: 'On' },
+  ];
+  const rowH = (270 - headerH) / rows.length;
+  const rowsMarkup = rows
+    .map((row, i) => {
+      const rowY = 84 + headerH + i * rowH;
+      const midY = rowY + rowH / 2;
+      const divider = i < rows.length - 1 ? `<line x1="64" y1="${rowY + rowH}" x2="476" y2="${rowY + rowH}" stroke="${DIVIDER}" />` : '';
+      return ruleRow(64, 476, midY, row.label, row.pill, { bg: '#dcfce7', text: '#15803d' }) + divider;
+    })
+    .join('');
+
+  const alert = floatingCard('pcg-alert', 88, 346, 420, 124, {
+    icon: 'alert',
+    headline: 'Guardrail Triggered',
+    subtext: 'Candidate stuck 7 days in Interview',
+    buttonLabel: 'Notify Manager',
+  });
+
+  return {
+    file: 'pc-guardrails',
+    label: 'Operational guardrails alerting leadership',
+    designWidth: W,
+    designHeight: H,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="Operational guardrails alerting leadership">
+      <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
+      ${bg.rect}
+
+      <rect x="356" y="28" width="204" height="36" rx="18" fill="white" filter="url(#shadow)" />
+      <circle cx="378" cy="46" r="4" fill="#c026d3" />
+      ${text(390, 50, 'Live Across 8 Desks', { size: 13, weight: 600 })}
+
+      ${mainCard.shadowRect}
+      <g clip-path="url(#${mainCard.clipId})">
+        <rect x="40" y="84" width="460" height="${headerH}" fill="${INK}" />
+        ${lockIcon(64, 84 + headerH / 2, 16, 'white')}
+        ${text(88, 84 + headerH / 2 + 6, 'Operational Guardrails', { size: 17, weight: 600, fill: 'white' })}
+        ${rowsMarkup}
+      </g>
+
+      ${alert.markup}
+    </svg>`,
+  };
+}
+
+function pcVelocity() {
+  const bg = backdrop({ from: '#4da8fd', mid: '#b1a4ff', to: '#fdfcff' });
+
+  const mainCard = card('pcv-main', 40, 84, 508, 270);
+  const headerH = 56;
+  const stages = [
+    { label: 'Sourced', days: '2d' },
+    { label: 'Screened', days: '3d' },
+    { label: 'Interview', days: '9d', bottleneck: true },
+    { label: 'Offer', days: '2d' },
+    { label: 'Hired', days: '1d' },
+  ];
+  const stageStartX = 40 + 48;
+  const stageEndX = 40 + 508 - 48;
+  const stageStep = (stageEndX - stageStartX) / (stages.length - 1);
+  const stageY = 84 + headerH + (270 - headerH) / 2 + 4;
+
+  const stagesMarkup = stages
+    .map((stage, i) => {
+      const x = stageStartX + i * stageStep;
+      const color = stage.bottleneck ? '#fe5a11' : INK;
+      const ring = stage.bottleneck ? `<circle cx="${x}" cy="${stageY}" r="21" fill="none" stroke="#ffcea8" stroke-width="6" />` : '';
+      return (
+        ring +
+        `<circle cx="${x}" cy="${stageY}" r="14" fill="${color}" />` +
+        text(x, stageY - 30, stage.days, { size: 14, weight: 700, fill: color, anchor: 'middle' }) +
+        text(x, stageY + 36, stage.label, { size: 12, weight: 600, anchor: 'middle' })
+      );
+    })
+    .join('');
+
+  const alert = floatingCard('pcv-alert', 88, 346, 420, 124, {
+    icon: 'alert',
+    headline: 'Bottleneck Detected',
+    subtext: 'Interview stage runs 3x longer than the rest',
+    buttonLabel: 'View Report',
+  });
+
+  return {
+    file: 'pc-velocity',
+    label: 'Time-to-fill measured at every pipeline stage',
+    designWidth: W,
+    designHeight: H,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="Time-to-fill measured at every pipeline stage">
+      <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
+      ${bg.rect}
+
+      ${mainCard.shadowRect}
+      <g clip-path="url(#${mainCard.clipId})">
+        <rect x="40" y="84" width="508" height="${headerH}" fill="${INK}" />
+        ${text(64, 84 + headerH / 2 + 6, 'Time to Fill by Stage', { size: 17, weight: 600, fill: 'white' })}
+        <line x1="${stageStartX}" y1="${stageY}" x2="${stageEndX}" y2="${stageY}" stroke="#e5e7eb" stroke-width="3" />
+        ${stagesMarkup}
+      </g>
+
+      ${alert.markup}
+    </svg>`,
+  };
+}
+
+function aoSuperstar() {
+  const bg = backdrop({ from: '#ff3aaf', mid: '#da8dff', to: '#fdfcff' });
+
+  const mainCard = card('aos-main', 40, 84, 460, 270);
+  const headerH = 56;
+  const rows = ['Sourcing Sequence', 'Interview Scorecard', 'Follow-up Cadence'];
+  const rowH = (270 - headerH) / rows.length;
+  const rowsMarkup = rows
+    .map((label, i) => {
+      const rowY = 84 + headerH + i * rowH;
+      const midY = rowY + rowH / 2;
+      const divider = i < rows.length - 1 ? `<line x1="64" y1="${rowY + rowH}" x2="476" y2="${rowY + rowH}" stroke="${DIVIDER}" />` : '';
+      return ruleRow(64, 476, midY, label, 'Saved to OS', { bg: '#daedff', text: '#1959dc' }) + divider;
+    })
+    .join('');
+
+  const alert = floatingCard('aos-alert', 88, 346, 420, 124, {
+    icon: 'check',
+    headline: '0% Knowledge Lost',
+    subtext: "Every workflow lives in Talentilo, not one inbox",
+    buttonLabel: 'View Playbook',
+  });
+
+  return {
+    file: 'ao-superstar',
+    label: 'Workflow intelligence held in the platform, not one recruiter',
+    designWidth: W,
+    designHeight: H,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="Workflow intelligence held in the platform, not one recruiter">
+      <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
+      ${bg.rect}
+
+      <rect x="366" y="28" width="194" height="36" rx="18" fill="white" filter="url(#shadow)" />
+      <circle cx="388" cy="46" r="4" fill="#c026d3" />
+      ${text(400, 50, 'Owned by the OS', { size: 13, weight: 600 })}
+
+      ${mainCard.shadowRect}
+      <g clip-path="url(#${mainCard.clipId})">
+        <rect x="40" y="84" width="460" height="${headerH}" fill="${INK}" />
+        ${lockIcon(64, 84 + headerH / 2, 16, 'white')}
+        ${text(88, 84 + headerH / 2 + 6, 'Recruiter Playbook', { size: 17, weight: 600, fill: 'white' })}
+        ${rowsMarkup}
+      </g>
+
+      ${alert.markup}
+    </svg>`,
+  };
+}
+
+function aoMargins() {
+  const bg = backdrop({ from: '#fe7c34', mid: '#ffddb1', to: '#fdfcff' });
+
+  const mainCard = card('aom-main', 40, 84, 508, 270);
+  const headerH = 56;
+  const baseline = 320;
+  const bars = [
+    { x: 150, w: 96, top: 250, value: '$142k', label: 'Before Talentilo', color: '#e5e7eb', valueColor: INK_SOFT },
+    { x: 320, w: 96, top: 184, value: '$184k', label: 'With Talentilo', color: '#ff7d37', valueColor: INK },
+  ];
+  const barsMarkup = bars
+    .map(
+      (b) =>
+        `<rect x="${b.x}" y="${b.top}" width="${b.w}" height="${baseline - b.top}" rx="8" fill="${b.color}" />` +
+        text(b.x + b.w / 2, b.top - 14, b.value, { size: 17, weight: 700, fill: b.valueColor, anchor: 'middle' }) +
+        text(b.x + b.w / 2, baseline + 24, b.label, { size: 12, weight: 600, fill: INK_SOFT, anchor: 'middle' })
+    )
+    .join('');
+
+  const alert = floatingCard('aom-alert', 140, 400, 308, 92, {
+    icon: 'check',
+    headline: 'Margins Reclaimed',
+    subtext: 'Admin and defense, automated',
+  });
+
+  return {
+    file: 'ao-margins',
+    label: 'Revenue per seat driving margin',
+    designWidth: W,
+    designHeight: H,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="Revenue per seat driving margin">
+      <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
+      ${bg.rect}
+
+      <rect x="384" y="28" width="176" height="36" rx="18" fill="white" filter="url(#shadow)" />
+      <circle cx="406" cy="46" r="4" fill="#fe5a11" />
+      ${text(418, 50, '+30% Margin', { size: 13, weight: 600 })}
+
+      ${mainCard.shadowRect}
+      <g clip-path="url(#${mainCard.clipId})">
+        <rect x="40" y="84" width="508" height="${headerH}" fill="${INK}" />
+        ${text(64, 84 + headerH / 2 + 6, 'Revenue per Seat', { size: 17, weight: 600, fill: 'white' })}
+        <line x1="64" y1="${baseline}" x2="484" y2="${baseline}" stroke="#e5e7eb" stroke-width="1.5" />
+        ${barsMarkup}
+      </g>
+
+      ${alert.markup}
+    </svg>`,
+  };
+}
+
+function tiRanking() {
+  const bg = backdrop({ from: '#4da8fd', mid: '#b1a4ff', to: '#fdfcff', flip: true });
+
+  const mainCard = card('tir-main', 40, 84, 508, 270);
+  const headerH = 56;
+  const rows = [
+    { name: 'Sarah Chen', role: 'Senior Backend Engineer', score: 94, tier: '#15803d' },
+    { name: 'Marcus Lee', role: 'Senior Backend Engineer', score: 78, tier: '#1959dc' },
+    { name: 'Dana Ruiz', role: 'Senior Backend Engineer', score: 52, tier: '#8e8e93' },
+  ];
+  const rowH = (270 - headerH) / rows.length;
+  const rowsMarkup = rows
+    .map((row, i) => {
+      const rowY = 84 + headerH + i * rowH;
+      const midY = rowY + rowH / 2;
+      const divider = i < rows.length - 1 ? `<line x1="64" y1="${rowY + rowH}" x2="484" y2="${rowY + rowH}" stroke="${DIVIDER}" />` : '';
+      return (
+        text(64, midY - 3, row.name, { size: 15, weight: 600 }) +
+        text(64, midY + 16, row.role, { size: 12, fill: INK_SOFT }) +
+        text(484, midY + 8, `${row.score}%`, { size: 24, weight: 700, fill: row.tier, anchor: 'end' }) +
+        divider
+      );
+    })
+    .join('');
+
+  const alert = floatingCard('tir-alert', 140, 400, 308, 92, {
+    icon: 'check',
+    headline: 'Scored, Not Guessed',
+    subtext: 'Skills density and role fit',
+  });
+
+  return {
+    file: 'ti-ranking',
+    label: 'Candidates scored 0–100% by contextual fit',
+    designWidth: W,
+    designHeight: H,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="Candidates scored 0–100% by contextual fit">
+      <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
+      ${bg.rect}
+
+      ${mainCard.shadowRect}
+      <g clip-path="url(#${mainCard.clipId})">
+        <rect x="40" y="84" width="508" height="${headerH}" fill="${INK}" />
+        ${text(64, 84 + headerH / 2 + 6, 'Contextual Fit Score', { size: 17, weight: 600, fill: 'white' })}
+        ${rowsMarkup}
+      </g>
+
+      ${alert.markup}
+    </svg>`,
+  };
+}
+
+function trSemantic() {
+  const bg = backdrop({ from: '#ff3aaf', mid: '#da8dff', to: '#fdfcff' });
+
+  const mainCard = card('trs-main', 40, 64, 508, 300);
+  const headerH = 56;
+  const rows = [
+    { from: 'React', to: 'Frontend Engineering' },
+    { from: 'Docker', to: 'DevOps' },
+    { from: 'Kubernetes', to: 'Container Orchestration' },
+    { from: 'Postgres', to: 'Database Design' },
+  ];
+  const rowH = (300 - headerH) / rows.length;
+  const rowsMarkup = rows
+    .map((row, i) => {
+      const rowY = 64 + headerH + i * rowH;
+      const midY = rowY + rowH / 2;
+      const fromW = 128;
+      const fromH = 32;
+      const toW = 292;
+      const toH = 32;
+      const fromX = 64;
+      const toX = 524 - toW;
+      const arrowX = fromX + fromW + (toX - fromX - fromW) / 2;
+      return (
+        pill(fromX, midY - fromH / 2, fromW, fromH, { fill: '#f1f2f4', text: row.from, textFill: INK, size: 13 }) +
+        arrowIcon(arrowX, midY, '#c026d3') +
+        pill(toX, midY - toH / 2, toW, toH, { fill: '#daedff', text: row.to, textFill: '#1959dc', size: 13 })
+      );
+    })
+    .join('');
+
+  const alert = floatingCard('trs-alert', 140, 396, 308, 100, {
+    icon: 'check',
+    headline: 'Genuine Competency',
+    subtext: 'Not just keyword matches',
+  });
+
+  return {
+    file: 'tr-semantic',
+    label: 'Semantic matching across a real tech stack',
+    designWidth: W,
+    designHeight: H,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="Semantic matching across a real tech stack">
+      <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
+      ${bg.rect}
+
+      ${mainCard.shadowRect}
+      <g clip-path="url(#${mainCard.clipId})">
+        <rect x="40" y="64" width="508" height="${headerH}" fill="${INK}" />
+        ${text(64, 64 + headerH / 2 + 6, 'Semantic Brain', { size: 17, weight: 600, fill: 'white' })}
+        ${rowsMarkup}
+      </g>
+
+      ${alert.markup}
+    </svg>`,
+  };
+}
+
+function trVerify() {
+  const bg = backdrop({ from: '#fe7c34', mid: '#ffddb1', to: '#fdfcff', flip: true });
+
+  const mainCard = card('trv-main', 40, 84, 508, 270);
+  const headerH = 56;
+  const rows = [
+    { name: 'Amit K.', role: 'Backend Engineer', score: '96%', colors: { bg: '#dcfce7', text: '#15803d' } },
+    { name: 'Priya S.', role: 'Full-Stack Engineer', score: '88%', colors: { bg: '#dcfce7', text: '#15803d' } },
+    { name: 'John D.', role: 'Frontend Engineer', score: '54%', colors: { bg: '#ffe9d4', text: '#c62c08' } },
+  ];
+  const rowH = (270 - headerH) / rows.length;
+  const rowsMarkup = rows
+    .map((row, i) => {
+      const rowY = 84 + headerH + i * rowH;
+      const midY = rowY + rowH / 2;
+      const divider = i < rows.length - 1 ? `<line x1="64" y1="${rowY + rowH}" x2="476" y2="${rowY + rowH}" stroke="${DIVIDER}" />` : '';
+      const pillW = 76;
+      const pillH = 28;
+      return (
+        text(64, midY - 3, row.name, { size: 15, weight: 600 }) +
+        text(64, midY + 16, row.role, { size: 12, fill: INK_SOFT }) +
+        pill(476 - pillW, midY - pillH / 2, pillW, pillH, { fill: row.colors.bg, text: row.score, textFill: row.colors.text }) +
+        divider
+      );
+    })
+    .join('');
+
+  const alert = floatingCard('trv-alert', 88, 346, 420, 124, {
+    icon: 'check',
+    headline: 'Auto-Ranked by Code Quality',
+    subtext: 'No manual resume screening required',
+    buttonLabel: 'View Leaderboard',
+  });
+
+  return {
+    file: 'tr-verify',
+    label: 'Candidates ranked by assessment pass rate',
+    designWidth: W,
+    designHeight: H,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="Candidates ranked by assessment pass rate">
+      <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
+      ${bg.rect}
+
+      ${mainCard.shadowRect}
+      <g clip-path="url(#${mainCard.clipId})">
+        <rect x="40" y="84" width="508" height="${headerH}" fill="${INK}" />
+        ${text(64, 84 + headerH / 2 + 6, 'Assessment Leaderboard', { size: 17, weight: 600, fill: 'white' })}
+        ${rowsMarkup}
+      </g>
+
+      ${alert.markup}
+    </svg>`,
+  };
+}
+
 /** [{ file, label, svg }] at the frames' native 588x536 design size. */
 export function customCreatives() {
-  return [roGovernance(), roSingleTruth()];
+  return [
+    roGovernance(),
+    roSingleTruth(),
+    pcGuardrails(),
+    pcVelocity(),
+    aoSuperstar(),
+    aoMargins(),
+    tiRanking(),
+    trSemantic(),
+    trVerify(),
+  ];
 }

@@ -126,24 +126,6 @@ export const creatives = {
     "designHeight": 759.61,
     "alt": "The Command Center dashboard"
   },
-  "pc-velocity": {
-    "src": "/figma/creatives/pc-velocity.webp",
-    "fallback": "/figma/creatives/pc-velocity.png",
-    "width": 1176,
-    "height": 1072,
-    "designWidth": 588,
-    "designHeight": 536,
-    "alt": "Time-to-fill measured at every pipeline stage"
-  },
-  "pc-guardrails": {
-    "src": "/figma/creatives/pc-guardrails.webp",
-    "fallback": "/figma/creatives/pc-guardrails.png",
-    "width": 1176,
-    "height": 1072,
-    "designWidth": 588,
-    "designHeight": 536,
-    "alt": "Operational guardrails alerting leadership"
-  },
   "pc-tailored-views": {
     "src": "/figma/creatives/pc-tailored-views.webp",
     "fallback": "/figma/creatives/pc-tailored-views.png",
@@ -171,15 +153,6 @@ export const creatives = {
     "designHeight": 445,
     "alt": "Semantic reading of a candidate profile"
   },
-  "ti-ranking": {
-    "src": "/figma/creatives/ti-ranking.webp",
-    "fallback": "/figma/creatives/ti-ranking.png",
-    "width": 1176,
-    "height": 1072,
-    "designWidth": 588,
-    "designHeight": 536,
-    "alt": "Candidates scored 0–100% by contextual fit"
-  },
   "ti-recall": {
     "src": "/figma/creatives/ti-recall.webp",
     "fallback": "/figma/creatives/ti-recall.png",
@@ -197,24 +170,6 @@ export const creatives = {
     "designWidth": 1312,
     "designHeight": 581,
     "alt": "Customer testimonial"
-  },
-  "ao-superstar": {
-    "src": "/figma/creatives/ao-superstar.webp",
-    "fallback": "/figma/creatives/ao-superstar.png",
-    "width": 1176,
-    "height": 1072,
-    "designWidth": 588,
-    "designHeight": 536,
-    "alt": "Workflow intelligence held in the platform, not one recruiter"
-  },
-  "ao-margins": {
-    "src": "/figma/creatives/ao-margins.webp",
-    "fallback": "/figma/creatives/ao-margins.png",
-    "width": 1176,
-    "height": 1072,
-    "designWidth": 588,
-    "designHeight": 536,
-    "alt": "Revenue per seat driving margin"
   },
   "ro-testimonial": {
     "src": "/figma/creatives/ro-testimonial.webp",
@@ -242,24 +197,6 @@ export const creatives = {
     "designWidth": 588,
     "designHeight": 536,
     "alt": "AI capacity absorbing an overnight application spike"
-  },
-  "tr-semantic": {
-    "src": "/figma/creatives/tr-semantic.webp",
-    "fallback": "/figma/creatives/tr-semantic.png",
-    "width": 1176,
-    "height": 1072,
-    "designWidth": 588,
-    "designHeight": 536,
-    "alt": "Semantic matching across a real tech stack"
-  },
-  "tr-verify": {
-    "src": "/figma/creatives/tr-verify.webp",
-    "fallback": "/figma/creatives/tr-verify.png",
-    "width": 1176,
-    "height": 1072,
-    "designWidth": 588,
-    "designHeight": 536,
-    "alt": "Candidates ranked by assessment pass rate"
   },
   "mg-transfer": {
     "src": "/figma/creatives/mg-transfer.webp",
@@ -323,6 +260,69 @@ export const creatives = {
     "designWidth": 588,
     "designHeight": 536,
     "alt": "Disjointed tools unified into one flow"
+  },
+  "pc-guardrails": {
+    "src": "/figma/creatives/pc-guardrails.webp",
+    "fallback": "/figma/creatives/pc-guardrails.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Operational guardrails alerting leadership"
+  },
+  "pc-velocity": {
+    "src": "/figma/creatives/pc-velocity.webp",
+    "fallback": "/figma/creatives/pc-velocity.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Time-to-fill measured at every pipeline stage"
+  },
+  "ao-superstar": {
+    "src": "/figma/creatives/ao-superstar.webp",
+    "fallback": "/figma/creatives/ao-superstar.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Workflow intelligence held in the platform, not one recruiter"
+  },
+  "ao-margins": {
+    "src": "/figma/creatives/ao-margins.webp",
+    "fallback": "/figma/creatives/ao-margins.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Revenue per seat driving margin"
+  },
+  "ti-ranking": {
+    "src": "/figma/creatives/ti-ranking.webp",
+    "fallback": "/figma/creatives/ti-ranking.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Candidates scored 0–100% by contextual fit"
+  },
+  "tr-semantic": {
+    "src": "/figma/creatives/tr-semantic.webp",
+    "fallback": "/figma/creatives/tr-semantic.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Semantic matching across a real tech stack"
+  },
+  "tr-verify": {
+    "src": "/figma/creatives/tr-verify.webp",
+    "fallback": "/figma/creatives/tr-verify.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Candidates ranked by assessment pass rate"
   }
 } as const;
 
