@@ -3,9 +3,7 @@
  * from here, so adding a section is a one-line change.
  *
  * Labels, descriptions and column headings follow the live talentilo.ai nav rather than the
- * Figma file, at Talentilo's direction. The live Platform menu also lists Faster Operations,
- * AI Powers and Revenue Defense; the Figma designed no pages for those three, so they are left
- * out rather than shipped as dead links. Adding one is an entry with a real `href`.
+ * Figma file, at Talentilo's direction.
  *
  * `Resources`, which the Figma header carries, is likewise omitted — it has no page either, and
  * the live nav does not show it.
@@ -50,6 +48,21 @@ export const primaryNav: NavItem[] = [
             label: 'Talent Intelligence',
             href: '/product/talent-intelligence',
             description: 'Semantic search and candidate ranking.',
+          },
+          {
+            label: 'Faster Operations',
+            href: '/platform/faster-operations',
+            description: 'Real-time velocity for your workflow.',
+          },
+          {
+            label: 'AI Powers',
+            href: '/platform/ai-powers',
+            description: 'Scale your output, not your headcount.',
+          },
+          {
+            label: 'Revenue Defense',
+            href: '/platform/revenue-defense',
+            description: 'Protect your placements post-offer.',
           },
         ],
       },
@@ -133,6 +146,9 @@ export const allRoutes = [
   '/',
   '/product/command',
   '/product/talent-intelligence',
+  '/platform/faster-operations',
+  '/platform/ai-powers',
+  '/platform/revenue-defense',
   '/for/agency-owner',
   '/for/recruitment-operations',
   '/solution/high-volume',

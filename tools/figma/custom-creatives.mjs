@@ -699,6 +699,61 @@ function trVerify() {
   };
 }
 
+function rdNoticeTracker() {
+  const bg = backdrop({ from: '#fe7c34', mid: '#ffddb1', to: '#fdfcff' });
+
+  const mainCard = card('rdn-main', 40, 84, 508, 270);
+  const headerH = 56;
+  const rows = [
+    { name: 'Ravi Kumar', detail: 'Starts in 12 days', risk: 'Low Risk', colors: { bg: '#dcfce7', text: '#15803d' } },
+    { name: 'Meera Iyer', detail: 'Starts in 4 days', risk: 'Medium Risk', colors: { bg: '#ffe9d4', text: '#c62c08' } },
+    { name: 'Alex Chen', detail: 'Starts in 21 days', risk: 'High Risk', colors: { bg: '#fee2e2', text: '#b91c1c' } },
+  ];
+  const rowH = (270 - headerH) / rows.length;
+  const rowsMarkup = rows
+    .map((row, i) => {
+      const rowY = 84 + headerH + i * rowH;
+      const midY = rowY + rowH / 2;
+      const divider = i < rows.length - 1 ? `<line x1="64" y1="${rowY + rowH}" x2="476" y2="${rowY + rowH}" stroke="${DIVIDER}" />` : '';
+      const pillW = 108;
+      const pillH = 28;
+      return (
+        text(64, midY - 3, row.name, { size: 15, weight: 600 }) +
+        text(64, midY + 16, row.detail, { size: 12, fill: INK_SOFT }) +
+        pill(476 - pillW, midY - pillH / 2, pillW, pillH, { fill: row.colors.bg, text: row.risk, textFill: row.colors.text, size: 12 }) +
+        divider
+      );
+    })
+    .join('');
+
+  const alert = floatingCard('rdn-alert', 88, 346, 420, 124, {
+    icon: 'alert',
+    headline: 'Counter-Offer Signal Detected',
+    subtext: "Alex Chen hasn't responded in 5 days",
+    buttonLabel: 'Send Check-in',
+  });
+
+  return {
+    file: 'rd-notice-tracker',
+    label: 'Notice-period risk tracked candidate by candidate',
+    designWidth: W,
+    designHeight: H,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="Notice-period risk tracked candidate by candidate">
+      <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
+      ${bg.rect}
+
+      ${mainCard.shadowRect}
+      <g clip-path="url(#${mainCard.clipId})">
+        <rect x="40" y="84" width="508" height="${headerH}" fill="${INK}" />
+        ${text(64, 84 + headerH / 2 + 6, 'Notice Period Tracker', { size: 17, weight: 600, fill: 'white' })}
+        ${rowsMarkup}
+      </g>
+
+      ${alert.markup}
+    </svg>`,
+  };
+}
+
 /** [{ file, label, svg }] at the frames' native 588x536 design size. */
 export function customCreatives() {
   return [
@@ -711,5 +766,6 @@ export function customCreatives() {
     tiRanking(),
     trSemantic(),
     trVerify(),
+    rdNoticeTracker(),
   ];
 }

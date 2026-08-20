@@ -34,12 +34,14 @@ Every push updates it automatically within a couple of minutes — just refresh.
 ## 2. Done: the dropdown menus now follow the live site
 
 Settled — the menus use the live labels, descriptions and grouping. Platform sits under a
-**Core Platform** heading; Solution is two labelled columns, **For** and **Recruitment Type**.
+**Core Platform** heading, now with all five live entries; Solution is two labelled columns,
+**For** and **Recruitment Type**.
 
-The live Platform menu also lists **Faster Operations**, **AI Powers** and **Revenue Defense**.
-The Figma designed no pages for those three, so they are left out rather than shipped as links
-that go nowhere. Each becomes a one-line entry in `src/config/navigation.ts` the moment it has a
-page to point at.
+Faster Operations, AI Powers and Revenue Defense had no Figma pages, so they shipped without one
+at first. All three now have a page, built from the homepage's own Figma-designed teaser blocks
+(Agency Velocity Index, Semantic Matching Engine, Offer Management System) expanded into full
+pages in the same shape as the Solution pages, plus one new hand-authored creative each where the
+homepage didn't already have a second visual to reuse.
 
 The mapping in use:
 
@@ -47,6 +49,9 @@ The mapping in use:
 |---|---|
 | Recruitment OS | `/product/command` |
 | Talent Intelligence | `/product/talent-intelligence` |
+| Faster Operations | `/platform/faster-operations` |
+| AI Powers | `/platform/ai-powers` |
+| Revenue Defense | `/platform/revenue-defense` |
 | Agency Owner | `/for/agency-owner` |
 | Organization | `/for/recruitment-operations` |
 | High Volume | `/solution/high-volume` |
@@ -64,9 +69,9 @@ Transcribed from the screenshots Talentilo supplied, since the sandbox cannot re
 |---|---|---|
 | Recruitment OS | Your entire operations in one view. | `/product/command` |
 | Talent Intelligence | Semantic search and candidate ranking. | `/product/talent-intelligence` |
-| Faster Operations | Real-time velocity for your workflow. | **none** |
-| AI Powers | Scale your output, not your headcount. | **none** |
-| Revenue Defense | Protect your placements post-offer. | **none** |
+| Faster Operations | Real-time velocity for your workflow. | `/platform/faster-operations` |
+| AI Powers | Scale your output, not your headcount. | `/platform/ai-powers` |
+| Revenue Defense | Protect your placements post-offer. | `/platform/revenue-defense` |
 
 **Solution** — four entries in two labelled columns, "FOR" and "RECRUITMENT TYPE":
 

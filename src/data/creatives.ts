@@ -323,6 +323,15 @@ export const creatives = {
     "designWidth": 588,
     "designHeight": 536,
     "alt": "Candidates ranked by assessment pass rate"
+  },
+  "rd-notice-tracker": {
+    "src": "/figma/creatives/rd-notice-tracker.webp",
+    "fallback": "/figma/creatives/rd-notice-tracker.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Notice-period risk tracked candidate by candidate"
   }
 } as const;
 

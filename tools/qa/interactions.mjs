@@ -12,10 +12,10 @@ const BASE = process.env.BASE ?? 'http://localhost:3000';
 const results = [];
 
 /**
- * Everything src/config/navigation.ts puts in the drawer: two Platform pages, four Solution
+ * Everything src/config/navigation.ts puts in the drawer: five Platform pages, four Solution
  * pages, Migration, Pricing, Sign In and Request Demo.
  */
-const DRAWER_LINKS = 10;
+const DRAWER_LINKS = 13;
 
 function check(name, condition, detail = '') {
   results.push({ name, pass: Boolean(condition), detail });
