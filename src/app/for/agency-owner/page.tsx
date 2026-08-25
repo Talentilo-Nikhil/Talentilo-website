@@ -60,7 +60,7 @@ export default function AgencyOwnerPage() {
         body="Most agencies run at 10-15% margins. A Profitable Staffing Model requires leverage. By automating the admin and defense layers, Talentilo increases your 'Revenue per Seat' efficiency, driving your bottom line straight up"
         points={[]}
         creative="ao-margins"
-        media="left"
+        mediaSide="left"
       />
 
       <Section tone="none" className="bg-[#f3f2fe]">

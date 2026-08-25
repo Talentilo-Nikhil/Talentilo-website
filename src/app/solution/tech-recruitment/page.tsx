@@ -36,7 +36,7 @@ export default function TechRecruitmentPage() {
         points={[]}
         cta={{ label: 'Get Started', href: '/contact' }}
         creative="tr-semantic"
-        media="left"
+        mediaSide="left"
       />
 
       <FeatureSplit
@@ -45,7 +45,7 @@ export default function TechRecruitmentPage() {
         points={[]}
         cta={{ label: 'Get Started', href: '/contact' }}
         creative="tr-verify"
-        media="left"
+        mediaSide="left"
       />
 
       <Section>

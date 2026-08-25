@@ -60,7 +60,7 @@ export default function RecruitmentOperationsPage() {
         body="Stop pasting data between tools. It destroys visibility and frustrates your team. Talentilo connects your disjointed RecOps Tools into one unified flow. From sourcing to signing, give your leadership and your recruiters a single, clean source of truth"
         points={[]}
         creative="ro-single-truth"
-        media="left"
+        mediaSide="left"
       />
 
       <Section tone="none" className="bg-[#f3f2fe]">

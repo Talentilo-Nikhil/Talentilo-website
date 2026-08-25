@@ -50,7 +50,7 @@ export default function RevenueDefensePage() {
         points={[]}
         cta={{ label: 'Get Started', href: '/contact' }}
         creative="rd-notice-tracker"
-        media="left"
+        mediaSide="left"
       />
 
       <Section>

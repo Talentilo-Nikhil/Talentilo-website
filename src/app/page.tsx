@@ -149,7 +149,7 @@ export default function HomePage() {
         points={[]}
         cta={{ label: 'See the Dashboard', href: '/for/agency-owner' }}
         creative="velocity-index"
-        media="left"
+        mediaSide="left"
       />
 
       <CtaBanner

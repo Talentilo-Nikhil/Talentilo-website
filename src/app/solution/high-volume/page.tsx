@@ -36,7 +36,7 @@ export default function HighVolumePage() {
         points={[]}
         cta={{ label: 'Get Started', href: '/contact' }}
         creative="hv-engaging"
-        media="left"
+        mediaSide="left"
       />
 
       <FeatureSplit
@@ -45,7 +45,7 @@ export default function HighVolumePage() {
         points={[]}
         cta={{ label: 'Get Started', href: '/contact' }}
         creative="hv-always-on"
-        media="left"
+        mediaSide="left"
       />
 
       <Section>

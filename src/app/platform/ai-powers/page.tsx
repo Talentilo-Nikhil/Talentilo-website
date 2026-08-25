@@ -47,7 +47,7 @@ export default function AiPowersPage() {
         points={[]}
         cta={{ label: 'Get Started', href: '/contact' }}
         creative="hv-engaging"
-        media="left"
+        mediaSide="left"
       />
 
       <Section>

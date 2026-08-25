@@ -71,7 +71,7 @@ export default function CommandCenterPage() {
         points={[]}
         cta={{ label: 'Get Started', href: '/contact' }}
         creative="pc-guardrails"
-        media="left"
+        mediaSide="left"
       />
 
       <CenteredFeature
