@@ -53,8 +53,8 @@ Every Figma frame in the section has a route. All 11 are implemented.
 | Figma frame | Route | File |
 |---|---|---|
 | `Homepage` | `/` | `src/app/page.tsx` |
-| `Product/command` | `/product/command` | `src/app/product/command/page.tsx` |
-| `Product/talent-intelligence` | `/product/talent-intelligence` | `src/app/product/talent-intelligence/page.tsx` |
+| `Product/command` | `/platform/recruitment-os` | `src/app/platform/recruitment-os/page.tsx` |
+| `Product/talent-intelligence` | `/platform/talent-intelligence` | `src/app/platform/talent-intelligence/page.tsx` |
 | `for/agency-owner` | `/for/agency-owner` | `src/app/for/agency-owner/page.tsx` |
 | `for/recruitment-operations` | `/for/recruitment-operations` | `src/app/for/recruitment-operations/page.tsx` |
 | `solution/high-volume` | `/solution/high-volume` | `src/app/solution/high-volume/page.tsx` |
@@ -63,6 +63,19 @@ Every Figma frame in the section has a route. All 11 are implemented.
 | `/Pricing` | `/pricing` | `src/app/pricing/page.tsx` |
 | `Contact-us` | `/contact` | `src/app/contact/page.tsx` |
 | `/404` | any unknown path | `src/app/not-found.tsx` |
+
+Three further pages have no Figma frame at all. They sit on the live site's Platform menu, and
+were built from the HTML exports Talentilo supplied, following the same template the two designed
+Platform pages use:
+
+| Page | Route | File |
+|---|---|---|
+| Faster Operations | `/platform/faster-operations` | `src/app/platform/faster-operations/page.tsx` |
+| AI Powers | `/platform/ai-powers` | `src/app/platform/ai-powers/page.tsx` |
+| Revenue Defense | `/platform/revenue-defense` | `src/app/platform/revenue-defense/page.tsx` |
+
+The two designed pages moved from `/product/` to `/platform/` so the whole menu shares one prefix,
+as the live site does. `next.config.ts` holds permanent redirects from the old URLs.
 
 Three further routes exist so the footer has no dead links: `/privacy`, `/terms`, `/trust`
 (see [Deviations](#6-deviations-and-assumptions)). Plus one API route, `POST /api/contact`.
@@ -172,7 +185,7 @@ decorative artwork marked `alt=""`.
    resolves to a real page that says what the document will cover and how to request it today.
 5. **Template leftovers are treated as placeholders, not content.** `support@artifact.com` and
    `sales@artifact.com` both become `marketing@talentilo.ai`. The "Tailored Views" tab group on
-   `/product/command` reuses a pricing toggle in the file (its labels read "Monthly / Yearly /
+   `/platform/recruitment-os` reuses a pricing toggle in the file (its labels read "Monthly / Yearly /
    Yearly"); the tabs ship with the persona labels the site actually has pages for, keeping the
    one real label the design shows, "The Owner/VP".
 6. **The billing toggle in the Figma was removed.** The file draws a Monthly / Annually switch and
@@ -184,8 +197,8 @@ decorative artwork marked `alt=""`.
    Two of the remaining four are answered from facts already on the page (annual billing, per-seat
    upgrades); the two that depend on policy we do not have (trial scope, refunds) point at the
    sales address rather than inventing terms. Confirmed by Talentilo as correct.
-8. **Two empty placeholder panels were dropped.** `Frame 45` on `/product/talent-intelligence`
-   (1312×518) and the reserved slot on `/product/command`'s mint band are flat colour blocks with
+8. **Two empty placeholder panels were dropped.** `Frame 45` on `/platform/talent-intelligence`
+   (1312×518) and the reserved slot on `/platform/recruitment-os`'s mint band are flat colour blocks with
    no content in the Figma. Shipping an empty coloured rectangle adds nothing, so those sections
    render as copy only. This is most of the height difference reported by `spec-diff` on those
    two pages.
@@ -246,7 +259,7 @@ The first pass shipped; the second pass fixed what QA and a visual review found:
 - The contact form reported a network failure on success, because `event.currentTarget` is
   nulled once the handler yields → the form element is captured before the await.
 - Hero artwork spanned the full content width instead of the width it occupies in the 1440 frame,
-  and did not bleed off the bottom of the band on `/product/command` → both corrected.
+  and did not bleed off the bottom of the band on `/platform/recruitment-os` → both corrected.
 - Two creatives duplicated copy that is also real HTML on `/migration` → replaced with the
   artwork sub-frames only.
 

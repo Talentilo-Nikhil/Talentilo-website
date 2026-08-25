@@ -41,12 +41,12 @@ export const primaryNav: NavItem[] = [
         links: [
           {
             label: 'Recruitment OS',
-            href: '/product/command',
+            href: '/platform/recruitment-os',
             description: 'Your entire operations in one view.',
           },
           {
             label: 'Talent Intelligence',
-            href: '/product/talent-intelligence',
+            href: '/platform/talent-intelligence',
             description: 'Semantic search and candidate ranking.',
           },
           {
@@ -144,8 +144,8 @@ export const legalNav: NavLink[] = [
 /** Every route the site serves, used by the QA link checker. */
 export const allRoutes = [
   '/',
-  '/product/command',
-  '/product/talent-intelligence',
+  '/platform/recruitment-os',
+  '/platform/talent-intelligence',
   '/platform/faster-operations',
   '/platform/ai-powers',
   '/platform/revenue-defense',

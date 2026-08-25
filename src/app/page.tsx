@@ -73,7 +73,7 @@ export default function HomePage() {
             className="max-w-[950px]"
           >
             <div className="mt-4 flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
-              <ButtonLink href="/product/command" variant="dark">
+              <ButtonLink href="/platform/recruitment-os" variant="dark">
                 See the OS in Action
               </ButtonLink>
               <ButtonLink href="/pricing#roi" variant="ghost">
@@ -122,7 +122,7 @@ export default function HomePage() {
           'Ranks candidates by specific fit score',
           'Shortlists top talent instantly, not in days',
         ]}
-        cta={{ label: 'Explore AI Powers', href: '/product/talent-intelligence' }}
+        cta={{ label: 'Explore AI Powers', href: '/platform/ai-powers' }}
         creative="semantic-matching"
         tone="dark"
         padding="loose"
@@ -139,7 +139,7 @@ export default function HomePage() {
           'Flags at-risk deals with actionable insights',
           'Saves lost revenue with timely follow-ups',
         ]}
-        cta={{ label: 'Explore Revenue Defense', href: '/product/command' }}
+        cta={{ label: 'Explore Revenue Defense', href: '/platform/revenue-defense' }}
         creative="offer-risk-alerts"
       />
 

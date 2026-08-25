@@ -1,69 +1,155 @@
 import type { Metadata } from 'next';
 
-import { CtaBanner } from '@/components/sections/CtaBanner';
+import { ChecklistPanel } from '@/components/panels/ChecklistPanel';
+import { ComparePanel } from '@/components/panels/ComparePanel';
+import { FlowPanel } from '@/components/panels/FlowPanel';
+import { MeterPanel } from '@/components/panels/MeterPanel';
+import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
-import { StatGrid, type Stat } from '@/components/sections/StatGrid';
-import { Section } from '@/components/ui/Section';
-import { SectionHeading } from '@/components/ui/SectionHeading';
 
 export const metadata: Metadata = {
-  title: 'Revenue Defense',
+  title: 'Offer Management & Ghosting Prevention Software',
   description:
-    'Protect your placements post-offer. Talentilo monitors every deal in your pipeline and tracks notice periods, flagging risk before you lose the commission.',
+    'The deal isn’t closed until they show up. Revenue Defense monitors the silence between signature and start date, predicting ghosting risk and counter-offers before you have to restart the search.',
   alternates: { canonical: '/platform/revenue-defense' },
 };
-
-const stats: Stat[] = [
-  { figure: '2.4X', headline: 'Increased Revenue', detail: 'Billings per recruiter without adding headcount' },
-  { figure: '97%', headline: 'Offers Protected', detail: 'Flagged before a candidate goes dark' },
-  { figure: '100m+', headline: 'Sources', detail: 'Integrations with technology partners' },
-];
 
 export default function RevenueDefensePage() {
   return (
     <>
       <PageHero
-        title="Protect Every Placement, Post-Offer"
-        lede="An accepted offer isn't a closed deal — it's the start of the riskiest part of the process. Candidates ghost. Counter-offers land. Notice periods drag. Talentilo watches every placement until the start date, so you never lose a commission you already earned."
-        cta={{ label: 'See the Safety Net in Action', href: '/contact' }}
-      />
-
-      <FeatureSplit
-        title={'Trust is Fragile.\nWe Are Your Safety Net.'}
-        body={
-          'Candidates ghost. Offers get rejected. Talentilo’s Offer Management System monitors ' +
-          'every deal in your pipeline, flagging “Risk Alerts” before you lose the commission.'
+        eyebrow="Offer Management & Pre-Boarding"
+        title={"The Deal Isn't Closed\nUntil They Show Up."}
+        lede="Recruitment teams lose 20% of secured talent after the offer is signed. Our Revenue Defense protocol monitors the danger zone — the silence between signature and start date — predicting ghosting risk and counter-offers before they force you to restart the search."
+        cta={{ label: 'Secure Your Next Hire', href: '/contact' }}
+        note="Stops fall-offs. Protects forecasts."
+        wash="dark"
+        media={
+          <FlowPanel
+            tone="dark"
+            orientation="horizontal"
+            className="mx-auto max-w-[980px]"
+            steps={[
+              { label: 'Offer signed', detail: 'The handshake, not the finish line.', state: 'done' },
+              {
+                label: 'The notice period',
+                detail: 'The danger zone — active monitoring runs here.',
+                state: 'alert',
+              },
+              { label: 'Day 1 start', detail: 'Placement secured.', state: 'done' },
+            ]}
+            connectors={['Revenue Defense', 'Safe']}
+          />
         }
-        points={[
-          'Eliminates complex offer tracking',
-          'Flags at-risk deals with actionable insights',
-          'Saves lost revenue with timely follow-ups',
-        ]}
-        cta={{ label: 'Get Started', href: '/contact' }}
-        creative="offer-risk-alerts"
       />
 
       <FeatureSplit
-        title="Notice Periods Are Where Deals Die"
-        body="A dedicated dashboard tracks every offered candidate through their notice period, surfacing counter-offer signals and silence before they turn into a fall-through — so your team follows up while there's still time to save the placement."
+        eyebrow="The Danger Zone"
+        title={'A Signed Offer is\nNot a Closed Deal.'}
+        body="Candidates are most vulnerable right after they sign. Current bosses throw counter-offers. Doubt creeps in. Passive software ignores this critical window — Talentilo actively looks for signals of a hire going sideways."
         points={[]}
-        cta={{ label: 'Get Started', href: '/contact' }}
-        creative="rd-notice-tracker"
-        mediaSide="left"
+        media={
+          <ComparePanel
+            accent="crusta"
+            before={{
+              label: 'The status quo',
+              caption: 'Result: costly backout',
+              items: [
+                'Silence after the signature',
+                'Team assumes the candidate is safe',
+                'Counter-offer strikes unseen',
+              ],
+            }}
+            after={{
+              label: 'Talentilo Defense',
+              caption: 'Result: placement secured',
+              items: [
+                'Active monitoring through notice',
+                "System detects hesitation",
+                'Alert triggers instantly',
+              ],
+              badge: 'System active',
+            }}
+          />
+        }
       />
 
-      <Section>
-        <SectionHeading
-          title="Every Placement Has a Risk Window"
-          lede="From accepted offer to first day, Talentilo keeps watch so nothing slips through between the handshake and the start date."
-        />
-        <div className="mt-15">
-          <StatGrid stats={stats} />
-        </div>
-      </Section>
+      <FeatureSplit
+        eyebrow="Predictive Analytics"
+        title={'Detect the Doubt\nBefore the Drop.'}
+        body="How do you know a hire is wobbling? They stop replying quickly. They use hesitant language. Talentilo analyses communication patterns and response times through the notice period, and triggers a risk alert the moment engagement latency climbs — while you can still intervene."
+        points={[]}
+        pullQuote="Ghosting isn't sudden. It's a pattern."
+        mediaSide="left"
+        media={
+          <MeterPanel
+            accent="rose"
+            title="Engagement Latency — Sarah T."
+            status="Anomaly detected"
+            label="Notice period · day 12 of 30"
+            value="24h+"
+            caption="Reply latency, up from a 4h average."
+            bars={[
+              { label: 'Wk 1', value: 18 },
+              { label: 'Wk 2', value: 32 },
+              { label: 'Now', value: 96, alert: true },
+            ]}
+            note="Risk alert: high probability of counter-offer. Intervene."
+          />
+        }
+      />
 
-      <CtaBanner title="Defend Every Dollar You've Earned" cta={{ label: 'Get Started', href: '/contact' }} />
+      <FeatureSplit
+        eyebrow="Process Governance"
+        title={'Hope is Not a Strategy.\nExecution Is.'}
+        body="Talentilo enforces a holistic pre-boarding protocol. Did they resign formally? Did they return the laptop? Have you sent the welcome kit? The system tracks every micro-commitment that turns a signer into a starter."
+        points={[]}
+        pullQuote="Micro-commitments prevent back-outs."
+        media={
+          <ChecklistPanel
+            title="Pre-Boarding Tracker"
+            meta="75% complete"
+            progress={75}
+            items={[
+              { label: 'Offer accepted via DocuSign', status: 'Oct 12' },
+              { label: 'Resignation letter copy uploaded', status: 'Oct 14' },
+              { label: 'Old laptop returned to employer', status: 'Oct 18' },
+              { label: 'Welcome kit sent', status: 'Pending', state: 'pending' },
+              { label: 'Day 1 orientation set', status: 'Pending', state: 'pending' },
+            ]}
+          />
+        }
+      />
+
+      <FeatureSplit
+        eyebrow="Growth-Focused Reporting"
+        title={'Protect Your Forecast.\nSecure Your Growth.'}
+        body="Inaccurate forecasts kill growth plans — you cannot count hires that fall off. Revenue Defense gives ops leaders a risk-adjusted forecast, separating solid outcomes from at-risk pipeline so you can report to the board with confidence."
+        points={[]}
+        mediaSide="left"
+        media={
+          <ComparePanel
+            before={{
+              label: 'Standard CRM forecast',
+              value: '10',
+              caption: 'Projected hires — assumes 0% drop-off',
+            }}
+            after={{
+              label: 'Risk-adjusted (Talentilo)',
+              value: '8 + 2',
+              caption: '8 solid / protected · 2 at-risk / flagged',
+              badge: 'Board-ready',
+            }}
+          />
+        }
+      />
+
+      <CtaCentered
+        title="Don't Leave the Last Step to Chance."
+        lede="Create a bulletproof hiring pipeline."
+        cta={{ label: 'Secure Your Next Hire', href: '/contact' }}
+      />
     </>
   );
 }

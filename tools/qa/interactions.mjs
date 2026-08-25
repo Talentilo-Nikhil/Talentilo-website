@@ -59,8 +59,8 @@ async function navDropdown(page) {
   check('nav: keyboard opens the dropdown', (await trigger.getAttribute('aria-expanded')) === 'true');
 
   await page.getByRole('link', { name: /Talent Intelligence/ }).first().click();
-  await page.waitForURL('**/product/talent-intelligence');
-  check('nav: dropdown links navigate', page.url().endsWith('/product/talent-intelligence'));
+  await page.waitForURL('**/platform/talent-intelligence');
+  check('nav: dropdown links navigate', page.url().endsWith('/platform/talent-intelligence'));
   check(
     'nav: dropdown closes after navigating',
     (await page.getByRole('button', { name: 'Platform' }).getAttribute('aria-expanded')) === 'false'
@@ -165,8 +165,8 @@ async function roiSliders(page) {
 }
 
 async function tabs(page) {
-  await page.goto(`${BASE}/product/command`, { waitUntil: 'networkidle' });
-  const owner = page.getByRole('tab', { name: 'The Owner/VP' });
+  await page.goto(`${BASE}/platform/recruitment-os`, { waitUntil: 'networkidle' });
+  const owner = page.getByRole('tab', { name: 'The Owner / VP' });
   const recruiter = page.getByRole('tab', { name: 'The Recruiter' });
 
   check('tabs: first tab selected', (await owner.getAttribute('aria-selected')) === 'true');
@@ -176,7 +176,7 @@ async function tabs(page) {
   check('tabs: arrow keys wrap around', (await recruiter.getAttribute('aria-selected')) === 'true');
   check(
     'tabs: panel follows selection',
-    await page.getByText('Today’s pipeline, today’s follow-ups, nothing else in the way.').isVisible()
+    await page.getByText("Today's pipeline, today's follow-ups, and nothing else in the way.").isVisible()
   );
 }
 
@@ -184,7 +184,7 @@ async function tabs(page) {
 async function tabsOnPhone(browser) {
   const context = await browser.newContext({ viewport: { width: 320, height: 812 } });
   const page = await context.newPage();
-  await page.goto(`${BASE}/product/command`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE}/platform/recruitment-os`, { waitUntil: 'networkidle' });
   const layout = await page.evaluate(() => {
     const list = document.querySelector('[role="tablist"]');
     const tops = [...list.querySelectorAll('[role="tab"]')].map((tab) =>

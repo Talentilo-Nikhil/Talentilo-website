@@ -77,24 +77,18 @@ const EXPORTS = {
     { file: 'velocity-index', path: '#6/Visual-3', label: 'Agency Velocity Index dashboard' },
   ],
 
-  'product-command': [
-    // `#1/#0/Dashboard` and the tailored-views background are also the "Spend.In" placeholder —
-    // still on the Figma path pending the hero-scale replacements in custom-creatives.mjs.
-    { file: 'pc-hero-dashboard', path: '#1/#0/Dashboard', label: 'The Command Center dashboard' },
-    // `#2/Content` and `#3/Content` hold the same placeholder — see custom-creatives.mjs for the
-    // hand-authored `pc-velocity` / `pc-guardrails` artwork.
-    {
-      file: 'pc-tailored-views',
-      path: '#5/Frame 2085665277/Background image',
-      label: 'The Command Center adapted to a leadership view',
-    },
-  ],
-
+  /**
+   * Nothing is exported from these two frames any more.
+   *
+   * Every "Content" slot on them holds the same pasted "Spend.In" invoice-app screenshot the
+   * Figma file was assembled with, not Talentilo design — that includes the hero dashboard, the
+   * tailored-views background and the Boolean comparison. `/platform/recruitment-os` and
+   * `/platform/talent-intelligence` are now built from the supplied HTML content instead, using
+   * the hand-authored creatives in custom-creatives.mjs and the panels in src/components/panels.
+   * `ti-hero-shapes` was a blank decorative group and is likewise no longer used.
+   */
+  'product-command': [],
   'product-talent-intelligence': [
-    { file: 'ti-hero-shapes', path: '#1/#0/Group 57', label: '' },
-    // `#2/Frame 2085665278` holds the same placeholder — pending a hero-scale replacement.
-    { file: 'ti-boolean', path: '#2/Frame 2085665278', label: 'Semantic reading of a candidate profile' },
-    // `#3/Content` holds the same placeholder — see custom-creatives.mjs for `ti-ranking`.
     { file: 'ti-recall', path: '#4/Frame 2085665278', label: 'External search cost compared with Active Recall' },
   ],
 

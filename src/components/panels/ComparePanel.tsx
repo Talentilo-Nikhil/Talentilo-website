@@ -102,7 +102,7 @@ function Side({
                 ? accentBadge
                 : tone === 'dark'
                   ? 'bg-white/10 text-white/65'
-                  : 'bg-ink/8 text-ink/60'
+                  : 'bg-ink/8 text-ink/75'
             )}
           >
             {side.badge}

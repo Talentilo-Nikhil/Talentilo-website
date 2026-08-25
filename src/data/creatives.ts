@@ -117,42 +117,6 @@ export const creatives = {
     "designHeight": 536,
     "alt": "Agency Velocity Index dashboard"
   },
-  "pc-hero-dashboard": {
-    "src": "/figma/creatives/pc-hero-dashboard.webp",
-    "fallback": "/figma/creatives/pc-hero-dashboard.png",
-    "width": 2138,
-    "height": 1519,
-    "designWidth": 1068.8,
-    "designHeight": 759.61,
-    "alt": "The Command Center dashboard"
-  },
-  "pc-tailored-views": {
-    "src": "/figma/creatives/pc-tailored-views.webp",
-    "fallback": "/figma/creatives/pc-tailored-views.png",
-    "width": 2624,
-    "height": 1228,
-    "designWidth": 1312,
-    "designHeight": 614,
-    "alt": "The Command Center adapted to a leadership view"
-  },
-  "ti-hero-shapes": {
-    "src": "/figma/creatives/ti-hero-shapes.webp",
-    "fallback": "/figma/creatives/ti-hero-shapes.png",
-    "width": 1270,
-    "height": 423,
-    "designWidth": 635.03,
-    "designHeight": 211.68,
-    "alt": ""
-  },
-  "ti-boolean": {
-    "src": "/figma/creatives/ti-boolean.webp",
-    "fallback": "/figma/creatives/ti-boolean.png",
-    "width": 2624,
-    "height": 890,
-    "designWidth": 1312,
-    "designHeight": 445,
-    "alt": "Semantic reading of a candidate profile"
-  },
   "ti-recall": {
     "src": "/figma/creatives/ti-recall.webp",
     "fallback": "/figma/creatives/ti-recall.png",

@@ -540,9 +540,9 @@ function tiRanking() {
   const mainCard = card('tir-main', 40, 84, 508, 270);
   const headerH = 56;
   const rows = [
-    { name: 'Sarah Chen', role: 'Senior Backend Engineer', score: 94, tier: '#15803d' },
-    { name: 'Marcus Lee', role: 'Senior Backend Engineer', score: 78, tier: '#1959dc' },
-    { name: 'Dana Ruiz', role: 'Senior Backend Engineer', score: 52, tier: '#8e8e93' },
+    { name: 'Alice M.', role: 'Sr. React Developer', score: 98, tier: '#15803d', status: 'Top Match' },
+    { name: 'Bob K.', role: 'Frontend Developer', score: 74, tier: '#1959dc', status: 'Review' },
+    { name: 'Charlie N.', role: 'Junior Developer', score: 42, tier: '#8e8e93', status: 'Low Fit' },
   ];
   const rowH = (270 - headerH) / rows.length;
   const rowsMarkup = rows

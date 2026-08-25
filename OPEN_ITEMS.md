@@ -37,18 +37,28 @@ Settled — the menus use the live labels, descriptions and grouping. Platform s
 **Core Platform** heading, now with all five live entries; Solution is two labelled columns,
 **For** and **Recruitment Type**.
 
-Faster Operations, AI Powers and Revenue Defense had no Figma pages, so they shipped without one
-at first. All three now have a page, built from the homepage's own Figma-designed teaser blocks
-(Agency Velocity Index, Semantic Matching Engine, Offer Management System) expanded into full
-pages in the same shape as the Solution pages, plus one new hand-authored creative each where the
-homepage didn't already have a second visual to reuse.
+All five Platform pages are built and now live under `/platform/`, matching the live site. The two
+that had Figma frames moved there from `/product/` — `/product/command` and
+`/product/talent-intelligence` still resolve, via permanent redirects in `next.config.ts`.
+
+The Figma file only ever contained **one template for this menu**, drawn twice. All five pages now
+follow it: hero (eyebrow, two-line headline, lede, one action, note line, visual), four body
+sections (eyebrow, heading, copy, optional pull-quote, one panel), then a closing call to action.
+Content for all five comes from the HTML exports Talentilo supplied, which supersede the thinner
+copy the first two pages were built with.
+
+Two deliberate departures from the Figma template, both taken from the live site: the Platform
+hero is **dark** rather than a light gradient wash, and each section carries a small-caps
+**eyebrow** the Figma frames did not have. The live pages' stock Tailwind palette (navy, emerald)
+was *not* carried over — the dark bands use Talentilo's own ink and brand accents so the site
+keeps one colour system.
 
 The mapping in use:
 
 | Menu entry | Page |
 |---|---|
-| Recruitment OS | `/product/command` |
-| Talent Intelligence | `/product/talent-intelligence` |
+| Recruitment OS | `/platform/recruitment-os` |
+| Talent Intelligence | `/platform/talent-intelligence` |
 | Faster Operations | `/platform/faster-operations` |
 | AI Powers | `/platform/ai-powers` |
 | Revenue Defense | `/platform/revenue-defense` |
@@ -67,8 +77,8 @@ Transcribed from the screenshots Talentilo supplied, since the sandbox cannot re
 
 | Live entry | Live description | Page in this build |
 |---|---|---|
-| Recruitment OS | Your entire operations in one view. | `/product/command` |
-| Talent Intelligence | Semantic search and candidate ranking. | `/product/talent-intelligence` |
+| Recruitment OS | Your entire operations in one view. | `/platform/recruitment-os` |
+| Talent Intelligence | Semantic search and candidate ranking. | `/platform/talent-intelligence` |
 | Faster Operations | Real-time velocity for your workflow. | `/platform/faster-operations` |
 | AI Powers | Scale your output, not your headcount. | `/platform/ai-powers` |
 | Revenue Defense | Protect your placements post-offer. | `/platform/revenue-defense` |
