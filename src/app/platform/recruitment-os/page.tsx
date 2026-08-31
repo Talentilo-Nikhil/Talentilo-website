@@ -26,15 +26,15 @@ const ownerStats: Stat[] = [
 
 const views: ViewTab[] = [
   {
-    label: 'The Owner / VP',
-    title: 'The Owner / VP',
+    label: 'The Owner/VP',
+    title: 'The Owner/VP',
     detail:
       'Strategic visibility: real-time revenue forecasts, cash flow, and the global Agency Velocity Index.',
     media: <StatGrid stats={ownerStats} />,
   },
   {
-    label: 'Ops Manager',
-    title: 'Ops Manager',
+    label: 'The Ops Manager',
+    title: 'The Ops Manager',
     detail: 'One standard of working across every desk and geography, enforced rather than requested.',
     media: (
       <ChecklistPanel
@@ -72,15 +72,13 @@ export default function RecruitmentOsPage() {
   return (
     <>
       <PageHero
-        eyebrow="Recruitment Operating System"
         title={'Your Entire Recruitment\nOperations. One View.'}
         lede="Stop managing disjointed spreadsheets. Talentilo unifies your pipelines, jobs and forecasting into a single source of truth. Get the precision instruments you need to spot bottlenecks and manage revenue risk instantly."
-        cta={{ label: 'See Talentilo in Action', href: '/contact' }}
+        cta={{ label: 'See the Dashboard Live', href: '/contact' }}
         note="Powered by the Agency Velocity Index (AVI)"
-        wash="dark"
+        wash="brand"
         media={
           <FlowPanel
-            tone="dark"
             orientation="horizontal"
             className="mx-auto max-w-[980px]"
             steps={[
@@ -118,7 +116,8 @@ export default function RecruitmentOsPage() {
         pullQuote="From Excel hell to structured truth in 30 seconds."
         creative="mg-terminal"
         creativeAlt="The Talentilo translation layer mapping a legacy export"
-        cta={{ label: 'See Talentilo in Action', href: '/migration' }}
+        tone="mint"
+        cta={{ label: 'See the Dashboard Live', href: '/migration' }}
       />
 
       <Section>
@@ -134,7 +133,7 @@ export default function RecruitmentOsPage() {
       <CtaCentered
         title="Let No Detail Get Past You."
         lede="Stop guessing and start operating with precision."
-        cta={{ label: 'Start Using Talentilo', href: '/contact' }}
+        cta={{ label: 'See how it works', href: '/contact' }}
       />
     </>
   );

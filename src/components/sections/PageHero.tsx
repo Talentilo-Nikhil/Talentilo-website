@@ -12,6 +12,11 @@ type PageHeroProps = {
   title: ReactNode;
   lede: ReactNode;
   cta?: { label: string; href: string };
+  /**
+   * Where the action sits. `above` puts it between the lede and the artwork; `overlay` floats it
+   * over the artwork's bottom edge, the way the Recruitment OS hero draws it.
+   */
+  ctaPlacement?: 'above' | 'overlay';
   /** The small line under the fold, e.g. "Powered by the Agency Velocity Index (AVI)". */
   note?: string;
   creative?: CreativeName;
@@ -41,6 +46,7 @@ export function PageHero({
   title,
   lede,
   cta,
+  ctaPlacement = 'above',
   note,
   creative,
   creativeAlt,
@@ -93,7 +99,7 @@ export function PageHero({
 
           <p className={cn('max-w-[900px] text-body', dark ? 'text-white/85' : 'text-ink/85')}>{lede}</p>
 
-          {cta ? (
+          {cta && ctaPlacement === 'above' ? (
             <div className="mt-4">
               <ButtonLink href={cta.href} variant={dark ? 'light' : 'dark'}>
                 {cta.label}
@@ -126,6 +132,14 @@ export function PageHero({
                 </div>
               ) : null}
             </div>
+          </div>
+        ) : null}
+
+        {cta && ctaPlacement === 'overlay' ? (
+          <div className="relative z-10 -mt-6 flex justify-center md:-mt-7">
+            <ButtonLink href={cta.href} variant="dark">
+              {cta.label}
+            </ButtonLink>
           </div>
         ) : null}
       </Container>
