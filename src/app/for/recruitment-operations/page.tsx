@@ -42,6 +42,8 @@ export default function RecruitmentOperationsPage() {
         quote="Talentilo.ai had everything we needed to build a stunning website in no time. The attention to detail in this product is simply remarkable."
         name="John Doe"
         role="VP of Product Development, Morance"
+        avatarHash="2f3ff23866f54c09473c12da8fca1cdaf6e98b2b"
+        tone="crusta"
       />
 
       <LogoStrip title="Trusted by industry leaders and developers worldwide" logos={[...clients]} />
@@ -58,7 +60,7 @@ export default function RecruitmentOperationsPage() {
         body="Stop pasting data between tools. It destroys visibility and frustrates your team. Talentilo connects your disjointed RecOps Tools into one unified flow. From sourcing to signing, give your leadership and your recruiters a single, clean source of truth"
         points={[]}
         creative="ro-single-truth"
-        media="left"
+        mediaSide="left"
       />
 
       <Section tone="none" className="bg-[#f3f2fe]">

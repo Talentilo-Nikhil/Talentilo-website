@@ -28,7 +28,7 @@ export default function NotFound() {
               Homepage
             </Link>
             ,{' '}
-            <Link href="/product/command" className="underline underline-offset-4 hover:text-brand-blue">
+            <Link href="/platform/recruitment-os" className="underline underline-offset-4 hover:text-brand-blue">
               Platform
             </Link>{' '}
             or{' '}

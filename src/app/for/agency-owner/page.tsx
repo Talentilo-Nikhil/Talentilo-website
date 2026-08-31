@@ -42,6 +42,8 @@ export default function AgencyOwnerPage() {
         quote="Talentilo.ai had everything we needed to build a stunning website in no time. The attention to detail in this product is simply remarkable."
         name="Paula Bennett"
         role="VP of Product Development, Morance"
+        avatarHash="da416245e6c0008541ebbaee04a05405e58598b7"
+        tone="azure"
       />
 
       <LogoStrip title="Trusted by industry leaders and developers worldwide" logos={[...clients]} />
@@ -58,7 +60,7 @@ export default function AgencyOwnerPage() {
         body="Most agencies run at 10-15% margins. A Profitable Staffing Model requires leverage. By automating the admin and defense layers, Talentilo increases your 'Revenue per Seat' efficiency, driving your bottom line straight up"
         points={[]}
         creative="ao-margins"
-        media="left"
+        mediaSide="left"
       />
 
       <Section tone="none" className="bg-[#f3f2fe]">

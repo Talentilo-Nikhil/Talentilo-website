@@ -1,22 +1,25 @@
 import { ButtonLink } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
 import { FigmaImage } from '@/components/ui/Creative';
+import type { figmaImages } from '@/data/images';
 
 /** The photographic call to action: 1400×486 cover, ink scrim, headline left, button right. */
-const COVER = '8b4fc046b6a14ec7293f0af2b03e2519cec94957' as const;
+const DEFAULT_COVER = '8b4fc046b6a14ec7293f0af2b03e2519cec94957' as const;
 
 type CtaBannerProps = {
   title: string;
   cta: { label: string; href: string };
+  /** Each page's Figma frame pairs this banner with its own photo; defaults to the shared cover. */
+  imageHash?: keyof typeof figmaImages;
 };
 
-export function CtaBanner({ title, cta }: CtaBannerProps) {
+export function CtaBanner({ title, cta, imageHash = DEFAULT_COVER }: CtaBannerProps) {
   return (
     <section className="py-10">
       <Container>
         <div className="relative isolate overflow-hidden rounded-card">
           <div className="absolute inset-0 -z-10 [&_img]:size-full [&_img]:object-cover [&_picture]:block [&_picture]:size-full">
-            <FigmaImage hash={COVER} alt="" sizes="(min-width: 1440px) 1312px, 100vw" />
+            <FigmaImage hash={imageHash} alt="" sizes="(min-width: 1440px) 1312px, 100vw" />
           </div>
           {/* The scrim from the file: ink at both edges, clear through the middle. */}
           <div

@@ -36,7 +36,7 @@ export default function HighVolumePage() {
         points={[]}
         cta={{ label: 'Get Started', href: '/contact' }}
         creative="hv-engaging"
-        media="left"
+        mediaSide="left"
       />
 
       <FeatureSplit
@@ -45,7 +45,7 @@ export default function HighVolumePage() {
         points={[]}
         cta={{ label: 'Get Started', href: '/contact' }}
         creative="hv-always-on"
-        media="left"
+        mediaSide="left"
       />
 
       <Section>
@@ -66,6 +66,7 @@ export default function HighVolumePage() {
       <CtaBanner
         title="Fill Seats with People Who Want to Stay"
         cta={{ label: 'See the Difference', href: '/contact' }}
+        imageHash="6c652468288e770c845ef5aa877e4ead5e6b85db"
       />
     </>
   );

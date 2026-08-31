@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { ArrowUpRight, Instagram, LinkedIn, X } from '@/components/icons';
 import { Logo } from '@/components/layout/Logo';
-import { footerNav, legalNav } from '@/config/navigation';
+import { footerColumns, legalNav } from '@/config/navigation';
 import { site } from '@/config/site';
 
 const socials = [
@@ -53,30 +53,64 @@ export function Footer() {
             </Link>
           </div>
 
-          <div className="flex flex-col gap-10 lg:gap-20">
-            <nav aria-label="Footer">
-              <ul className="flex flex-col gap-4 lg:gap-8">
-                {footerNav.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className="text-body text-white/90 transition-colors duration-200 hover:text-white"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+          <nav aria-label="Footer">
+            <div className="grid grid-cols-2 gap-x-10 gap-y-10 sm:grid-cols-3">
+              {footerColumns.map((column) => (
+                <div key={column.heading} className="flex flex-col gap-4">
+                  <p className="font-sans text-caption font-semibold tracking-[0.1em] text-footer-text uppercase">
+                    {column.heading}
+                  </p>
+                  <ul className="flex flex-col gap-3">
+                    {column.links.map((link) => (
+                      <li key={link.href}>
+                        <Link
+                          href={link.href}
+                          className="text-body text-white/90 transition-colors duration-200 hover:text-white"
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </nav>
+        </div>
 
-            <ul className="flex items-center gap-6">
+        <hr className="mt-16 border-0 border-t border-divider/60 lg:mt-30" />
+
+        {/* Socials sit with the legal row rather than floating under the nav columns above. */}
+        <div className="mt-8 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+            <Logo tone="light" />
+            <p className="text-small text-footer-text">
+              &copy; {new Date().getFullYear()} {site.name}. All rights reserved.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
+            <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
+              {legalNav.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="text-small text-footer-text transition-colors duration-200 hover:text-white"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <ul className="flex items-center gap-4">
               {socials.map(({ label, href, Icon }) => (
                 <li key={label}>
                   <a
                     href={href}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="inline-flex size-6 items-center justify-center text-[24px] text-white/80
+                    className="inline-flex size-4 items-center justify-center text-[16px] text-white/70
                                transition-colors duration-200 hover:text-white"
                   >
                     <Icon />
@@ -86,30 +120,6 @@ export function Footer() {
               ))}
             </ul>
           </div>
-        </div>
-
-        <hr className="mt-16 border-0 border-t border-divider/60 lg:mt-30" />
-
-        <div className="mt-8 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
-            <Logo tone="light" />
-            <p className="text-small text-footer-text">
-              &copy; {new Date().getFullYear()} {site.name}. All rights reserved.
-            </p>
-          </div>
-
-          <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
-            {legalNav.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="text-small text-footer-text transition-colors duration-200 hover:text-white"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
     </footer>

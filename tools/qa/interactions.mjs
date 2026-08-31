@@ -12,10 +12,10 @@ const BASE = process.env.BASE ?? 'http://localhost:3000';
 const results = [];
 
 /**
- * Everything src/config/navigation.ts puts in the drawer: two Platform pages, four Solution
+ * Everything src/config/navigation.ts puts in the drawer: five Platform pages, four Solution
  * pages, Migration, Pricing, Sign In and Request Demo.
  */
-const DRAWER_LINKS = 10;
+const DRAWER_LINKS = 13;
 
 function check(name, condition, detail = '') {
   results.push({ name, pass: Boolean(condition), detail });
@@ -28,10 +28,11 @@ async function navDropdown(page) {
 
   await trigger.hover();
   await page.waitForTimeout(250);
-  check('nav: dropdown opens on hover', await page.getByRole('link', { name: /Recruitment OS/ }).isVisible());
-  check('nav: aria-expanded tracks state', (await trigger.getAttribute('aria-expanded')) === 'true');
-  // The drawer carries the same headings, so these are scoped to the desktop nav.
+  // Scoped to the desktop nav: the footer now links every destination too, so an unscoped
+  // lookup would resolve to both and fail Playwright's strict mode.
   const primary = page.getByLabel('Primary');
+  check('nav: dropdown opens on hover', await primary.getByRole('link', { name: /Recruitment OS/ }).isVisible());
+  check('nav: aria-expanded tracks state', (await trigger.getAttribute('aria-expanded')) === 'true');
   check('nav: Platform is grouped under its heading', await primary.getByText('Core Platform').isVisible());
 
   // The live Solution menu is two labelled columns, not one list.
@@ -58,8 +59,8 @@ async function navDropdown(page) {
   check('nav: keyboard opens the dropdown', (await trigger.getAttribute('aria-expanded')) === 'true');
 
   await page.getByRole('link', { name: /Talent Intelligence/ }).first().click();
-  await page.waitForURL('**/product/talent-intelligence');
-  check('nav: dropdown links navigate', page.url().endsWith('/product/talent-intelligence'));
+  await page.waitForURL('**/platform/talent-intelligence');
+  check('nav: dropdown links navigate', page.url().endsWith('/platform/talent-intelligence'));
   check(
     'nav: dropdown closes after navigating',
     (await page.getByRole('button', { name: 'Platform' }).getAttribute('aria-expanded')) === 'false'
@@ -164,8 +165,8 @@ async function roiSliders(page) {
 }
 
 async function tabs(page) {
-  await page.goto(`${BASE}/product/command`, { waitUntil: 'networkidle' });
-  const owner = page.getByRole('tab', { name: 'The Owner/VP' });
+  await page.goto(`${BASE}/platform/recruitment-os`, { waitUntil: 'networkidle' });
+  const owner = page.getByRole('tab', { name: 'The Owner / VP' });
   const recruiter = page.getByRole('tab', { name: 'The Recruiter' });
 
   check('tabs: first tab selected', (await owner.getAttribute('aria-selected')) === 'true');
@@ -175,7 +176,7 @@ async function tabs(page) {
   check('tabs: arrow keys wrap around', (await recruiter.getAttribute('aria-selected')) === 'true');
   check(
     'tabs: panel follows selection',
-    await page.getByText('Today’s pipeline, today’s follow-ups, nothing else in the way.').isVisible()
+    await page.getByText("Today's pipeline, today's follow-ups, and nothing else in the way.").isVisible()
   );
 }
 
@@ -183,7 +184,7 @@ async function tabs(page) {
 async function tabsOnPhone(browser) {
   const context = await browser.newContext({ viewport: { width: 320, height: 812 } });
   const page = await context.newPage();
-  await page.goto(`${BASE}/product/command`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE}/platform/recruitment-os`, { waitUntil: 'networkidle' });
   const layout = await page.evaluate(() => {
     const list = document.querySelector('[role="tablist"]');
     const tops = [...list.querySelectorAll('[role="tab"]')].map((tab) =>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useRef, useState } from 'react';
+import { useId, useRef, useState, type ReactNode } from 'react';
 
 import { Creative } from '@/components/ui/Creative';
 import type { CreativeName } from '@/data/creatives';
@@ -10,8 +10,10 @@ export type ViewTab = {
   label: string;
   title: string;
   detail: string;
-  creative: CreativeName;
-  creativeAlt: string;
+  creative?: CreativeName;
+  creativeAlt?: string;
+  /** A hand-built panel in place of an exported creative. Takes precedence over `creative`. */
+  media?: ReactNode;
 };
 
 /**
@@ -86,9 +88,13 @@ export function TabbedViews({ tabs }: { tabs: ViewTab[] }) {
             </p>
             <p className="mt-1 text-body text-ink/80">{tab.detail}</p>
           </div>
-          <div className="w-full overflow-hidden rounded-card">
-            <Creative name={tab.creative} alt={tab.creativeAlt} sizes="(min-width: 1440px) 1312px, 100vw" />
-          </div>
+          {tab.media ? (
+            <div className="w-full">{tab.media}</div>
+          ) : tab.creative ? (
+            <div className="w-full overflow-hidden rounded-card">
+              <Creative name={tab.creative} alt={tab.creativeAlt} sizes="(min-width: 1440px) 1312px, 100vw" />
+            </div>
+          ) : null}
         </div>
       ))}
     </div>

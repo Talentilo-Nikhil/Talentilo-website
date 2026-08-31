@@ -1,8 +1,11 @@
 /** Every route the site serves, plus one that it deliberately does not (the 404 probe). */
 export const ROUTES = [
   '/',
-  '/product/command',
-  '/product/talent-intelligence',
+  '/platform/recruitment-os',
+  '/platform/talent-intelligence',
+  '/platform/faster-operations',
+  '/platform/ai-powers',
+  '/platform/revenue-defense',
   '/for/agency-owner',
   '/for/recruitment-operations',
   '/solution/high-volume',
