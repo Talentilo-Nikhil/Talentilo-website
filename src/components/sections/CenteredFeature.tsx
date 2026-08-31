@@ -42,7 +42,12 @@ export function CenteredFeature({
 
   return (
     <Section id={id} tone={tone}>
-      <SectionHeading eyebrow={eyebrow} title={title} lede={lede} tone={dark ? 'dark' : 'light'} />
+      <SectionHeading
+        eyebrow={eyebrow}
+        title={title}
+        lede={lede}
+        tone={dark ? 'dark' : tone === 'mint' ? 'mint' : 'light'}
+      />
 
       {pullQuote ? (
         <p
