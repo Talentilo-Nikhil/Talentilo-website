@@ -10,7 +10,8 @@ type SectionHeadingProps = {
   /** `display` is the 65px hero size; `section` is the 52px used by every other heading. */
   level?: 'display' | 'section';
   as?: 'h1' | 'h2' | 'h3';
-  tone?: 'light' | 'dark';
+  /** `mint` is `light` with an eyebrow dark enough to clear AA on the mint ground. */
+  tone?: 'light' | 'mint' | 'dark';
   className?: string;
   children?: ReactNode;
 };
@@ -40,7 +41,7 @@ export function SectionHeading({
         <p
           className={cn(
             'font-sans text-small font-medium tracking-[0.08em] uppercase',
-            tone === 'dark' ? 'text-white/70' : 'text-muted'
+            tone === 'dark' ? 'text-white/70' : tone === 'mint' ? 'text-ink/70' : 'text-muted'
           )}
         >
           {eyebrow}
