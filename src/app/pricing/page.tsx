@@ -124,7 +124,7 @@ export default function PricingPage() {
                 {item.name}
                 <br />
                 <span className="font-bold text-azure-700">{item.price.split('/')[0]}</span>
-                <span className="font-medium text-azure-400">/{item.price.split('/')[1]}</span>
+                <span className="font-medium text-azure-600">/{item.price.split('/')[1]}</span>
               </p>
               <p className="text-body font-semibold text-ink">{item.qualifier}</p>
               <p className="text-body text-ink/85">{item.detail}</p>
