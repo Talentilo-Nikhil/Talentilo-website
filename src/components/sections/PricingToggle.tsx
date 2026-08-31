@@ -45,7 +45,7 @@ export function PricingToggle({ name, annualSeatCost, included, coming, cta }: P
           )}
         >
           Pay Annually
-          <span className="rounded-full bg-brand-pink px-2 py-0.5 text-caption font-semibold text-white">
+          <span className="rounded-full bg-rose-700 px-2 py-0.5 text-caption font-semibold text-white">
             Save 20%
           </span>
         </button>
