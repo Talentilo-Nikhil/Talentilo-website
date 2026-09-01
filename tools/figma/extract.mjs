@@ -47,6 +47,23 @@ export const PAGE_MAP = [
   { frame: '/404', slug: 'not-found', route: '/404' },
 ];
 
+/**
+ * Pages designed in their own `.fig` rather than in the main website file. Each entry names the
+ * archive under `design/` and the top-level frames to extract from it, so a page can be re-cut
+ * from a fresh export without touching the main file.
+ */
+export const STANDALONE_SOURCES = [
+  {
+    file: 'platform-recruitment-os.fig',
+    frames: [
+      { frame: 'Platform/recruitment-os', slug: 'platform-recruitment-os', route: '/platform/recruitment-os' },
+      { frame: 'The Owner/VP', slug: 'platform-recruitment-os-owner' },
+      { frame: 'The Ops Manager', slug: 'platform-recruitment-os-ops' },
+      { frame: 'The Recruiter', slug: 'platform-recruitment-os-recruiter' },
+    ],
+  },
+];
+
 const guidKey = (g) => `${g.sessionID}:${g.localID}`;
 
 /**
@@ -244,11 +261,17 @@ export function buildTree(node, graph, blobs, ctx) {
 
       // A resized instance of a plain (non-auto-layout) master scales its contents — the icon
       // sets in this file are all drawn at 20 or 24px and placed at half a dozen other sizes.
-      // Auto-layout masters reflow instead of scaling, so they are left alone.
+      // Auto-layout masters reflow instead of scaling, so they are normally left alone; the
+      // exception is an instance shrunk by the same factor on both axes, which is a real scale
+      // rather than a reflow (a reflow moves one axis and leaves the type size alone).
       const ms = master.size;
-      const scalable = !master.stackMode || master.stackMode === 'NONE';
-      if (scalable && ms?.x > 0 && ms?.y > 0 && (Math.abs(ms.x - w) > 0.01 || Math.abs(ms.y - h) > 0.01)) {
-        childTransform = multiply(world, { m00: w / ms.x, m01: 0, m02: 0, m10: 0, m11: h / ms.y, m12: 0 });
+      if (ms?.x > 0 && ms?.y > 0 && (Math.abs(ms.x - w) > 0.01 || Math.abs(ms.y - h) > 0.01)) {
+        const sx = w / ms.x;
+        const sy = h / ms.y;
+        const reflows = master.stackMode && master.stackMode !== 'NONE';
+        if (!reflows || Math.abs(sx - sy) < 0.005) {
+          childTransform = multiply(world, { m00: sx, m01: 0, m02: 0, m10: 0, m11: sy, m12: 0 });
+        }
       }
     }
   } else if (node.type === 'SYMBOL') {
@@ -271,6 +294,18 @@ export function buildTree(node, graph, blobs, ctx) {
   return out;
 }
 
+/** Resolve one top-level frame into a spec tree rooted at its own top-left corner. */
+function treeOf(frame, graph, blobs) {
+  const world = nodeTransform(frame);
+  return buildTree(frame, graph, blobs, {
+    parentTransform: IDENTITY,
+    depth: 40,
+    overrides: null,
+    originX: world.m02,
+    originY: world.m12,
+  });
+}
+
 function main() {
   const { blobs, graph } = loadFig();
   const section = graph.nodes.find((n) => n.type === 'SECTION' && n.name === SECTION_NAME);
@@ -280,18 +315,6 @@ function main() {
   const outDir = resolve(ROOT, 'design/spec');
   mkdirSync(outDir, { recursive: true });
 
-  /** Resolve one top-level frame into a spec tree rooted at its own top-left corner. */
-  const treeOf = (frame) => {
-    const world = nodeTransform(frame);
-    return buildTree(frame, graph, blobs, {
-      parentTransform: IDENTITY,
-      depth: 40,
-      overrides: null,
-      originX: world.m02,
-      originY: world.m12,
-    });
-  };
-
   const manifest = [];
   for (const page of PAGE_MAP) {
     const frame = frames.find((f) => f.name === page.frame);
@@ -299,7 +322,7 @@ function main() {
       console.warn(`  ! frame not found: ${page.frame}`);
       continue;
     }
-    const tree = treeOf(frame);
+    const tree = treeOf(frame, graph, blobs);
 
     const file = resolve(outDir, `${page.slug}.json`);
     writeFileSync(file, `${JSON.stringify({ ...page, tree }, null, 1)}\n`);
@@ -322,9 +345,26 @@ function main() {
       console.warn(`  ! design-system frame not found: ${entry.frame}`);
       continue;
     }
-    const tree = treeOf(frame);
+    const tree = treeOf(frame, graph, blobs);
     writeFileSync(resolve(outDir, `${entry.slug}.json`), `${JSON.stringify({ ...entry, tree }, null, 1)}\n`);
     console.log(`  ${entry.slug.padEnd(30)} ${tree.box.w}x${tree.box.h}`);
+  }
+
+  for (const source of STANDALONE_SOURCES) {
+    const page = loadFig(resolve(ROOT, 'design', source.file));
+    // These files hold the page on a plain canvas, so the frames sit at the top of the graph
+    // rather than under a section.
+    const tops = page.graph.nodes.filter((n) => page.graph.parentOf(n)?.type === 'CANVAS');
+    for (const entry of source.frames) {
+      const frame = tops.find((f) => f.name === entry.frame);
+      if (!frame) {
+        console.warn(`  ! frame not found in ${source.file}: ${entry.frame}`);
+        continue;
+      }
+      const tree = treeOf(frame, page.graph, page.blobs);
+      writeFileSync(resolve(outDir, `${entry.slug}.json`), `${JSON.stringify({ ...entry, tree }, null, 1)}\n`);
+      console.log(`  ${entry.slug.padEnd(30)} ${tree.box.w}x${tree.box.h}`);
+    }
   }
 }
 

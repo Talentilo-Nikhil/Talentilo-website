@@ -132,6 +132,42 @@ const EXPORTS = {
   ],
 
   'not-found': [{ file: 'nf-shapes', path: '#1/Group 1597881551', label: '' }],
+
+  // Recruitment OS is designed in its own file, so its frames come from
+  // design/platform-recruitment-os.fig by way of STANDALONE_SOURCES.
+  'platform-recruitment-os': [
+    {
+      file: 'ros-command-center',
+      path: '#1/Frame 2085665231/Manager Review',
+      label: 'The Talentilo command centre showing a job pipeline across every hiring stage',
+    },
+    {
+      file: 'ros-pending-review',
+      path: '#2/Content',
+      label: 'A pending-review queue listing each job with its client and how long it has waited',
+    },
+    {
+      file: 'ros-guardrails',
+      path: '#3/Content',
+      label: 'Operational guardrail alerts for SLA breaches, offers, AI matches and daily digests',
+    },
+    {
+      file: 'ros-ingestion',
+      path: '#4/Frame 2085665792',
+      label: 'The Talentilo translation layer importing a legacy export into a structured candidate record',
+    },
+  ],
+
+  // One capture per role tab. Each is a whole 1312x614 frame, so the export takes the tree root.
+  'platform-recruitment-os-owner': [
+    { file: 'ros-view-owner', path: '', label: 'The owner view: annual revenue targets tracked per recruiter' },
+  ],
+  'platform-recruitment-os-ops': [
+    { file: 'ros-view-ops', path: '', label: 'The operations view: floor alerts, held-up CVs and offer accept rate' },
+  ],
+  'platform-recruitment-os-recruiter': [
+    { file: 'ros-view-recruiter', path: '', label: 'The recruiter view: a single candidate record with contact details and history' },
+  ],
 };
 
 /** Rasterise one SVG string to webp+png at `width`x`height`, write both, return its manifest entry. */
