@@ -12,11 +12,17 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
+import { STANDALONE_SOURCES } from './extract.mjs';
 import { listArchiveImages, readArchiveEntry } from './fig.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
-const FIG = resolve(ROOT, 'design/Talentilowebsite.fig');
 const OUT = resolve(ROOT, 'public/figma/images');
+
+/** Every archive an extracted page can draw its rasters from, main file first. */
+const ARCHIVES = [
+  resolve(ROOT, 'design/Talentilowebsite.fig'),
+  ...STANDALONE_SOURCES.map((source) => resolve(ROOT, 'design', source.file)),
+];
 
 function sniffExtension(buffer) {
   if (buffer.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) return 'png';
@@ -48,7 +54,14 @@ function referencedHashes() {
 async function main() {
   mkdirSync(OUT, { recursive: true });
   const wanted = referencedHashes();
-  const available = new Set(listArchiveImages(FIG).map((e) => e.slice('images/'.length)));
+  // A hash resolves against whichever archive carries it; the first match wins.
+  const available = new Map();
+  for (const fig of ARCHIVES) {
+    for (const entry of listArchiveImages(fig)) {
+      const hash = entry.slice('images/'.length);
+      if (!available.has(hash)) available.set(hash, fig);
+    }
+  }
 
   const manifest = {};
   let missing = 0;
@@ -59,7 +72,7 @@ async function main() {
       missing++;
       continue;
     }
-    const bytes = readArchiveEntry(FIG, `images/${hash}`);
+    const bytes = readArchiveEntry(available.get(hash), `images/${hash}`);
     const ext = sniffExtension(bytes);
     const short = hash.slice(0, 12);
 
