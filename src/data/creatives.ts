@@ -99,15 +99,6 @@ export const creatives = {
     "designHeight": 416.81,
     "alt": "Semantic matching engine ranking 500+ profiles down to 3 perfect matches"
   },
-  "offer-risk-alerts": {
-    "src": "/figma/creatives/offer-risk-alerts.webp",
-    "fallback": "/figma/creatives/offer-risk-alerts.png",
-    "width": 1176,
-    "height": 1072,
-    "designWidth": 588,
-    "designHeight": 536,
-    "alt": "Offer management system flagging at-risk deals"
-  },
   "velocity-index": {
     "src": "/figma/creatives/velocity-index.webp",
     "fallback": "/figma/creatives/velocity-index.png",
@@ -116,15 +107,6 @@ export const creatives = {
     "designWidth": 588,
     "designHeight": 536,
     "alt": "Agency Velocity Index dashboard"
-  },
-  "ti-recall": {
-    "src": "/figma/creatives/ti-recall.webp",
-    "fallback": "/figma/creatives/ti-recall.png",
-    "width": 2624,
-    "height": 1036,
-    "designWidth": 1312,
-    "designHeight": 518,
-    "alt": "External search cost compared with Active Recall"
   },
   "ao-testimonial": {
     "src": "/figma/creatives/ao-testimonial.webp",
@@ -216,15 +198,6 @@ export const creatives = {
     "designHeight": 595.84,
     "alt": "The Talentilo command centre showing a job pipeline across every hiring stage"
   },
-  "ros-pending-review": {
-    "src": "/figma/creatives/ros-pending-review.webp",
-    "fallback": "/figma/creatives/ros-pending-review.png",
-    "width": 1176,
-    "height": 1072,
-    "designWidth": 588,
-    "designHeight": 536,
-    "alt": "A pending-review queue listing each job with its client and how long it has waited"
-  },
   "ros-guardrails": {
     "src": "/figma/creatives/ros-guardrails.webp",
     "fallback": "/figma/creatives/ros-guardrails.png",
@@ -269,6 +242,69 @@ export const creatives = {
     "designWidth": 1312,
     "designHeight": 614,
     "alt": "The recruiter view: a single candidate record with contact details and history"
+  },
+  "ti-hero-database": {
+    "src": "/figma/creatives/ti-hero-database.webp",
+    "fallback": "/figma/creatives/ti-hero-database.png",
+    "width": 2148,
+    "height": 1191,
+    "designWidth": 1074.13,
+    "designHeight": 595.25,
+    "alt": "The Talentilo candidate database listing every profile with education, experience and skills"
+  },
+  "ti-recall": {
+    "src": "/figma/creatives/ti-recall.webp",
+    "fallback": "/figma/creatives/ti-recall.png",
+    "width": 2624,
+    "height": 1036,
+    "designWidth": 1312,
+    "designHeight": 518,
+    "alt": "External search cost compared with Active Recall"
+  },
+  "offer-risk-alerts": {
+    "src": "/figma/creatives/offer-risk-alerts.webp",
+    "fallback": "/figma/creatives/offer-risk-alerts.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Offer management system flagging at-risk deals"
+  },
+  "ros-pending-review": {
+    "src": "/figma/creatives/ros-pending-review.webp",
+    "fallback": "/figma/creatives/ros-pending-review.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "A pending-review queue listing each job with its client and how long it has waited"
+  },
+  "ti-boolean-legacy": {
+    "src": "/figma/creatives/ti-boolean-legacy.webp",
+    "fallback": "/figma/creatives/ti-boolean-legacy.png",
+    "width": 1268,
+    "height": 890,
+    "designWidth": 634,
+    "designHeight": 445,
+    "alt": "A Boolean keyword search returning no matches and filtering out a qualified candidate"
+  },
+  "ti-boolean-semantic": {
+    "src": "/figma/creatives/ti-boolean-semantic.webp",
+    "fallback": "/figma/creatives/ti-boolean-semantic.png",
+    "width": 1276,
+    "height": 890,
+    "designWidth": 638,
+    "designHeight": 445,
+    "alt": "The semantic engine reading a resume in context and surfacing the same candidate at 94% fit"
+  },
+  "ti-parser": {
+    "src": "/figma/creatives/ti-parser.webp",
+    "fallback": "/figma/creatives/ti-parser.png",
+    "width": 2624,
+    "height": 860,
+    "designWidth": 1312,
+    "designHeight": 430,
+    "alt": "Three unstructured sources — a PDF resume, an email attachment and a CSV export — parsed into one structured candidate record"
   },
   "ro-governance": {
     "src": "/figma/creatives/ro-governance.webp",

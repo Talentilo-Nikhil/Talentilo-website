@@ -52,6 +52,12 @@ export const figmaImages = {
     "height": 842,
     "webp": "/figma/images/3e55ebd74ceb.webp"
   },
+  "46700805de0d540b431a5eb62f2d4a7581c76454": {
+    "src": "/figma/images/46700805de0d.png",
+    "width": 500,
+    "height": 500,
+    "webp": "/figma/images/46700805de0d.webp"
+  },
   "5a6ae4c33e96c169ae24994372d39fad85650d3d": {
     "src": "/figma/images/5a6ae4c33e96.png",
     "width": 1167,
@@ -64,6 +70,11 @@ export const figmaImages = {
     "height": 512,
     "webp": "/figma/images/5dd56cef393f.webp"
   },
+  "5df5356b53e518ba55abdba8b9d975ddba044739": {
+    "src": "/figma/images/5df5356b53e5.png",
+    "width": 186,
+    "height": 190
+  },
   "69623334a5efb73a4c95d0ab127e9d575d57476e": {
     "src": "/figma/images/69623334a5ef.png",
     "width": 1254,
@@ -75,6 +86,12 @@ export const figmaImages = {
     "width": 1920,
     "height": 1280,
     "webp": "/figma/images/6c652468288e.webp"
+  },
+  "6d5c610031ea62603443b6478b6e4b922f719571": {
+    "src": "/figma/images/6d5c610031ea.png",
+    "width": 1080,
+    "height": 866,
+    "webp": "/figma/images/6d5c610031ea.webp"
   },
   "784c979ff3a71dfd1d868783b3460ad744a77ccb": {
     "src": "/figma/images/784c979ff3a7.png",
