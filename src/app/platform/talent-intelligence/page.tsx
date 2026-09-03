@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { CenteredFeature } from '@/components/sections/CenteredFeature';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
-import { PageHero } from '@/components/sections/PageHero';
+import { HERO_REVEAL, PageHero } from '@/components/sections/PageHero';
 import { Creative } from '@/components/ui/Creative';
 
 export const metadata: Metadata = {
@@ -36,16 +36,16 @@ export default function TalentIntelligencePage() {
         note="Powered by Contextual Semantic Scoring"
         wash="brand"
         creative="ti-hero-database"
+        reveal={HERO_REVEAL}
       />
 
       <CenteredFeature
         eyebrow="The Problem"
-        tone="mint"
         title={'Why Boolean Logic Fails\nModern Recruitment.'}
         lede="Humans don't speak in rigid keywords, and neither should your software. Talentilo understands that a resume is a career story, not a word cloud. Our engine reads between the lines to connect the dots that exact-match software blindly misses."
         cta={{ label: 'Rank Your Existing Candidates', href: '/contact' }}
         media={
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-10 md:grid-cols-2">
             <Creative
               name="ti-boolean-legacy"
               className="overflow-hidden rounded-card"
