@@ -265,6 +265,25 @@ export function buildTree(node, graph, blobs, ctx) {
     if (merged.strokeJoin) out.strokeJoin = merged.strokeJoin;
   }
 
+  // A connector is the one node whose geometry lives outside `box`: Figma stores its two
+  // endpoints relative to the connector's PARENT, and gives the node itself a zero-height box.
+  // Lift them into the render root's space the way `box` is — the node's world offset minus its
+  // own local one is the parent's origin — so the writer can draw the line without re-walking
+  // the tree. The archive carries no paint, weight or dash for these (`strokeWeight` is 0), so
+  // only the routing and the end caps survive; the writer supplies Figma's default appearance.
+  if (node.type === 'CONNECTOR' && merged.connectorStart && merged.connectorEnd) {
+    const parentX = world.m02 - (local.m02 ?? 0) - originX;
+    const parentY = world.m12 - (local.m12 ?? 0) - originY;
+    const point = (p) => ({ x: +(parentX + p.x).toFixed(2), y: +(parentY + p.y).toFixed(2) });
+    out.connector = {
+      start: point(merged.connectorStart.position),
+      end: point(merged.connectorEnd.position),
+      startCap: merged.connectorStartCap ?? 'NONE',
+      endCap: merged.connectorEndCap ?? 'NONE',
+      lineStyle: merged.connectorLineStyle ?? 'ELBOWED',
+    };
+  }
+
   const radius = cornerRadius(merged);
   if (radius) out.radius = radius;
 

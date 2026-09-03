@@ -90,14 +90,7 @@ export default function MigrationPage() {
 
       <Section>
         <div className="flex flex-col gap-12">
-          <div className="flex flex-col gap-6">
-            <SectionHeading align="left" title="We Speak Your Data's Language." />
-            <div>
-              <ButtonLink href="/contact" variant="dark">
-                Plan Your Safe Switch
-              </ButtonLink>
-            </div>
-          </div>
+          <SectionHeading align="left" title="We Speak Your Data's Language." />
 
           <div className="grid items-center gap-12 lg:grid-cols-[456px_1fr] lg:gap-15">
             <div className="flex flex-col gap-10">
@@ -114,6 +107,13 @@ export default function MigrationPage() {
                   Talentilo reads fields, specific tags, and weird formatting—and reconstructs your
                   exact workflow inside our OS.
                 </p>
+              </div>
+              {/* The action closes the two points rather than opening them, so it is read after
+                  the case for switching has been made. */}
+              <div className="self-start">
+                <ButtonLink href="/contact" variant="dark">
+                  Plan Your Safe Switch
+                </ButtonLink>
               </div>
             </div>
 
