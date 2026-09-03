@@ -136,10 +136,10 @@ export function PageHero({
         ) : null}
 
         {cta && ctaPlacement === 'overlay' ? (
-          // The button floats clear of the artwork's bottom edge instead of straddling it. The
-          // padding under it cancels the extra lift exactly — 44 - (68 - 48) at every width — so
-          // the band keeps the height it would have had with the button sitting on the edge.
-          <div className="relative z-10 -mt-[68px] flex justify-center pb-[44px] md:-mt-[72px]">
+          // The button sits well inside the artwork rather than on its bottom edge. The padding
+          // under it cancels the lift exactly — the row still contributes the 24px (20 at md) it
+          // did when the button straddled the edge — so the band and the artwork never move.
+          <div className="relative z-10 -mt-[68px] flex justify-center pb-[44px] md:-mt-[116px] md:pb-[88px]">
             <ButtonLink href={cta.href} variant="dark">
               {cta.label}
             </ButtonLink>
