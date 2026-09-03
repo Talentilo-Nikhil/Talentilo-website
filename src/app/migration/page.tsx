@@ -7,26 +7,6 @@ import { Creative } from '@/components/ui/Creative';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 
-/**
- * The file routes each "Old ATS" row into the Talentilo OS card with a dashed connector — but
- * those are Figma CONNECTOR nodes, which the offline exporter can't rasterize, so they're absent
- * from the exported artwork. Redrawn here at the file's own coordinates (a 1312x560 canvas)
- * rather than left blank.
- */
-function TransferConnectors() {
-  return (
-    <svg viewBox="0 0 1312 560" className="size-full" fill="none">
-      <path d="M440,234 C584,234 584,313 728,313" stroke="#c3cad4" strokeWidth="1.5" strokeDasharray="4 4" strokeLinecap="round" />
-      <path d="M440,313 L728,313" stroke="#c3cad4" strokeWidth="1.5" strokeDasharray="4 4" strokeLinecap="round" />
-      <path d="M440,392 C584,392 584,313 728,313" stroke="#c3cad4" strokeWidth="1.5" strokeDasharray="4 4" strokeLinecap="round" />
-      <circle cx="440" cy="234" r="3" fill="#c3cad4" />
-      <circle cx="440" cy="313" r="3" fill="#c3cad4" />
-      <circle cx="440" cy="392" r="3" fill="#c3cad4" />
-      <circle cx="728" cy="313" r="5" fill="#fdfcff" stroke="#c3cad4" strokeWidth="1.5" />
-    </svg>
-  );
-}
-
 export const metadata: Metadata = {
   title: 'Migration',
   description:
@@ -60,7 +40,6 @@ export default function MigrationPage() {
         cta={{ label: 'Plan Your Switch', href: '/contact' }}
         note="100% Data Integrity Guarantee"
         creative="mg-transfer"
-        overlay={<TransferConnectors />}
       />
 
       <Section>
