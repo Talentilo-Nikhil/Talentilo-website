@@ -44,6 +44,31 @@ const FONT_SUBSTITUTIONS = {
   Gilroy: 'Albert Sans',
 };
 
+/**
+ * One rendered line, split at the character-run boundaries the layer carries so a coloured or
+ * bolded stretch keeps its own paint. Only the first tspan is positioned; the rest flow on from
+ * it, which is what keeps a mid-line highlight sitting where Figma put it.
+ */
+function lineTspans(textOfLine, offset, runs, x, y) {
+  const place = ` x="${num(x)}" y="${num(y)}"`;
+  if (!textOfLine) return `<tspan${place}>&#160;</tspan>`;
+  if (!runs?.length) return `<tspan${place}>${esc(textOfLine)}</tspan>`;
+
+  const end = offset + textOfLine.length;
+  const parts = [];
+  for (const run of runs) {
+    const from = Math.max(run.start, offset);
+    const to = Math.min(run.end, end);
+    if (to <= from) continue;
+    const attrs =
+      (parts.length ? '' : place) +
+      (run.fill ? ` fill="${run.fill}"` : '') +
+      (run.style ? ` font-weight="${fontOf(run.style).weight}"` : '');
+    parts.push(`<tspan${attrs}>${esc(textOfLine.slice(from - offset, to - offset))}</tspan>`);
+  }
+  return parts.length ? parts.join('') : `<tspan${place}>${esc(textOfLine)}</tspan>`;
+}
+
 /** Figma font style name → CSS weight / italic. */
 function fontOf(style = '') {
   const italic = /italic/i.test(style);
@@ -207,14 +232,24 @@ class SvgWriter {
       // Figma's own line layout: baseline coordinates are absolute within the text box, so the
       // anchor is always the line's start.
       anchor = 'start';
+      let at = 0;
       tspans = node.lines
-        .map((l) => `<tspan x="${num(l.x)}" y="${num(l.y)}">${esc(l.text) || '&#160;'}</tspan>`)
+        .map((l) => {
+          const start = at;
+          at += l.text.length;
+          return lineTspans(l.text, start, node.runs, l.x, l.y);
+        })
         .join('');
     } else {
       const x = anchor === 'middle' ? node.box.w / 2 : anchor === 'end' ? node.box.w : 0;
+      let at = 0;
       tspans = String(node.text)
         .split('\n')
-        .map((line, i) => `<tspan x="${num(x)}" y="${num(lineHeight * (i + 0.78))}">${esc(line) || '&#160;'}</tspan>`)
+        .map((line, i) => {
+          const start = at;
+          at += line.length + 1; // the newline the split consumed
+          return lineTspans(line, start, node.runs, x, lineHeight * (i + 0.78));
+        })
         .join('');
     }
 

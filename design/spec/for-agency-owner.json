@@ -2861,6 +2861,19 @@
               "y": 45.33,
               "w": 296.42
              }
+            ],
+            "runs": [
+             {
+              "start": 0,
+              "end": 14,
+              "fill": "rgba(12, 10, 16, 1)",
+              "style": "SemiBold"
+             },
+             {
+              "start": 14,
+              "end": 48,
+              "fill": "rgba(12, 10, 16, 1)"
+             }
             ]
            }
           ]
@@ -15314,6 +15327,18 @@
               "y": 7.17,
               "w": 124.93
              }
+            ],
+            "runs": [
+             {
+              "start": 0,
+              "end": 3,
+              "style": "Bold"
+             },
+             {
+              "start": 3,
+              "end": 34,
+              "style": "SemiBold"
+             }
             ]
            },
            {
@@ -15356,6 +15381,18 @@
               "x": 0,
               "y": 7.17,
               "w": 125.44
+             }
+            ],
+            "runs": [
+             {
+              "start": 0,
+              "end": 3,
+              "style": "Bold"
+             },
+             {
+              "start": 3,
+              "end": 34,
+              "style": "SemiBold"
              }
             ]
            },
@@ -24638,6 +24675,18 @@
           "y": 111.2,
           "w": 208.3
          }
+        ],
+        "runs": [
+         {
+          "start": 0,
+          "end": 3,
+          "style": "SemiBold"
+         },
+         {
+          "start": 3,
+          "end": 17,
+          "style": "Regular"
+         }
         ]
        },
        {
@@ -24770,6 +24819,18 @@
           "y": 111.2,
           "w": 224.2
          }
+        ],
+        "runs": [
+         {
+          "start": 0,
+          "end": 4,
+          "style": "SemiBold"
+         },
+         {
+          "start": 4,
+          "end": 13,
+          "style": "Regular"
+         }
         ]
        },
        {
@@ -24901,6 +24962,18 @@
           "x": 35.45,
           "y": 111.2,
           "w": 186.21
+         }
+        ],
+        "runs": [
+         {
+          "start": 0,
+          "end": 6,
+          "style": "SemiBold"
+         },
+         {
+          "start": 6,
+          "end": 13,
+          "style": "Regular"
          }
         ]
        },
@@ -25613,6 +25686,22 @@
             "x": 0,
             "y": 140.04,
             "w": 608.04
+           }
+          ],
+          "runs": [
+           {
+            "start": 0,
+            "end": 16
+           },
+           {
+            "start": 16,
+            "end": 21,
+            "fill": "rgba(255, 125, 55, 1)",
+            "style": "Italic"
+           },
+           {
+            "start": 21,
+            "end": 37
            }
           ]
          },

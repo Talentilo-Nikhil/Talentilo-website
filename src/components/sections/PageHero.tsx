@@ -136,7 +136,9 @@ export function PageHero({
         ) : null}
 
         {cta && ctaPlacement === 'overlay' ? (
-          <div className="relative z-10 -mt-6 flex justify-center md:-mt-7">
+          // The band runs to the button when the artwork bleeds, so the padding that would have
+          // closed the section has to sit under the button instead.
+          <div className="relative z-10 -mt-6 flex justify-center pb-10 md:-mt-7 md:pb-12 lg:pb-14">
             <ButtonLink href={cta.href} variant="dark">
               {cta.label}
             </ButtonLink>

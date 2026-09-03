@@ -13,7 +13,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { loadFig } from './fig.mjs';
-import { autoLayout, cornerRadius, effectsToCss, paintsToCss, textStyle } from './style.mjs';
+import { autoLayout, cornerRadius, effectsToCss, paintsToCss, textStyle, toRgba } from './style.mjs';
 import { IDENTITY, isRotated, multiply, nodePaths, nodeTransform, rotationDegrees } from './geometry.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
@@ -146,6 +146,41 @@ function mergeOverride(node, overrides) {
   return direct ? { ...node, ...direct } : node;
 }
 
+/**
+ * Per-character styling inside one text layer. Figma keeps a style id for every character plus a
+ * table of the overrides those ids point at, which is how a single line ends up reading
+ * "TOTAL COST: " in the layer's own colour and "$0 / hire" in green. Flattening a layer to its
+ * node-level fill loses exactly those highlights, so the ranges are carried into the spec.
+ *
+ * Returns null when every character resolves to the layer's own style, which is the common case.
+ */
+function textRuns(node, characters) {
+  const ids = node.textData?.characterStyleIDs;
+  const table = node.textData?.styleOverrideTable;
+  if (!ids?.length || !table?.length || characters === undefined) return null;
+
+  const byId = new Map(table.map((entry) => [entry.styleID, entry]));
+  const ranges = [];
+  for (let i = 0; i < characters.length; i += 1) {
+    // The id list can run short; the tail then keeps the layer's own style.
+    const id = ids[i] ?? 0;
+    const last = ranges.at(-1);
+    if (last && last.id === id) last.end = i + 1;
+    else ranges.push({ id, start: i, end: i + 1 });
+  }
+
+  const runs = ranges.map(({ id, start, end }) => {
+    const override = byId.get(id);
+    const paint = override?.fillPaints?.find((p) => p.visible !== false && p.type === 'SOLID');
+    const run = { start, end };
+    if (paint) run.fill = toRgba(paint.color, paint.opacity ?? 1);
+    if (override?.fontName?.style) run.style = override.fontName.style;
+    return run;
+  });
+
+  return runs.some((run) => run.fill || run.style) ? runs : null;
+}
+
 /** The `Type=…, Mode=…` variant name of a symbol, split into a property map. */
 function variantProps(name) {
   if (!name?.includes('=')) return null;
@@ -257,6 +292,9 @@ export function buildTree(node, graph, blobs, ctx) {
       // Only trust the layout when its character ranges still describe the resolved copy.
       if (lines.map((l) => l.text).join('') === characters) out.lines = lines;
     }
+
+    const runs = textRuns(merged, characters);
+    if (runs) out.runs = runs;
   }
 
   if (node.type === 'VECTOR' || node.type === 'BOOLEAN_OPERATION' || node.type === 'LINE' ||
