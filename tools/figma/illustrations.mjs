@@ -134,7 +134,8 @@ const EXPORTS = {
 
   'solution-high-volume': [
     { file: 'hv-engaging', path: '#2/Visuals-1', label: 'AI voice agents engaging 500+ candidates' },
-    { file: 'hv-always-on', path: '#3/Visuals-2', label: 'AI capacity absorbing an overnight application spike' },
+    // The frame's "AI Capacity" series is a set of zero-width vectors and its first bar uses the
+    // wrong gradient — see custom-creatives.mjs for the hand-authored `hv-always-on` chart.
   ],
 
   'solution-tech-recruitment': [

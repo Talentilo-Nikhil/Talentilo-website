@@ -1229,8 +1229,141 @@ function mgTransfer() {
   };
 }
 
+/**
+ * The "Always-On Recruiting Team" chart on /solution/high-volume.
+ *
+ * The design's encoding, which is worth stating because it is easy to misread: the red mark runs
+ * the FULL height of each load bar, hour by hour. It is not a ceiling above the load and not a
+ * threshold the load approaches — it says AI capacity meets demand exactly, at every hour,
+ * including the overnight spike. That is the section's claim ("Humans can't handle that spike.
+ * Your AI Multiple can"), and the pale cap above each bar is the headroom left over.
+ *
+ * What was broken was legibility, not the idea. In the exported frame the red was a 2.25px stroke
+ * of #db1a1a sitting on a #501dba bar — two dark colours, so the series was invisible. And the
+ * bars themselves disagreed: the first was built from a different component instance and ran
+ * near-white → lavender → azure while the other nine ran deep violet, which is why the leftmost
+ * bar read as empty and the legend key matched one bar in ten.
+ *
+ * So the fix is contrast, not re-encoding: every bar takes the one periwinkle the design's legend
+ * key already showed, which is light enough for the red to read against, and the capacity mark is
+ * widened from a hairline to a 3px rule.
+ *
+ * Palette checked with the dataviz validator: #a9a6fb / #db1a1a passes the lightness band, chroma
+ * floor, colour-vision separation and surface contrast.
+ */
+function hvAlwaysOn() {
+  /** Trim the float noise the design's own coordinates carry into the markup. */
+  const num = (v) => +Number(v).toFixed(2);
+
+  const w = 588;
+  const h = 536;
+
+  const CAPACITY = '#db1a1a';
+  const CAP_TRACK = '#e7e9fc';
+
+  // The card and plot keep the exported frame's geometry so the section's layout does not move.
+  const card = { x: 34.7, y: 113.56, w: 518.6, h: 308.88, r: 18 };
+  const plot = { left: 61.7, right: 526.31, bottom: 359.44 };
+
+  // [x, width, load, headroom] — the design's own slots and volumes, untouched.
+  const columns = [
+    [61.7, 26.55, 47.25, 58.5],
+    [110.69, 26.55, 34.87, 41.62],
+    [159.69, 26.55, 43.87, 52.87],
+    [208.69, 26.55, 43.87, 52.87],
+    [257.69, 27, 119.25, 130.49],
+    [307.14, 25.87, 148.49, 156.37],
+    [355.46, 25.87, 113.62, 121.5],
+    [403.78, 25.87, 45, 52.87],
+    [452.11, 25.87, 66.37, 75.37],
+    [500.43, 25.87, 83.25, 91.12],
+  ];
+
+  /** A column with its top corners rounded and its foot square on the axis. */
+  const barPath = (x, width, height, r = 4) => {
+    const top = plot.bottom - height;
+    return (
+      `M${num(x)},${num(plot.bottom)} V${num(top + r)} Q${num(x)},${num(top)} ${num(x + r)},${num(top)} ` +
+      `H${num(x + width - r)} Q${num(x + width)},${num(top)} ${num(x + width)},${num(top + r)} ` +
+      `V${num(plot.bottom)} Z`
+    );
+  };
+
+  const plotted = columns
+    .map(([x, width, load, headroom]) => {
+      const top = plot.bottom - load;
+      const centre = x + width / 2;
+      return (
+        `<path d="${barPath(x, width, headroom)}" fill="${CAP_TRACK}" />` +
+        `<path d="${barPath(x, width, load)}" fill="url(#hv-bar)" />` +
+        // Capacity spans the whole of that hour's load — the mark's length is the message.
+        `<line x1="${num(centre)}" y1="${num(top + 4)}" x2="${num(centre)}" y2="${num(plot.bottom - 4)}" ` +
+        `stroke="${CAPACITY}" stroke-width="3" stroke-linecap="round" />`
+      );
+    })
+    .join('');
+
+  const key = (x, fill) => `<rect x="${x}" y="148.56" width="18" height="18" rx="4.5" fill="${fill}" />`;
+
+  return {
+    file: 'hv-always-on',
+    label:
+      'Application volume through an overnight campaign launch, with AI capacity running the full ' +
+      'height of every hour’s bar and headroom to spare above it',
+    designWidth: w,
+    designHeight: h,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" fill="none" role="img" aria-label="A bar chart of application load through an overnight campaign launch, with AI capacity matching every hour of it">
+      <defs>
+        <linearGradient id="hv-wash" x1="0" y1="0" x2="${w}" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#fdfcff" />
+          <stop offset="45.68%" stop-color="#b1a4ff" />
+          <stop offset="100%" stop-color="#4da8fd" />
+        </linearGradient>
+        <linearGradient id="hv-bar" x1="0" y1="${num(plot.bottom - 156.37)}" x2="0" y2="${num(plot.bottom)}" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#b1a4ff" />
+          <stop offset="100%" stop-color="#8f9df6" />
+        </linearGradient>
+        <linearGradient id="hv-key" x1="0" y1="148.56" x2="0" y2="166.56" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#b1a4ff" />
+          <stop offset="100%" stop-color="#8f9df6" />
+        </linearGradient>
+        <filter id="hv-shadow" x="-30%" y="-30%" width="160%" height="160%">
+          <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="${INK}" flood-opacity="0.12" />
+        </filter>
+      </defs>
+
+      <rect width="${w}" height="${h}" fill="url(#hv-wash)" />
+      <g stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.2" fill="none">
+        <rect x="-121.77" y="-87.8" width="140.68" height="140.68" rx="2" />
+        <rect x="17.24" y="51.21" width="140.68" height="140.68" rx="2" />
+        <rect x="156.25" y="190.22" width="140.68" height="140.68" rx="2" />
+        <rect x="-121.77" y="-87.8" width="419.53" height="419.53" rx="2" />
+      </g>
+
+      <rect x="${card.x}" y="${card.y}" width="${card.w}" height="${card.h}" rx="${card.r}" fill="white" filter="url(#hv-shadow)" />
+      <rect x="${card.x}" y="${card.y}" width="${card.w}" height="${card.h}" rx="${card.r}" fill="none" stroke="#e8ecef" stroke-width="1.12" />
+
+      ${key(66.2, 'url(#hv-key)')}
+      ${text(90.95, 162.5, 'App Load', { size: 15.75, weight: 500 })}
+      ${key(176.69, CAPACITY)}
+      ${text(201.44, 162.5, 'AI Capacity', { size: 15.75, weight: 500 })}
+
+      <rect x="379.3" y="141.93" width="147" height="31.25" rx="8" fill="#f4f2f0" />
+      ${text(452.8, 161.6, 'Response: < 2 Mins', { size: 12.37, weight: 600, anchor: 'middle' })}
+
+      ${plotted}
+
+      <rect x="61.7" y="363.44" width="464.61" height="32" rx="6" fill="none" stroke="#f4f3ff" />
+      ${text(71.7, 389.44, '08.00', { size: 12.37, weight: 500 })}
+      ${text(296, 389.44, 'Overnight Campaign Launch', { size: 12.37, weight: 500, anchor: 'middle' })}
+      ${text(516.31, 389.44, '10:00', { size: 12.37, weight: 500, anchor: 'end' })}
+    </svg>`,
+  };
+}
+
 export function customCreatives() {
   return [
+    hvAlwaysOn(),
     mgTransfer(),
     tiBooleanLegacy(),
     tiBooleanSemantic(),
