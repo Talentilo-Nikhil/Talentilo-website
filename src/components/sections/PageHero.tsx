@@ -136,9 +136,10 @@ export function PageHero({
         ) : null}
 
         {cta && ctaPlacement === 'overlay' ? (
-          // The band runs to the button when the artwork bleeds, so the padding that would have
-          // closed the section has to sit under the button instead.
-          <div className="relative z-10 -mt-6 flex justify-center pb-10 md:-mt-7 md:pb-12 lg:pb-14">
+          // The button floats clear of the artwork's bottom edge instead of straddling it. The
+          // padding under it cancels the extra lift exactly — 44 - (68 - 48) at every width — so
+          // the band keeps the height it would have had with the button sitting on the edge.
+          <div className="relative z-10 -mt-[68px] flex justify-center pb-[44px] md:-mt-[72px]">
             <ButtonLink href={cta.href} variant="dark">
               {cta.label}
             </ButtonLink>
