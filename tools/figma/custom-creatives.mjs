@@ -101,6 +101,44 @@ function alertIcon(cx, cy, size, color) {
   );
 }
 
+/**
+ * File-type badges for the parser sources. Each is a 36px tinted tile with the real glyph for
+ * that format drawn inside — a folded page for PDF, an envelope for mail, a ruled sheet for a
+ * spreadsheet — so the three inputs read as file types at a glance rather than as coloured dots.
+ */
+const FILE_TYPES = {
+  pdf: { tint: '#fee4e2', ink: '#d92d20' },
+  email: { tint: '#fef0c7', ink: '#b54708' },
+  sheet: { tint: '#dcfae6', ink: '#067647' },
+};
+
+function fileIcon(kind, x, y, size = 36) {
+  const { tint, ink } = FILE_TYPES[kind];
+  // Every glyph is authored on a 24x24 grid and scaled into the tile.
+  const s = (size * 0.58) / 24;
+  const gx = x + (size - 24 * s) / 2;
+  const gy = y + (size - 24 * s) / 2;
+
+  const page =
+    `<path d="M4 2.5h9.5L20 9v12.5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1Z" fill="none" stroke="${ink}" stroke-width="1.8" stroke-linejoin="round"/>` +
+    `<path d="M13.5 2.5V9H20" fill="none" stroke="${ink}" stroke-width="1.8" stroke-linejoin="round"/>`;
+
+  const glyph = {
+    pdf: `${page}<rect x="7.5" y="12.5" width="9" height="6.5" rx="1.5" fill="${ink}"/>`,
+    email:
+      `<rect x="2.5" y="5" width="19" height="14" rx="2.5" fill="none" stroke="${ink}" stroke-width="1.8"/>` +
+      `<path d="M3.5 7 12 13.2 20.5 7" fill="none" stroke="${ink}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>`,
+    sheet:
+      `${page}<path d="M7.5 12.5h9M7.5 16h9M12 12.5V19" fill="none" stroke="${ink}" stroke-width="1.6" stroke-linecap="round"/>` +
+      `<rect x="7.5" y="12.5" width="9" height="6.5" rx="1" fill="none" stroke="${ink}" stroke-width="1.6"/>`,
+  }[kind];
+
+  return (
+    `<rect x="${x}" y="${y}" width="${size}" height="${size}" rx="10" fill="${tint}" />` +
+    `<g transform="translate(${gx},${gy}) scale(${s})">${glyph}</g>`
+  );
+}
+
 /** Width auto-sizes to the label so longer copy (e.g. "Notify Manager") doesn't collide with the arrow. */
 function button(right, y, h, label) {
   const w = Math.max(132, 44 + label.length * 9);
@@ -537,17 +575,21 @@ function aoMargins() {
 function tiRanking() {
   const bg = backdrop({ from: '#4da8fd', mid: '#b1a4ff', to: '#fdfcff', flip: true });
 
-  const mainCard = card('tir-main', 40, 84, 508, 270);
+  // The scoreboard is the whole story here, so it carries no floating caption and sits centred
+  // in the frame rather than riding high to leave room for one.
+  const cardH = 300;
+  const cardY = (H - cardH) / 2;
+  const mainCard = card('tir-main', 40, cardY, 508, cardH);
   const headerH = 56;
   const rows = [
-    { name: 'Alice M.', role: 'Sr. React Developer', score: 98, tier: '#15803d', status: 'Top Match' },
-    { name: 'Bob K.', role: 'Frontend Developer', score: 74, tier: '#1959dc', status: 'Review' },
-    { name: 'Charlie N.', role: 'Junior Developer', score: 42, tier: '#8e8e93', status: 'Low Fit' },
+    { name: 'Alice M.', role: 'Sr. React Developer', score: 98, tier: '#15803d' },
+    { name: 'Bob K.', role: 'Frontend Developer', score: 74, tier: '#1959dc' },
+    { name: 'Charlie N.', role: 'Junior Developer', score: 42, tier: '#8e8e93' },
   ];
-  const rowH = (270 - headerH) / rows.length;
+  const rowH = (cardH - headerH) / rows.length;
   const rowsMarkup = rows
     .map((row, i) => {
-      const rowY = 84 + headerH + i * rowH;
+      const rowY = cardY + headerH + i * rowH;
       const midY = rowY + rowH / 2;
       const divider = i < rows.length - 1 ? `<line x1="64" y1="${rowY + rowH}" x2="484" y2="${rowY + rowH}" stroke="${DIVIDER}" />` : '';
       return (
@@ -559,29 +601,21 @@ function tiRanking() {
     })
     .join('');
 
-  const alert = floatingCard('tir-alert', 140, 400, 308, 92, {
-    icon: 'check',
-    headline: 'Scored, Not Guessed',
-    subtext: 'Skills density and role fit',
-  });
-
   return {
     file: 'ti-ranking',
     label: 'Candidates scored 0–100% by contextual fit',
     designWidth: W,
     designHeight: H,
     svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="Candidates scored 0–100% by contextual fit">
-      <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
+      <defs>${bg.defs}${mainCard.defs}</defs>
       ${bg.rect}
 
       ${mainCard.shadowRect}
       <g clip-path="url(#${mainCard.clipId})">
-        <rect x="40" y="84" width="508" height="${headerH}" fill="${INK}" />
-        ${text(64, 84 + headerH / 2 + 6, 'Contextual Fit Score', { size: 17, weight: 600, fill: 'white' })}
+        <rect x="40" y="${cardY}" width="508" height="${headerH}" fill="${INK}" />
+        ${text(64, cardY + headerH / 2 + 6, 'Contextual Fit Score', { size: 17, weight: 600, fill: 'white' })}
         ${rowsMarkup}
       </g>
-
-      ${alert.markup}
     </svg>`,
   };
 }
@@ -918,9 +952,9 @@ function tiParser() {
   const bg = backdrop({ from: '#cfe2ff', mid: '#e9e3ff', to: '#fdfcff', w, h });
 
   const sources = [
-    { name: 'Sanjana_Resume.pdf', meta: '3 pages · no structure', tint: '#fee2e2', mark: '#c62c08' },
-    { name: 'Fwd: CV attached.eml', meta: '1 attachment · inline text', tint: '#ffedd5', mark: '#c2410c' },
-    { name: 'linkedin_export.csv', meta: '42 columns · mixed order', tint: '#e0e7ff', mark: '#4338ca' },
+    { name: 'Sanjana_Resume.pdf', meta: '3 pages · no structure', icon: 'pdf' },
+    { name: 'Fwd: CV attached.eml', meta: '1 attachment · inline text', icon: 'email' },
+    { name: 'linkedin_export.xlsx', meta: '42 columns · mixed order', icon: 'sheet' },
   ];
   const sourceH = 76;
   const gap = 16;
@@ -935,10 +969,9 @@ function tiParser() {
       defs: c.defs,
       markup:
         `${c.shadowRect}<g clip-path="url(#${c.clipId})">` +
-        `<rect x="88" y="${y + 22}" width="32" height="32" rx="9" fill="${source.tint}" />` +
-        `<circle cx="104" cy="${y + 38}" r="4.5" fill="${source.mark}" />` +
-        text(136, y + 34, source.name, { size: 14, weight: 600 }) +
-        text(136, y + 54, source.meta, { size: 12, fill: INK_SOFT }) +
+        fileIcon(source.icon, 88, y + 20) +
+        text(140, y + 34, source.name, { size: 14, weight: 600 }) +
+        text(140, y + 54, source.meta, { size: 12, fill: INK_SOFT }) +
         '</g>' +
         // Into the collecting rail, which carries every source down to the parser.
         `<line x1="420" y1="${centres[i]}" x2="${rail}" y2="${centres[i]}" stroke="${INK}" stroke-opacity="0.35" stroke-width="1.6" />`,

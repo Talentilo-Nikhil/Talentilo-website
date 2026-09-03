@@ -22,6 +22,7 @@ const parserPoints = [
 /** The Boolean comparison is two half-width panels in the design, so each is its own creative. */
 const COMPARE_SIZES = '(min-width: 1280px) 636px, (min-width: 768px) 50vw, 100vw';
 const FULL_SIZES = '(min-width: 1440px) 1312px, 100vw';
+const RECALL_SIZES = '(min-width: 1200px) 1074px, 100vw';
 
 export default function TalentIntelligencePage() {
   return (
@@ -39,6 +40,7 @@ export default function TalentIntelligencePage() {
 
       <CenteredFeature
         eyebrow="The Problem"
+        tone="mint"
         title={'Why Boolean Logic Fails\nModern Recruitment.'}
         lede="Humans don't speak in rigid keywords, and neither should your software. Talentilo understands that a resume is a career story, not a word cloud. Our engine reads between the lines to connect the dots that exact-match software blindly misses."
         cta={{ label: 'Rank Your Existing Candidates', href: '/contact' }}
@@ -74,7 +76,11 @@ export default function TalentIntelligencePage() {
         title={'Stop Paying to Acquire\nTalent You Already Own.'}
         lede="This is the greatest inefficiency in recruitment: spending thousands on job boards to find a candidate who is already in your database. Talentilo's Active Recall continuously scans your archive against every new open role."
         pullQuote="Your highest ROI channel is your own history."
-        creative="ti-recall"
+        media={
+          // Held to the width of the hero screen above it: the panel is drawn at 1312 with 33px
+          // headings, which read oversized against the page's own type at full bleed.
+          <Creative name="ti-recall" className="mx-auto max-w-[1074px]" sizes={RECALL_SIZES} />
+        }
       />
 
       <CenteredFeature

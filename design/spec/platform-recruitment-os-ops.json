@@ -6481,6 +6481,26 @@
                               "y": 10.84,
                               "w": 330.8
                              }
+                            ],
+                            "runs": [
+                             {
+                              "start": 0,
+                              "end": 7,
+                              "style": "SemiBold"
+                             },
+                             {
+                              "start": 7,
+                              "end": 12
+                             },
+                             {
+                              "start": 12,
+                              "end": 20,
+                              "style": "SemiBold"
+                             },
+                             {
+                              "start": 20,
+                              "end": 77
+                             }
                             ]
                            }
                           ]
@@ -6793,6 +6813,21 @@
                               "x": 0,
                               "y": 10.84,
                               "w": 138.18
+                             }
+                            ],
+                            "runs": [
+                             {
+                              "start": 0,
+                              "end": 22
+                             },
+                             {
+                              "start": 22,
+                              "end": 30,
+                              "style": "SemiBold"
+                             },
+                             {
+                              "start": 30,
+                              "end": 31
                              }
                             ]
                            }
@@ -7107,6 +7142,26 @@
                               "y": 10.84,
                               "w": 198.85
                              }
+                            ],
+                            "runs": [
+                             {
+                              "start": 0,
+                              "end": 12,
+                              "style": "SemiBold"
+                             },
+                             {
+                              "start": 12,
+                              "end": 29
+                             },
+                             {
+                              "start": 29,
+                              "end": 41,
+                              "style": "SemiBold"
+                             },
+                             {
+                              "start": 41,
+                              "end": 42
+                             }
                             ]
                            }
                           ]
@@ -7151,6 +7206,26 @@
                             "x": 0,
                             "y": 10.84,
                             "w": 215.12
+                           }
+                          ],
+                          "runs": [
+                           {
+                            "start": 0,
+                            "end": 7,
+                            "style": "SemiBold"
+                           },
+                           {
+                            "start": 7,
+                            "end": 41
+                           },
+                           {
+                            "start": 41,
+                            "end": 50,
+                            "style": "SemiBold"
+                           },
+                           {
+                            "start": 50,
+                            "end": 51
                            }
                           ]
                          },
