@@ -51,6 +51,18 @@ function backdrop({ from, mid, to, flip = false, w = W, h = H }) {
   };
 }
 
+/** A flat ground, for frames the design fills with one colour rather than a wash. */
+function flatBackdrop(color, w = W, h = H) {
+  return {
+    defs: `
+      <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+        <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="${INK}" flood-opacity="0.14" />
+      </filter>
+    `,
+    rect: `<rect width="${w}" height="${h}" fill="${color}" />`,
+  };
+}
+
 /** A floating white rounded card, clipped so its header bar can't spill past the corners. */
 function card(id, x, y, w, h, r = 16) {
   return {
@@ -827,14 +839,15 @@ function candidateRow(x, rightEdge, baseline, { name, summary, pillText, pillCol
  * by side, so the card, the query field and the floating verdict line up across the gap.
  */
 const BOOL_H = 445;
+/** Both frames are filled with this one colour in the design, so neither carries a wash. */
+const BOOL_BG = '#e6f0de';
 const CARD_Y = 72;
 const CARD_H = 220;
 const FIELD_Y = 136;
 
 function tiBooleanLegacy() {
   const w = 634;
-  // Drained of brand colour: this is the tool being replaced, not the one being sold.
-  const bg = backdrop({ from: '#8f8fa6', mid: '#cfced9', to: '#fdfcff', w, h: BOOL_H });
+  const bg = flatBackdrop(BOOL_BG, w, BOOL_H);
   const mainCard = card('tbl-main', 40, CARD_Y, w - 80, CARD_H);
   const right = w - 64;
   const headerH = 48;
@@ -884,7 +897,7 @@ function tiBooleanLegacy() {
 
 function tiBooleanSemantic() {
   const w = 638;
-  const bg = backdrop({ from: '#4da8fd', mid: '#b1a4ff', to: '#fdfcff', w, h: BOOL_H });
+  const bg = flatBackdrop(BOOL_BG, w, BOOL_H);
   const mainCard = card('tbs-main', 40, CARD_Y, w - 80, CARD_H);
   const right = w - 64;
   const headerH = 48;

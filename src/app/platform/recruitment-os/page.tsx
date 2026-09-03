@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { CenteredFeature } from '@/components/sections/CenteredFeature';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
-import { PageHero } from '@/components/sections/PageHero';
+import { HERO_REVEAL, PageHero } from '@/components/sections/PageHero';
 import { TabbedViews, type ViewTab } from '@/components/sections/TabbedViews';
 import { Creative } from '@/components/ui/Creative';
 import { Section } from '@/components/ui/Section';
@@ -52,6 +52,7 @@ export default function RecruitmentOsPage() {
         note="Powered by the Agency Velocity Index (AVI)"
         wash="brand"
         creative="ros-command-center"
+        reveal={HERO_REVEAL}
       />
 
       <FeatureSplit
