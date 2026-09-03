@@ -148,6 +148,53 @@ class SvgWriter {
     return 'none';
   }
 
+  /**
+   * A Figma connector: the dashed link between two panels that the archive stores as endpoints
+   * and end caps only. It carries no stroke paint, weight or dash pattern of its own — Figma
+   * renders those from its connector defaults — so the appearance is supplied here to match.
+   */
+  connector({ start, end, startCap, endCap, lineStyle }, origin) {
+    const stroke = '#7b7b82';
+    const width = 1.4;
+    const local = (p) => ({ x: p.x - origin.x, y: p.y - origin.y });
+    [start, end] = [local(start), local(end)];
+
+    // Elbowed routing turns a corner halfway along; a run that is level within a pixel is the
+    // straight line the design actually shows, and bending it would only add a visible kink.
+    const level = Math.abs(end.y - start.y) <= 1;
+    const bend = { x: (start.x + end.x) / 2, y: 0 };
+    const path =
+      lineStyle === 'ELBOWED' && !level
+        ? `M${num(start.x)},${num(start.y)} L${num(bend.x)},${num(start.y)} ` +
+          `L${num(bend.x)},${num(end.y)} L${num(end.x)},${num(end.y)}`
+        : `M${num(start.x)},${num(start.y)} L${num(end.x)},${num(end.y)}`;
+
+    // The head points away from the far end, so each cap is aimed by the segment reaching it.
+    const head = (tip, from) => {
+      const angle = Math.atan2(tip.y - from.y, tip.x - from.x);
+      const arm = (turn) => ({
+        x: tip.x - 7 * Math.cos(angle + turn),
+        y: tip.y - 7 * Math.sin(angle + turn),
+      });
+      const [a, b] = [arm(-0.5), arm(0.5)];
+      return (
+        `<path d="M${num(a.x)},${num(a.y)} L${num(tip.x)},${num(tip.y)} L${num(b.x)},${num(b.y)}" ` +
+        `stroke="${stroke}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"/>`
+      );
+    };
+
+    const near = lineStyle === 'ELBOWED' && !level ? { ...bend, y: start.y } : end;
+    const far = lineStyle === 'ELBOWED' && !level ? { ...bend, y: end.y } : start;
+
+    return (
+      `<g fill="none">` +
+      `<path d="${path}" stroke="${stroke}" stroke-width="${width}" stroke-dasharray="4 4" stroke-linecap="round"/>` +
+      (startCap === 'NONE' ? '' : head(start, near)) +
+      (endCap === 'NONE' ? '' : head(end, far)) +
+      '</g>'
+    );
+  }
+
   shape(node, transform) {
     const { box } = node;
     const parts = [];
@@ -309,6 +356,10 @@ class SvgWriter {
   /** Render a node and everything under it into an SVG fragment. */
   walk(node, origin) {
     if (node.hidden) return '';
+
+    // A connector carries its own endpoints rather than sitting in a box, so it is drawn straight
+    // into the root's space instead of inside the node transform every other shape uses.
+    if (node.connector) return this.connector(node.connector, origin);
 
     const t = this.transformOf(node, origin);
     const opacity = node.opacity !== undefined && node.opacity < 1 ? ` opacity="${node.opacity}"` : '';
