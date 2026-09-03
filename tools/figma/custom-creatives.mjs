@@ -690,13 +690,14 @@ function trVerify() {
   const bg = backdrop({ from: '#fe7c34', mid: '#ffddb1', to: '#fdfcff', flip: true });
 
   // Without its button the floating card only needs room for the icon and two lines, so it comes
-  // down from 124 to 70 — which leaves the icon's 12px of top padding matched at the bottom. The
-  // table and the card it overlaps are then centred as one block instead of sitting high.
+  // down from 124 to 70 — which leaves the icon's 12px of top padding matched at the bottom. It
+  // clears the table rather than overlapping it, and the two are centred as one block so the
+  // gap between them does not push the composition off the bottom of the canvas.
   const cardH = 270;
   const alertH = 70;
-  const overlap = 8;
-  const cardY = (H - (cardH - overlap + alertH)) / 2;
-  const alertY = cardY + cardH - overlap;
+  const gap = 20;
+  const cardY = (H - (cardH + gap + alertH)) / 2;
+  const alertY = cardY + cardH + gap;
 
   const mainCard = card('trv-main', 40, cardY, 508, cardH);
   const headerH = 56;
