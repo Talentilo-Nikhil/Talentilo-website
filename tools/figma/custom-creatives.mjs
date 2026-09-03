@@ -1051,8 +1051,187 @@ function tiParser() {
   };
 }
 
+/** Rough advance width of a string, for sizing a chip around copy the rasteriser measures later. */
+const estWidth = (str, size) => str.length * size * 0.54;
+
+/** A pill sized to its own label, centred on `cx` — for the caption under each card. */
+function autoPill(cx, y, label, { h = 40, size = 15, fill = 'white', textFill = INK, weight = 500 } = {}) {
+  const w = Math.round(estWidth(label, size) + 40);
+  return pill(cx - w / 2, y, w, h, { fill, text: label, textFill, size, weight });
+}
+
+/** A grey chip carrying one fact from the record, drawn from its left edge. */
+const chipW = (label, size = 13) => Math.round(estWidth(label, size) + 28);
+
+function factChip(x, y, label, { size = 13, h = 30 } = {}) {
+  const w = chipW(label, size);
+  return (
+    `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="#f4f5f7" />` +
+    text(x + w / 2, y + h / 2 + size * 0.36, label, { size, fill: '#5b6270', anchor: 'middle' })
+  );
+}
+
+/** Initials on a tinted disc — a person in the record without putting a stock face on the page. */
+function avatar(cx, cy, r, initials) {
+  return (
+    `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#e9e5ff" />` +
+    text(cx, cy + r * 0.34, initials, { size: Math.round(r * 0.82), weight: 600, fill: '#4c3fbb', anchor: 'middle' })
+  );
+}
+
+/**
+ * The pair of dashed arcs the reference draws between two panels, which reads as a flow rather
+ * than as a wire.
+ *
+ * Drawn as a funnel rather than a closed lens: the two curves start apart at the leaving card and
+ * converge on a single point at the arriving one, so the link carries a direction — a whole record
+ * gathered into one place — instead of sitting there symmetrically. Both ends stop short of the
+ * panels so it reads as spanning the gap rather than welded to them.
+ */
+function flowLink(x1, x2, cy, color = INK) {
+  const [from, to] = [x1 + 8, x2 - 12];
+  const spread = 34;
+  const c = (to - from) * 0.55;
+  const arc = (dir) =>
+    `<path d="M${from},${cy + dir * spread} C${from + c},${cy + dir * spread} ${to - c},${cy} ${to},${cy}" ` +
+    `fill="none" stroke="${color}" stroke-opacity="0.38" stroke-width="1.6" stroke-dasharray="5 5" stroke-linecap="round" />`;
+  return arc(-1) + arc(1) + `<circle cx="${to}" cy="${cy}" r="3" fill="${color}" fill-opacity="0.35" />`;
+}
+
+/**
+ * The /migration hero. The first pass at this was a field-mapping table — accurate, and readable
+ * only to someone who already knows what a database column is. This tells the same story the way
+ * the page's visitor experiences it: one candidate, shown in the system they're leaving, in the
+ * move itself, and in Talentilo — with the numbers on the third card echoing the first exactly.
+ * That echo is the whole argument, and it needs no vocabulary to follow.
+ */
+function mgTransfer() {
+  const w = 1312;
+  const h = 560;
+  // crusta-100, the ground the exported frame already sat on, so the hero band's colour holds.
+  const bg = flatBackdrop('#ffe9d4', w, h);
+
+  const OK = '#067647';
+  const OK_TINT = '#dcfae6';
+
+  const top = 88;
+  const cardH = 344;
+  const mid = top + cardH / 2;
+  const bottom = top + cardH;
+
+  const cards = [
+    { id: 'was', x: 50, w: 300, caption: 'Your old ATS' },
+    { id: 'move', x: 446, w: 380, caption: 'The move' },
+    { id: 'now', x: 922, w: 340, caption: 'Talentilo OS' },
+  ].map((c) => ({ ...c, cx: c.x + c.w / 2, right: c.x + c.w, ...card(`mg-${c.id}`, c.x, top, c.w, cardH, 20) }));
+
+  const [was, move, now] = cards;
+
+  // ---- the record as it sits in the old system -------------------------------------------------
+  const facts = ['47 notes', '12 submissions'];
+  const factsWidth = facts.reduce((sum, f) => sum + chipW(f), 0) + 10 * (facts.length - 1);
+  let factX = was.cx - factsWidth / 2;
+  const chipsRow = facts
+    .map((label) => {
+      const markup = factChip(factX, 300, label);
+      factX += chipW(label) + 10;
+      return markup;
+    })
+    .join('');
+
+  const wasCard =
+    avatar(was.cx, 162, 36, 'PN') +
+    text(was.cx, 240, 'Priya Nair', { size: 22, weight: 600, anchor: 'middle' }) +
+    text(was.cx, 264, 'Senior Data Engineer', { size: 13, fill: INK_SOFT, anchor: 'middle' }) +
+    `<line x1="${was.x + 24}" y1="286" x2="${was.right - 24}" y2="286" stroke="${DIVIDER}" />` +
+    chipsRow +
+    factChip(was.cx - chipW('Tagged: Fintech') / 2, 340, 'Tagged: Fintech') +
+    text(was.cx, 396, 'In your ATS since 2019', { size: 12, fill: INK_SOFT, anchor: 'middle' });
+
+  // ---- the move itself --------------------------------------------------------------------------
+  const moving = ['Contacts & notes', 'Custom fields', 'Stage history', 'Tags & talent pools'];
+  const moveRows = moving
+    .map((label, i) => {
+      const cy = 196 + i * 52;
+      return (
+        `<circle cx="${move.x + 46}" cy="${cy}" r="12" fill="${OK_TINT}" />` +
+        checkIcon(move.x + 46, cy, 14, OK) +
+        text(move.x + 74, cy + 5, label, { size: 15, weight: 500 })
+      );
+    })
+    .join('');
+
+  const moveCard =
+    text(move.x + 32, 130, 'Moving across', { size: 16, weight: 600 }) +
+    pill(move.right - 32 - 64, 110, 64, 26, { fill: OK_TINT, text: '100%', textFill: OK, size: 12 }) +
+    `<rect x="${move.x + 32}" y="148" width="${move.w - 64}" height="8" rx="4" fill="#12b76a" />` +
+    moveRows +
+    `<line x1="${move.x + 32}" y1="388" x2="${move.right - 32}" y2="388" stroke="${DIVIDER}" />` +
+    text(move.x + 32, 414, '48,210 records moved · 0 lost', { size: 13, fill: INK_SOFT });
+
+  // ---- the same record, arrived -----------------------------------------------------------------
+  const kept = [
+    ['Notes', '47'],
+    ['Submissions', '12'],
+    ['Tags', 'Fintech'],
+    ['Stage history', 'Intact'],
+  ];
+  const keptRows = kept
+    .map(([label, value], i) => {
+      const cy = 222 + i * 40;
+      const rule =
+        i < kept.length - 1
+          ? `<line x1="${now.x + 32}" y1="${cy + 20}" x2="${now.right - 32}" y2="${cy + 20}" stroke="${DIVIDER}" />`
+          : '';
+      return (
+        text(now.x + 32, cy + 5, label, { size: 13, fill: INK_SOFT }) +
+        text(now.right - 32, cy + 5, value, { size: 14, weight: 600, anchor: 'end' }) +
+        rule
+      );
+    })
+    .join('');
+
+  const nowCard =
+    avatar(now.x + 56, 140, 24, 'PN') +
+    text(now.x + 92, 136, 'Priya Nair', { size: 18, weight: 600 }) +
+    text(now.x + 92, 157, 'Senior Data Engineer', { size: 12, fill: INK_SOFT }) +
+    `<line x1="${now.x + 32}" y1="190" x2="${now.right - 32}" y2="190" stroke="${DIVIDER}" />` +
+    keptRows +
+    pill(now.x + 32, 380, now.w - 64, 34, {
+      fill: OK_TINT,
+      text: 'Nothing left behind',
+      textFill: OK,
+      size: 14,
+    });
+
+  const bodies = [wasCard, moveCard, nowCard];
+
+  return {
+    file: 'mg-transfer',
+    label:
+      'One candidate record shown three times — in the old ATS, mid-move with every part of the ' +
+      'record ticked off, and arrived in Talentilo with the same notes, submissions and tags intact',
+    designWidth: w,
+    designHeight: h,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" fill="none" role="img" aria-label="The same candidate record in the old ATS, mid-migration, and arrived in Talentilo with nothing lost">
+      <defs>${bg.defs}${cards.map((c) => c.defs).join('')}</defs>
+      ${bg.rect}
+
+      ${flowLink(was.right, move.x, mid)}
+      ${flowLink(move.right, now.x, mid)}
+
+      ${cards
+        .map((c, i) => `${c.shadowRect}<g clip-path="url(#${c.clipId})">${bodies[i]}</g>`)
+        .join('')}
+
+      ${cards.map((c) => autoPill(c.cx, bottom + 28, c.caption)).join('')}
+    </svg>`,
+  };
+}
+
 export function customCreatives() {
   return [
+    mgTransfer(),
     tiBooleanLegacy(),
     tiBooleanSemantic(),
     tiParser(),
