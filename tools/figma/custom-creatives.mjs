@@ -1229,8 +1229,148 @@ function mgTransfer() {
   };
 }
 
+/**
+ * The "Always-On Recruiting Team" chart on /solution/high-volume.
+ *
+ * The exported frame had two faults, both in the design file rather than the exporter. Its
+ * "AI Capacity" series was a set of zero-width VECTOR nodes, so the only thing that could ever
+ * render was a 2px hairline down the middle of each bar — a line cannot be compared against a
+ * bar, so the second series carried no information. And the first bar was built from a different
+ * component instance than the other nine: its gradient ran near-white → lavender → azure (the
+ * page's background wash) instead of the violet the rest used, which is why the leftmost bar read
+ * as empty. The legend swatch was built from that same wrong instance, so it matched one bar in
+ * ten.
+ *
+ * Redrawn here against the section's copy — a campaign launches, 500 applications land overnight,
+ * and the AI absorbs the spike. That makes capacity a ceiling, so it is drawn as one: a rule
+ * across the plot with every bar under it, and the pale column behind each bar showing the
+ * headroom left. One gradient for all ten bars, and the legend now shows it.
+ *
+ * Palette checked with the dataviz validator: #7036f2 / #db1a1a passes the lightness band, chroma
+ * floor, CVD separation (ΔE 32.8 protan) and surface contrast. Both hues are the design's own.
+ */
+function hvAlwaysOn() {
+  /** Trim the float noise the design's own coordinates carry into the markup. */
+  const num = (v) => +Number(v).toFixed(2);
+
+  const w = 588;
+  const h = 536;
+
+  const VIOLET_DARK = '#501dba';
+  const VIOLET = '#7036f2';
+  const CAPACITY = '#db1a1a';
+  const TRACK = '#f4f3ff';
+
+  // The card and plot keep the exported frame's geometry so the section's layout does not move.
+  const card = { x: 34.7, y: 113.56, w: 518.6, h: 308.88, r: 18 };
+  const plot = { left: 61.7, right: 526.31, bottom: 359.44 };
+
+  // Ten slots at the design's own positions, and its own relative volumes. The tallest is held to
+  // 118 of the plot's 156px so the ceiling at 138 clears it: headroom is the point of the chart,
+  // and in the original the two were 8px apart, which reads as capacity running out.
+  const columns = [
+    [61.7, 26.55, 47.25],
+    [110.69, 26.55, 34.87],
+    [159.69, 26.55, 43.87],
+    [208.69, 26.55, 43.87],
+    [257.69, 27, 119.25],
+    [307.14, 25.87, 148.49],
+    [355.46, 25.87, 113.62],
+    [403.78, 25.87, 45],
+    [452.11, 25.87, 66.37],
+    [500.43, 25.87, 83.25],
+  ];
+  const CEILING = 138;
+  const scale = 118 / Math.max(...columns.map((c) => c[2]));
+  const yCap = plot.bottom - CEILING;
+
+  /** A column with its top corners rounded and its foot square on the axis. */
+  const barPath = (x, width, height, r = 4) => {
+    const top = plot.bottom - height;
+    return (
+      `M${num(x)},${num(plot.bottom)} V${num(top + r)} Q${num(x)},${num(top)} ${num(x + r)},${num(top)} ` +
+      `H${num(x + width - r)} Q${num(x + width)},${num(top)} ${num(x + width)},${num(top + r)} ` +
+      `V${num(plot.bottom)} Z`
+    );
+  };
+
+  const plotted = columns
+    .map(([x, width, value]) => {
+      // The pale column is the capacity envelope; the violet fill inside it is the load.
+      return (
+        `<path d="${barPath(x, width, CEILING)}" fill="${TRACK}" />` +
+        `<path d="${barPath(x, width, value * scale)}" fill="url(#hv-bar)" />`
+      );
+    })
+    .join('');
+
+  // A legend key reads fastest when it is the shape of the mark it stands for: a filled tile for
+  // the bars, a rule for the ceiling. Matching them is what lets the direct label come off the
+  // plot without the line losing its identity.
+  const tileKey = (x, fill) => `<rect x="${x}" y="148.56" width="18" height="18" rx="4.5" fill="${fill}" />`;
+  const ruleKey = (x, fill) => `<rect x="${x}" y="156.06" width="18" height="3" rx="1.5" fill="${fill}" />`;
+
+  return {
+    file: 'hv-always-on',
+    label:
+      'Application volume through an overnight campaign launch, every hour of it sitting under the ' +
+      'AI capacity ceiling with headroom to spare',
+    designWidth: w,
+    designHeight: h,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" fill="none" role="img" aria-label="A bar chart of application load through an overnight campaign launch, with every bar below the AI capacity ceiling">
+      <defs>
+        <linearGradient id="hv-wash" x1="0" y1="0" x2="${w}" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#fdfcff" />
+          <stop offset="45.68%" stop-color="#b1a4ff" />
+          <stop offset="100%" stop-color="#4da8fd" />
+        </linearGradient>
+        <linearGradient id="hv-bar" x1="0" y1="${num(plot.bottom - CEILING)}" x2="0" y2="${num(plot.bottom)}" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="${VIOLET}" />
+          <stop offset="100%" stop-color="${VIOLET_DARK}" />
+        </linearGradient>
+        <linearGradient id="hv-swatch" x1="0" y1="148.56" x2="0" y2="166.56" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="${VIOLET}" />
+          <stop offset="100%" stop-color="${VIOLET_DARK}" />
+        </linearGradient>
+        <filter id="hv-shadow" x="-30%" y="-30%" width="160%" height="160%">
+          <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="${INK}" flood-opacity="0.12" />
+        </filter>
+      </defs>
+
+      <rect width="${w}" height="${h}" fill="url(#hv-wash)" />
+      <g stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.2" fill="none">
+        <rect x="-121.77" y="-87.8" width="140.68" height="140.68" rx="2" />
+        <rect x="17.24" y="51.21" width="140.68" height="140.68" rx="2" />
+        <rect x="156.25" y="190.22" width="140.68" height="140.68" rx="2" />
+        <rect x="-121.77" y="-87.8" width="419.53" height="419.53" rx="2" />
+      </g>
+
+      <rect x="${card.x}" y="${card.y}" width="${card.w}" height="${card.h}" rx="${card.r}" fill="white" filter="url(#hv-shadow)" />
+      <rect x="${card.x}" y="${card.y}" width="${card.w}" height="${card.h}" rx="${card.r}" fill="none" stroke="#e8ecef" stroke-width="1.12" />
+
+      ${tileKey(66.2, 'url(#hv-swatch)')}
+      ${text(90.95, 162.5, 'App Load', { size: 15.75, weight: 500 })}
+      ${ruleKey(176.69, CAPACITY)}
+      ${text(201.44, 162.5, 'AI Capacity', { size: 15.75, weight: 500 })}
+
+      <rect x="379.3" y="141.93" width="147" height="31.25" rx="8" fill="#f4f2f0" />
+      ${text(452.8, 161.6, 'Response: < 2 Mins', { size: 12.37, weight: 600, anchor: 'middle' })}
+
+      ${plotted}
+
+      <line x1="${plot.left}" y1="${num(yCap)}" x2="${plot.right}" y2="${num(yCap)}" stroke="${CAPACITY}" stroke-width="2" stroke-linecap="round" />
+
+      <rect x="61.7" y="363.44" width="464.61" height="32" rx="6" fill="none" stroke="${TRACK}" />
+      ${text(71.7, 389.44, '08.00', { size: 12.37, weight: 500 })}
+      ${text(296, 389.44, 'Overnight Campaign Launch', { size: 12.37, weight: 500, anchor: 'middle' })}
+      ${text(516.31, 389.44, '10:00', { size: 12.37, weight: 500, anchor: 'end' })}
+    </svg>`,
+  };
+}
+
 export function customCreatives() {
   return [
+    hvAlwaysOn(),
     mgTransfer(),
     tiBooleanLegacy(),
     tiBooleanSemantic(),

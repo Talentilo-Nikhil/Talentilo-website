@@ -135,15 +135,6 @@ export const creatives = {
     "designHeight": 536,
     "alt": "AI voice agents engaging 500+ candidates"
   },
-  "hv-always-on": {
-    "src": "/figma/creatives/hv-always-on.webp",
-    "fallback": "/figma/creatives/hv-always-on.png",
-    "width": 1176,
-    "height": 1072,
-    "designWidth": 588,
-    "designHeight": 536,
-    "alt": "AI capacity absorbing an overnight application spike"
-  },
   "mg-card-bullhorn": {
     "src": "/figma/creatives/mg-card-bullhorn.webp",
     "fallback": "/figma/creatives/mg-card-bullhorn.png",
@@ -269,6 +260,15 @@ export const creatives = {
     "designWidth": 588,
     "designHeight": 536,
     "alt": "A pending-review queue listing each job with its client and how long it has waited"
+  },
+  "hv-always-on": {
+    "src": "/figma/creatives/hv-always-on.webp",
+    "fallback": "/figma/creatives/hv-always-on.png",
+    "width": 1176,
+    "height": 1072,
+    "designWidth": 588,
+    "designHeight": 536,
+    "alt": "Application volume through an overnight campaign launch, every hour of it sitting under the AI capacity ceiling with headroom to spare"
   },
   "mg-transfer": {
     "src": "/figma/creatives/mg-transfer.webp",
