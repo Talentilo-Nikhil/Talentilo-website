@@ -5179,6 +5179,19 @@
                   "offset": {
                    "x": 229.5,
                    "y": 108.87
+                  },
+                  "connector": {
+                   "start": {
+                    "x": 473.95,
+                    "y": 731.67
+                   },
+                   "end": {
+                    "x": 786.06,
+                    "y": 819.58
+                   },
+                   "startCap": "ROUND",
+                   "endCap": "CIRCLE_FILLED",
+                   "lineStyle": "ELBOWED"
                   }
                  },
                  {
@@ -5194,6 +5207,19 @@
                   "offset": {
                    "x": 229.5,
                    "y": 137.98
+                  },
+                  "connector": {
+                   "start": {
+                    "x": 277.95,
+                    "y": 710.71
+                   },
+                   "end": {
+                    "x": 786.17,
+                    "y": 848.69
+                   },
+                   "startCap": "ROUND",
+                   "endCap": "CIRCLE_FILLED",
+                   "lineStyle": "ELBOWED"
                   }
                  },
                  {
@@ -5209,6 +5235,19 @@
                   "offset": {
                    "x": 229.5,
                    "y": 26.35
+                  },
+                  "connector": {
+                   "start": {
+                    "x": 473.95,
+                    "y": 731.67
+                   },
+                   "end": {
+                    "x": 786.96,
+                    "y": 790.83
+                   },
+                   "startCap": "ROUND",
+                   "endCap": "CIRCLE_FILLED",
+                   "lineStyle": "ELBOWED"
                   }
                  }
                 ]
@@ -7607,6 +7646,19 @@
               "offset": {
                "x": 158,
                "y": 38.69
+              },
+              "connector": {
+               "start": {
+                "x": 274,
+                "y": 1617.28
+               },
+               "end": {
+                "x": 377.45,
+                "y": 1618.02
+               },
+               "startCap": "ARROW_LINES",
+               "endCap": "NONE",
+               "lineStyle": "ELBOWED"
               }
              },
              {
@@ -7622,6 +7674,19 @@
               "offset": {
                "x": 157.83,
                "y": 110.46
+              },
+              "connector": {
+               "start": {
+                "x": 273.83,
+                "y": 1689.05
+               },
+               "end": {
+                "x": 377.62,
+                "y": 1689.81
+               },
+               "startCap": "ARROW_LINES",
+               "endCap": "NONE",
+               "lineStyle": "ELBOWED"
               }
              },
              {
@@ -8105,6 +8170,19 @@
                 "offset": {
                  "x": 44.5,
                  "y": 22.6
+                },
+                "connector": {
+                 "start": {
+                  "x": 1035.44,
+                  "y": 1545.83
+                 },
+                 "end": {
+                  "x": 1125.86,
+                  "y": 1546.27
+                 },
+                 "startCap": "ROUND",
+                 "endCap": "ARROW_LINES",
+                 "lineStyle": "ELBOWED"
                 }
                },
                {
