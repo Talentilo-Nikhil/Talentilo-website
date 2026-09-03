@@ -72,6 +72,8 @@ export function PageHero({
   // A raster mockup bleeds off the bottom edge, the way the Figma heroes draw it. A hand-built
   // panel is content, so it keeps the band's normal bottom padding and stays whole.
   const bleeds = Boolean(creative) && !media;
+  // The button can only float over artwork, and only artwork that bleeds off the band.
+  const overlaysCta = bleeds && cta && ctaPlacement === 'overlay';
 
   return (
     <section
@@ -138,16 +140,23 @@ export function PageHero({
                   {overlay}
                 </div>
               ) : null}
+              {overlaysCta ? (
+                // Placed absolutely rather than lifted out of the flow: the button then adds no
+                // height at all, so the band ends exactly where the clipped artwork does and no
+                // strip of gradient shows beneath it. The design puts its foot 37px above.
+                <div className="absolute inset-x-0 bottom-3 z-10 flex justify-center md:bottom-[37px]">
+                  <ButtonLink href={cta.href} variant="dark">
+                    {cta.label}
+                  </ButtonLink>
+                </div>
+              ) : null}
             </div>
           </div>
         ) : null}
 
-        {cta && ctaPlacement === 'overlay' ? (
-          // Placed the way the design does it: the button's top sits 85px above the band's bottom
-          // edge and its foot 37px above, and the padding cancels the lift exactly so the band
-          // still ends where the clipped artwork does. Smaller numbers below md, where the
-          // artwork is a fraction of its design height.
-          <div className="relative z-10 -mt-[60px] flex justify-center pb-[12px] md:-mt-[85px] md:pb-[37px]">
+        {cta && ctaPlacement === 'overlay' && !overlaysCta ? (
+          // A hand-built panel is content rather than artwork, so there is nothing to float over.
+          <div className="mt-8 flex justify-center">
             <ButtonLink href={cta.href} variant="dark">
               {cta.label}
             </ButtonLink>
