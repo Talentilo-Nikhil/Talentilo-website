@@ -635,7 +635,11 @@ function tiRanking() {
 function trSemantic() {
   const bg = backdrop({ from: '#ff3aaf', mid: '#da8dff', to: '#fdfcff' });
 
-  const mainCard = card('trs-main', 40, 64, 508, 300);
+  // The floating "Genuine Competency" card was dropped, so the table is the whole composition and
+  // is centred on the canvas rather than sitting high with the space the card used to fill.
+  const cardH = 300;
+  const cardY = (H - cardH) / 2;
+  const mainCard = card('trs-main', 40, cardY, 508, cardH);
   const headerH = 56;
   const rows = [
     { from: 'React', to: 'Frontend Engineering' },
@@ -643,10 +647,10 @@ function trSemantic() {
     { from: 'Kubernetes', to: 'Container Orchestration' },
     { from: 'Postgres', to: 'Database Design' },
   ];
-  const rowH = (300 - headerH) / rows.length;
+  const rowH = (cardH - headerH) / rows.length;
   const rowsMarkup = rows
     .map((row, i) => {
-      const rowY = 64 + headerH + i * rowH;
+      const rowY = cardY + headerH + i * rowH;
       const midY = rowY + rowH / 2;
       const fromW = 128;
       const fromH = 32;
@@ -663,29 +667,21 @@ function trSemantic() {
     })
     .join('');
 
-  const alert = floatingCard('trs-alert', 140, 396, 308, 100, {
-    icon: 'check',
-    headline: 'Genuine Competency',
-    subtext: 'Not just keyword matches',
-  });
-
   return {
     file: 'tr-semantic',
     label: 'Semantic matching across a real tech stack',
     designWidth: W,
     designHeight: H,
     svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="Semantic matching across a real tech stack">
-      <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
+      <defs>${bg.defs}${mainCard.defs}</defs>
       ${bg.rect}
 
       ${mainCard.shadowRect}
       <g clip-path="url(#${mainCard.clipId})">
-        <rect x="40" y="64" width="508" height="${headerH}" fill="${INK}" />
-        ${text(64, 64 + headerH / 2 + 6, 'Semantic Brain', { size: 17, weight: 600, fill: 'white' })}
+        <rect x="40" y="${cardY}" width="508" height="${headerH}" fill="${INK}" />
+        ${text(64, cardY + headerH / 2 + 6, 'Semantic Brain', { size: 17, weight: 600, fill: 'white' })}
         ${rowsMarkup}
       </g>
-
-      ${alert.markup}
     </svg>`,
   };
 }
@@ -693,17 +689,27 @@ function trSemantic() {
 function trVerify() {
   const bg = backdrop({ from: '#fe7c34', mid: '#ffddb1', to: '#fdfcff', flip: true });
 
-  const mainCard = card('trv-main', 40, 84, 508, 270);
+  // Without its button the floating card only needs room for the icon and two lines, so it comes
+  // down from 124 to 70 — which leaves the icon's 12px of top padding matched at the bottom. It
+  // clears the table rather than overlapping it, and the two are centred as one block so the
+  // gap between them does not push the composition off the bottom of the canvas.
+  const cardH = 270;
+  const alertH = 70;
+  const gap = 20;
+  const cardY = (H - (cardH + gap + alertH)) / 2;
+  const alertY = cardY + cardH + gap;
+
+  const mainCard = card('trv-main', 40, cardY, 508, cardH);
   const headerH = 56;
   const rows = [
     { name: 'Amit K.', role: 'Backend Engineer', score: '96%', colors: { bg: '#dcfce7', text: '#15803d' } },
     { name: 'Priya S.', role: 'Full-Stack Engineer', score: '88%', colors: { bg: '#dcfce7', text: '#15803d' } },
     { name: 'John D.', role: 'Frontend Engineer', score: '54%', colors: { bg: '#ffe9d4', text: '#c62c08' } },
   ];
-  const rowH = (270 - headerH) / rows.length;
+  const rowH = (cardH - headerH) / rows.length;
   const rowsMarkup = rows
     .map((row, i) => {
-      const rowY = 84 + headerH + i * rowH;
+      const rowY = cardY + headerH + i * rowH;
       const midY = rowY + rowH / 2;
       const divider = i < rows.length - 1 ? `<line x1="64" y1="${rowY + rowH}" x2="476" y2="${rowY + rowH}" stroke="${DIVIDER}" />` : '';
       const pillW = 76;
@@ -717,11 +723,10 @@ function trVerify() {
     })
     .join('');
 
-  const alert = floatingCard('trv-alert', 88, 346, 420, 124, {
+  const alert = floatingCard('trv-alert', 88, alertY, 420, alertH, {
     icon: 'check',
     headline: 'Auto-Ranked by Code Quality',
     subtext: 'No manual resume screening required',
-    buttonLabel: 'View Leaderboard',
   });
 
   return {
@@ -735,8 +740,8 @@ function trVerify() {
 
       ${mainCard.shadowRect}
       <g clip-path="url(#${mainCard.clipId})">
-        <rect x="40" y="84" width="508" height="${headerH}" fill="${INK}" />
-        ${text(64, 84 + headerH / 2 + 6, 'Assessment Leaderboard', { size: 17, weight: 600, fill: 'white' })}
+        <rect x="40" y="${cardY}" width="508" height="${headerH}" fill="${INK}" />
+        ${text(64, cardY + headerH / 2 + 6, 'Assessment Leaderboard', { size: 17, weight: 600, fill: 'white' })}
         ${rowsMarkup}
       </g>
 
