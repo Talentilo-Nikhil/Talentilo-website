@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { CenteredFeature } from '@/components/sections/CenteredFeature';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
-import { PageHero } from '@/components/sections/PageHero';
+import { HERO_REVEAL, PageHero } from '@/components/sections/PageHero';
 import { Creative } from '@/components/ui/Creative';
 
 export const metadata: Metadata = {
@@ -36,6 +36,7 @@ export default function TalentIntelligencePage() {
         note="Powered by Contextual Semantic Scoring"
         wash="brand"
         creative="ti-hero-database"
+        reveal={HERO_REVEAL}
       />
 
       <CenteredFeature

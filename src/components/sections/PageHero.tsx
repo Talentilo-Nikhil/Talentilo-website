@@ -6,6 +6,13 @@ import { Creative } from '@/components/ui/Creative';
 import { creatives, type CreativeName } from '@/data/creatives';
 import { cn } from '@/lib/cn';
 
+/**
+ * Both Figma heroes run their screen off the bottom of the band rather than ending it there:
+ * 561 of the screen's 595px show, and the band's edge cuts through the last row. Pass it as
+ * `reveal` on a hero drawn that way.
+ */
+export const HERO_REVEAL = 561 / 595;
+
 type PageHeroProps = {
   /** The small caps kicker above the headline, e.g. "Real-Time Velocity". */
   eyebrow?: ReactNode;
@@ -136,10 +143,11 @@ export function PageHero({
         ) : null}
 
         {cta && ctaPlacement === 'overlay' ? (
-          // The button sits well inside the artwork rather than on its bottom edge. The padding
-          // under it cancels the lift exactly — the row still contributes the 24px (20 at md) it
-          // did when the button straddled the edge — so the band and the artwork never move.
-          <div className="relative z-10 -mt-[68px] flex justify-center pb-[44px] md:-mt-[116px] md:pb-[88px]">
+          // Placed the way the design does it: the button's top sits 85px above the band's bottom
+          // edge and its foot 37px above, and the padding cancels the lift exactly so the band
+          // still ends where the clipped artwork does. Smaller numbers below md, where the
+          // artwork is a fraction of its design height.
+          <div className="relative z-10 -mt-[60px] flex justify-center pb-[12px] md:-mt-[85px] md:pb-[37px]">
             <ButtonLink href={cta.href} variant="dark">
               {cta.label}
             </ButtonLink>
