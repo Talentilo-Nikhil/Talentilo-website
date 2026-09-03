@@ -268,7 +268,7 @@ export const creatives = {
     "height": 1072,
     "designWidth": 588,
     "designHeight": 536,
-    "alt": "Application volume through an overnight campaign launch, every hour of it sitting under the AI capacity ceiling with headroom to spare"
+    "alt": "Application volume through an overnight campaign launch, with AI capacity running the full height of every hour’s bar and headroom to spare above it"
   },
   "mg-transfer": {
     "src": "/figma/creatives/mg-transfer.webp",
