@@ -40,7 +40,36 @@ function at(tree, path) {
   return node;
 }
 
-/** page slug → [{ file, path, label, scale? }] */
+const readSpec = (slug) => JSON.parse(readFileSync(resolve(ROOT, `design/spec/${slug}.json`), 'utf8'));
+
+/** Deep-copy a subtree with every position moved by (dx, dy), so it can land somewhere else. */
+function shifted(node, dx, dy) {
+  const out = { ...node, box: { ...node.box, x: node.box.x + dx, y: node.box.y + dy } };
+  // `matrix` carries the same translation as `box` for rotated and flipped layers.
+  if (node.matrix) out.matrix = node.matrix.map((v, i) => (i === 4 ? v + dx : i === 5 ? v + dy : v));
+  if (node.children) out.children = node.children.map((child) => shifted(child, dx, dy));
+  return out;
+}
+
+/**
+ * Swap one layer of a creative for the same layer re-cut from a later export, aligned on the
+ * old layer's top-left corner. A revision file carries only the frames whose copy changed, so a
+ * creative that straddles two exports — the ingestion pair is half original terminal, half
+ * corrected form — is assembled here rather than redrawn whole in Figma.
+ */
+function applyGraft(root, { replace, from }) {
+  const segments = replace.split('/');
+  const leaf = segments.pop();
+  const children = at(root, segments.join('/')).children ?? [];
+  const index = leaf.startsWith('#') ? Number(leaf.slice(1)) : children.findIndex((c) => c.name === leaf);
+  const target = children[index];
+  if (!target) throw new Error(`graft target "${replace}" not found`);
+
+  const patch = at(readSpec(from.slug).tree, from.path ?? '');
+  children[index] = shifted(patch, target.box.x - patch.box.x, target.box.y - patch.box.y);
+}
+
+/** page slug → [{ file, path, label, scale?, graft? }] */
 const EXPORTS = {
   // The four approved lockups, taken from the Design system canvas rather than lifted off a page.
   // Each frame is 1495px wide — roughly eight times its largest use — so scale 1 is plenty.
@@ -73,7 +102,7 @@ const EXPORTS = {
       path: '#4/Semantic Matching Engine',
       label: 'Semantic matching engine ranking 500+ profiles down to 3 perfect matches',
     },
-    { file: 'offer-risk-alerts', path: '#5/Visual-2', label: 'Offer management system flagging at-risk deals' },
+    // `offer-risk-alerts` now comes from the revision export — see `upd-offer-risk` below.
     { file: 'velocity-index', path: '#6/Visual-3', label: 'Agency Velocity Index dashboard' },
   ],
 
@@ -88,9 +117,8 @@ const EXPORTS = {
    * `ti-hero-shapes` was a blank decorative group and is likewise no longer used.
    */
   'product-command': [],
-  'product-talent-intelligence': [
-    { file: 'ti-recall', path: '#4/Frame 2085665278', label: 'External search cost compared with Active Recall' },
-  ],
+  // `ti-recall` moved to the `/platform/talent-intelligence` design, which redraws this section.
+  'product-talent-intelligence': [],
 
   'for-agency-owner': [
     { file: 'ao-testimonial', path: '#1/Frame 2085665273', label: 'Customer testimonial' },
@@ -141,19 +169,18 @@ const EXPORTS = {
       path: '#1/Frame 2085665231/Manager Review',
       label: 'The Talentilo command centre showing a job pipeline across every hiring stage',
     },
-    {
-      file: 'ros-pending-review',
-      path: '#2/Content',
-      label: 'A pending-review queue listing each job with its client and how long it has waited',
-    },
+    // `ros-pending-review` now comes from the revision export — see `upd-pending-review` below.
     {
       file: 'ros-guardrails',
       path: '#3/Content',
       label: 'Operational guardrail alerts for SLA breaches, offers, AI matches and daily digests',
     },
     {
+      // Only the candidate form on the right of this pair was revised, so the corrected frame is
+      // dropped back onto the original terminal rather than the whole pair being re-exported.
       file: 'ros-ingestion',
       path: '#4/Frame 2085665792',
+      graft: [{ replace: 'Add Candidate-3', from: { slug: 'upd-add-candidate' } }],
       label: 'The Talentilo translation layer importing a legacy export into a structured candidate record',
     },
   ],
@@ -167,6 +194,31 @@ const EXPORTS = {
   ],
   'platform-recruitment-os-recruiter': [
     { file: 'ros-view-recruiter', path: '', label: 'The recruiter view: a single candidate record with contact details and history' },
+  ],
+
+  'platform-talent-intelligence': [
+    {
+      // The frame is named "All Candidates/Database", and a slash is the path separator here.
+      file: 'ti-hero-database',
+      path: '#1/Frame 2085665231/#1',
+      label: 'The Talentilo candidate database listing every profile with education, experience and skills',
+    },
+    { file: 'ti-recall', path: '#4/Frame 2085665278', label: 'External search cost compared with Active Recall' },
+    // `#5/Frame 2085665277` (Universal Parser) and the two `Content` frames under `#2` (the
+    // Boolean comparison) were left empty in the design, so `ti-parser`, `ti-boolean-legacy` and
+    // `ti-boolean-semantic` are hand-authored in custom-creatives.mjs instead.
+  ],
+
+  // Single frames lifted out of the revision export, which carries only what it revises.
+  'upd-offer-risk': [
+    { file: 'offer-risk-alerts', path: '', label: 'Offer management system flagging at-risk deals' },
+  ],
+  'upd-pending-review': [
+    {
+      file: 'ros-pending-review',
+      path: '',
+      label: 'A pending-review queue listing each job with its client and how long it has waited',
+    },
   ],
 };
 
@@ -205,9 +257,12 @@ async function main() {
   const index = {};
 
   for (const [slug, entries] of Object.entries(EXPORTS)) {
-    const spec = JSON.parse(readFileSync(resolve(ROOT, `design/spec/${slug}.json`), 'utf8'));
+    const spec = readSpec(slug);
     for (const entry of entries) {
-      const node = at(spec.tree, entry.path);
+      // A graft rewrites the tree, so it works on a copy the other entries never see.
+      const tree = entry.graft ? structuredClone(spec.tree) : spec.tree;
+      const node = at(tree, entry.path);
+      for (const patch of entry.graft ?? []) applyGraft(node, patch);
       const svg = await subtreeToSvg(node, images, { label: entry.label });
       const scale = entry.scale ?? SCALE;
 

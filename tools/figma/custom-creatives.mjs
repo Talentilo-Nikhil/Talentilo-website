@@ -30,8 +30,8 @@ function text(x, y, str, { size = 14, weight = 400, fill = INK, anchor = 'start'
 }
 
 /** The diagonal gradient + hairline grid every genuine creative in the site uses as a backdrop. */
-function backdrop({ from, mid, to, flip = false }) {
-  const [x1, y1, x2, y2] = flip ? [W, 0, 0, H] : [0, 0, W, H];
+function backdrop({ from, mid, to, flip = false, w = W, h = H }) {
+  const [x1, y1, x2, y2] = flip ? [w, 0, 0, h] : [0, 0, w, h];
   return {
     defs: `
       <linearGradient id="bg" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" gradientUnits="userSpaceOnUse">
@@ -47,7 +47,7 @@ function backdrop({ from, mid, to, flip = false }) {
         <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="${INK}" flood-opacity="0.14" />
       </filter>
     `,
-    rect: `<rect width="${W}" height="${H}" fill="url(#bg)" /><rect width="${W}" height="${H}" fill="url(#grid)" />`,
+    rect: `<rect width="${w}" height="${h}" fill="url(#bg)" /><rect width="${w}" height="${h}" fill="url(#grid)" />`,
   };
 }
 
@@ -755,8 +755,261 @@ function rdNoticeTracker() {
 }
 
 /** [{ file, label, svg }] at the frames' native 588x536 design size. */
+/** A search input: rounded field, magnifier, and the query typed into it. */
+function searchField(x, y, w, h, query, { fill = '#f1f2f4', color = INK } = {}) {
+  const cy = y + h / 2;
+  return (
+    `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="${fill}" />` +
+    `<g transform="translate(${x + 20},${cy})" fill="none" stroke="${INK_SOFT}" stroke-width="1.6">` +
+    '<circle cx="0" cy="0" r="6" /><line x1="4.4" y1="4.4" x2="8.5" y2="8.5" stroke-linecap="round" />' +
+    '</g>' +
+    text(x + 40, cy + 5, query, { size: 14, weight: 500, fill: color })
+  );
+}
+
+/** One candidate line inside a results card: name, one-line career summary, status pill. */
+function candidateRow(x, rightEdge, baseline, { name, summary, pillText, pillColors, struck = false, nameFill = INK }) {
+  const pillW = Math.max(84, pillText.length * 7 + 34);
+  const pillH = 28;
+  const strike = struck
+    ? `<line x1="${x}" y1="${baseline - 5}" x2="${x + name.length * 8.4}" y2="${baseline - 5}" stroke="${nameFill}" stroke-width="1.4" />`
+    : '';
+  return (
+    text(x, baseline, name, { size: 15, weight: 600, fill: nameFill }) +
+    strike +
+    text(x, baseline + 20, summary, { size: 12, fill: INK_SOFT }) +
+    pill(rightEdge - pillW, baseline - 6 - pillH / 2, pillW, pillH, {
+      fill: pillColors.bg,
+      text: pillText,
+      textFill: pillColors.text,
+      size: 12,
+    })
+  );
+}
+
+/**
+ * The pair under "Why Boolean Logic Fails Modern Recruitment" — the same query run twice, once
+ * through keyword matching and once through the semantic engine. Both are 445 tall and sit side
+ * by side, so the card, the query field and the floating verdict line up across the gap.
+ */
+const BOOL_H = 445;
+const CARD_Y = 72;
+const CARD_H = 220;
+const FIELD_Y = 136;
+
+function tiBooleanLegacy() {
+  const w = 634;
+  // Drained of brand colour: this is the tool being replaced, not the one being sold.
+  const bg = backdrop({ from: '#8f8fa6', mid: '#cfced9', to: '#fdfcff', w, h: BOOL_H });
+  const mainCard = card('tbl-main', 40, CARD_Y, w - 80, CARD_H);
+  const right = w - 64;
+  const headerH = 48;
+
+  const verdict = floatingCard('tbl-verdict', 88, 322, w - 176, 88, {
+    icon: 'alert',
+    headline: 'Missed opportunity',
+    subtext: '"Manager" never appears on the resume',
+  });
+
+  return {
+    file: 'ti-boolean-legacy',
+    label: 'A Boolean keyword search returning no matches and filtering out a qualified candidate',
+    designWidth: w,
+    designHeight: BOOL_H,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${BOOL_H}" width="${w}" height="${BOOL_H}" fill="none" role="img" aria-label="A Boolean keyword search returning no matches and filtering out a qualified candidate">
+      <defs>${bg.defs}${mainCard.defs}${verdict.defs}</defs>
+      ${bg.rect}
+
+      ${pill(40, 24, 186, 30, { fill: 'rgba(12,10,16,0.72)', text: 'Legacy ATS · Boolean', textFill: 'white', size: 12 })}
+
+      ${mainCard.shadowRect}
+      <g clip-path="url(#${mainCard.clipId})">
+        <rect x="40" y="${CARD_Y}" width="${w - 80}" height="${headerH}" fill="${INK}" />
+        ${text(64, CARD_Y + headerH / 2 + 6, 'Keyword Search', { size: 16, weight: 600, fill: 'white' })}
+        ${pill(right - 92, CARD_Y + headerH / 2 - 13, 92, 26, { fill: '#3a2430', text: '0 results', textFill: '#ff8f7a', size: 12 })}
+
+        ${searchField(64, FIELD_Y, w - 128, 40, '"Manager" AND "P&L"')}
+
+        ${candidateRow(64, right, 206, {
+          name: 'John Doe',
+          summary: 'Project Lead · Budget Owner · 8 yrs',
+          pillText: 'Filtered out',
+          pillColors: { bg: '#f1f2f4', text: '#8e8e93' },
+          struck: true,
+          nameFill: '#9aa0ab',
+        })}
+
+        <line x1="64" y1="250" x2="${right}" y2="250" stroke="${DIVIDER}" />
+        ${text(64, 276, '0 of 1,284 profiles matched', { size: 14, weight: 600, fill: '#c62c08' })}
+      </g>
+
+      ${verdict.markup}
+    </svg>`,
+  };
+}
+
+function tiBooleanSemantic() {
+  const w = 638;
+  const bg = backdrop({ from: '#4da8fd', mid: '#b1a4ff', to: '#fdfcff', w, h: BOOL_H });
+  const mainCard = card('tbs-main', 40, CARD_Y, w - 80, CARD_H);
+  const right = w - 64;
+  const headerH = 48;
+
+  // Each row is one inference the engine makes: the words on the resume, then what they mean.
+  const inferences = [
+    { from: 'Project Lead', to: 'Manager' },
+    { from: 'Budget Owner', to: 'P&L exposure' },
+  ];
+  const rows = inferences
+    .map(({ from, to }, i) => {
+      const midY = 210 + i * 44;
+      const fromW = 132;
+      const toW = 168;
+      const toX = right - toW;
+      const arrowX = 64 + fromW + (toX - 64 - fromW) / 2;
+      return (
+        pill(64, midY - 16, fromW, 32, { fill: '#f1f2f4', text: from, textFill: INK, size: 13 }) +
+        arrowIcon(arrowX, midY, '#7c5cff') +
+        pill(toX, midY - 16, toW, 32, { fill: '#daedff', text: to, textFill: '#1959dc', size: 13 })
+      );
+    })
+    .join('');
+
+  const verdict = floatingCard('tbs-verdict', 88, 322, w - 176, 88, {
+    icon: 'check',
+    headline: 'True discovery',
+    subtext: 'Surfaced at 94% fit from the same resume',
+  });
+
+  return {
+    file: 'ti-boolean-semantic',
+    label: 'The semantic engine reading a resume in context and surfacing the same candidate at 94% fit',
+    designWidth: w,
+    designHeight: BOOL_H,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${BOOL_H}" width="${w}" height="${BOOL_H}" fill="none" role="img" aria-label="The semantic engine reading a resume in context and surfacing the same candidate at 94% fit">
+      <defs>${bg.defs}${mainCard.defs}${verdict.defs}</defs>
+      ${bg.rect}
+
+      ${pill(40, 24, 196, 30, { fill: 'rgba(12,10,16,0.72)', text: 'Talentilo · Semantic', textFill: 'white', size: 12 })}
+
+      ${mainCard.shadowRect}
+      <g clip-path="url(#${mainCard.clipId})">
+        <rect x="40" y="${CARD_Y}" width="${w - 80}" height="${headerH}" fill="${INK}" />
+        ${text(64, CARD_Y + headerH / 2 + 6, 'Contextual Search', { size: 16, weight: 600, fill: 'white' })}
+        ${pill(right - 84, CARD_Y + headerH / 2 - 13, 84, 26, { fill: '#123524', text: '94% fit', textFill: '#4ade80', size: 12 })}
+
+        ${searchField(64, FIELD_Y, w - 128, 40, 'Manager with P&L ownership')}
+        ${rows}
+      </g>
+
+      ${verdict.markup}
+    </svg>`,
+  };
+}
+
+/**
+ * The Universal Parser section. The Figma frame for it is an empty band above three labels, so
+ * the pipeline itself is drawn here: three unstructured sources funnelled through the parser and
+ * out as one structured record. The three capability labels stay as HTML on the page.
+ */
+function tiParser() {
+  const w = 1312;
+  const h = 430;
+  const bg = backdrop({ from: '#cfe2ff', mid: '#e9e3ff', to: '#fdfcff', w, h });
+
+  const sources = [
+    { name: 'Sanjana_Resume.pdf', meta: '3 pages · no structure', tint: '#fee2e2', mark: '#c62c08' },
+    { name: 'Fwd: CV attached.eml', meta: '1 attachment · inline text', tint: '#ffedd5', mark: '#c2410c' },
+    { name: 'linkedin_export.csv', meta: '42 columns · mixed order', tint: '#e0e7ff', mark: '#4338ca' },
+  ];
+  const sourceH = 76;
+  const gap = 16;
+  const firstY = 100;
+  const rail = 436;
+  const centres = sources.map((_, i) => firstY + i * (sourceH + gap) + sourceH / 2);
+
+  const sourceCards = sources.map((source, i) => {
+    const y = firstY + i * (sourceH + gap);
+    const c = card(`tip-src-${i}`, 64, y, 356, sourceH, 14);
+    return {
+      defs: c.defs,
+      markup:
+        `${c.shadowRect}<g clip-path="url(#${c.clipId})">` +
+        `<rect x="88" y="${y + 22}" width="32" height="32" rx="9" fill="${source.tint}" />` +
+        `<circle cx="104" cy="${y + 38}" r="4.5" fill="${source.mark}" />` +
+        text(136, y + 34, source.name, { size: 14, weight: 600 }) +
+        text(136, y + 54, source.meta, { size: 12, fill: INK_SOFT }) +
+        '</g>' +
+        // Into the collecting rail, which carries every source down to the parser.
+        `<line x1="420" y1="${centres[i]}" x2="${rail}" y2="${centres[i]}" stroke="${INK}" stroke-opacity="0.35" stroke-width="1.6" />`,
+    };
+  });
+
+  const midY = centres[1];
+  const fields = [
+    ['full_name', 'Sanjana Mahale'],
+    ['current_title', 'Senior Data Engineer'],
+    ['total_experience', '7.4 years'],
+    ['location', 'Pune, India'],
+    ['skills[]', 'python, spark, airflow +9'],
+    ['education', 'B.E. Computer Engineering'],
+  ];
+  const profile = card('tip-profile', 700, 72, 548, 316);
+  const headerH = 48;
+  const rowH = (316 - headerH) / fields.length;
+  const fieldRows = fields
+    .map(([key, value], i) => {
+      const rowY = 72 + headerH + i * rowH;
+      const baseline = rowY + rowH / 2 + 5;
+      const divider =
+        i < fields.length - 1
+          ? `<line x1="724" y1="${rowY + rowH}" x2="1224" y2="${rowY + rowH}" stroke="${DIVIDER}" />`
+          : '';
+      return (
+        text(724, baseline, key, { size: 13, fill: INK_SOFT }) +
+        text(1224, baseline, value, { size: 13, weight: 600, anchor: 'end' }) +
+        divider
+      );
+    })
+    .join('');
+
+  return {
+    file: 'ti-parser',
+    label:
+      'Three unstructured sources — a PDF resume, an email attachment and a CSV export — parsed into one structured candidate record',
+    designWidth: w,
+    designHeight: h,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" fill="none" role="img" aria-label="Three unstructured sources parsed into one structured candidate record">
+      <defs>${bg.defs}${sourceCards.map((c) => c.defs).join('')}${profile.defs}</defs>
+      ${bg.rect}
+
+      ${sourceCards.map((c) => c.markup).join('')}
+
+      <line x1="${rail}" y1="${centres[0]}" x2="${rail}" y2="${centres[2]}" stroke="${INK}" stroke-opacity="0.35" stroke-width="1.6" />
+      <line x1="${rail}" y1="${midY}" x2="464" y2="${midY}" stroke="${INK}" stroke-opacity="0.35" stroke-width="1.6" />
+
+      <rect x="464" y="${midY - 28}" width="188" height="56" rx="28" fill="${INK}" />
+      ${text(558, midY + 5, 'Universal Parser', { size: 15, weight: 600, fill: 'white', anchor: 'middle' })}
+
+      <line x1="652" y1="${midY}" x2="686" y2="${midY}" stroke="${INK}" stroke-opacity="0.35" stroke-width="1.6" />
+      ${arrowIcon(692, midY, INK)}
+
+      ${profile.shadowRect}
+      <g clip-path="url(#${profile.clipId})">
+        <rect x="700" y="72" width="548" height="${headerH}" fill="${INK}" />
+        ${text(724, 72 + headerH / 2 + 6, 'Structured Profile', { size: 16, weight: 600, fill: 'white' })}
+        ${pill(1224 - 62, 72 + headerH / 2 - 13, 62, 26, { fill: '#13233a', text: 'JSON', textFill: '#7ab6ff', size: 12 })}
+        ${fieldRows}
+      </g>
+    </svg>`,
+  };
+}
+
 export function customCreatives() {
   return [
+    tiBooleanLegacy(),
+    tiBooleanSemantic(),
+    tiParser(),
     roGovernance(),
     roSingleTruth(),
     pcGuardrails(),
