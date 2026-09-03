@@ -49,17 +49,37 @@ export const PAGE_MAP = [
 
 /**
  * Pages designed in their own `.fig` rather than in the main website file. Each entry names the
- * archive under `design/` and the top-level frames to extract from it, so a page can be re-cut
- * from a fresh export without touching the main file.
+ * archive under `design/` and the frames to extract from it, so a page can be re-cut from a
+ * fresh export without touching the main file. A frame is looked up among the archive's
+ * top-level nodes, or inside the named `section` when the export was organised into sections.
+ *
+ * Later entries win: an archive further down the list may re-cut a slug an earlier one wrote,
+ * which is how a follow-up export supersedes the frames it revises.
  */
 export const STANDALONE_SOURCES = [
   {
     file: 'platform-recruitment-os.fig',
     frames: [
       { frame: 'Platform/recruitment-os', slug: 'platform-recruitment-os', route: '/platform/recruitment-os' },
-      { frame: 'The Owner/VP', slug: 'platform-recruitment-os-owner' },
-      { frame: 'The Ops Manager', slug: 'platform-recruitment-os-ops' },
-      { frame: 'The Recruiter', slug: 'platform-recruitment-os-recruiter' },
+    ],
+  },
+  {
+    // A revision export: the Talent Intelligence page in full, plus the individual frames whose
+    // copy was corrected after the first Recruitment OS cut.
+    file: 'website-update-v1.fig',
+    frames: [
+      {
+        section: '/platform/talent-intelligence',
+        frame: '/platform/talent-intelligence',
+        slug: 'platform-talent-intelligence',
+        route: '/platform/talent-intelligence',
+      },
+      { section: '/platform/recruitment-os', frame: 'The Owner/VP', slug: 'platform-recruitment-os-owner' },
+      { section: '/platform/recruitment-os', frame: 'The Ops Manager', slug: 'platform-recruitment-os-ops' },
+      { section: '/platform/recruitment-os', frame: 'The Recruiter', slug: 'platform-recruitment-os-recruiter' },
+      { section: '/platform/recruitment-os', frame: 'Content', slug: 'upd-pending-review' },
+      { section: '/platform/recruitment-os', frame: 'Add Candidate-3', slug: 'upd-add-candidate' },
+      { section: 'Homepage-Offer risk', frame: 'Visual-2', slug: 'upd-offer-risk' },
     ],
   },
 ];
@@ -352,11 +372,18 @@ function main() {
 
   for (const source of STANDALONE_SOURCES) {
     const page = loadFig(resolve(ROOT, 'design', source.file));
-    // These files hold the page on a plain canvas, so the frames sit at the top of the graph
-    // rather than under a section.
+    // A frame either sits straight on the canvas or under a section; the same name can repeat
+    // across sections, so a scoped entry has to search only its own.
     const tops = page.graph.nodes.filter((n) => page.graph.parentOf(n)?.type === 'CANVAS');
     for (const entry of source.frames) {
-      const frame = tops.find((f) => f.name === entry.frame);
+      const section = entry.section
+        ? page.graph.nodes.find((n) => n.type === 'SECTION' && n.name === entry.section)
+        : null;
+      if (entry.section && !section) {
+        console.warn(`  ! section not found in ${source.file}: ${entry.section}`);
+        continue;
+      }
+      const frame = (section ? page.graph.childrenOf(section) : tops).find((f) => f.name === entry.frame);
       if (!frame) {
         console.warn(`  ! frame not found in ${source.file}: ${entry.frame}`);
         continue;
