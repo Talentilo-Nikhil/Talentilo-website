@@ -22,21 +22,12 @@ const DIVIDER = '#eef0f3';
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-function text(
-  x,
-  y,
-  str,
-  { size = 14, weight = 400, fill = INK, anchor = 'start', opacity = 1, family = 'Albert Sans', spacing } = {}
-) {
+function text(x, y, str, { size = 14, weight = 400, fill = INK, anchor = 'start', opacity = 1 } = {}) {
   return (
-    `<text x="${x}" y="${y}" font-family="${family}" font-size="${size}" font-weight="${weight}" ` +
-    (spacing ? `letter-spacing="${spacing}" ` : '') +
+    `<text x="${x}" y="${y}" font-family="Albert Sans" font-size="${size}" font-weight="${weight}" ` +
     `fill="${fill}" fill-opacity="${opacity}" text-anchor="${anchor}">${esc(str)}</text>`
   );
 }
-
-/** A raw column name out of the legacy export, set in the mono face the field list is stored in. */
-const code = (x, y, str, opts = {}) => text(x, y, str, { family: 'JetBrains Mono', size: 13, ...opts });
 
 /** The diagonal gradient + hairline grid every genuine creative in the site uses as a backdrop. */
 function backdrop({ from, mid, to, flip = false, w = W, h = H }) {
@@ -1060,17 +1051,53 @@ function tiParser() {
   };
 }
 
+/** Rough advance width of a string, for sizing a chip around copy the rasteriser measures later. */
+const estWidth = (str, size) => str.length * size * 0.54;
+
+/** A pill sized to its own label, centred on `cx` — for the caption under each card. */
+function autoPill(cx, y, label, { h = 40, size = 15, fill = 'white', textFill = INK, weight = 500 } = {}) {
+  const w = Math.round(estWidth(label, size) + 40);
+  return pill(cx - w / 2, y, w, h, { fill, text: label, textFill, size, weight });
+}
+
+/** A grey chip carrying one fact from the record, drawn from its left edge. */
+const chipW = (label, size = 13) => Math.round(estWidth(label, size) + 28);
+
+function factChip(x, y, label, { size = 13, h = 30 } = {}) {
+  const w = chipW(label, size);
+  return (
+    `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="#f4f5f7" />` +
+    text(x + w / 2, y + h / 2 + size * 0.36, label, { size, fill: '#5b6270', anchor: 'middle' })
+  );
+}
+
+/** Initials on a tinted disc — a person in the record without putting a stock face on the page. */
+function avatar(cx, cy, r, initials) {
+  return (
+    `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#e9e5ff" />` +
+    text(cx, cy + r * 0.34, initials, { size: Math.round(r * 0.82), weight: 600, fill: '#4c3fbb', anchor: 'middle' })
+  );
+}
+
 /**
- * The /migration hero. Replaces the exported frame, which argued the promise backwards: the
- * legacy side was three grey skeleton rows, so the one thing the page guarantees — that nothing
- * is lost — was drawn as nothing to lose, and the claim of fidelity rested on a "100% INTACT"
- * label with no evidence under it.
- *
- * This draws the receipt instead. A migration is only ever trusted at field level, so the artwork
- * is the mapping table itself: the ugly column names out of the legacy export on the left, in the
- * mono face they're actually stored in, each landing on a named Talentilo field with its own
- * record count and a verified tick. `custom_field_7` becoming "Work Authorization" is the row
- * that carries the argument — the bespoke fields are exactly what agencies expect to lose.
+ * The lens of dashed arcs the reference draws between two panels: both curves run between the
+ * same pair of points, one bowing up and one down, so the link reads as a flow rather than a wire.
+ */
+function flowLink(x1, x2, cy, color = INK) {
+  const bow = 40;
+  const c = (x2 - x1) * 0.36;
+  const arc = (dir) =>
+    `<path d="M${x1},${cy} C${x1 + c},${cy + dir * bow} ${x2 - c},${cy + dir * bow} ${x2},${cy}" ` +
+    `fill="none" stroke="${color}" stroke-opacity="0.4" stroke-width="1.6" stroke-dasharray="5 5" stroke-linecap="round" />`;
+  return arc(-1) + arc(1);
+}
+
+/**
+ * The /migration hero. The first pass at this was a field-mapping table — accurate, and readable
+ * only to someone who already knows what a database column is. This tells the same story the way
+ * the page's visitor experiences it: one candidate, shown in the system they're leaving, in the
+ * move itself, and in Talentilo — with the numbers on the third card echoing the first exactly.
+ * That echo is the whole argument, and it needs no vocabulary to follow.
  */
 function mgTransfer() {
   const w = 1312;
@@ -1080,81 +1107,118 @@ function mgTransfer() {
 
   const OK = '#067647';
   const OK_TINT = '#dcfae6';
-  const CRUSTA = '#fe5a11';
-  const CHIP = '#f4f5f7';
-  const CODE_INK = '#5b6270';
 
-  const rows = [
-    ['notes_txt', 'Notes & Activity', '128,940'],
-    ['custom_field_7', 'Work Authorization', '12,004'],
-    ['stage_hist[]', 'Stage History', '61,318'],
-    ['tearsheet_tags', 'Talent Pools', '3,140'],
+  const top = 88;
+  const cardH = 344;
+  const mid = top + cardH / 2;
+  const bottom = top + cardH;
+
+  const cards = [
+    { id: 'was', x: 50, w: 300, caption: 'Your old ATS' },
+    { id: 'move', x: 446, w: 380, caption: 'The move' },
+    { id: 'now', x: 922, w: 340, caption: 'Talentilo OS' },
+  ].map((c) => ({ ...c, cx: c.x + c.w / 2, right: c.x + c.w, ...card(`mg-${c.id}`, c.x, top, c.w, cardH, 20) }));
+
+  const [was, move, now] = cards;
+
+  // ---- the record as it sits in the old system -------------------------------------------------
+  const facts = ['47 notes', '12 submissions'];
+  const factsWidth = facts.reduce((sum, f) => sum + chipW(f), 0) + 10 * (facts.length - 1);
+  let factX = was.cx - factsWidth / 2;
+  const chipsRow = facts
+    .map((label) => {
+      const markup = factChip(factX, 300, label);
+      factX += chipW(label) + 10;
+      return markup;
+    })
+    .join('');
+
+  const wasCard =
+    avatar(was.cx, 162, 36, 'PN') +
+    text(was.cx, 240, 'Priya Nair', { size: 22, weight: 600, anchor: 'middle' }) +
+    text(was.cx, 264, 'Senior Data Engineer', { size: 13, fill: INK_SOFT, anchor: 'middle' }) +
+    `<line x1="${was.x + 24}" y1="286" x2="${was.right - 24}" y2="286" stroke="${DIVIDER}" />` +
+    chipsRow +
+    factChip(was.cx - chipW('Tagged: Fintech') / 2, 340, 'Tagged: Fintech') +
+    text(was.cx, 396, 'In your ATS since 2019', { size: 12, fill: INK_SOFT, anchor: 'middle' });
+
+  // ---- the move itself --------------------------------------------------------------------------
+  const moving = ['Contacts & notes', 'Custom fields', 'Stage history', 'Tags & talent pools'];
+  const moveRows = moving
+    .map((label, i) => {
+      const cy = 196 + i * 52;
+      return (
+        `<circle cx="${move.x + 46}" cy="${cy}" r="12" fill="${OK_TINT}" />` +
+        checkIcon(move.x + 46, cy, 14, OK) +
+        text(move.x + 74, cy + 5, label, { size: 15, weight: 500 })
+      );
+    })
+    .join('');
+
+  const moveCard =
+    text(move.x + 32, 130, 'Moving across', { size: 16, weight: 600 }) +
+    pill(move.right - 32 - 64, 110, 64, 26, { fill: OK_TINT, text: '100%', textFill: OK, size: 12 }) +
+    `<rect x="${move.x + 32}" y="148" width="${move.w - 64}" height="8" rx="4" fill="#12b76a" />` +
+    moveRows +
+    `<line x1="${move.x + 32}" y1="388" x2="${move.right - 32}" y2="388" stroke="${DIVIDER}" />` +
+    text(move.x + 32, 414, '48,210 records moved · 0 lost', { size: 13, fill: INK_SOFT });
+
+  // ---- the same record, arrived -----------------------------------------------------------------
+  const kept = [
+    ['Notes', '47'],
+    ['Submissions', '12'],
+    ['Tags', 'Fintech'],
+    ['Stage history', 'Intact'],
   ];
-  const firstY = 206;
-  const rowH = 68;
-
-  const ledger = rows
-    .map(([legacy, field, count], i) => {
-      const cy = firstY + i * rowH;
+  const keptRows = kept
+    .map(([label, value], i) => {
+      const cy = 222 + i * 40;
       const rule =
-        i < rows.length - 1
-          ? `<line x1="88" y1="${cy + rowH / 2}" x2="1224" y2="${cy + rowH / 2}" stroke="${DIVIDER}" />`
+        i < kept.length - 1
+          ? `<line x1="${now.x + 32}" y1="${cy + 20}" x2="${now.right - 32}" y2="${cy + 20}" stroke="${DIVIDER}" />`
           : '';
       return (
-        `<rect x="88" y="${cy - 17}" width="272" height="34" rx="8" fill="${CHIP}" />` +
-        code(104, cy + 4.5, legacy, { fill: CODE_INK }) +
-        `<line x1="372" y1="${cy}" x2="396" y2="${cy}" stroke="${CRUSTA}" stroke-opacity="0.45" stroke-width="1.6" />` +
-        arrowIcon(402, cy, CRUSTA) +
-        text(440, cy + 5, field, { size: 15, weight: 600 }) +
-        code(1030, cy + 5, count, { weight: 700, anchor: 'end' }) +
-        `<circle cx="1074" cy="${cy}" r="11" fill="${OK_TINT}" />` +
-        checkIcon(1074, cy, 13, OK) +
-        text(1094, cy + 5, 'Verified', { size: 13, weight: 600, fill: OK }) +
+        text(now.x + 32, cy + 5, label, { size: 13, fill: INK_SOFT }) +
+        text(now.right - 32, cy + 5, value, { size: 14, weight: 600, anchor: 'end' }) +
         rule
       );
     })
     .join('');
 
-  const heading = (x, label, anchor = 'start') =>
-    text(x, 158, label, { size: 12, weight: 600, fill: INK_SOFT, spacing: 0.9, anchor });
+  const nowCard =
+    avatar(now.x + 56, 140, 24, 'PN') +
+    text(now.x + 92, 136, 'Priya Nair', { size: 18, weight: 600 }) +
+    text(now.x + 92, 157, 'Senior Data Engineer', { size: 12, fill: INK_SOFT }) +
+    `<line x1="${now.x + 32}" y1="190" x2="${now.right - 32}" y2="190" stroke="${DIVIDER}" />` +
+    keptRows +
+    pill(now.x + 32, 380, now.w - 64, 34, {
+      fill: OK_TINT,
+      text: 'Nothing left behind',
+      textFill: OK,
+      size: 14,
+    });
 
-  const sheet = card('mg-map', 56, 44, 1200, 472, 20);
+  const bodies = [wasCard, moveCard, nowCard];
 
   return {
     file: 'mg-transfer',
     label:
-      'A field-level migration ledger: each legacy ATS column mapped onto its Talentilo field, ' +
-      'with the record count carried across and a verified tick beside it',
+      'One candidate record shown three times — in the old ATS, mid-move with every part of the ' +
+      'record ticked off, and arrived in Talentilo with the same notes, submissions and tags intact',
     designWidth: w,
     designHeight: h,
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" fill="none" role="img" aria-label="A migration ledger mapping legacy ATS fields onto Talentilo fields, every row verified">
-      <defs>${bg.defs}${sheet.defs}</defs>
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" fill="none" role="img" aria-label="The same candidate record in the old ATS, mid-migration, and arrived in Talentilo with nothing lost">
+      <defs>${bg.defs}${cards.map((c) => c.defs).join('')}</defs>
       ${bg.rect}
 
-      ${sheet.shadowRect}
-      <g clip-path="url(#${sheet.clipId})">
-        ${text(88, 86, 'Field Mapping', { size: 19, weight: 600 })}
-        ${text(88, 110, 'Legacy ATS export → Talentilo OS', { size: 13, fill: INK_SOFT })}
+      ${flowLink(was.right, move.x, mid)}
+      ${flowLink(move.right, now.x, mid)}
 
-        ${text(1224, 82, '100% transferred', { size: 13, weight: 600, anchor: 'end' })}
-        <rect x="944" y="94" width="280" height="8" rx="4" fill="#eef0f3" />
-        <rect x="944" y="94" width="280" height="8" rx="4" fill="#12b76a" />
-        ${text(1224, 122, '312 fields · 48,210 records · 0 dropped', { size: 12, fill: INK_SOFT, anchor: 'end' })}
+      ${cards
+        .map((c, i) => `${c.shadowRect}<g clip-path="url(#${c.clipId})">${bodies[i]}</g>`)
+        .join('')}
 
-        <line x1="56" y1="132" x2="1256" y2="132" stroke="${DIVIDER}" />
-        ${heading(88, 'LEGACY FIELD')}
-        ${heading(440, 'TALENTILO FIELD')}
-        ${heading(1030, 'RECORDS', 'end')}
-        ${heading(1064, 'STATUS')}
-        <line x1="56" y1="172" x2="1256" y2="172" stroke="${DIVIDER}" />
-
-        ${ledger}
-
-        <rect x="56" y="444" width="1200" height="72" fill="${INK}" />
-        ${text(88, 488, '100% Data Integrity Guarantee', { size: 16, weight: 600, fill: 'white' })}
-        ${pill(872, 464, 180, 32, { fill: '#1b1a22', text: '0 fields dropped', textFill: '#d5d4dc' })}
-        ${pill(1064, 464, 160, 32, { fill: '#13291d', text: 'Zero downtime', textFill: '#75e0a7' })}
-      </g>
+      ${cards.map((c) => autoPill(c.cx, bottom + 28, c.caption)).join('')}
     </svg>`,
   };
 }

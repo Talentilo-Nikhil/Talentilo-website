@@ -277,7 +277,7 @@ export const creatives = {
     "height": 1120,
     "designWidth": 1312,
     "designHeight": 560,
-    "alt": "A field-level migration ledger: each legacy ATS column mapped onto its Talentilo field, with the record count carried across and a verified tick beside it"
+    "alt": "One candidate record shown three times — in the old ATS, mid-move with every part of the record ticked off, and arrived in Talentilo with the same notes, submissions and tags intact"
   },
   "ti-boolean-legacy": {
     "src": "/figma/creatives/ti-boolean-legacy.webp",
