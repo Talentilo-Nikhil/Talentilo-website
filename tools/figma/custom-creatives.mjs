@@ -1080,16 +1080,22 @@ function avatar(cx, cy, r, initials) {
 }
 
 /**
- * The lens of dashed arcs the reference draws between two panels: both curves run between the
- * same pair of points, one bowing up and one down, so the link reads as a flow rather than a wire.
+ * The pair of dashed arcs the reference draws between two panels, which reads as a flow rather
+ * than as a wire.
+ *
+ * Drawn as a funnel rather than a closed lens: the two curves start apart at the leaving card and
+ * converge on a single point at the arriving one, so the link carries a direction — a whole record
+ * gathered into one place — instead of sitting there symmetrically. Both ends stop short of the
+ * panels so it reads as spanning the gap rather than welded to them.
  */
 function flowLink(x1, x2, cy, color = INK) {
-  const bow = 40;
-  const c = (x2 - x1) * 0.36;
+  const [from, to] = [x1 + 8, x2 - 12];
+  const spread = 34;
+  const c = (to - from) * 0.55;
   const arc = (dir) =>
-    `<path d="M${x1},${cy} C${x1 + c},${cy + dir * bow} ${x2 - c},${cy + dir * bow} ${x2},${cy}" ` +
-    `fill="none" stroke="${color}" stroke-opacity="0.4" stroke-width="1.6" stroke-dasharray="5 5" stroke-linecap="round" />`;
-  return arc(-1) + arc(1);
+    `<path d="M${from},${cy + dir * spread} C${from + c},${cy + dir * spread} ${to - c},${cy} ${to},${cy}" ` +
+    `fill="none" stroke="${color}" stroke-opacity="0.38" stroke-width="1.6" stroke-dasharray="5 5" stroke-linecap="round" />`;
+  return arc(-1) + arc(1) + `<circle cx="${to}" cy="${cy}" r="3" fill="${color}" fill-opacity="0.35" />`;
 }
 
 /**
