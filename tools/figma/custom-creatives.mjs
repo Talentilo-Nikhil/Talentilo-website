@@ -22,12 +22,21 @@ const DIVIDER = '#eef0f3';
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-function text(x, y, str, { size = 14, weight = 400, fill = INK, anchor = 'start', opacity = 1 } = {}) {
+function text(
+  x,
+  y,
+  str,
+  { size = 14, weight = 400, fill = INK, anchor = 'start', opacity = 1, family = 'Albert Sans', spacing } = {}
+) {
   return (
-    `<text x="${x}" y="${y}" font-family="Albert Sans" font-size="${size}" font-weight="${weight}" ` +
+    `<text x="${x}" y="${y}" font-family="${family}" font-size="${size}" font-weight="${weight}" ` +
+    (spacing ? `letter-spacing="${spacing}" ` : '') +
     `fill="${fill}" fill-opacity="${opacity}" text-anchor="${anchor}">${esc(str)}</text>`
   );
 }
+
+/** A raw column name out of the legacy export, set in the mono face the field list is stored in. */
+const code = (x, y, str, opts = {}) => text(x, y, str, { family: 'JetBrains Mono', size: 13, ...opts });
 
 /** The diagonal gradient + hairline grid every genuine creative in the site uses as a backdrop. */
 function backdrop({ from, mid, to, flip = false, w = W, h = H }) {
@@ -1051,8 +1060,108 @@ function tiParser() {
   };
 }
 
+/**
+ * The /migration hero. Replaces the exported frame, which argued the promise backwards: the
+ * legacy side was three grey skeleton rows, so the one thing the page guarantees — that nothing
+ * is lost — was drawn as nothing to lose, and the claim of fidelity rested on a "100% INTACT"
+ * label with no evidence under it.
+ *
+ * This draws the receipt instead. A migration is only ever trusted at field level, so the artwork
+ * is the mapping table itself: the ugly column names out of the legacy export on the left, in the
+ * mono face they're actually stored in, each landing on a named Talentilo field with its own
+ * record count and a verified tick. `custom_field_7` becoming "Work Authorization" is the row
+ * that carries the argument — the bespoke fields are exactly what agencies expect to lose.
+ */
+function mgTransfer() {
+  const w = 1312;
+  const h = 560;
+  // crusta-100, the ground the exported frame already sat on, so the hero band's colour holds.
+  const bg = flatBackdrop('#ffe9d4', w, h);
+
+  const OK = '#067647';
+  const OK_TINT = '#dcfae6';
+  const CRUSTA = '#fe5a11';
+  const CHIP = '#f4f5f7';
+  const CODE_INK = '#5b6270';
+
+  const rows = [
+    ['notes_txt', 'Notes & Activity', '128,940'],
+    ['custom_field_7', 'Work Authorization', '12,004'],
+    ['stage_hist[]', 'Stage History', '61,318'],
+    ['tearsheet_tags', 'Talent Pools', '3,140'],
+  ];
+  const firstY = 206;
+  const rowH = 68;
+
+  const ledger = rows
+    .map(([legacy, field, count], i) => {
+      const cy = firstY + i * rowH;
+      const rule =
+        i < rows.length - 1
+          ? `<line x1="88" y1="${cy + rowH / 2}" x2="1224" y2="${cy + rowH / 2}" stroke="${DIVIDER}" />`
+          : '';
+      return (
+        `<rect x="88" y="${cy - 17}" width="272" height="34" rx="8" fill="${CHIP}" />` +
+        code(104, cy + 4.5, legacy, { fill: CODE_INK }) +
+        `<line x1="372" y1="${cy}" x2="396" y2="${cy}" stroke="${CRUSTA}" stroke-opacity="0.45" stroke-width="1.6" />` +
+        arrowIcon(402, cy, CRUSTA) +
+        text(440, cy + 5, field, { size: 15, weight: 600 }) +
+        code(1030, cy + 5, count, { weight: 700, anchor: 'end' }) +
+        `<circle cx="1074" cy="${cy}" r="11" fill="${OK_TINT}" />` +
+        checkIcon(1074, cy, 13, OK) +
+        text(1094, cy + 5, 'Verified', { size: 13, weight: 600, fill: OK }) +
+        rule
+      );
+    })
+    .join('');
+
+  const heading = (x, label, anchor = 'start') =>
+    text(x, 158, label, { size: 12, weight: 600, fill: INK_SOFT, spacing: 0.9, anchor });
+
+  const sheet = card('mg-map', 56, 44, 1200, 472, 20);
+
+  return {
+    file: 'mg-transfer',
+    label:
+      'A field-level migration ledger: each legacy ATS column mapped onto its Talentilo field, ' +
+      'with the record count carried across and a verified tick beside it',
+    designWidth: w,
+    designHeight: h,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" fill="none" role="img" aria-label="A migration ledger mapping legacy ATS fields onto Talentilo fields, every row verified">
+      <defs>${bg.defs}${sheet.defs}</defs>
+      ${bg.rect}
+
+      ${sheet.shadowRect}
+      <g clip-path="url(#${sheet.clipId})">
+        ${text(88, 86, 'Field Mapping', { size: 19, weight: 600 })}
+        ${text(88, 110, 'Legacy ATS export → Talentilo OS', { size: 13, fill: INK_SOFT })}
+
+        ${text(1224, 82, '100% transferred', { size: 13, weight: 600, anchor: 'end' })}
+        <rect x="944" y="94" width="280" height="8" rx="4" fill="#eef0f3" />
+        <rect x="944" y="94" width="280" height="8" rx="4" fill="#12b76a" />
+        ${text(1224, 122, '312 fields · 48,210 records · 0 dropped', { size: 12, fill: INK_SOFT, anchor: 'end' })}
+
+        <line x1="56" y1="132" x2="1256" y2="132" stroke="${DIVIDER}" />
+        ${heading(88, 'LEGACY FIELD')}
+        ${heading(440, 'TALENTILO FIELD')}
+        ${heading(1030, 'RECORDS', 'end')}
+        ${heading(1064, 'STATUS')}
+        <line x1="56" y1="172" x2="1256" y2="172" stroke="${DIVIDER}" />
+
+        ${ledger}
+
+        <rect x="56" y="444" width="1200" height="72" fill="${INK}" />
+        ${text(88, 488, '100% Data Integrity Guarantee', { size: 16, weight: 600, fill: 'white' })}
+        ${pill(872, 464, 180, 32, { fill: '#1b1a22', text: '0 fields dropped', textFill: '#d5d4dc' })}
+        ${pill(1064, 464, 160, 32, { fill: '#13291d', text: 'Zero downtime', textFill: '#75e0a7' })}
+      </g>
+    </svg>`,
+  };
+}
+
 export function customCreatives() {
   return [
+    mgTransfer(),
     tiBooleanLegacy(),
     tiBooleanSemantic(),
     tiParser(),

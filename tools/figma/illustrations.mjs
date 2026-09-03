@@ -143,7 +143,8 @@ const EXPORTS = {
   ],
 
   migration: [
-    { file: 'mg-transfer', path: '#1/Frame 2085665236', label: 'Data moving from a legacy ATS into Talentilo' },
+    // The hero frame drew the legacy side as empty skeleton rows and asserted "100% INTACT" with
+    // nothing behind it — see custom-creatives.mjs for the hand-authored `mg-transfer` ledger.
     // Only the artwork at the top of each comparison card — the copy and button under it are
     // real HTML, so exporting the whole card would ship the same words twice.
     {

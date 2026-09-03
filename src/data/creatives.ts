@@ -144,15 +144,6 @@ export const creatives = {
     "designHeight": 536,
     "alt": "AI capacity absorbing an overnight application spike"
   },
-  "mg-transfer": {
-    "src": "/figma/creatives/mg-transfer.webp",
-    "fallback": "/figma/creatives/mg-transfer.png",
-    "width": 2624,
-    "height": 1120,
-    "designWidth": 1312,
-    "designHeight": 560,
-    "alt": "Data moving from a legacy ATS into Talentilo"
-  },
   "mg-card-bullhorn": {
     "src": "/figma/creatives/mg-card-bullhorn.webp",
     "fallback": "/figma/creatives/mg-card-bullhorn.png",
@@ -278,6 +269,15 @@ export const creatives = {
     "designWidth": 588,
     "designHeight": 536,
     "alt": "A pending-review queue listing each job with its client and how long it has waited"
+  },
+  "mg-transfer": {
+    "src": "/figma/creatives/mg-transfer.webp",
+    "fallback": "/figma/creatives/mg-transfer.png",
+    "width": 2624,
+    "height": 1120,
+    "designWidth": 1312,
+    "designHeight": 560,
+    "alt": "A field-level migration ledger: each legacy ATS column mapped onto its Talentilo field, with the record count carried across and a verified tick beside it"
   },
   "ti-boolean-legacy": {
     "src": "/figma/creatives/ti-boolean-legacy.webp",
