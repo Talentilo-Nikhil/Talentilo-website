@@ -69,7 +69,7 @@ function applyGraft(root, { replace, from }) {
   children[index] = shifted(patch, target.box.x - patch.box.x, target.box.y - patch.box.y);
 }
 
-/** page slug → [{ file, path, label, scale?, graft? }] */
+/** page slug → [{ file, path, label, scale?, graft?, hide? }] */
 const EXPORTS = {
   // The four approved lockups, taken from the Design system canvas rather than lifted off a page.
   // Each frame is 1495px wide — roughly eight times its largest use — so scale 1 is plenty.
@@ -156,6 +156,10 @@ const EXPORTS = {
     {
       file: 'mg-card-zoho',
       path: '#2/Frame 2085665258/#2/Frame 2085665757',
+      // The "Enterprise Scale" icon carries a third vector — a 5x10 chevron parked to the right of
+      // its two stacked rows, inside the icon frame but not part of the icon. On the page it reads
+      // as a stray ‹ next to the label, so it is switched off here rather than in the design file.
+      hide: ['Group 1597881565/Group 1597881564/Group 1597881562/#1/#1'],
       label: 'A small-business tool outgrown by enterprise-scale activity',
     },
     { file: 'mg-terminal', path: '#4/Frame 52/Frame 45', label: 'The Talentilo translation layer mapping a legacy export' },
@@ -261,10 +265,13 @@ async function main() {
   for (const [slug, entries] of Object.entries(EXPORTS)) {
     const spec = readSpec(slug);
     for (const entry of entries) {
-      // A graft rewrites the tree, so it works on a copy the other entries never see.
-      const tree = entry.graft ? structuredClone(spec.tree) : spec.tree;
+      // A graft or a hide rewrites the tree, so it works on a copy the other entries never see.
+      const tree = entry.graft || entry.hide ? structuredClone(spec.tree) : spec.tree;
       const node = at(tree, entry.path);
       for (const patch of entry.graft ?? []) applyGraft(node, patch);
+      // `hidden` is what the writer already checks for a layer switched off in Figma, so a layer
+      // switched off here needs nothing new downstream.
+      for (const path of entry.hide ?? []) at(node, path).hidden = true;
       const svg = await subtreeToSvg(node, images, { label: entry.label });
       const scale = entry.scale ?? SCALE;
 

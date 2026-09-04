@@ -169,18 +169,46 @@ class SvgWriter {
           `L${num(bend.x)},${num(end.y)} L${num(end.x)},${num(end.y)}`
         : `M${num(start.x)},${num(start.y)} L${num(end.x)},${num(end.y)}`;
 
-    // The head points away from the far end, so each cap is aimed by the segment reaching it.
-    const head = (tip, from) => {
-      const angle = Math.atan2(tip.y - from.y, tip.x - from.x);
-      const arm = (turn) => ({
-        x: tip.x - 7 * Math.cos(angle + turn),
-        y: tip.y - 7 * Math.sin(angle + turn),
-      });
-      const [a, b] = [arm(-0.5), arm(0.5)];
-      return (
-        `<path d="M${num(a.x)},${num(a.y)} L${num(tip.x)},${num(tip.y)} L${num(b.x)},${num(b.y)}" ` +
-        `stroke="${stroke}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"/>`
-      );
+    // Each decoration points away from the far end, so it is aimed by the segment reaching it.
+    const aim = (tip, from) => Math.atan2(tip.y - from.y, tip.x - from.x);
+    const back = (tip, angle, dist, turn = 0) => ({
+      x: tip.x - dist * Math.cos(angle + turn),
+      y: tip.y - dist * Math.sin(angle + turn),
+    });
+
+    /**
+     * The cap Figma draws at one end of the connector.
+     *
+     * Only the decorations Figma actually offers on a connector are drawn. Anything else — `ROUND`
+     * and `SQUARE`, which are stroke-cap values the archive falls back to when the end carries no
+     * decoration at all — is a plain line end, so it renders as nothing. Drawing a chevron for
+     * every cap that merely wasn't `NONE` is what put a stray glyph beside the Zoho card's icon.
+     */
+    const cap = (kind, tip, from) => {
+      const angle = aim(tip, from);
+      const poly = (pts) =>
+        `<path d="M${pts.map((q) => `${num(q.x)},${num(q.y)}`).join(' L')} Z" fill="${stroke}"/>`;
+
+      switch (kind) {
+        case 'ARROW_LINES':
+          return (
+            `<path d="M${num(back(tip, angle, 7, -0.5).x)},${num(back(tip, angle, 7, -0.5).y)} ` +
+            `L${num(tip.x)},${num(tip.y)} ` +
+            `L${num(back(tip, angle, 7, 0.5).x)},${num(back(tip, angle, 7, 0.5).y)}" ` +
+            `stroke="${stroke}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"/>`
+          );
+        case 'ARROW_EQUILATERAL':
+        case 'TRIANGLE_FILLED':
+          return poly([tip, back(tip, angle, 7.2, -0.42), back(tip, angle, 7.2, 0.42)]);
+        case 'DIAMOND_FILLED': {
+          const centre = back(tip, angle, 3.2);
+          return poly([tip, back(centre, angle, 3.2, Math.PI / 2), back(tip, angle, 6.4), back(centre, angle, 3.2, -Math.PI / 2)]);
+        }
+        case 'CIRCLE_FILLED':
+          return `<circle cx="${num(tip.x)}" cy="${num(tip.y)}" r="3.2" fill="${stroke}"/>`;
+        default:
+          return '';
+      }
     };
 
     const near = lineStyle === 'ELBOWED' && !level ? { ...bend, y: start.y } : end;
@@ -189,8 +217,8 @@ class SvgWriter {
     return (
       `<g fill="none">` +
       `<path d="${path}" stroke="${stroke}" stroke-width="${width}" stroke-dasharray="4 4" stroke-linecap="round"/>` +
-      (startCap === 'NONE' ? '' : head(start, near)) +
-      (endCap === 'NONE' ? '' : head(end, far)) +
+      cap(startCap, start, near) +
+      cap(endCap, end, far) +
       '</g>'
     );
   }
