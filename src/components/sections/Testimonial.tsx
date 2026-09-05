@@ -18,9 +18,14 @@ type TestimonialProps = {
   link?: { label: string; href: string };
 };
 
+/**
+ * Each audience page takes one hue across both panels: the portrait sits on the 100 step, the
+ * quote on the 50 above it, and the mark between them is the solid. A white quote card read as a
+ * plain surface parked beside a coloured one; on the same ramp the two halves read as one section.
+ */
 const TONE = {
-  azure: { tint: 'bg-azure-100', mark: 'text-azure-400' },
-  crusta: { tint: 'bg-crusta-100', mark: 'text-crusta-400' },
+  azure: { tint: 'bg-azure-100', wash: 'bg-azure-50', mark: 'text-azure-400' },
+  crusta: { tint: 'bg-crusta-100', wash: 'bg-crusta-50', mark: 'text-crusta-400' },
 } as const;
 
 /**
@@ -102,7 +107,8 @@ export function Testimonial({
 
         <figure
           className={cn(
-            'flex flex-col gap-10 rounded-card border border-hairline bg-surface p-8 sm:p-15',
+            'flex flex-col gap-10 rounded-card p-8 sm:p-15',
+            palette.wash,
             stat || link ? 'justify-between' : 'justify-center'
           )}
         >
