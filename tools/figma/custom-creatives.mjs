@@ -954,80 +954,132 @@ function rdNoticeTracker() {
  * The pair under "Why Boolean Logic Fails Modern Recruitment" — the same resume read twice, once
  * by keyword matching and once by the semantic engine.
  *
- * Both were drawn as simulated product UI: an ink header bar, a search field, a struck-through
- * results row. The page already speaks in that card language several times over, and a mocked
- * search box invites the reader to check whether the product really looks like that — which is
- * not what this section is arguing. They are redrawn here in the diagram language the migration
- * cards use: outlined line-art icons, a dashed route between them, and a short feed of what came
- * back. The claim is about how the two engines read a resume, so the artwork explains rather than
- * imitates a screen.
+ * These were first built as simulated product UI — an ink header bar, a search field, a
+ * struck-through results row — which answered a different question than the section asks: a mocked
+ * search box invites the reader to check whether the product really looks like that. The redraw
+ * that replaced it was the right language but too thin: bare outlined glyphs floating in white
+ * with nothing holding them, next to the migration cards' bordered containers and weighted chips.
+ *
+ * So the vocabulary here is measured off `mg-card-bullhorn` rather than approximated. One source
+ * on the left inside a container with a solid border and a dashed inner well; two routes crossing
+ * to weighted chips on the right, each with a hairline border, a soft grey glyph, a large label
+ * and a saturated status badge. The routes carry a marker that says whether anything got through.
  */
 const BOOL_W = 480;
-const BOOL_H = 320;
+const BOOL_H = 300;
 
-/** The greys the exported diagrams already use, so this pair sits in the same family. */
-const DIAGRAM = { label: '#030712', muted: '#697282', dash: '#7b7b82', chip: '#f7f8f9', edge: '#eceef1' };
-
-/** Line-art at the weight the migration icons are drawn at: strokes on a 24-unit grid. */
-const LINE_ICONS = {
-  resume:
-    '<rect x="4" y="2.5" width="16" height="19" rx="2.5"/>' +
-    '<path d="M8 8h8M8 12h8M8 16h5"/>',
-  funnel: '<path d="M3 4h18l-7 8.4V20l-4 2v-9.6L3 4Z" stroke-linejoin="round"/>',
-  engine:
-    '<circle cx="12" cy="12" r="3.2"/>' +
-    '<circle cx="4.4" cy="5.8" r="2"/><circle cx="4.4" cy="18.2" r="2"/>' +
-    '<circle cx="19.6" cy="5.8" r="2"/><circle cx="19.6" cy="18.2" r="2"/>' +
-    '<path d="M6.3 7.1 9.7 10.1M6.3 16.9 9.7 13.9M17.7 7.1 14.3 10.1M17.7 16.9 14.3 13.9"/>',
+/** Sampled from the exported migration card so this pair sits in the same family. */
+const DIAGRAM = {
+  ink: '#0c0a10',
+  muted: '#697282',
+  sub: '#697282',
+  dash: '#7b7b82',
+  well: '#f5f6f8',
+  edge: '#e5e5e5',
+  chipEdge: '#e8e8e8',
+  glyph: '#b9c0cc',
+  wellEdge: '#d5d7dc',
+  green: '#12b76a',
+  red: '#e8342a',
 };
 
-function lineIcon(name, cx, cy, size = 46) {
-  const s = size / 24;
+/**
+ * The source the two routes leave from: the resume itself, drawn as a page with a portrait and
+ * ruled lines, sitting in the bordered container with the dashed well that the migration card
+ * puts its logo in.
+ */
+function resumeWell(x, y, w, h) {
+  const [cx, cy] = [x + w / 2, y + h / 2];
+  const pageW = 62;
+  const pageH = 76;
+  const px = cx - pageW / 2;
+  const py = cy - pageH / 2;
+  const rule = (i) =>
+    `<rect x="${px + 12}" y="${py + 44 + i * 10}" width="${pageW - 24 - (i === 2 ? 12 : 0)}" height="4" rx="2" fill="#dfe2e8"/>`;
+
   return (
-    `<g transform="translate(${cx - size / 2},${cy - size / 2}) scale(${s})" fill="none" ` +
-    `stroke="${INK}" stroke-width="1.9" stroke-linecap="round">${LINE_ICONS[name]}</g>`
+    `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="22" fill="white" stroke="${DIAGRAM.edge}" stroke-width="1.6"/>` +
+    `<rect x="${x + 8}" y="${y + 8}" width="${w - 16}" height="${h - 16}" rx="16" fill="${DIAGRAM.well}" ` +
+    `stroke="${DIAGRAM.wellEdge}" stroke-width="1.2" stroke-dasharray="5 5"/>` +
+    `<rect x="${px}" y="${py}" width="${pageW}" height="${pageH}" rx="9" fill="white" stroke="#dfe2e8" stroke-width="1.4"/>` +
+    `<circle cx="${cx}" cy="${py + 24}" r="10" fill="#4da8fd"/>` +
+    [0, 1, 2].map(rule).join('')
   );
 }
 
-/** The dashed route between the two icons, ending in the open chevron the exported art uses. */
-function dashRoute(x1, x2, y) {
-  return (
+/** A route between the source and one chip, with the marker that says what happened on it. */
+function route(x1, x2, y, { carried }) {
+  const line =
     `<line x1="${x1}" y1="${y}" x2="${x2 - 5}" y2="${y}" stroke="${DIAGRAM.dash}" stroke-width="1.4" ` +
     'stroke-dasharray="4 4" stroke-linecap="round"/>' +
-    `<path d="M${x2 - 6},${y - 4.5} L${x2},${y} L${x2 - 6},${y + 4.5}" fill="none" ` +
-    `stroke="${DIAGRAM.dash}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>`
-  );
+    `<path d="M${x2 - 6},${y - 4.5} L${x2},${y} L${x2 - 6},${y + 4.5}" fill="none" stroke="${DIAGRAM.dash}" ` +
+    'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
+
+  const mx = x1 + (x2 - x1) * 0.46;
+  // Something got through: the packet the migration card rides on its ingest lines, trailing back
+  // the way it came so a still frame still carries the direction of travel.
+  const packet =
+    `<line x1="${mx}" y1="${y}" x2="${mx - 20}" y2="${y}" stroke="${DIAGRAM.green}" stroke-width="2.4" ` +
+    'stroke-opacity="0.32" stroke-linecap="round"/>' +
+    `<circle cx="${mx}" cy="${y}" r="8" fill="${DIAGRAM.green}" fill-opacity="0.12"/>` +
+    `<circle cx="${mx}" cy="${y}" r="5" fill="white"/>` +
+    `<circle cx="${mx}" cy="${y}" r="3.3" fill="${DIAGRAM.green}"/>`;
+
+  // Nothing did: the route is stopped mid-way rather than merely ending in a failed chip.
+  const blocked =
+    `<circle cx="${mx}" cy="${y}" r="8" fill="white"/>` +
+    `<circle cx="${mx}" cy="${y}" r="6.4" fill="none" stroke="${DIAGRAM.red}" stroke-width="1.8"/>` +
+    `<line x1="${mx - 3.4}" y1="${y + 3.4}" x2="${mx + 3.4}" y2="${y - 3.4}" stroke="${DIAGRAM.red}" ` +
+    'stroke-width="1.8" stroke-linecap="round"/>';
+
+  return line + (carried ? packet : blocked);
 }
 
-const FEED = { h: 40, padX: 16, gap: 10, badge: 9, split: 7 };
+/** The glyph on the left of a chip, in the soft grey the migration chips use for theirs. */
+const CHIP_GLYPHS = {
+  quote:
+    '<path d="M9 6.5H5.5A2.5 2.5 0 0 0 3 9v3.5h4.2L5.6 17.5h3L10.4 12V8a1.5 1.5 0 0 0-1.4-1.5Z"/>' +
+    '<path d="M20 6.5h-3.5A2.5 2.5 0 0 0 14 9v3.5h4.2l-1.6 5h3l1.8-5.5V8A1.5 1.5 0 0 0 20 6.5Z"/>',
+  concept:
+    '<path d="M3.5 11.2V4.6a1 1 0 0 1 1-1h6.6a1 1 0 0 1 .7.3l8.4 8.4a1 1 0 0 1 0 1.4l-6.6 6.6a1 1 0 0 1-1.4 0L3.8 12a1 1 0 0 1-.3-.8Z"/>' +
+    '<circle cx="8" cy="8" r="1.8" fill="white"/>',
+};
 
-/**
- * One line of what the engine came back with: a status badge, the words as they sit on the
- * resume, and the verdict on them. Sized from its own labels and centred, the way the exported
- * activity rows are.
- */
-function feedChip(cx, top, { status, term, verdict }) {
-  const { h, padX, gap, badge, split } = FEED;
-  const { tint, ink, glyph } = STATUS[status];
-  const termW = estWidth(term, 14);
-  const w = Math.round(padX * 2 + badge * 2 + gap + termW + split + estWidth(verdict, 14));
-  const x = cx - w / 2;
-  const cy = top + h / 2;
-  const bx = x + padX + badge;
-  const textX = bx + badge + gap;
+function chipGlyph(name, cx, cy, size = 22) {
+  const s = size / 24;
   return (
-    `<rect x="${x}" y="${top}" width="${w}" height="${h}" rx="${h / 2}" fill="${DIAGRAM.chip}" stroke="${DIAGRAM.edge}"/>` +
-    `<circle cx="${bx}" cy="${cy}" r="${badge}" fill="${tint}"/>` +
-    glyph(bx, cy, 11, ink) +
-    text(textX, cy + 5, term, { size: 14, weight: 500, fill: DIAGRAM.muted }) +
-    text(textX + termW + split, cy + 5, verdict, { size: 14, fill: DIAGRAM.label })
+    `<g transform="translate(${cx - size / 2},${cy - size / 2}) scale(${s})" fill="${DIAGRAM.glyph}">` +
+    `${CHIP_GLYPHS[name]}</g>`
   );
 }
 
-/** Both halves are the same diagram with a different engine on the right of it. */
-function booleanCard({ file, label, engine, engineIcon, header, rows, footer, footerFill }) {
+const ROUTE_CHIP = { x: 244, w: 212, h: 62, r: 14 };
+
+/** One weighted chip: soft glyph, large label, the line it came from, and a status badge. */
+function routeChip(top, { glyph, label, sub, ok }) {
+  const { x, w, h, r } = ROUTE_CHIP;
+  const cy = top + h / 2;
+  const badgeCx = x + w - 30;
+  const tint = ok ? DIAGRAM.green : DIAGRAM.red;
+  const mark = ok
+    ? `<path d="M${badgeCx - 4.6},${cy} l3.2,3.2 l6,-6.4" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`
+    : `<g stroke="white" stroke-width="2" stroke-linecap="round"><line x1="${badgeCx - 3.6}" y1="${cy - 3.6}" x2="${badgeCx + 3.6}" y2="${cy + 3.6}"/><line x1="${badgeCx + 3.6}" y1="${cy - 3.6}" x2="${badgeCx - 3.6}" y2="${cy + 3.6}"/></g>`;
+
+  return (
+    `<rect x="${x}" y="${top}" width="${w}" height="${h}" rx="${r}" fill="white" stroke="${DIAGRAM.chipEdge}" stroke-width="1.4"/>` +
+    chipGlyph(glyph, x + 30, cy) +
+    text(x + 52, cy - 3, label, { size: 17, weight: 600, fill: DIAGRAM.ink }) +
+    text(x + 52, cy + 15, sub, { size: 12, fill: DIAGRAM.sub }) +
+    `<circle cx="${badgeCx}" cy="${cy}" r="12" fill="${tint}"/>` +
+    mark
+  );
+}
+
+/** Both halves are the same diagram: one resume, two routes, and what came back along them. */
+function booleanCard({ file, label, header, glyph, rows, ok, footer, footerFill }) {
   const cx = BOOL_W / 2;
-  const [sourceCx, engineCx, iconCy] = [148, 332, 60];
+  const well = { x: 28, y: 76, w: 128, h: 140 };
+  const tops = [74, 154];
 
   return {
     file,
@@ -1035,17 +1087,14 @@ function booleanCard({ file, label, engine, engineIcon, header, rows, footer, fo
     designWidth: BOOL_W,
     designHeight: BOOL_H,
     svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${BOOL_W} ${BOOL_H}" width="${BOOL_W}" height="${BOOL_H}" fill="none" role="img" aria-label="${esc(label)}">
-      ${lineIcon('resume', sourceCx, iconCy)}
-      ${dashRoute(sourceCx + 40, engineCx - 40, iconCy)}
-      ${lineIcon(engineIcon, engineCx, iconCy)}
+      ${text(cx, 42, header, { size: 13, weight: 600, fill: DIAGRAM.muted, anchor: 'middle' })}
 
-      ${text(sourceCx, 108, 'Resume Text', { size: 14, fill: DIAGRAM.label, anchor: 'middle' })}
-      ${text(engineCx, 108, engine, { size: 14, fill: DIAGRAM.label, anchor: 'middle' })}
+      ${resumeWell(well.x, well.y, well.w, well.h)}
 
-      ${text(cx, 152, header, { size: 14, weight: 600, fill: DIAGRAM.muted, anchor: 'middle' })}
-      ${rows.map((row, i) => feedChip(cx, 170 + i * 50, row)).join('')}
+      ${tops.map((top) => route(well.x + well.w + 8, ROUTE_CHIP.x - 8, top + ROUTE_CHIP.h / 2, { carried: ok })).join('')}
+      ${rows.map((row, i) => routeChip(tops[i], { ...row, glyph, ok })).join('')}
 
-      ${text(cx, 286, footer, { size: 14, weight: 600, fill: footerFill, anchor: 'middle' })}
+      ${text(cx, 268, footer, { size: 14, weight: 600, fill: footerFill, anchor: 'middle' })}
     </svg>`,
   };
 }
@@ -1054,13 +1103,13 @@ function tiBooleanLegacy() {
   return booleanCard({
     file: 'ti-boolean-legacy',
     label:
-      'A Boolean keyword filter reading the same resume and finding neither search term written on it, so nothing matches',
-    engine: 'Boolean Filter',
-    engineIcon: 'funnel',
-    header: 'NO MATCH',
+      'A Boolean keyword filter testing two search terms against a resume and finding neither of them written on it, so nothing matches',
+    header: 'KEYWORD MATCH',
+    glyph: 'quote',
+    ok: false,
     rows: [
-      { status: 'critical', term: '"Manager"', verdict: 'not on the resume' },
-      { status: 'critical', term: '"P&L"', verdict: 'not on the resume' },
+      { label: '"Manager"', sub: 'never written down' },
+      { label: '"P&L"', sub: 'never written down' },
     ],
     footer: '0 of 1,284 profiles matched',
     footerFill: '#c62c08',
@@ -1072,18 +1121,17 @@ function tiBooleanSemantic() {
     file: 'ti-boolean-semantic',
     label:
       'The semantic engine reading the same resume in context, taking Project Lead as Manager and Budget Owner as P&L exposure',
-    engine: 'Semantic Engine',
-    engineIcon: 'engine',
-    header: 'UNDERSTOOD AS',
+    header: 'SEMANTIC READ',
+    glyph: 'concept',
+    ok: true,
     rows: [
-      { status: 'success', term: 'Project Lead', verdict: 'reads as Manager' },
-      { status: 'success', term: 'Budget Owner', verdict: 'reads as P&L exposure' },
+      { label: 'Manager', sub: 'from "Project Lead"' },
+      { label: 'P&L exposure', sub: 'from "Budget Owner"' },
     ],
     footer: 'Same resume · 94% fit',
     footerFill: '#067647',
   });
 }
-
 /**
  * The Universal Parser section. The Figma frame for it is an empty band above three labels, so
  * the pipeline itself is drawn here: three unstructured sources funnelled through the parser and
