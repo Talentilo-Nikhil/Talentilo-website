@@ -1378,6 +1378,139 @@ function mgTransfer() {
   };
 }
 
+
+/**
+ * The pair of comparison cards on /migration, one per legacy system.
+ *
+ * The exported frames drew each story in furniture that appears nowhere else on the site: dashed
+ * connectors with green blobs riding them, a red cross badge on every legacy box, a stack of
+ * avatar chips standing in for an activity feed. Beside `ti-boolean-legacy` on the same site they
+ * read as artwork from a different project.
+ *
+ * Both are rebuilt here in the card language the rest of the pages use — an ink header over a
+ * white card, the legacy state on the left of each row and what it becomes on the right, and one
+ * floating status card underneath — so the two halves of the section match. The rows carry the
+ * page's own framing ("a static database" against "an active engine", the "Small Biz" ceiling)
+ * rather than restating the paragraph below them.
+ */
+const MG_W = 560;
+const MG_H = 430;
+/** crusta-50: the hero band above these sits on crusta-100 and the rule between them is crusta-200. */
+const MG_BG = '#fff5ed';
+const MG_CARD_Y = 72;
+const MG_CARD_H = 210;
+
+const MAP_ROW = { h: 32, padX: 18, size: 13 };
+
+/** Width of a row pill around its own label, so a long phrase never runs past the end of it. */
+const mapPillW = (label) => Math.round(estWidth(label, MAP_ROW.size) + MAP_ROW.padX * 2);
+
+/**
+ * One migration row: where a record lives today, an arrow, and what it becomes after the move.
+ *
+ * Each pill is measured from its own label, so the gap between the two differs from row to row.
+ * Centring the arrow in each gap separately put the two arrows 30px apart vertically and the
+ * column read as ragged, so `arrowX` is worked out once for the card and passed in here.
+ */
+function mapRow(left, right, midY, { from, to }, arrowX) {
+  const { h, size } = MAP_ROW;
+  const toX = right - mapPillW(to);
+  return (
+    pill(left, midY - h / 2, mapPillW(from), h, { fill: '#f1f2f4', text: from, textFill: INK, size }) +
+    arrowIcon(arrowX, midY, '#7c5cff') +
+    pill(toX, midY - h / 2, mapPillW(to), h, { fill: '#daedff', text: to, textFill: '#1959dc', size })
+  );
+}
+
+/** Both cards are the same object with different words in it, so they are built from one recipe. */
+function migrationCard({ file, id, label, eyebrow, title, rows, summary, verdict }) {
+  const bg = flatBackdrop(MG_BG, MG_W, MG_H);
+  const mainCard = card(`${id}-main`, 40, MG_CARD_Y, MG_W - 80, MG_CARD_H);
+  const right = MG_W - 64;
+  const headerH = 48;
+  const headerMid = MG_CARD_Y + headerH / 2;
+
+  // The arrows share one axis: the middle of the narrowest gap any row leaves between its pills.
+  const arrowX =
+    (Math.max(...rows.map((r) => 64 + mapPillW(r.from))) +
+      Math.min(...rows.map((r) => right - mapPillW(r.to)))) /
+    2;
+
+  const eyebrowW = Math.round(estWidth(eyebrow, 12) + 32);
+  const stampW = Math.round(estWidth('100% mapped', 12) + 28);
+
+  const note = floatingCard(`${id}-note`, 88, 310, MG_W - 176, 88, {
+    status: 'success',
+    headline: verdict.headline,
+    subtext: verdict.subtext,
+  });
+
+  return {
+    file,
+    label,
+    designWidth: MG_W,
+    designHeight: MG_H,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${MG_W} ${MG_H}" width="${MG_W}" height="${MG_H}" fill="none" role="img" aria-label="${esc(label)}">
+      <defs>${bg.defs}${mainCard.defs}${note.defs}</defs>
+      ${bg.rect}
+
+      ${pill(40, 24, eyebrowW, 30, { fill: 'rgba(12,10,16,0.72)', text: eyebrow, textFill: 'white', size: 12 })}
+
+      ${mainCard.shadowRect}
+      <g clip-path="url(#${mainCard.clipId})">
+        <rect x="40" y="${MG_CARD_Y}" width="${MG_W - 80}" height="${headerH}" fill="${INK}" />
+        ${text(64, headerMid + 6, title, { size: 16, weight: 600, fill: 'white' })}
+        ${pill(right - stampW, headerMid - 13, stampW, 26, {
+          fill: '#123524',
+          text: '100% mapped',
+          textFill: '#4ade80',
+          size: 12,
+        })}
+
+        ${rows.map((row, i) => mapRow(64, right, 156 + i * 44, row, arrowX)).join('')}
+
+        <line x1="64" y1="234" x2="${right}" y2="234" stroke="${DIVIDER}" />
+        ${text(64, 260, summary, { size: 14, weight: 600, fill: '#067647' })}
+      </g>
+
+      ${note.markup}
+    </svg>`,
+  };
+}
+
+function mgCardBullhorn() {
+  return migrationCard({
+    file: 'mg-card-bullhorn',
+    id: 'mgb',
+    label:
+      'A Bullhorn migration mapping a static database and paid plugins onto the Talentilo engine, with a decade of relationship data intact',
+    eyebrow: 'Bullhorn · Legacy Stack',
+    title: 'Bullhorn Migration',
+    rows: [
+      { from: 'Static database', to: 'Active engine' },
+      { from: 'Paid plugins', to: 'Native workflow' },
+    ],
+    summary: 'Every field, tag and stage history mapped',
+    verdict: { headline: 'Nothing left behind', subtext: 'A decade of relationships, intact' },
+  });
+}
+
+function mgCardZoho() {
+  return migrationCard({
+    file: 'mg-card-zoho',
+    id: 'mgz',
+    label:
+      'A Zoho Recruit migration lifting Small Biz limits and manual workarounds to enterprise scale without losing operational simplicity',
+    eyebrow: 'Zoho Recruit · Small Biz',
+    title: 'Zoho Migration',
+    rows: [
+      { from: 'Small Biz limits', to: 'Enterprise scale' },
+      { from: 'Manual workarounds', to: 'Automated flows' },
+    ],
+    summary: 'Operational simplicity kept, ceiling removed',
+    verdict: { headline: 'Room to grow', subtext: 'Enterprise leverage, same simple setup' },
+  });
+}
 /**
  * The "Always-On Recruiting Team" chart on /solution/high-volume.
  *
@@ -1539,6 +1672,8 @@ export function customCreatives() {
   return [
     hvAlwaysOn(),
     mgTransfer(),
+    mgCardBullhorn(),
+    mgCardZoho(),
     tiBooleanLegacy(),
     tiBooleanSemantic(),
     tiParser(),
