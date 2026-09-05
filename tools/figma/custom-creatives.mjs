@@ -64,11 +64,13 @@ function flatBackdrop(color, w = W, h = H) {
 }
 
 /** A floating white rounded card, clipped so its header bar can't spill past the corners. */
-function card(id, x, y, w, h, r = 16) {
+function card(id, x, y, w, h, r = 16, { shadow = true } = {}) {
   return {
     clipId: `clip-${id}`,
     defs: `<clipPath id="clip-${id}"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" /></clipPath>`,
-    shadowRect: `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="white" filter="url(#shadow)" />`,
+    shadowRect:
+      `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="white"` +
+      `${shadow ? ' filter="url(#shadow)"' : ''} />`,
   };
 }
 
@@ -176,8 +178,8 @@ function ruleRow(x, rightEdge, midY, label, pillText, pillColors) {
 }
 
 /** The recurring "icon + headline + subtext (+ button)" card that floats below the main card. */
-function floatingCard(id, x, y, w, h, { icon = 'check', headline, subtext, buttonLabel }) {
-  const c = card(id, x, y, w, h);
+function floatingCard(id, x, y, w, h, { icon = 'check', headline, subtext, buttonLabel, shadow = true }) {
+  const c = card(id, x, y, w, h, 16, { shadow });
   const iconCx = x + 40;
   const iconCy = y + 34;
   const glyph = icon === 'alert' ? alertIcon(iconCx, iconCy, 18, 'white') : checkIcon(iconCx, iconCy, 18, 'white');
@@ -637,20 +639,24 @@ function trSemantic() {
 
   // The floating "Genuine Competency" card was dropped, so the table is the whole composition and
   // is centred on the canvas rather than sitting high with the space the card used to fill.
-  const cardH = 300;
-  const cardY = (H - cardH) / 2;
-  const mainCard = card('trs-main', 40, cardY, 508, cardH);
+  // The body carries padding rather than handing its whole height to the rows, which put the
+  // first pill 14.5px under the header and the last one the same distance off the bottom edge.
+  // The card grows by the padding it gains, so the rows keep the pitch they had.
+  const bodyPad = 12;
   const headerH = 56;
+  const cardH = 324;
+  const cardY = (H - cardH) / 2;
+  const mainCard = card('trs-main', 40, cardY, 508, cardH, 16, { shadow: false });
   const rows = [
     { from: 'React', to: 'Frontend Engineering' },
     { from: 'Docker', to: 'DevOps' },
     { from: 'Kubernetes', to: 'Container Orchestration' },
     { from: 'Postgres', to: 'Database Design' },
   ];
-  const rowH = (cardH - headerH) / rows.length;
+  const rowH = (cardH - headerH - bodyPad * 2) / rows.length;
   const rowsMarkup = rows
     .map((row, i) => {
-      const rowY = cardY + headerH + i * rowH;
+      const rowY = cardY + headerH + bodyPad + i * rowH;
       const midY = rowY + rowH / 2;
       const fromW = 128;
       const fromH = 32;
@@ -693,23 +699,26 @@ function trVerify() {
   // down from 124 to 70 — which leaves the icon's 12px of top padding matched at the bottom. It
   // clears the table rather than overlapping it, and the two are centred as one block so the
   // gap between them does not push the composition off the bottom of the canvas.
-  const cardH = 270;
+  // Padded on the same terms as the table on tr-semantic, its pair on this page, and grown by
+  // the padding so the rows keep the pitch they had.
+  const bodyPad = 12;
+  const headerH = 56;
+  const cardH = 294;
   const alertH = 70;
   const gap = 20;
   const cardY = (H - (cardH + gap + alertH)) / 2;
   const alertY = cardY + cardH + gap;
 
-  const mainCard = card('trv-main', 40, cardY, 508, cardH);
-  const headerH = 56;
+  const mainCard = card('trv-main', 40, cardY, 508, cardH, 16, { shadow: false });
   const rows = [
     { name: 'Amit K.', role: 'Backend Engineer', score: '96%', colors: { bg: '#dcfce7', text: '#15803d' } },
     { name: 'Priya S.', role: 'Full-Stack Engineer', score: '88%', colors: { bg: '#dcfce7', text: '#15803d' } },
     { name: 'John D.', role: 'Frontend Engineer', score: '54%', colors: { bg: '#ffe9d4', text: '#c62c08' } },
   ];
-  const rowH = (cardH - headerH) / rows.length;
+  const rowH = (cardH - headerH - bodyPad * 2) / rows.length;
   const rowsMarkup = rows
     .map((row, i) => {
-      const rowY = cardY + headerH + i * rowH;
+      const rowY = cardY + headerH + bodyPad + i * rowH;
       const midY = rowY + rowH / 2;
       const divider = i < rows.length - 1 ? `<line x1="64" y1="${rowY + rowH}" x2="476" y2="${rowY + rowH}" stroke="${DIVIDER}" />` : '';
       const pillW = 76;
@@ -727,6 +736,7 @@ function trVerify() {
     icon: 'check',
     headline: 'Auto-Ranked by Code Quality',
     subtext: 'No manual resume screening required',
+    shadow: false,
   });
 
   return {
