@@ -291,7 +291,10 @@ function floatingCard(id, x, y, w, h, { status = 'success', headline, subtext, b
    */
   const BLOCK = 46;
   const BUTTON_H = 40;
-  const BUTTON_GAP = 6;
+  // 6px was what the old fixed layout happened to leave between the subtext and the button, which
+  // is less than the space between the two lines of type above it — the button read as stuck to
+  // the message rather than as the action under it.
+  const BUTTON_GAP = 18;
   const contentH = BLOCK + (buttonLabel ? BUTTON_GAP + BUTTON_H : 0);
   const top = y + (h - contentH) / 2;
 
@@ -342,9 +345,10 @@ function roGovernance() {
     })
     .join('');
 
-  // The card used to start at 346 against a table whose bottom edge is 354, so it sat on the last
-  // row and covered the rule it was talking about. It clears it by 20 now.
-  const alert = floatingCard('alert', 88, 374, 420, 124, {
+  // Every one of these cards used to start at 346 against a table whose bottom edge is 354, so it
+  // sat on the last row and covered the very thing it was describing. They all clear it by 20 now,
+  // and stand 136 tall rather than 124 to hold the wider gap above the button.
+  const alert = floatingCard('alert', 88, 374, 420, 136, {
     status: 'locked',
     headline: 'Background Check Required',
     subtext: "Locked at HQ — can't be bypassed locally",
@@ -530,7 +534,7 @@ function pcGuardrails() {
     })
     .join('');
 
-  const alert = floatingCard('pcg-alert', 88, 346, 420, 124, {
+  const alert = floatingCard('pcg-alert', 88, 374, 420, 136, {
     status: 'warning',
     headline: 'Guardrail Triggered',
     subtext: 'Candidate stuck 7 days in Interview',
@@ -592,7 +596,7 @@ function pcVelocity() {
     })
     .join('');
 
-  const alert = floatingCard('pcv-alert', 88, 346, 420, 124, {
+  const alert = floatingCard('pcv-alert', 88, 374, 420, 136, {
     status: 'warning',
     headline: 'Bottleneck Detected',
     subtext: 'Interview stage runs 3x longer than the rest',
@@ -637,7 +641,7 @@ function aoSuperstar() {
     })
     .join('');
 
-  const alert = floatingCard('aos-alert', 88, 346, 420, 124, {
+  const alert = floatingCard('aos-alert', 88, 374, 420, 136, {
     status: 'success',
     headline: '0% Knowledge Lost',
     subtext: "Every workflow lives in Talentilo, not one inbox",
@@ -918,7 +922,7 @@ function rdNoticeTracker() {
     })
     .join('');
 
-  const alert = floatingCard('rdn-alert', 88, 346, 420, 124, {
+  const alert = floatingCard('rdn-alert', 88, 374, 420, 136, {
     status: 'critical',
     headline: 'Counter-Offer Signal Detected',
     subtext: "Alex Chen hasn't responded in 5 days",
