@@ -35,10 +35,10 @@ export function Footer() {
                          [background-image:var(--gradient-brand)]"
             >
               {/*
-                The hover fill: the same wash the header's "Request Demo" pill carries. That button
-                scales the background to 180% and holds it at its saturated end, which keeps the
-                gradient's near-white stop off the surface and leaves the azure-to-lavender stretch
-                — this reuses that treatment rather than re-deriving one.
+                The hover fill: the same wash the header's "Request Demo" pill deepens to on hover,
+                windowed the same way — scaled to 180% and held at its saturated end, which keeps
+                the gradient's near-white stop off the surface. The two buttons differ at rest and
+                land on the same colour when hovered, which is the match Talentilo asked for.
 
                 It sits at inset-0, so it covers the 1px hairline as well as the ink and the pill
                 reads as a bare gradient with no stroke once filled. `background-image` is not an
@@ -48,7 +48,7 @@ export function Footer() {
                 aria-hidden="true"
                 className="absolute inset-0 z-10 rounded-[112px] bg-[length:180%_100%] bg-[position:0%_50%]
                            opacity-0 transition-opacity duration-300 ease-[var(--ease-out-soft)]
-                           [background-image:var(--gradient-brand)] group-hover:opacity-100
+                           [background-image:var(--gradient-brand-deep)] group-hover:opacity-100
                            group-focus-visible:opacity-100"
               />
               <span

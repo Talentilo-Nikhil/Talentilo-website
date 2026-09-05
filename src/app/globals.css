@@ -169,6 +169,19 @@
   );
   --gradient-warm: linear-gradient(270deg, #fdfcff 0%, #ffddb1 45.68%, #fe7c34 100%);
   --gradient-magenta: linear-gradient(90deg, #fdfcff 0%, #da8dff 45.68%, #ff3aaf 100%);
+
+  /*
+   * The brand wash walked two steps down its ramps, for the hover state of the gradient buttons.
+   * Same axis and same 45.68% midpoint, so it reads as the resting wash deepening rather than as
+   * a different colour. Windowed the way the buttons window `--gradient-brand` (180% wide, held
+   * at 0%) it shows azure-600 to lavender-500, which holds white at 4.5:1 across the whole pill.
+   */
+  --gradient-brand-deep: linear-gradient(
+    270deg,
+    #fdfcff 0%,
+    var(--color-lavender-500) 45.68%,
+    var(--color-azure-600) 100%
+  );
 }
 
 @layer base {
