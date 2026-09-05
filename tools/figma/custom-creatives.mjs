@@ -157,6 +157,16 @@ function checkIcon(cx, cy, size, color) {
   );
 }
 
+function crossIcon(cx, cy, size, color) {
+  const s = size / 16;
+  return (
+    `<g transform="translate(${cx - 8 * s},${cy - 8 * s}) scale(${s})">` +
+    `<line x1="4.5" y1="4.5" x2="11.5" y2="11.5" stroke="${color}" stroke-width="2" stroke-linecap="round" />` +
+    `<line x1="11.5" y1="4.5" x2="4.5" y2="11.5" stroke="${color}" stroke-width="2" stroke-linecap="round" />` +
+    '</g>'
+  );
+}
+
 function arrowIcon(cx, cy, color) {
   return `<path d="M${cx - 4},${cy - 5} L${cx + 4},${cy} L${cx - 4},${cy + 5}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />`;
 }
@@ -235,11 +245,29 @@ function ruleRow(x, rightEdge, midY, label, pillText, pillColors) {
 }
 
 /** The recurring "icon + headline + subtext (+ button)" card that floats below the main card. */
-function floatingCard(id, x, y, w, h, { icon = 'check', headline, subtext, buttonLabel, shadow = true }) {
+/**
+ * The states one of these cards can be in.
+ *
+ * Every card drew the same ink disc with a white glyph, so a bottleneck, a candidate about to be
+ * lost and a guarantee all arrived looking identical — the reader had to reach the headline
+ * before knowing which of the three they were being shown. Each state now carries its own tinted
+ * disc and its own coloured glyph, taken from the pairs these creatives already use for their
+ * status pills, so the card says what kind of thing it is before it is read.
+ *
+ * Checked against the disc each sits on: 4.6, 4.7, 4.0 and 5.0 to 1.
+ */
+const STATUS = {
+  success: { tint: '#dcfce7', ink: '#15803d', glyph: checkIcon },
+  warning: { tint: '#ffe9d4', ink: '#c62c08', glyph: alertIcon },
+  critical: { tint: '#fee2e2', ink: '#d92c20', glyph: crossIcon },
+  locked: { tint: '#daedff', ink: '#1959dc', glyph: lockIcon },
+};
+
+function floatingCard(id, x, y, w, h, { status = 'success', headline, subtext, buttonLabel, shadow = true }) {
   const c = card(id, x, y, w, h, 16, { shadow });
+  const { tint, ink, glyph } = STATUS[status];
   const iconCx = x + 40;
   const iconCy = y + 34;
-  const glyph = icon === 'alert' ? alertIcon(iconCx, iconCy, 18, 'white') : checkIcon(iconCx, iconCy, 18, 'white');
   const textX = x + 78;
   const btn = buttonLabel ? button(x + w - 20, y + h - 60, 40, buttonLabel).markup : '';
   return {
@@ -247,8 +275,8 @@ function floatingCard(id, x, y, w, h, { icon = 'check', headline, subtext, butto
     markup: `
       ${c.shadowRect}
       <g clip-path="url(#${c.clipId})">
-        <circle cx="${iconCx}" cy="${iconCy}" r="22" fill="${INK}" />
-        ${glyph}
+        <circle cx="${iconCx}" cy="${iconCy}" r="22" fill="${tint}" />
+        ${glyph(iconCx, iconCy, 18, ink)}
         ${text(textX, y + 30, headline, { size: 17, weight: 600 })}
         ${text(textX, y + 54, subtext, { size: 14, fill: INK_SOFT })}
         ${btn}
@@ -288,7 +316,7 @@ function roGovernance() {
   // The card used to start at 346 against a table whose bottom edge is 354, so it sat on the last
   // row and covered the rule it was talking about. It clears it by 20 now.
   const alert = floatingCard('alert', 88, 374, 420, 124, {
-    icon: 'check',
+    status: 'locked',
     headline: 'Background Check Required',
     subtext: "Locked at HQ — can't be bypassed locally",
     buttonLabel: 'View Policy',
@@ -474,7 +502,7 @@ function pcGuardrails() {
     .join('');
 
   const alert = floatingCard('pcg-alert', 88, 346, 420, 124, {
-    icon: 'alert',
+    status: 'warning',
     headline: 'Guardrail Triggered',
     subtext: 'Candidate stuck 7 days in Interview',
     buttonLabel: 'Notify Manager',
@@ -536,7 +564,7 @@ function pcVelocity() {
     .join('');
 
   const alert = floatingCard('pcv-alert', 88, 346, 420, 124, {
-    icon: 'alert',
+    status: 'warning',
     headline: 'Bottleneck Detected',
     subtext: 'Interview stage runs 3x longer than the rest',
     buttonLabel: 'View Report',
@@ -581,7 +609,7 @@ function aoSuperstar() {
     .join('');
 
   const alert = floatingCard('aos-alert', 88, 346, 420, 124, {
-    icon: 'check',
+    status: 'success',
     headline: '0% Knowledge Lost',
     subtext: "Every workflow lives in Talentilo, not one inbox",
     buttonLabel: 'View Playbook',
@@ -631,7 +659,7 @@ function aoMargins() {
     .join('');
 
   const alert = floatingCard('aom-alert', 140, 400, 308, 92, {
-    icon: 'check',
+    status: 'success',
     headline: 'Margins Reclaimed',
     subtext: 'Admin and defense, automated',
   });
@@ -807,7 +835,7 @@ function trVerify() {
     .join('');
 
   const alert = floatingCard('trv-alert', 88, alertY, 420, alertH, {
-    icon: 'check',
+    status: 'success',
     headline: 'Auto-Ranked by Code Quality',
     subtext: 'No manual resume screening required',
     shadow: false,
@@ -862,7 +890,7 @@ function rdNoticeTracker() {
     .join('');
 
   const alert = floatingCard('rdn-alert', 88, 346, 420, 124, {
-    icon: 'alert',
+    status: 'critical',
     headline: 'Counter-Offer Signal Detected',
     subtext: "Alex Chen hasn't responded in 5 days",
     buttonLabel: 'Send Check-in',
@@ -942,7 +970,7 @@ function tiBooleanLegacy() {
   const headerH = 48;
 
   const verdict = floatingCard('tbl-verdict', 88, 322, w - 176, 88, {
-    icon: 'alert',
+    status: 'critical',
     headline: 'Missed opportunity',
     subtext: '"Manager" never appears on the resume',
   });
@@ -1012,7 +1040,7 @@ function tiBooleanSemantic() {
     .join('');
 
   const verdict = floatingCard('tbs-verdict', 88, 322, w - 176, 88, {
-    icon: 'check',
+    status: 'success',
     headline: 'True discovery',
     subtext: 'Surfaced at 94% fit from the same resume',
   });
