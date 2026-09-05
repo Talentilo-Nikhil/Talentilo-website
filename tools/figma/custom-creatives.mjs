@@ -1270,19 +1270,32 @@ function hvAlwaysOn() {
   const card = { x: 34.7, y: 113.56, w: 518.6, h: 308.88, r: 18 };
   const plot = { left: 61.7, right: 526.31, bottom: 359.44 };
 
-  // [x, width, load, headroom] — the design's own slots and volumes, untouched.
-  const columns = [
-    [61.7, 26.55, 47.25, 58.5],
-    [110.69, 26.55, 34.87, 41.62],
-    [159.69, 26.55, 43.87, 52.87],
-    [208.69, 26.55, 43.87, 52.87],
-    [257.69, 27, 119.25, 130.49],
-    [307.14, 25.87, 148.49, 156.37],
-    [355.46, 25.87, 113.62, 121.5],
-    [403.78, 25.87, 45, 52.87],
-    [452.11, 25.87, 66.37, 75.37],
-    [500.43, 25.87, 83.25, 91.12],
+  /*
+   * [load, headroom] per hour — the design's own volumes, untouched.
+   *
+   * Its slot geometry is not kept, because it does not hold: the ten bars carry three different
+   * widths (26.55 four times, 27 once, 25.87 five times) against a constant 22.45 gap, so the
+   * pitch drifts from 48.32 to 49.45 and every bar after the wide fifth one sits off the rhythm
+   * the first four set. The slots are laid out here instead — one width, one pitch, the first
+   * bar's left edge on the plot's left and the last bar's right edge on its right, which is where
+   * the design's own first and last happened to land. The gap this produces, 22.45, is the
+   * design's.
+   */
+  const volumes = [
+    [47.25, 58.5],
+    [34.87, 41.62],
+    [43.87, 52.87],
+    [43.87, 52.87],
+    [119.25, 130.49],
+    [148.49, 156.37],
+    [113.62, 121.5],
+    [45, 52.87],
+    [66.37, 75.37],
+    [83.25, 91.12],
   ];
+  const barW = 26.26;
+  const pitch = (plot.right - plot.left - barW) / (volumes.length - 1);
+  const columns = volumes.map(([load, headroom], i) => [plot.left + i * pitch, barW, load, headroom]);
 
   /** A column with its top corners rounded and its foot square on the axis. */
   /**
@@ -1369,9 +1382,11 @@ function hvAlwaysOn() {
       <!-- The design wraps the three axis labels in a frame carrying a 1px #f4f3ff stroke. That is
            a layout container in Figma, not a chart element: it draws a box around the labels that
            encloses nothing and belongs to no scale, so only the labels inside it are kept. -->
-      ${text(71.7, 389.44, '08.00', { size: 12.37, weight: 500 })}
-      ${text(296, 389.44, 'Overnight Campaign Launch', { size: 12.37, weight: 500, anchor: 'middle' })}
-      ${text(516.31, 389.44, '10:00', { size: 12.37, weight: 500, anchor: 'end' })}
+      <!-- The end labels were inset 10px from the plot, which was padding inside the frame removed
+           with its border; on their own they line up with the first and last bar instead. -->
+      ${text(plot.left, 389.44, '08:00', { size: 12.37, weight: 500 })}
+      ${text(num((plot.left + plot.right) / 2), 389.44, 'Overnight Campaign Launch', { size: 12.37, weight: 500, anchor: 'middle' })}
+      ${text(plot.right, 389.44, '10:00', { size: 12.37, weight: 500, anchor: 'end' })}
     </svg>`,
   };
 }
