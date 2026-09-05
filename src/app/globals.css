@@ -171,15 +171,15 @@
   --gradient-magenta: linear-gradient(90deg, #fdfcff 0%, #da8dff 45.68%, #ff3aaf 100%);
 
   /*
-   * The brand wash as a solid fill. `--gradient-brand` runs up to #fdfcff, so filling a surface
-   * with it drops white text to 1.02:1. This keeps that gradient's axis and 45.68% midpoint but
-   * walks the stops down the azure ramp, so the lightest point (azure-600) still holds white at
-   * 4.58:1 — AA at any size — rising to 8.03:1 at azure-800.
+   * The brand wash walked two steps down its ramps, for the hover state of the gradient buttons.
+   * Same axis and same 45.68% midpoint, so it reads as the resting wash deepening rather than as
+   * a different colour. Windowed the way the buttons window `--gradient-brand` (180% wide, held
+   * at 0%) it shows azure-600 to lavender-500, which holds white at 4.5:1 across the whole pill.
    */
-  --gradient-brand-blue: linear-gradient(
+  --gradient-brand-deep: linear-gradient(
     270deg,
-    var(--color-azure-800) 0%,
-    var(--color-azure-700) 45.68%,
+    #fdfcff 0%,
+    var(--color-lavender-500) 45.68%,
     var(--color-azure-600) 100%
   );
 }
