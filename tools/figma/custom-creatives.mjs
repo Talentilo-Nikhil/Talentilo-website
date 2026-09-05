@@ -278,10 +278,27 @@ const STATUS = {
 function floatingCard(id, x, y, w, h, { status = 'success', headline, subtext, buttonLabel, shadow = true }) {
   const c = card(id, x, y, w, h, 16, { shadow });
   const { tint, ink, glyph } = STATUS[status];
+
+  /*
+   * What the card holds: a 44px disc beside two lines of type, and a button under them when there
+   * is one. Each card used to hang that block 12px below its top edge and let whatever height it
+   * was given fall out underneath, so the space above and below it never matched — 12 over 34 on
+   * ao-margins, 12 over 30 on the two verdict cards, 12 over 20 wherever there was a button. Only
+   * tr-verify came out even, and only because its height was picked by hand to make it so.
+   *
+   * The block is measured and centred instead, which makes the two equal on every card whatever
+   * height it is given.
+   */
+  const BLOCK = 46;
+  const BUTTON_H = 40;
+  const BUTTON_GAP = 6;
+  const contentH = BLOCK + (buttonLabel ? BUTTON_GAP + BUTTON_H : 0);
+  const top = y + (h - contentH) / 2;
+
   const iconCx = x + 40;
-  const iconCy = y + 34;
+  const iconCy = top + 22;
   const textX = x + 78;
-  const btn = buttonLabel ? button(x + w - 20, y + h - 60, 40, buttonLabel).markup : '';
+  const btn = buttonLabel ? button(x + w - 20, top + BLOCK + BUTTON_GAP, BUTTON_H, buttonLabel).markup : '';
   return {
     defs: c.defs,
     markup: `
@@ -289,8 +306,8 @@ function floatingCard(id, x, y, w, h, { status = 'success', headline, subtext, b
       <g clip-path="url(#${c.clipId})">
         <circle cx="${iconCx}" cy="${iconCy}" r="22" fill="${tint}" />
         ${glyph(iconCx, iconCy, 18, ink)}
-        ${text(textX, y + 30, headline, { size: 17, weight: 600 })}
-        ${text(textX, y + 54, subtext, { size: 14, fill: INK_SOFT })}
+        ${text(textX, top + 18, headline, { size: 17, weight: 600 })}
+        ${text(textX, top + 42, subtext, { size: 14, fill: INK_SOFT })}
         ${btn}
       </g>
     `,
