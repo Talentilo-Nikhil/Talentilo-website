@@ -10,11 +10,22 @@ const VARIANT = {
    *
    * `--gradient-brand` runs to a near-white `#fdfcff`, and the file sets this label to white, so
    * the pale end of the gradient cannot sit under the text. The background is scaled to 180% and
-   * held at its saturated end — no hover slide, which is what used to wash the label out.
+   * held at its saturated end — the wash is never slid along on hover, which is what used to
+   * wash the label out. Hover deepens the colour instead; see below.
    */
   gradient:
-    'text-white [background-image:var(--gradient-brand)] bg-[length:180%_100%] bg-[position:0%_50%] ' +
-    'shadow-[0_1px_2px_rgb(12_10_16/0.08)]',
+    'relative isolate text-white [background-image:var(--gradient-brand)] bg-[length:180%_100%] ' +
+    'bg-[position:0%_50%] shadow-[0_1px_2px_rgb(12_10_16/0.08)] ' +
+    /*
+     * Hover deepens the wash. `background-image` is not animatable, so the deeper gradient is a
+     * pseudo-element faded in behind the label — `isolate` keeps its negative z-index inside this
+     * button, so it paints over the resting wash but under the text. The resting appearance is
+     * untouched; only the hover differs.
+     */
+    'before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:opacity-0 ' +
+    'before:[background-image:var(--gradient-brand-deep)] before:bg-[length:180%_100%] ' +
+    'before:bg-[position:0%_50%] before:transition-opacity before:duration-300 ' +
+    'before:ease-[var(--ease-out-soft)] hover:before:opacity-100 focus-visible:before:opacity-100',
   /** Ink hairline on a transparent field — the header "Sign In". */
   outline:
     'text-ink border border-ink bg-transparent hover:bg-ink hover:text-white',
