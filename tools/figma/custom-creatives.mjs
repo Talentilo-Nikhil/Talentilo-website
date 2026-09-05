@@ -43,9 +43,6 @@ function backdrop({ from, mid, to, flip = false, w = W, h = H }) {
         <line x1="0" y1="0" x2="0" y2="110" stroke="#ffffff" stroke-opacity="0.28" stroke-width="1.5" />
         <line x1="0" y1="0" x2="110" y2="0" stroke="#ffffff" stroke-opacity="0.28" stroke-width="1.5" />
       </pattern>
-      <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
-        <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="${INK}" flood-opacity="0.14" />
-      </filter>
     `,
     rect: `<rect width="${w}" height="${h}" fill="url(#bg)" /><rect width="${w}" height="${h}" fill="url(#grid)" />`,
   };
@@ -55,22 +52,17 @@ function backdrop({ from, mid, to, flip = false, w = W, h = H }) {
 function flatBackdrop(color, w = W, h = H) {
   return {
     defs: `
-      <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
-        <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="${INK}" flood-opacity="0.14" />
-      </filter>
     `,
     rect: `<rect width="${w}" height="${h}" fill="${color}" />`,
   };
 }
 
-/** A floating white rounded card, clipped so its header bar can't spill past the corners. */
-function card(id, x, y, w, h, r = 16, { shadow = true } = {}) {
+/** A white rounded card, clipped so its header bar can't spill past the corners. */
+function card(id, x, y, w, h, r = 16) {
   return {
     clipId: `clip-${id}`,
     defs: `<clipPath id="clip-${id}"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" /></clipPath>`,
-    shadowRect:
-      `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="white"` +
-      `${shadow ? ' filter="url(#shadow)"' : ''} />`,
+    surfaceRect: `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="white" />`,
   };
 }
 
@@ -125,7 +117,7 @@ function noticeBadge(label, { right = 548, y = 28, h = 36, size = 13, dot = '#21
   const w = Math.round(estWidth(label, size) + padLeft + padRight);
   const x = right - w;
   return (
-    `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="white" filter="url(#shadow)" />` +
+    `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="white" />` +
     `<circle cx="${x + 20}" cy="${y + h / 2}" r="4" fill="${dot}" />` +
     text(x + padLeft, y + h / 2 + size * 0.35, label, { size, weight: 600 })
   );
@@ -275,8 +267,8 @@ const STATUS = {
   locked: { tint: '#daedff', ink: '#1959dc', glyph: lockIcon },
 };
 
-function floatingCard(id, x, y, w, h, { status = 'success', headline, subtext, buttonLabel, shadow = true }) {
-  const c = card(id, x, y, w, h, 16, { shadow });
+function floatingCard(id, x, y, w, h, { status = 'success', headline, subtext, buttonLabel }) {
+  const c = card(id, x, y, w, h, 16);
   const { tint, ink, glyph } = STATUS[status];
 
   /*
@@ -305,7 +297,7 @@ function floatingCard(id, x, y, w, h, { status = 'success', headline, subtext, b
   return {
     defs: c.defs,
     markup: `
-      ${c.shadowRect}
+      ${c.surfaceRect}
       <g clip-path="url(#${c.clipId})">
         <circle cx="${iconCx}" cy="${iconCy}" r="22" fill="${tint}" />
         ${glyph(iconCx, iconCy, 18, ink)}
@@ -366,7 +358,7 @@ function roGovernance() {
 
       ${noticeBadge('12 Countries · One Standard')}
 
-      ${mainCard.shadowRect}
+      ${mainCard.surfaceRect}
       <g clip-path="url(#${mainCard.clipId})">
         <rect x="40" y="84" width="460" height="${headerH}" fill="${INK}" />
         ${lockIcon(64, 84 + headerH / 2, 16, 'white')}
@@ -491,7 +483,7 @@ function roSingleTruth() {
         .join('')}
       ${chips.map((c) => toolChip(c.x, c.y, c.icon, c.label)).join('')}
 
-      ${main.shadowRect}
+      ${main.surfaceRect}
       <g clip-path="url(#${main.clipId})">
         <rect x="${cardX}" y="180" width="${cardW}" height="${headerH}" fill="${INK}" />
         ${text(64, 180 + headerH / 2 + 6, 'Unified Candidate Record', { size: 17, weight: 600, fill: 'white' })}
@@ -503,7 +495,7 @@ function roSingleTruth() {
         ${stagesMarkup}
       </g>
 
-      ${badge.shadowRect}
+      ${badge.surfaceRect}
       <g clip-path="url(#${badge.clipId})">
         <circle cx="176" cy="446" r="20" fill="${INK}" />
         ${checkIcon(176, 446, 16, 'white')}
@@ -552,7 +544,7 @@ function pcGuardrails() {
 
       ${noticeBadge('Live Across 8 Desks', { dot: '#c026d3' })}
 
-      ${mainCard.shadowRect}
+      ${mainCard.surfaceRect}
       <g clip-path="url(#${mainCard.clipId})">
         <rect x="40" y="84" width="460" height="${headerH}" fill="${INK}" />
         ${lockIcon(64, 84 + headerH / 2, 16, 'white')}
@@ -612,7 +604,7 @@ function pcVelocity() {
       <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
       ${bg.rect}
 
-      ${mainCard.shadowRect}
+      ${mainCard.surfaceRect}
       <g clip-path="url(#${mainCard.clipId})">
         <rect x="40" y="84" width="508" height="${headerH}" fill="${INK}" />
         ${text(64, 84 + headerH / 2 + 6, 'Time to Fill by Stage', { size: 17, weight: 600, fill: 'white' })}
@@ -659,7 +651,7 @@ function aoSuperstar() {
 
       ${noticeBadge('Owned by the OS', { dot: '#c026d3' })}
 
-      ${mainCard.shadowRect}
+      ${mainCard.surfaceRect}
       <g clip-path="url(#${mainCard.clipId})">
         <rect x="40" y="84" width="460" height="${headerH}" fill="${INK}" />
         ${lockIcon(64, 84 + headerH / 2, 16, 'white')}
@@ -708,7 +700,7 @@ function aoMargins() {
 
       ${noticeBadge('+30% Margin', { dot: '#fe5a11' })}
 
-      ${mainCard.shadowRect}
+      ${mainCard.surfaceRect}
       <g clip-path="url(#${mainCard.clipId})">
         <rect x="40" y="84" width="508" height="${headerH}" fill="${INK}" />
         ${text(64, 84 + headerH / 2 + 6, 'Revenue per Seat', { size: 17, weight: 600, fill: 'white' })}
@@ -759,7 +751,7 @@ function tiRanking() {
       <defs>${bg.defs}${mainCard.defs}</defs>
       ${bg.rect}
 
-      ${mainCard.shadowRect}
+      ${mainCard.surfaceRect}
       <g clip-path="url(#${mainCard.clipId})">
         <rect x="40" y="${cardY}" width="508" height="${headerH}" fill="${INK}" />
         ${text(64, cardY + headerH / 2 + 6, 'Contextual Fit Score', { size: 17, weight: 600, fill: 'white' })}
@@ -781,7 +773,7 @@ function trSemantic() {
   const headerH = 56;
   const cardH = 324;
   const cardY = (H - cardH) / 2;
-  const mainCard = card('trs-main', 40, cardY, 508, cardH, 16, { shadow: false });
+  const mainCard = card('trs-main', 40, cardY, 508, cardH, 16);
   const rows = [
     { from: 'React', to: 'Frontend Engineering' },
     { from: 'Docker', to: 'DevOps' },
@@ -817,7 +809,7 @@ function trSemantic() {
       <defs>${bg.defs}${mainCard.defs}</defs>
       ${bg.rect}
 
-      ${mainCard.shadowRect}
+      ${mainCard.surfaceRect}
       <g clip-path="url(#${mainCard.clipId})">
         <rect x="40" y="${cardY}" width="508" height="${headerH}" fill="${INK}" />
         ${text(64, cardY + headerH / 2 + 6, 'Semantic Brain', { size: 17, weight: 600, fill: 'white' })}
@@ -844,7 +836,7 @@ function trVerify() {
   const cardY = (H - (cardH + gap + alertH)) / 2;
   const alertY = cardY + cardH + gap;
 
-  const mainCard = card('trv-main', 40, cardY, 508, cardH, 16, { shadow: false });
+  const mainCard = card('trv-main', 40, cardY, 508, cardH, 16);
   const rows = [
     { name: 'Amit K.', role: 'Backend Engineer', score: '96%', colors: { bg: '#dcfce7', text: '#15803d' } },
     { name: 'Priya S.', role: 'Full-Stack Engineer', score: '88%', colors: { bg: '#dcfce7', text: '#15803d' } },
@@ -871,7 +863,6 @@ function trVerify() {
     status: 'success',
     headline: 'Auto-Ranked by Code Quality',
     subtext: 'No manual resume screening required',
-    shadow: false,
   });
 
   return {
@@ -883,7 +874,7 @@ function trVerify() {
       <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
       ${bg.rect}
 
-      ${mainCard.shadowRect}
+      ${mainCard.surfaceRect}
       <g clip-path="url(#${mainCard.clipId})">
         <rect x="40" y="${cardY}" width="508" height="${headerH}" fill="${INK}" />
         ${text(64, cardY + headerH / 2 + 6, 'Assessment Leaderboard', { size: 17, weight: 600, fill: 'white' })}
@@ -938,7 +929,7 @@ function rdNoticeTracker() {
       <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
       ${bg.rect}
 
-      ${mainCard.shadowRect}
+      ${mainCard.surfaceRect}
       <g clip-path="url(#${mainCard.clipId})">
         <rect x="40" y="84" width="508" height="${headerH}" fill="${INK}" />
         ${text(64, 84 + headerH / 2 + 6, 'Notice Period Tracker', { size: 17, weight: 600, fill: 'white' })}
@@ -1184,7 +1175,7 @@ function tiParser() {
     return {
       defs: c.defs,
       markup:
-        `${c.shadowRect}<g clip-path="url(#${c.clipId})">` +
+        `${c.surfaceRect}<g clip-path="url(#${c.clipId})">` +
         fileIcon(source.icon, 88, y + 20) +
         text(140, y + 34, source.name, { size: 14, weight: 600 }) +
         text(140, y + 54, source.meta, { size: 12, fill: INK_SOFT }) +
@@ -1243,7 +1234,7 @@ function tiParser() {
       <line x1="652" y1="${midY}" x2="686" y2="${midY}" stroke="${INK}" stroke-opacity="0.35" stroke-width="1.6" />
       ${arrowIcon(692, midY, INK)}
 
-      ${profile.shadowRect}
+      ${profile.surfaceRect}
       <g clip-path="url(#${profile.clipId})">
         <rect x="700" y="72" width="548" height="${headerH}" fill="${INK}" />
         ${text(724, 72 + headerH / 2 + 6, 'Structured Profile', { size: 16, weight: 600, fill: 'white' })}
@@ -1423,7 +1414,7 @@ function mgTransfer() {
       ${flowLink(move.right, now.x, mid)}
 
       ${cards
-        .map((c, i) => `${c.shadowRect}<g clip-path="url(#${c.clipId})">${bodies[i]}</g>`)
+        .map((c, i) => `${c.surfaceRect}<g clip-path="url(#${c.clipId})">${bodies[i]}</g>`)
         .join('')}
 
       ${cards.map((c) => autoPill(c.cx, bottom + 28, c.caption)).join('')}
@@ -1545,9 +1536,6 @@ function hvAlwaysOn() {
           <stop offset="0%" stop-color="#b1a4ff" />
           <stop offset="100%" stop-color="#8f9df6" />
         </linearGradient>
-        <filter id="hv-shadow" x="-30%" y="-30%" width="160%" height="160%">
-          <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="${INK}" flood-opacity="0.12" />
-        </filter>
       </defs>
 
       <rect width="${w}" height="${h}" fill="url(#hv-wash)" />
@@ -1558,7 +1546,7 @@ function hvAlwaysOn() {
         <rect x="-121.77" y="-87.8" width="419.53" height="419.53" rx="2" />
       </g>
 
-      <rect x="${card.x}" y="${card.y}" width="${card.w}" height="${card.h}" rx="${card.r}" fill="white" filter="url(#hv-shadow)" />
+      <rect x="${card.x}" y="${card.y}" width="${card.w}" height="${card.h}" rx="${card.r}" fill="white" />
       <rect x="${card.x}" y="${card.y}" width="${card.w}" height="${card.h}" rx="${card.r}" fill="none" stroke="#e8ecef" stroke-width="1.12" />
 
       ${key(66.2, 'url(#hv-key)')}
