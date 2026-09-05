@@ -86,15 +86,20 @@ export function Testimonial({
 
   return (
     <Section padding="normal">
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+      {/*
+        47/53 rather than 40/60. The wider portrait panel gives the photograph a squarer footprint
+        to sit in, and narrowing the quote panel pulls the pull quote from three lines onto four,
+        which is a measure the eye tracks better and which fills the card instead of stranding it.
+      */}
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,0.94fr)_minmax(0,1.06fr)]">
         <div
           className={cn(
-            'relative flex min-h-[320px] flex-col justify-between overflow-hidden rounded-card p-8 sm:p-10',
+            'relative flex min-h-[370px] flex-col justify-between overflow-hidden rounded-card p-8 sm:p-10',
             palette.tint
           )}
         >
           <div className="relative flex flex-1 items-center justify-center pb-10">
-            <PortraitMark className={cn('absolute size-[228px] max-w-full', palette.mark)} />
+            <PortraitMark className={cn('absolute size-[244px] max-w-full', palette.mark)} />
             <div className="relative size-28 overflow-hidden rounded-full ring-4 ring-white">
               <FigmaImage hash={avatarHash} alt="" />
             </div>
