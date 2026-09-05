@@ -136,9 +136,10 @@ export function MobileNav({ pathname }: { pathname: string }) {
                       {item.groups.map((group) => (
                         <div key={group.heading ?? 'links'}>
                           {group.heading ? (
+                            /* Same eyebrow, same white ground, same reason as the desktop panel. */
                             <p
                               className="px-3 pb-1 font-sans text-caption font-semibold tracking-[0.1em]
-                                         text-brand-violet uppercase"
+                                         text-lavender-600 uppercase"
                             >
                               {group.heading}
                             </p>
