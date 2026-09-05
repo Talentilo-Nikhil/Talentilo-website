@@ -950,158 +950,138 @@ function rdNoticeTracker() {
   };
 }
 
-/** [{ file, label, svg }] at the frames' native 588x536 design size. */
-/** A search input: rounded field, magnifier, and the query typed into it. */
-function searchField(x, y, w, h, query, { fill = '#f1f2f4', color = INK } = {}) {
-  const cy = y + h / 2;
+/**
+ * The pair under "Why Boolean Logic Fails Modern Recruitment" — the same resume read twice, once
+ * by keyword matching and once by the semantic engine.
+ *
+ * Both were drawn as simulated product UI: an ink header bar, a search field, a struck-through
+ * results row. The page already speaks in that card language several times over, and a mocked
+ * search box invites the reader to check whether the product really looks like that — which is
+ * not what this section is arguing. They are redrawn here in the diagram language the migration
+ * cards use: outlined line-art icons, a dashed route between them, and a short feed of what came
+ * back. The claim is about how the two engines read a resume, so the artwork explains rather than
+ * imitates a screen.
+ */
+const BOOL_W = 480;
+const BOOL_H = 320;
+
+/** The greys the exported diagrams already use, so this pair sits in the same family. */
+const DIAGRAM = { label: '#030712', muted: '#697282', dash: '#7b7b82', chip: '#f7f8f9', edge: '#eceef1' };
+
+/** Line-art at the weight the migration icons are drawn at: strokes on a 24-unit grid. */
+const LINE_ICONS = {
+  resume:
+    '<rect x="4" y="2.5" width="16" height="19" rx="2.5"/>' +
+    '<path d="M8 8h8M8 12h8M8 16h5"/>',
+  funnel: '<path d="M3 4h18l-7 8.4V20l-4 2v-9.6L3 4Z" stroke-linejoin="round"/>',
+  engine:
+    '<circle cx="12" cy="12" r="3.2"/>' +
+    '<circle cx="4.4" cy="5.8" r="2"/><circle cx="4.4" cy="18.2" r="2"/>' +
+    '<circle cx="19.6" cy="5.8" r="2"/><circle cx="19.6" cy="18.2" r="2"/>' +
+    '<path d="M6.3 7.1 9.7 10.1M6.3 16.9 9.7 13.9M17.7 7.1 14.3 10.1M17.7 16.9 14.3 13.9"/>',
+};
+
+function lineIcon(name, cx, cy, size = 46) {
+  const s = size / 24;
   return (
-    `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="${fill}" />` +
-    `<g transform="translate(${x + 20},${cy})" fill="none" stroke="${INK_SOFT}" stroke-width="1.6">` +
-    '<circle cx="0" cy="0" r="6" /><line x1="4.4" y1="4.4" x2="8.5" y2="8.5" stroke-linecap="round" />' +
-    '</g>' +
-    text(x + 40, cy + 5, query, { size: 14, weight: 500, fill: color })
+    `<g transform="translate(${cx - size / 2},${cy - size / 2}) scale(${s})" fill="none" ` +
+    `stroke="${INK}" stroke-width="1.9" stroke-linecap="round">${LINE_ICONS[name]}</g>`
   );
 }
 
-/** One candidate line inside a results card: name, one-line career summary, status pill. */
-function candidateRow(x, rightEdge, baseline, { name, summary, pillText, pillColors, struck = false, nameFill = INK }) {
-  const pillW = Math.max(84, pillText.length * 7 + 34);
-  const pillH = 28;
-  const strike = struck
-    ? `<line x1="${x}" y1="${baseline - 5}" x2="${x + name.length * 8.4}" y2="${baseline - 5}" stroke="${nameFill}" stroke-width="1.4" />`
-    : '';
+/** The dashed route between the two icons, ending in the open chevron the exported art uses. */
+function dashRoute(x1, x2, y) {
   return (
-    text(x, baseline, name, { size: 15, weight: 600, fill: nameFill }) +
-    strike +
-    text(x, baseline + 20, summary, { size: 12, fill: INK_SOFT }) +
-    pill(rightEdge - pillW, baseline - 6 - pillH / 2, pillW, pillH, {
-      fill: pillColors.bg,
-      text: pillText,
-      textFill: pillColors.text,
-      size: 12,
-    })
+    `<line x1="${x1}" y1="${y}" x2="${x2 - 5}" y2="${y}" stroke="${DIAGRAM.dash}" stroke-width="1.4" ` +
+    'stroke-dasharray="4 4" stroke-linecap="round"/>' +
+    `<path d="M${x2 - 6},${y - 4.5} L${x2},${y} L${x2 - 6},${y + 4.5}" fill="none" ` +
+    `stroke="${DIAGRAM.dash}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>`
   );
 }
+
+const FEED = { h: 40, padX: 16, gap: 10, badge: 9, split: 7 };
 
 /**
- * The pair under "Why Boolean Logic Fails Modern Recruitment" — the same query run twice, once
- * through keyword matching and once through the semantic engine. Both are 445 tall and sit side
- * by side, so the card, the query field and the floating verdict line up across the gap.
+ * One line of what the engine came back with: a status badge, the words as they sit on the
+ * resume, and the verdict on them. Sized from its own labels and centred, the way the exported
+ * activity rows are.
  */
-const BOOL_H = 445;
-/** Both frames are filled with this one colour in the design, so neither carries a wash. */
-const BOOL_BG = '#e6f0de';
-const CARD_Y = 72;
-const CARD_H = 220;
-const FIELD_Y = 136;
+function feedChip(cx, top, { status, term, verdict }) {
+  const { h, padX, gap, badge, split } = FEED;
+  const { tint, ink, glyph } = STATUS[status];
+  const termW = estWidth(term, 14);
+  const w = Math.round(padX * 2 + badge * 2 + gap + termW + split + estWidth(verdict, 14));
+  const x = cx - w / 2;
+  const cy = top + h / 2;
+  const bx = x + padX + badge;
+  const textX = bx + badge + gap;
+  return (
+    `<rect x="${x}" y="${top}" width="${w}" height="${h}" rx="${h / 2}" fill="${DIAGRAM.chip}" stroke="${DIAGRAM.edge}"/>` +
+    `<circle cx="${bx}" cy="${cy}" r="${badge}" fill="${tint}"/>` +
+    glyph(bx, cy, 11, ink) +
+    text(textX, cy + 5, term, { size: 14, weight: 500, fill: DIAGRAM.muted }) +
+    text(textX + termW + split, cy + 5, verdict, { size: 14, fill: DIAGRAM.label })
+  );
+}
 
-function tiBooleanLegacy() {
-  const w = 634;
-  const bg = flatBackdrop(BOOL_BG, w, BOOL_H);
-  const mainCard = card('tbl-main', 40, CARD_Y, w - 80, CARD_H);
-  const right = w - 64;
-  const headerH = 48;
-
-  const verdict = floatingCard('tbl-verdict', 88, 322, w - 176, 88, {
-    status: 'critical',
-    headline: 'Missed opportunity',
-    subtext: '"Manager" never appears on the resume',
-  });
+/** Both halves are the same diagram with a different engine on the right of it. */
+function booleanCard({ file, label, engine, engineIcon, header, rows, footer, footerFill }) {
+  const cx = BOOL_W / 2;
+  const [sourceCx, engineCx, iconCy] = [148, 332, 60];
 
   return {
-    file: 'ti-boolean-legacy',
-    label: 'A Boolean keyword search returning no matches and filtering out a qualified candidate',
-    designWidth: w,
+    file,
+    label,
+    designWidth: BOOL_W,
     designHeight: BOOL_H,
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${BOOL_H}" width="${w}" height="${BOOL_H}" fill="none" role="img" aria-label="A Boolean keyword search returning no matches and filtering out a qualified candidate">
-      <defs>${bg.defs}${mainCard.defs}${verdict.defs}</defs>
-      ${bg.rect}
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${BOOL_W} ${BOOL_H}" width="${BOOL_W}" height="${BOOL_H}" fill="none" role="img" aria-label="${esc(label)}">
+      ${lineIcon('resume', sourceCx, iconCy)}
+      ${dashRoute(sourceCx + 40, engineCx - 40, iconCy)}
+      ${lineIcon(engineIcon, engineCx, iconCy)}
 
-      ${pill(40, 24, 186, 30, { fill: 'rgba(12,10,16,0.72)', text: 'Legacy ATS · Boolean', textFill: 'white', size: 12 })}
+      ${text(sourceCx, 108, 'Resume Text', { size: 14, fill: DIAGRAM.label, anchor: 'middle' })}
+      ${text(engineCx, 108, engine, { size: 14, fill: DIAGRAM.label, anchor: 'middle' })}
 
-      ${mainCard.shadowRect}
-      <g clip-path="url(#${mainCard.clipId})">
-        <rect x="40" y="${CARD_Y}" width="${w - 80}" height="${headerH}" fill="${INK}" />
-        ${text(64, CARD_Y + headerH / 2 + 6, 'Keyword Search', { size: 16, weight: 600, fill: 'white' })}
-        ${pill(right - 92, CARD_Y + headerH / 2 - 13, 92, 26, { fill: '#3a2430', text: '0 results', textFill: '#ff8f7a', size: 12 })}
+      ${text(cx, 152, header, { size: 14, weight: 600, fill: DIAGRAM.muted, anchor: 'middle' })}
+      ${rows.map((row, i) => feedChip(cx, 170 + i * 50, row)).join('')}
 
-        ${searchField(64, FIELD_Y, w - 128, 40, '"Manager" AND "P&L"')}
-
-        ${candidateRow(64, right, 206, {
-          name: 'John Doe',
-          summary: 'Project Lead · Budget Owner · 8 yrs',
-          pillText: 'Filtered out',
-          pillColors: { bg: '#f1f2f4', text: '#8e8e93' },
-          struck: true,
-          nameFill: '#9aa0ab',
-        })}
-
-        <line x1="64" y1="250" x2="${right}" y2="250" stroke="${DIVIDER}" />
-        ${text(64, 276, '0 of 1,284 profiles matched', { size: 14, weight: 600, fill: '#c62c08' })}
-      </g>
-
-      ${verdict.markup}
+      ${text(cx, 286, footer, { size: 14, weight: 600, fill: footerFill, anchor: 'middle' })}
     </svg>`,
   };
+}
+
+function tiBooleanLegacy() {
+  return booleanCard({
+    file: 'ti-boolean-legacy',
+    label:
+      'A Boolean keyword filter reading the same resume and finding neither search term written on it, so nothing matches',
+    engine: 'Boolean Filter',
+    engineIcon: 'funnel',
+    header: 'NO MATCH',
+    rows: [
+      { status: 'critical', term: '"Manager"', verdict: 'not on the resume' },
+      { status: 'critical', term: '"P&L"', verdict: 'not on the resume' },
+    ],
+    footer: '0 of 1,284 profiles matched',
+    footerFill: '#c62c08',
+  });
 }
 
 function tiBooleanSemantic() {
-  const w = 638;
-  const bg = flatBackdrop(BOOL_BG, w, BOOL_H);
-  const mainCard = card('tbs-main', 40, CARD_Y, w - 80, CARD_H);
-  const right = w - 64;
-  const headerH = 48;
-
-  // Each row is one inference the engine makes: the words on the resume, then what they mean.
-  const inferences = [
-    { from: 'Project Lead', to: 'Manager' },
-    { from: 'Budget Owner', to: 'P&L exposure' },
-  ];
-  const rows = inferences
-    .map(({ from, to }, i) => {
-      const midY = 210 + i * 44;
-      const fromW = 132;
-      const toW = 168;
-      const toX = right - toW;
-      const arrowX = 64 + fromW + (toX - 64 - fromW) / 2;
-      return (
-        pill(64, midY - 16, fromW, 32, { fill: '#f1f2f4', text: from, textFill: INK, size: 13 }) +
-        arrowIcon(arrowX, midY, '#7c5cff') +
-        pill(toX, midY - 16, toW, 32, { fill: '#daedff', text: to, textFill: '#1959dc', size: 13 })
-      );
-    })
-    .join('');
-
-  const verdict = floatingCard('tbs-verdict', 88, 322, w - 176, 88, {
-    status: 'success',
-    headline: 'True discovery',
-    subtext: 'Surfaced at 94% fit from the same resume',
-  });
-
-  return {
+  return booleanCard({
     file: 'ti-boolean-semantic',
-    label: 'The semantic engine reading a resume in context and surfacing the same candidate at 94% fit',
-    designWidth: w,
-    designHeight: BOOL_H,
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${BOOL_H}" width="${w}" height="${BOOL_H}" fill="none" role="img" aria-label="The semantic engine reading a resume in context and surfacing the same candidate at 94% fit">
-      <defs>${bg.defs}${mainCard.defs}${verdict.defs}</defs>
-      ${bg.rect}
-
-      ${pill(40, 24, 196, 30, { fill: 'rgba(12,10,16,0.72)', text: 'Talentilo · Semantic', textFill: 'white', size: 12 })}
-
-      ${mainCard.shadowRect}
-      <g clip-path="url(#${mainCard.clipId})">
-        <rect x="40" y="${CARD_Y}" width="${w - 80}" height="${headerH}" fill="${INK}" />
-        ${text(64, CARD_Y + headerH / 2 + 6, 'Contextual Search', { size: 16, weight: 600, fill: 'white' })}
-        ${pill(right - 84, CARD_Y + headerH / 2 - 13, 84, 26, { fill: '#123524', text: '94% fit', textFill: '#4ade80', size: 12 })}
-
-        ${searchField(64, FIELD_Y, w - 128, 40, 'Manager with P&L ownership')}
-        ${rows}
-      </g>
-
-      ${verdict.markup}
-    </svg>`,
-  };
+    label:
+      'The semantic engine reading the same resume in context, taking Project Lead as Manager and Budget Owner as P&L exposure',
+    engine: 'Semantic Engine',
+    engineIcon: 'engine',
+    header: 'UNDERSTOOD AS',
+    rows: [
+      { status: 'success', term: 'Project Lead', verdict: 'reads as Manager' },
+      { status: 'success', term: 'Budget Owner', verdict: 'reads as P&L exposure' },
+    ],
+    footer: 'Same resume · 94% fit',
+    footerFill: '#067647',
+  });
 }
 
 /**
@@ -1378,139 +1358,6 @@ function mgTransfer() {
   };
 }
 
-
-/**
- * The pair of comparison cards on /migration, one per legacy system.
- *
- * The exported frames drew each story in furniture that appears nowhere else on the site: dashed
- * connectors with green blobs riding them, a red cross badge on every legacy box, a stack of
- * avatar chips standing in for an activity feed. Beside `ti-boolean-legacy` on the same site they
- * read as artwork from a different project.
- *
- * Both are rebuilt here in the card language the rest of the pages use — an ink header over a
- * white card, the legacy state on the left of each row and what it becomes on the right, and one
- * floating status card underneath — so the two halves of the section match. The rows carry the
- * page's own framing ("a static database" against "an active engine", the "Small Biz" ceiling)
- * rather than restating the paragraph below them.
- */
-const MG_W = 560;
-const MG_H = 430;
-/** crusta-50: the hero band above these sits on crusta-100 and the rule between them is crusta-200. */
-const MG_BG = '#fff5ed';
-const MG_CARD_Y = 72;
-const MG_CARD_H = 210;
-
-const MAP_ROW = { h: 32, padX: 18, size: 13 };
-
-/** Width of a row pill around its own label, so a long phrase never runs past the end of it. */
-const mapPillW = (label) => Math.round(estWidth(label, MAP_ROW.size) + MAP_ROW.padX * 2);
-
-/**
- * One migration row: where a record lives today, an arrow, and what it becomes after the move.
- *
- * Each pill is measured from its own label, so the gap between the two differs from row to row.
- * Centring the arrow in each gap separately put the two arrows 30px apart vertically and the
- * column read as ragged, so `arrowX` is worked out once for the card and passed in here.
- */
-function mapRow(left, right, midY, { from, to }, arrowX) {
-  const { h, size } = MAP_ROW;
-  const toX = right - mapPillW(to);
-  return (
-    pill(left, midY - h / 2, mapPillW(from), h, { fill: '#f1f2f4', text: from, textFill: INK, size }) +
-    arrowIcon(arrowX, midY, '#7c5cff') +
-    pill(toX, midY - h / 2, mapPillW(to), h, { fill: '#daedff', text: to, textFill: '#1959dc', size })
-  );
-}
-
-/** Both cards are the same object with different words in it, so they are built from one recipe. */
-function migrationCard({ file, id, label, eyebrow, title, rows, summary, verdict }) {
-  const bg = flatBackdrop(MG_BG, MG_W, MG_H);
-  const mainCard = card(`${id}-main`, 40, MG_CARD_Y, MG_W - 80, MG_CARD_H);
-  const right = MG_W - 64;
-  const headerH = 48;
-  const headerMid = MG_CARD_Y + headerH / 2;
-
-  // The arrows share one axis: the middle of the narrowest gap any row leaves between its pills.
-  const arrowX =
-    (Math.max(...rows.map((r) => 64 + mapPillW(r.from))) +
-      Math.min(...rows.map((r) => right - mapPillW(r.to)))) /
-    2;
-
-  const eyebrowW = Math.round(estWidth(eyebrow, 12) + 32);
-  const stampW = Math.round(estWidth('100% mapped', 12) + 28);
-
-  const note = floatingCard(`${id}-note`, 88, 310, MG_W - 176, 88, {
-    status: 'success',
-    headline: verdict.headline,
-    subtext: verdict.subtext,
-  });
-
-  return {
-    file,
-    label,
-    designWidth: MG_W,
-    designHeight: MG_H,
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${MG_W} ${MG_H}" width="${MG_W}" height="${MG_H}" fill="none" role="img" aria-label="${esc(label)}">
-      <defs>${bg.defs}${mainCard.defs}${note.defs}</defs>
-      ${bg.rect}
-
-      ${pill(40, 24, eyebrowW, 30, { fill: 'rgba(12,10,16,0.72)', text: eyebrow, textFill: 'white', size: 12 })}
-
-      ${mainCard.shadowRect}
-      <g clip-path="url(#${mainCard.clipId})">
-        <rect x="40" y="${MG_CARD_Y}" width="${MG_W - 80}" height="${headerH}" fill="${INK}" />
-        ${text(64, headerMid + 6, title, { size: 16, weight: 600, fill: 'white' })}
-        ${pill(right - stampW, headerMid - 13, stampW, 26, {
-          fill: '#123524',
-          text: '100% mapped',
-          textFill: '#4ade80',
-          size: 12,
-        })}
-
-        ${rows.map((row, i) => mapRow(64, right, 156 + i * 44, row, arrowX)).join('')}
-
-        <line x1="64" y1="234" x2="${right}" y2="234" stroke="${DIVIDER}" />
-        ${text(64, 260, summary, { size: 14, weight: 600, fill: '#067647' })}
-      </g>
-
-      ${note.markup}
-    </svg>`,
-  };
-}
-
-function mgCardBullhorn() {
-  return migrationCard({
-    file: 'mg-card-bullhorn',
-    id: 'mgb',
-    label:
-      'A Bullhorn migration mapping a static database and paid plugins onto the Talentilo engine, with a decade of relationship data intact',
-    eyebrow: 'Bullhorn · Legacy Stack',
-    title: 'Bullhorn Migration',
-    rows: [
-      { from: 'Static database', to: 'Active engine' },
-      { from: 'Paid plugins', to: 'Native workflow' },
-    ],
-    summary: 'Every field, tag and stage history mapped',
-    verdict: { headline: 'Nothing left behind', subtext: 'A decade of relationships, intact' },
-  });
-}
-
-function mgCardZoho() {
-  return migrationCard({
-    file: 'mg-card-zoho',
-    id: 'mgz',
-    label:
-      'A Zoho Recruit migration lifting Small Biz limits and manual workarounds to enterprise scale without losing operational simplicity',
-    eyebrow: 'Zoho Recruit · Small Biz',
-    title: 'Zoho Migration',
-    rows: [
-      { from: 'Small Biz limits', to: 'Enterprise scale' },
-      { from: 'Manual workarounds', to: 'Automated flows' },
-    ],
-    summary: 'Operational simplicity kept, ceiling removed',
-    verdict: { headline: 'Room to grow', subtext: 'Enterprise leverage, same simple setup' },
-  });
-}
 /**
  * The "Always-On Recruiting Team" chart on /solution/high-volume.
  *
@@ -1672,8 +1519,6 @@ export function customCreatives() {
   return [
     hvAlwaysOn(),
     mgTransfer(),
-    mgCardBullhorn(),
-    mgCardZoho(),
     tiBooleanLegacy(),
     tiBooleanSemantic(),
     tiParser(),
