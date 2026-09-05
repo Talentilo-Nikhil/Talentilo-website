@@ -34,16 +34,26 @@ export function Footer() {
               className="group block w-full max-w-[625px] rounded-[112px] p-px [background-image:var(--gradient-brand)]"
             >
               <span
-                className="flex items-center justify-center gap-9 rounded-[112px] bg-ink px-8 py-6 text-center
-                           transition-colors duration-300 group-hover:bg-ink/85 sm:px-13 sm:py-6.5"
+                className="relative flex items-center justify-center gap-9 overflow-hidden rounded-[112px]
+                           bg-ink px-8 py-6 text-center sm:px-13 sm:py-6.5"
               >
-                <span className="font-sans text-[clamp(1.75rem,1.2rem+2.2vw,2.375rem)] font-medium text-white">
+                {/*
+                  The hover fill. `background-image` is not an animatable property, so the blue wash
+                  is its own layer faded in over the ink rather than a background swap on this span.
+                */}
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 rounded-[112px] opacity-0 transition-opacity duration-300
+                             ease-[var(--ease-out-soft)] [background-image:var(--gradient-brand-blue)]
+                             group-hover:opacity-100 group-focus-visible:opacity-100"
+                />
+                <span className="relative font-sans text-[clamp(1.75rem,1.2rem+2.2vw,2.375rem)] font-medium text-white">
                   Let&rsquo;s Talk
                 </span>
                 {/* The file draws a bare diagonal arrow here, not the ringed one used elsewhere. */}
                 <span
                   aria-hidden="true"
-                  className="grid shrink-0 place-items-center text-[38px] text-white transition-transform
+                  className="relative grid shrink-0 place-items-center text-[38px] text-white transition-transform
                              duration-300 ease-[var(--ease-out-soft)] group-hover:-translate-y-0.5
                              group-hover:translate-x-0.5"
                 >
