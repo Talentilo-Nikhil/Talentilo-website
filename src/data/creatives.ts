@@ -282,20 +282,20 @@ export const creatives = {
   "ti-boolean-legacy": {
     "src": "/figma/creatives/ti-boolean-legacy.webp",
     "fallback": "/figma/creatives/ti-boolean-legacy.png",
-    "width": 1268,
-    "height": 890,
-    "designWidth": 634,
-    "designHeight": 445,
-    "alt": "A Boolean keyword search returning no matches and filtering out a qualified candidate"
+    "width": 960,
+    "height": 640,
+    "designWidth": 480,
+    "designHeight": 320,
+    "alt": "A Boolean keyword filter reading the same resume and finding neither search term written on it, so nothing matches"
   },
   "ti-boolean-semantic": {
     "src": "/figma/creatives/ti-boolean-semantic.webp",
     "fallback": "/figma/creatives/ti-boolean-semantic.png",
-    "width": 1276,
-    "height": 890,
-    "designWidth": 638,
-    "designHeight": 445,
-    "alt": "The semantic engine reading a resume in context and surfacing the same candidate at 94% fit"
+    "width": 960,
+    "height": 640,
+    "designWidth": 480,
+    "designHeight": 320,
+    "alt": "The semantic engine reading the same resume in context, taking Project Lead as Manager and Budget Owner as P&L exposure"
   },
   "ti-parser": {
     "src": "/figma/creatives/ti-parser.webp",
