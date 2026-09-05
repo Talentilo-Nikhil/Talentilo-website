@@ -427,7 +427,7 @@ class SvgWriter {
     return opacity && node.children?.length ? `<g${opacity}>${out}</g>` : out;
   }
 
-  async render(node, { label } = {}) {
+  async render(node, { label, overlay } = {}) {
     const origin = { x: node.box.x, y: node.box.y };
     this.body.push(this.walk(node, origin));
 
@@ -467,6 +467,9 @@ class SvgWriter {
       `${label ? ` role="img" aria-label="${esc(label)}"` : ' aria-hidden="true"'}>` +
       (defs.length ? `<defs>${defs.join('')}</defs>` : '') +
       this.body.join('') +
+      // The overlay is written in the render root's own coordinates, which is what the body is
+      // already in, so it composes on top of the frame without a transform.
+      (overlay ?? '') +
       '</svg>'
     );
   }
