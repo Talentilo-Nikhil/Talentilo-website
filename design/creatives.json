@@ -282,19 +282,19 @@
   "src": "/figma/creatives/ti-boolean-legacy.webp",
   "fallback": "/figma/creatives/ti-boolean-legacy.png",
   "width": 960,
-  "height": 600,
+  "height": 496,
   "designWidth": 480,
-  "designHeight": 300,
-  "alt": "A Boolean keyword filter testing two search terms against a resume and finding neither of them written on it, so nothing matches"
+  "designHeight": 248,
+  "alt": "A Boolean search dropping two exact keywords through a line of a resume, landing between the phrases and catching neither of them"
  },
  "ti-boolean-semantic": {
   "src": "/figma/creatives/ti-boolean-semantic.webp",
   "fallback": "/figma/creatives/ti-boolean-semantic.png",
   "width": 960,
-  "height": 600,
+  "height": 496,
   "designWidth": 480,
-  "designHeight": 300,
-  "alt": "The semantic engine reading the same resume in context, taking Project Lead as Manager and Budget Owner as P&L exposure"
+  "designHeight": 248,
+  "alt": "The semantic engine reading one line of the same resume, taking Project Lead as Manager and Budget Owner as P&L exposure"
  },
  "ti-parser": {
   "src": "/figma/creatives/ti-parser.webp",

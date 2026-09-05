@@ -951,187 +951,212 @@ function rdNoticeTracker() {
 }
 
 /**
- * The pair under "Why Boolean Logic Fails Modern Recruitment" — the same resume read twice, once
- * by keyword matching and once by the semantic engine.
+ * The pair under "Why Boolean Logic Fails Modern Recruitment".
  *
- * These were first built as simulated product UI — an ink header bar, a search field, a
- * struck-through results row — which answered a different question than the section asks: a mocked
- * search box invites the reader to check whether the product really looks like that. The redraw
- * that replaced it was the right language but too thin: bare outlined glyphs floating in white
- * with nothing holding them, next to the migration cards' bordered containers and weighted chips.
+ * The section's claim is that a resume is a career story rather than a word cloud, so the artwork
+ * is built on one line of that story — the same line in both halves — and shows what each engine
+ * does to it. The query sits above the line, the line runs across the middle, and what came of it
+ * sits below.
  *
- * So the vocabulary here is measured off `mg-card-bullhorn` rather than approximated. One source
- * on the left inside a container with a solid border and a dashed inner well; two routes crossing
- * to weighted chips on the right, each with a hairline border, a soft grey glyph, a large label
- * and a saturated status badge. The routes carry a marker that says whether anything got through.
+ * Boolean asks in tokens: two rigid strings drop straight down, pass behind the text without
+ * catching on anything, and come out the other side with nothing. The engine asks in a sentence:
+ * one line of natural language fans out onto the two phrases that actually carry the meaning, and
+ * what each one is understood to be is written under it.
+ *
+ * The vocabulary is the site's own diagram language — line-art glyphs, "4 4" dashes in #7b7b82,
+ * hairline chips, one saturated accent per outcome — but the composition is this section's, not a
+ * migration card with the words swapped.
  */
 const BOOL_W = 480;
-const BOOL_H = 300;
+const BOOL_H = 248;
 
-/** Sampled from the exported migration card so this pair sits in the same family. */
-const DIAGRAM = {
+const BOOL = {
   ink: '#0c0a10',
   muted: '#697282',
-  sub: '#697282',
   dash: '#7b7b82',
-  well: '#f5f6f8',
+  band: '#f7f8f9',
   edge: '#e5e5e5',
-  chipEdge: '#e8e8e8',
-  glyph: '#b9c0cc',
-  wellEdge: '#d5d7dc',
   green: '#12b76a',
+  greenInk: '#067647',
   red: '#e8342a',
+  redInk: '#c62c08',
 };
+
+/** The one line of the resume both halves read, as its own runs so phrases can be pointed at. */
+const RESUME = ['Project Lead', 'Budget Owner', '8 yrs'];
+const RESUME_SIZE = 20;
+/**
+ * The runs are set with an explicit gap rather than a measured " · ". estWidth is calibrated on
+ * weight 600 and has no advance for the separator itself, so it overstated that gap by about a
+ * third: the dot sat tight against the run before it with a hole after it.
+ */
+const RESUME_GAP = 20;
 
 /**
- * The source the two routes leave from: the resume itself, drawn as a page with a portrait and
- * ruled lines, sitting in the bordered container with the dashed well that the migration card
- * puts its logo in.
+ * Lay the line out centred and hand back where every part of it landed: the runs, so the engine
+ * can point at a phrase, and the gaps between them, so the keyword drop can land on neither.
  */
-function resumeWell(x, y, w, h) {
-  const [cx, cy] = [x + w / 2, y + h / 2];
-  const pageW = 62;
-  const pageH = 76;
-  const px = cx - pageW / 2;
-  const py = cy - pageH / 2;
-  const rule = (i) =>
-    `<rect x="${px + 12}" y="${py + 44 + i * 10}" width="${pageW - 24 - (i === 2 ? 12 : 0)}" height="4" rx="2" fill="#dfe2e8"/>`;
+function resumeLine(cx, baseline) {
+  const widths = RESUME.map((run) => estWidth(run, RESUME_SIZE));
+  const total = widths.reduce((a, b) => a + b, 0) + RESUME_GAP * (RESUME.length - 1);
 
-  return (
-    `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="22" fill="white" stroke="${DIAGRAM.edge}" stroke-width="1.6"/>` +
-    `<rect x="${x + 8}" y="${y + 8}" width="${w - 16}" height="${h - 16}" rx="16" fill="${DIAGRAM.well}" ` +
-    `stroke="${DIAGRAM.wellEdge}" stroke-width="1.2" stroke-dasharray="5 5"/>` +
-    `<rect x="${px}" y="${py}" width="${pageW}" height="${pageH}" rx="9" fill="white" stroke="#dfe2e8" stroke-width="1.4"/>` +
-    `<circle cx="${cx}" cy="${py + 24}" r="10" fill="#4da8fd"/>` +
-    [0, 1, 2].map(rule).join('')
-  );
+  let x = cx - total / 2;
+  const runs = [];
+  const gaps = [];
+  RESUME.forEach((run, i) => {
+    runs.push({ text: run, x, w: widths[i], mid: x + widths[i] / 2 });
+    x += widths[i];
+    if (i < RESUME.length - 1) {
+      gaps.push(x + RESUME_GAP / 2);
+      x += RESUME_GAP;
+    }
+  });
+
+  const markup =
+    runs
+      .map((run) => text(run.x, baseline, run.text, { size: RESUME_SIZE, weight: 500, fill: BOOL.ink }))
+      .join('') +
+    gaps
+      .map((gx) => text(gx, baseline, '·', { size: RESUME_SIZE, weight: 500, fill: '#9aa0ab', anchor: 'middle' }))
+      .join('');
+
+  return { runs, gaps, markup, left: cx - total / 2, right: cx + total / 2 };
 }
 
-/** A route between the source and one chip, with the marker that says what happened on it. */
-function route(x1, x2, y, { carried }) {
-  const line =
-    `<line x1="${x1}" y1="${y}" x2="${x2 - 5}" y2="${y}" stroke="${DIAGRAM.dash}" stroke-width="1.4" ` +
-    'stroke-dasharray="4 4" stroke-linecap="round"/>' +
-    `<path d="M${x2 - 6},${y - 4.5} L${x2},${y} L${x2 - 6},${y + 4.5}" fill="none" stroke="${DIAGRAM.dash}" ` +
-    'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
-
-  const mx = x1 + (x2 - x1) * 0.46;
-  // Something got through: the packet the migration card rides on its ingest lines, trailing back
-  // the way it came so a still frame still carries the direction of travel.
-  const packet =
-    `<line x1="${mx}" y1="${y}" x2="${mx - 20}" y2="${y}" stroke="${DIAGRAM.green}" stroke-width="2.4" ` +
-    'stroke-opacity="0.32" stroke-linecap="round"/>' +
-    `<circle cx="${mx}" cy="${y}" r="8" fill="${DIAGRAM.green}" fill-opacity="0.12"/>` +
-    `<circle cx="${mx}" cy="${y}" r="5" fill="white"/>` +
-    `<circle cx="${mx}" cy="${y}" r="3.3" fill="${DIAGRAM.green}"/>`;
-
-  // Nothing did: the route is stopped mid-way rather than merely ending in a failed chip.
-  const blocked =
-    `<circle cx="${mx}" cy="${y}" r="8" fill="white"/>` +
-    `<circle cx="${mx}" cy="${y}" r="6.4" fill="none" stroke="${DIAGRAM.red}" stroke-width="1.8"/>` +
-    `<line x1="${mx - 3.4}" y1="${y + 3.4}" x2="${mx + 3.4}" y2="${y - 3.4}" stroke="${DIAGRAM.red}" ` +
-    'stroke-width="1.8" stroke-linecap="round"/>';
-
-  return line + (carried ? packet : blocked);
-}
-
-/** The glyph on the left of a chip, in the soft grey the migration chips use for theirs. */
-const CHIP_GLYPHS = {
-  quote:
-    '<path d="M9 6.5H5.5A2.5 2.5 0 0 0 3 9v3.5h4.2L5.6 17.5h3L10.4 12V8a1.5 1.5 0 0 0-1.4-1.5Z"/>' +
-    '<path d="M20 6.5h-3.5A2.5 2.5 0 0 0 14 9v3.5h4.2l-1.6 5h3l1.8-5.5V8A1.5 1.5 0 0 0 20 6.5Z"/>',
-  concept:
-    '<path d="M3.5 11.2V4.6a1 1 0 0 1 1-1h6.6a1 1 0 0 1 .7.3l8.4 8.4a1 1 0 0 1 0 1.4l-6.6 6.6a1 1 0 0 1-1.4 0L3.8 12a1 1 0 0 1-.3-.8Z"/>' +
-    '<circle cx="8" cy="8" r="1.8" fill="white"/>',
+const GLYPHS = {
+  magnifier:
+    '<circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.7"/>' +
+    '<line x1="10.9" y1="10.9" x2="14.5" y2="14.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+  spark:
+    '<path d="M8 1.5 9.7 6.3 14.5 8 9.7 9.7 8 14.5 6.3 9.7 1.5 8 6.3 6.3Z" fill="currentColor"/>' +
+    '<path d="M13.6 1.4 14.3 3.2 16 3.9 14.3 4.6 13.6 6.4 12.9 4.6 11.2 3.9 12.9 3.2Z" fill="currentColor"/>',
 };
 
-function chipGlyph(name, cx, cy, size = 22) {
-  const s = size / 24;
+const QUERY = { h: 34, padX: 16, gap: 9, glyph: 16 };
+
+/** How wide the query chip carrying this label will be, so a row of them can be centred first. */
+const queryChipW = (label) =>
+  Math.round(QUERY.padX * 2 + QUERY.glyph + QUERY.gap + estWidth(label, 14));
+
+/** The query as it is actually phrased — a rigid token, or a sentence. */
+function queryChip(x, top, label, glyph, tone) {
+  const w = queryChipW(label);
+  const cy = top + QUERY.h / 2;
+  const gx = x + QUERY.padX;
   return (
-    `<g transform="translate(${cx - size / 2},${cy - size / 2}) scale(${s})" fill="${DIAGRAM.glyph}">` +
-    `${CHIP_GLYPHS[name]}</g>`
+    `<rect x="${x}" y="${top}" width="${w}" height="${QUERY.h}" rx="${QUERY.h / 2}" fill="white" ` +
+    `stroke="${BOOL.edge}" stroke-width="1.4"/>` +
+    `<g transform="translate(${gx},${cy - QUERY.glyph / 2})" color="${tone}">${GLYPHS[glyph]}</g>` +
+    text(gx + QUERY.glyph + QUERY.gap, cy + 5, label, { size: 14, weight: 500, fill: BOOL.ink })
   );
 }
 
-const ROUTE_CHIP = { x: 244, w: 212, h: 62, r: 14 };
+const dashed = (d, stroke = BOOL.dash) =>
+  `<path d="${d}" fill="none" stroke="${stroke}" stroke-width="1.4" stroke-dasharray="4 4" stroke-linecap="round"/>`;
 
-/** One weighted chip: soft glyph, large label, the line it came from, and a status badge. */
-function routeChip(top, { glyph, label, sub, ok }) {
-  const { x, w, h, r } = ROUTE_CHIP;
-  const cy = top + h / 2;
-  const badgeCx = x + w - 30;
-  const tint = ok ? DIAGRAM.green : DIAGRAM.red;
-  const mark = ok
-    ? `<path d="M${badgeCx - 4.6},${cy} l3.2,3.2 l6,-6.4" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`
-    : `<g stroke="white" stroke-width="2" stroke-linecap="round"><line x1="${badgeCx - 3.6}" y1="${cy - 3.6}" x2="${badgeCx + 3.6}" y2="${cy + 3.6}"/><line x1="${badgeCx + 3.6}" y1="${cy - 3.6}" x2="${badgeCx - 3.6}" y2="${cy + 3.6}"/></g>`;
+const BAND = { top: 106, h: 40, pad: 22 };
 
-  return (
-    `<rect x="${x}" y="${top}" width="${w}" height="${h}" rx="${r}" fill="white" stroke="${DIAGRAM.chipEdge}" stroke-width="1.4"/>` +
-    chipGlyph(glyph, x + 30, cy) +
-    text(x + 52, cy - 3, label, { size: 17, weight: 600, fill: DIAGRAM.ink }) +
-    text(x + 52, cy + 15, sub, { size: 12, fill: DIAGRAM.sub }) +
-    `<circle cx="${badgeCx}" cy="${cy}" r="12" fill="${tint}"/>` +
-    mark
-  );
-}
-
-/** Both halves are the same diagram: one resume, two routes, and what came back along them. */
-function booleanCard({ file, label, header, glyph, rows, ok, footer, footerFill }) {
-  const cx = BOOL_W / 2;
-  const well = { x: 28, y: 76, w: 128, h: 140 };
-  const tops = [74, 154];
-
+function booleanFrame(label, file, body) {
   return {
     file,
     label,
     designWidth: BOOL_W,
     designHeight: BOOL_H,
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${BOOL_W} ${BOOL_H}" width="${BOOL_W}" height="${BOOL_H}" fill="none" role="img" aria-label="${esc(label)}">
-      ${text(cx, 42, header, { size: 13, weight: 600, fill: DIAGRAM.muted, anchor: 'middle' })}
-
-      ${resumeWell(well.x, well.y, well.w, well.h)}
-
-      ${tops.map((top) => route(well.x + well.w + 8, ROUTE_CHIP.x - 8, top + ROUTE_CHIP.h / 2, { carried: ok })).join('')}
-      ${rows.map((row, i) => routeChip(tops[i], { ...row, glyph, ok })).join('')}
-
-      ${text(cx, 268, footer, { size: 14, weight: 600, fill: footerFill, anchor: 'middle' })}
-    </svg>`,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${BOOL_W} ${BOOL_H}" width="${BOOL_W}" height="${BOOL_H}" fill="none" role="img" aria-label="${esc(label)}">${body}</svg>`,
   };
 }
 
+/** The band the line sits in, so the text reads as a piece of a document rather than a caption. */
+function resumeBand(line) {
+  return (
+    `<rect x="${line.left - BAND.pad}" y="${BAND.top}" width="${line.right - line.left + BAND.pad * 2}" ` +
+    `height="${BAND.h}" rx="10" fill="${BOOL.band}"/>`
+  );
+}
+
 function tiBooleanLegacy() {
-  return booleanCard({
-    file: 'ti-boolean-legacy',
-    label:
-      'A Boolean keyword filter testing two search terms against a resume and finding neither of them written on it, so nothing matches',
-    header: 'KEYWORD MATCH',
-    glyph: 'quote',
-    ok: false,
-    rows: [
-      { label: '"Manager"', sub: 'never written down' },
-      { label: '"P&L"', sub: 'never written down' },
-    ],
-    footer: '0 of 1,284 profiles matched',
-    footerFill: '#c62c08',
+  const cx = BOOL_W / 2;
+  const line = resumeLine(cx, BAND.top + 27);
+
+  // Each token is parked over the gap it will land in, so its drop is one straight line rather
+  // than a kink between where the query sits and where it arrives.
+  const tokens = ['"Manager"', '"P&L"'];
+  const chips = tokens.map((token, i) => {
+    const x = line.gaps[i] - queryChipW(token) / 2;
+    return queryChip(x, 26, token, 'magnifier', BOOL.muted);
   });
+
+  // The drop crosses behind the band and comes out the bottom: the string is looked for, the text
+  // is crossed, and nothing is caught on the way through.
+  const drops = line.gaps
+    .map((gx) => {
+      const stop = 158;
+      const cy = stop + 11;
+      return (
+        dashed(`M${gx},60 L${gx},${BAND.top - 4} M${gx},${BAND.top + BAND.h + 4} L${gx},${stop}`) +
+        `<circle cx="${gx}" cy="${cy}" r="8.4" fill="white"/>` +
+        `<circle cx="${gx}" cy="${cy}" r="7" fill="none" stroke="${BOOL.red}" stroke-width="1.8"/>` +
+        `<g stroke="${BOOL.red}" stroke-width="1.8" stroke-linecap="round">` +
+        `<line x1="${gx - 3}" y1="${cy - 3}" x2="${gx + 3}" y2="${cy + 3}"/>` +
+        `<line x1="${gx + 3}" y1="${cy - 3}" x2="${gx - 3}" y2="${cy + 3}"/></g>`
+      );
+    })
+    .join('');
+
+  return booleanFrame(
+    'A Boolean search dropping two exact keywords through a line of a resume, landing between the phrases and catching neither of them',
+    'ti-boolean-legacy',
+    `
+      ${chips.join('')}
+      ${drops}
+      ${resumeBand(line)}
+      ${line.markup}
+      ${text(cx, 212, '0 of 1,284 profiles matched', { size: 14, weight: 600, fill: BOOL.redInk, anchor: 'middle' })}
+    `
+  );
 }
 
 function tiBooleanSemantic() {
-  return booleanCard({
-    file: 'ti-boolean-semantic',
-    label:
-      'The semantic engine reading the same resume in context, taking Project Lead as Manager and Budget Owner as P&L exposure',
-    header: 'SEMANTIC READ',
-    glyph: 'concept',
-    ok: true,
-    rows: [
-      { label: 'Manager', sub: 'from "Project Lead"' },
-      { label: 'P&L exposure', sub: 'from "Budget Owner"' },
-    ],
-    footer: 'Same resume · 94% fit',
-    footerFill: '#067647',
-  });
+  const cx = BOOL_W / 2;
+  const line = resumeLine(cx, BAND.top + 27);
+  const targets = [line.runs[0], line.runs[1]];
+  const reads = ['Manager', 'P&L exposure'];
+
+  const label = 'Manager with P&L ownership';
+  const chipX = cx - queryChipW(label) / 2;
+
+  // One question fans onto the two phrases that carry it, and each is named underneath.
+  const fans = targets
+    .map(
+      (run) =>
+        dashed(`M${cx},60 L${run.mid},${BAND.top - 6}`, BOOL.green) +
+        `<circle cx="${run.mid}" cy="${BAND.top - 3}" r="3.4" fill="${BOOL.green}"/>`
+    )
+    .join('');
+
+  const marks = targets
+    .map(
+      (run, i) =>
+        `<line x1="${run.x}" y1="152" x2="${run.x + run.w}" y2="152" stroke="${BOOL.green}" ` +
+        'stroke-width="2.2" stroke-linecap="round"/>' +
+        text(run.mid, 176, reads[i], { size: 13, weight: 600, fill: BOOL.greenInk, anchor: 'middle' })
+    )
+    .join('');
+
+  return booleanFrame(
+    'The semantic engine reading one line of the same resume, taking Project Lead as Manager and Budget Owner as P&L exposure',
+    'ti-boolean-semantic',
+    `
+      ${queryChip(chipX, 26, label, 'spark', BOOL.green)}
+      ${fans}
+      ${resumeBand(line)}
+      ${line.markup}
+      ${marks}
+      ${text(cx, 212, 'Same resume · 94% fit', { size: 14, weight: 600, fill: BOOL.greenInk, anchor: 'middle' })}
+    `
+  );
 }
+
 /**
  * The Universal Parser section. The Figma frame for it is an empty band above three labels, so
  * the pipeline itself is drawn here: three unstructured sources funnelled through the parser and
