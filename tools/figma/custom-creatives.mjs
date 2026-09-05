@@ -221,15 +221,27 @@ function fileIcon(kind, x, y, size = 36) {
 }
 
 /** Width auto-sizes to the label so longer copy (e.g. "Notify Manager") doesn't collide with the arrow. */
+/**
+ * The dark pill at the foot of a floating card, sized from its own label.
+ *
+ * The width was `44 + label.length * 9`, which spends the same on a wide letter as a narrow one:
+ * the gap between the label and its arrow came out anywhere from 19 to 26px across the five
+ * buttons, and at its tightest was no bigger than the padding around the outside, so the arrow had
+ * no room of its own. Each part is given its own space now — 22 either side, 18 between the label
+ * and the arrow — so every button reads the same whatever it says.
+ */
+const BUTTON = { padX: 22, gap: 18, arrowW: 8 };
+
 function button(right, y, h, label) {
-  const w = Math.max(132, 44 + label.length * 9);
+  const textW = estWidth(label, 14);
+  const w = Math.round(BUTTON.padX * 2 + textW + BUTTON.gap + BUTTON.arrowW);
   const x = right - w;
   return {
     width: w,
     markup:
       `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="${INK}" />` +
-      text(x + 18, y + h / 2 + 5, label, { size: 14, weight: 600, fill: 'white' }) +
-      arrowIcon(x + w - 22, y + h / 2, 'white'),
+      text(x + BUTTON.padX, y + h / 2 + 5, label, { size: 14, weight: 600, fill: 'white' }) +
+      arrowIcon(x + w - BUTTON.padX - BUTTON.arrowW / 2, y + h / 2, 'white'),
   };
 }
 
