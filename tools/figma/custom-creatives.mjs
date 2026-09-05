@@ -1285,22 +1285,25 @@ function hvAlwaysOn() {
   ];
 
   /** A column with its top corners rounded and its foot square on the axis. */
-  const barPath = (x, width, height, r = 4) => {
-    const top = plot.bottom - height;
-    return (
-      `M${num(x)},${num(plot.bottom)} V${num(top + r)} Q${num(x)},${num(top)} ${num(x + r)},${num(top)} ` +
-      `H${num(x + width - r)} Q${num(x + width)},${num(top)} ${num(x + width)},${num(top + r)} ` +
-      `V${num(plot.bottom)} Z`
-    );
-  };
+  /**
+   * A column rounded on every corner rather than only at the data end.
+   *
+   * A bar chart normally keeps a square foot so the mark sits flat on its baseline and its length
+   * stays honest. Here the baseline is not drawn — the frame's only rule under the plot was a
+   * container border that has gone with it — so there is nothing for a square foot to sit against,
+   * and matching the two ends reads as deliberate where a square one read as clipped.
+   */
+  const bar = (x, width, height, fill, r = 4) =>
+    `<rect x="${num(x)}" y="${num(plot.bottom - height)}" width="${num(width)}" height="${num(height)}" ` +
+    `rx="${r}" fill="${fill}" />`;
 
   const plotted = columns
     .map(([x, width, load, headroom]) => {
       const top = plot.bottom - load;
       const centre = x + width / 2;
       return (
-        `<path d="${barPath(x, width, headroom)}" fill="${CAP_TRACK}" />` +
-        `<path d="${barPath(x, width, load)}" fill="url(#hv-bar)" />` +
+        bar(x, width, headroom, CAP_TRACK) +
+        bar(x, width, load, 'url(#hv-bar)') +
         // Capacity spans the whole of that hour's load — the mark's length is the message.
         `<line x1="${num(centre)}" y1="${num(top + 4)}" x2="${num(centre)}" y2="${num(plot.bottom - 4)}" ` +
         `stroke="${CAPACITY}" stroke-width="3" stroke-linecap="round" />`
@@ -1358,7 +1361,9 @@ function hvAlwaysOn() {
 
       ${plotted}
 
-      <rect x="61.7" y="363.44" width="464.61" height="32" rx="6" fill="none" stroke="#f4f3ff" />
+      <!-- The design wraps the three axis labels in a frame carrying a 1px #f4f3ff stroke. That is
+           a layout container in Figma, not a chart element: it draws a box around the labels that
+           encloses nothing and belongs to no scale, so only the labels inside it are kept. -->
       ${text(71.7, 389.44, '08.00', { size: 12.37, weight: 500 })}
       ${text(296, 389.44, 'Overnight Campaign Launch', { size: 12.37, weight: 500, anchor: 'middle' })}
       ${text(516.31, 389.44, '10:00', { size: 12.37, weight: 500, anchor: 'end' })}
