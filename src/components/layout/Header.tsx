@@ -127,8 +127,15 @@ function NavDropdown({ item, pathname }: { item: NavItem; pathname: string }) {
             {groups.map((group) => (
               <div key={group.heading ?? 'links'}>
                 {group.heading ? (
+                  /*
+                   * The eyebrow is set in lavender-600 rather than the brand violet the same
+                   * eyebrow uses on the dark sections. #b1a4ff is built to carry a dark ground; on
+                   * this white panel it lands at 2.2:1, which is under AA for 11px text. This step
+                   * is the same hue at 6.1:1, and still clears AA against the tint a hovered row
+                   * puts behind it.
+                   */
                   <p
-                    className="px-3 pb-2 font-sans text-caption font-semibold tracking-[0.1em] text-brand-violet
+                    className="px-3 pb-2 font-sans text-caption font-semibold tracking-[0.1em] text-lavender-600
                                uppercase"
                   >
                     {group.heading}
