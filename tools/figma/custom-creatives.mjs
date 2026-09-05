@@ -74,6 +74,63 @@ function card(id, x, y, w, h, r = 16, { shadow = true } = {}) {
   };
 }
 
+/**
+ * Advance width of each character in Albert Sans at weight 600, as a fraction of the font size.
+ *
+ * Measured off the rasteriser this pipeline already uses, one character at a time as the width
+ * "H<c>H" adds over "HH" so the side bearings cancel.
+ */
+const ADVANCE = {
+  "0": 0.64, "1": 0.325, "2": 0.595, "3": 0.595, "4": 0.655, "5": 0.62,
+  "6": 0.61, "7": 0.555, "8": 0.625, "9": 0.61, " ": 0.28, "!": 0.28,
+  "\"": 0.35, "#": 0.855, "$": 0.585, "%": 0.805, "&": 0.69, "'": 0.2,
+  "(": 0.44, ")": 0.44, "*": 0.48, "+": 0.62, ",": 0.285, "-": 0.525,
+  ".": 0.26, "/": 0.355, ":": 0.265, ";": 0.305, "<": 0.505, "=": 0.665,
+  ">": 0.505, "?": 0.545, "@": 0.995, "A": 0.715, "B": 0.675, "C": 0.76,
+  "D": 0.73, "E": 0.605, "F": 0.585, "G": 0.765, "H": 0.715, "I": 0.265,
+  "J": 0.525, "K": 0.655, "L": 0.53, "M": 0.885, "N": 0.715, "O": 0.785,
+  "P": 0.63, "Q": 0.785, "R": 0.645, "S": 0.585, "T": 0.625, "U": 0.705,
+  "V": 0.71, "W": 1.015, "X": 0.74, "Y": 0.69, "Z": 0.6, "[": 0.33,
+  "\\": 0.355, "]": 0.33, "^": 0.685, "_": 0.56, "`": 0.245, "a": 0.525,
+  "b": 0.595, "c": 0.55, "d": 0.6, "e": 0.56, "f": 0.325, "g": 0.6,
+  "h": 0.565, "i": 0.28, "j": 0.27, "k": 0.555, "l": 0.245, "m": 0.885,
+  "n": 0.56, "o": 0.585, "p": 0.6, "q": 0.6, "r": 0.37, "s": 0.485,
+  "t": 0.36, "u": 0.56, "v": 0.55, "w": 0.76, "x": 0.525, "y": 0.545,
+  "z": 0.48, "{": 0.385, "|": 0.295, "}": 0.385, "~": 0.59, "·": 0.25,
+  "—": 0.85, "–": 0.635, "’": 0.275, "“": 0.46, "”": 0.46,
+};
+
+/**
+ * Width of a string, for sizing a chip around copy the rasteriser only measures later.
+ *
+ * This counted characters and multiplied by a flat 0.54 of the font size, which is right for a
+ * string of average letters and wrong either way for anything else: it overstated
+ * "12 Countries · One Standard" by 14% and understated "+30% Margin" by 3%. Summing real advances
+ * lands every label on this page within 1%. Unlisted characters fall back to the old constant.
+ */
+const estWidth = (str, size) => [...str].reduce((total, c) => total + (ADVANCE[c] ?? 0.54), 0) * size;
+
+/**
+ * The white notice that hangs above the card on four of these creatives.
+ *
+ * Each was hand-sized to a fixed width, and the widths ran inverse to the labels they had to
+ * hold: "12 Countries · One Standard" is the longest of the four and got the narrowest pill, so
+ * its text ran 20px past the end of it and stopped 8px short of the canvas edge. The pill is
+ * measured from its own label now, and all four hang from the same right edge as the 40px margin
+ * the cards below them keep.
+ */
+function noticeBadge(label, { right = 548, y = 28, h = 36, size = 13, dot = '#216fef' } = {}) {
+  const padLeft = 34;
+  const padRight = 18;
+  const w = Math.round(estWidth(label, size) + padLeft + padRight);
+  const x = right - w;
+  return (
+    `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="white" filter="url(#shadow)" />` +
+    `<circle cx="${x + 20}" cy="${y + h / 2}" r="4" fill="${dot}" />` +
+    text(x + padLeft, y + h / 2 + size * 0.35, label, { size, weight: 600 })
+  );
+}
+
 function pill(x, y, w, h, { fill, text: label, textFill, size = 13, weight = 600 }) {
   return (
     `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="${fill}" />` +
@@ -228,7 +285,9 @@ function roGovernance() {
     })
     .join('');
 
-  const alert = floatingCard('alert', 88, 346, 420, 124, {
+  // The card used to start at 346 against a table whose bottom edge is 354, so it sat on the last
+  // row and covered the rule it was talking about. It clears it by 20 now.
+  const alert = floatingCard('alert', 88, 374, 420, 124, {
     icon: 'check',
     headline: 'Background Check Required',
     subtext: "Locked at HQ — can't be bypassed locally",
@@ -244,9 +303,7 @@ function roGovernance() {
       <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
       ${bg.rect}
 
-      <rect x="380" y="28" width="180" height="36" rx="18" fill="white" filter="url(#shadow)" />
-      <circle cx="402" cy="46" r="4" fill="#216fef" />
-      ${text(414, 50, '12 Countries · One Standard', { size: 13, weight: 600 })}
+      ${noticeBadge('12 Countries · One Standard')}
 
       ${mainCard.shadowRect}
       <g clip-path="url(#${mainCard.clipId})">
@@ -261,43 +318,66 @@ function roGovernance() {
   };
 }
 
+/**
+ * The source-tool glyphs, each drawn around a real centre.
+ *
+ * These took a single `c` and used it for both axes, while `toolChip` called them as
+ * `TOOL_ICONS[icon](x, y - 13)` — so the second argument was dropped and every glyph was drawn at
+ * (x, x). Only Sheets showed one, because its tile happened to sit at (80, 72) and (80, 80) landed
+ * inside it; the other three were rendered hundreds of pixels below their tiles, off the artwork.
+ */
 const TOOL_ICONS = {
-  sheet: (c) =>
-    `<rect x="${c - 10}" y="${c - 10}" width="20" height="20" rx="3" fill="none" stroke="white" stroke-width="1.6" />` +
-    `<line x1="${c - 10}" y1="${c - 3.3}" x2="${c + 10}" y2="${c - 3.3}" stroke="white" stroke-width="1.2" />` +
-    `<line x1="${c - 10}" y1="${c + 3.3}" x2="${c + 10}" y2="${c + 3.3}" stroke="white" stroke-width="1.2" />` +
-    `<line x1="${c - 3.3}" y1="${c - 10}" x2="${c - 3.3}" y2="${c + 10}" stroke="white" stroke-width="1.2" />`,
-  email: (c) =>
-    `<rect x="${c - 11}" y="${c - 8}" width="22" height="16" rx="2.5" fill="none" stroke="white" stroke-width="1.6" />` +
-    `<path d="M${c - 11},${c - 7} L${c},${c + 2} L${c + 11},${c - 7}" fill="none" stroke="white" stroke-width="1.6" stroke-linejoin="round" />`,
-  calendar: (c) =>
-    `<rect x="${c - 10}" y="${c - 9}" width="20" height="18" rx="2.5" fill="none" stroke="white" stroke-width="1.6" />` +
-    `<line x1="${c - 10}" y1="${c - 3}" x2="${c + 10}" y2="${c - 3}" stroke="white" stroke-width="1.4" />` +
-    `<line x1="${c - 5}" y1="${c - 12}" x2="${c - 5}" y2="${c - 7}" stroke="white" stroke-width="1.6" stroke-linecap="round" />` +
-    `<line x1="${c + 5}" y1="${c - 12}" x2="${c + 5}" y2="${c - 7}" stroke="white" stroke-width="1.6" stroke-linecap="round" />`,
-  chat: (c) =>
-    `<path d="M${c - 11},${c - 8} h22 a2.5 2.5 0 0 1 2.5 2.5 v9 a2.5 2.5 0 0 1 -2.5 2.5 h-14 l-6 5 v-5 h-2 a2.5 2.5 0 0 1 -2.5 -2.5 v-9 a2.5 2.5 0 0 1 2.5 -2.5 z" fill="none" stroke="white" stroke-width="1.6" stroke-linejoin="round" />`,
+  sheet: (cx, cy) =>
+    `<rect x="${cx - 10}" y="${cy - 10}" width="20" height="20" rx="3" fill="none" stroke="white" stroke-width="1.6" />` +
+    `<line x1="${cx - 10}" y1="${cy - 3.3}" x2="${cx + 10}" y2="${cy - 3.3}" stroke="white" stroke-width="1.2" />` +
+    `<line x1="${cx - 10}" y1="${cy + 3.3}" x2="${cx + 10}" y2="${cy + 3.3}" stroke="white" stroke-width="1.2" />` +
+    `<line x1="${cx - 3.3}" y1="${cy - 10}" x2="${cx - 3.3}" y2="${cy + 10}" stroke="white" stroke-width="1.2" />`,
+  email: (cx, cy) =>
+    `<rect x="${cx - 11}" y="${cy - 8}" width="22" height="16" rx="2.5" fill="none" stroke="white" stroke-width="1.6" />` +
+    `<path d="M${cx - 11},${cy - 7} L${cx},${cy + 2} L${cx + 11},${cy - 7}" fill="none" stroke="white" stroke-width="1.6" stroke-linejoin="round" />`,
+  // A candidate list rather than the calendar this used to borrow, which said nothing about an ATS.
+  ats: (cx, cy) =>
+    [-7, 0, 7]
+      .map(
+        (dy) =>
+          `<circle cx="${cx - 8}" cy="${cy + dy}" r="2" fill="white" />` +
+          `<line x1="${cx - 2}" y1="${cy + dy}" x2="${cx + 10}" y2="${cy + dy}" stroke="white" stroke-width="1.6" stroke-linecap="round" />`
+      )
+      .join(''),
+  chat: (cx, cy) =>
+    `<path d="M${cx - 11},${cy - 8} h22 a2.5 2.5 0 0 1 2.5 2.5 v9 a2.5 2.5 0 0 1 -2.5 2.5 h-14 l-6 5 v-5 h-2 a2.5 2.5 0 0 1 -2.5 -2.5 v-9 a2.5 2.5 0 0 1 2.5 -2.5 z" fill="none" stroke="white" stroke-width="1.6" stroke-linejoin="round" />`,
 };
 
-function toolChip(x, y, rotate, icon, label) {
+/**
+ * One source tool: a tile with its glyph, and its name underneath.
+ *
+ * The label used to sit at `y + 28` inside a tile whose bottom edge is `y + 32`, so it straddled
+ * that edge — white type half on the dark tile and half on the backdrop. It sits below the tile
+ * now, in ink on the light ground, where it is simply readable. The tiles also each carried their
+ * own rotation and their own vertical offset, which read as four tiles dropped at random rather
+ * than as the set of systems a record is being gathered from, so they are square and on one line.
+ */
+const CHIP = 64;
+
+function toolChip(x, y, icon, label) {
   return (
-    `<g transform="rotate(${rotate} ${x} ${y})">` +
-    `<rect x="${x - 32}" y="${y - 32}" width="64" height="64" rx="14" fill="${INK}" fill-opacity="0.82" />` +
-    TOOL_ICONS[icon](x, y - 13) +
-    text(x, y + 28, label, { size: 11, weight: 600, fill: 'white', anchor: 'middle' }) +
-    '</g>'
+    `<rect x="${x - CHIP / 2}" y="${y - CHIP / 2}" width="${CHIP}" height="${CHIP}" rx="16" fill="${INK}" />` +
+    TOOL_ICONS[icon](x, y) +
+    text(x, y + CHIP / 2 + 21, label, { size: 12, weight: 600, anchor: 'middle' })
   );
 }
 
 function roSingleTruth() {
   const bg = backdrop({ from: '#fe7c34', mid: '#ffddb1', to: '#fdfcff', flip: true });
-  const chips = [
-    { x: 80, y: 72, r: -6, icon: 'sheet', label: 'Sheets' },
-    { x: 196, y: 96, r: 4, icon: 'email', label: 'Email' },
-    { x: 312, y: 68, r: -3, icon: 'calendar', label: 'ATS' },
-    { x: 428, y: 92, r: 5, icon: 'chat', label: 'Chat' },
-  ];
-  const converge = { x: 294, y: 180 };
+  // Four tiles on one line, centred on the canvas and on the point their traces run to.
+  const chipY = 64;
+  const chips = ['sheet', 'email', 'ats', 'chat'].map((icon, i) => ({
+    x: 120 + i * 116,
+    y: chipY,
+    icon,
+    label: ['Sheets', 'Email', 'ATS', 'Chat'][i],
+  }));
+  const converge = { x: 294, y: 170 };
 
   const cardX = 40;
   const cardW = 508;
@@ -346,9 +426,9 @@ function roSingleTruth() {
       ${bg.rect}
 
       ${chips
-        .map((c) => `<line x1="${c.x}" y1="${c.y + 30}" x2="${converge.x}" y2="${converge.y}" stroke="white" stroke-opacity="0.6" stroke-width="1.5" stroke-dasharray="4 4" />`)
+        .map((c) => `<line x1="${c.x}" y1="${c.y + CHIP / 2 + 30}" x2="${converge.x}" y2="${converge.y}" stroke="white" stroke-opacity="0.6" stroke-width="1.5" stroke-dasharray="4 4" />`)
         .join('')}
-      ${chips.map((c) => toolChip(c.x, c.y, c.r, c.icon, c.label)).join('')}
+      ${chips.map((c) => toolChip(c.x, c.y, c.icon, c.label)).join('')}
 
       ${main.shadowRect}
       <g clip-path="url(#${main.clipId})">
@@ -409,9 +489,7 @@ function pcGuardrails() {
       <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
       ${bg.rect}
 
-      <rect x="356" y="28" width="204" height="36" rx="18" fill="white" filter="url(#shadow)" />
-      <circle cx="378" cy="46" r="4" fill="#c026d3" />
-      ${text(390, 50, 'Live Across 8 Desks', { size: 13, weight: 600 })}
+      ${noticeBadge('Live Across 8 Desks', { dot: '#c026d3' })}
 
       ${mainCard.shadowRect}
       <g clip-path="url(#${mainCard.clipId})">
@@ -518,9 +596,7 @@ function aoSuperstar() {
       <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
       ${bg.rect}
 
-      <rect x="366" y="28" width="194" height="36" rx="18" fill="white" filter="url(#shadow)" />
-      <circle cx="388" cy="46" r="4" fill="#c026d3" />
-      ${text(400, 50, 'Owned by the OS', { size: 13, weight: 600 })}
+      ${noticeBadge('Owned by the OS', { dot: '#c026d3' })}
 
       ${mainCard.shadowRect}
       <g clip-path="url(#${mainCard.clipId})">
@@ -569,9 +645,7 @@ function aoMargins() {
       <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
       ${bg.rect}
 
-      <rect x="384" y="28" width="176" height="36" rx="18" fill="white" filter="url(#shadow)" />
-      <circle cx="406" cy="46" r="4" fill="#fe5a11" />
-      ${text(418, 50, '+30% Margin', { size: 13, weight: 600 })}
+      ${noticeBadge('+30% Margin', { dot: '#fe5a11' })}
 
       ${mainCard.shadowRect}
       <g clip-path="url(#${mainCard.clipId})">
@@ -1067,7 +1141,6 @@ function tiParser() {
 }
 
 /** Rough advance width of a string, for sizing a chip around copy the rasteriser measures later. */
-const estWidth = (str, size) => str.length * size * 0.54;
 
 /** A pill sized to its own label, centred on `cx` — for the caption under each card. */
 function autoPill(cx, y, label, { h = 40, size = 15, fill = 'white', textFill = INK, weight = 500 } = {}) {
