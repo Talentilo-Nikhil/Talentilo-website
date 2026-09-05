@@ -69,7 +69,54 @@ function applyGraft(root, { replace, from }) {
   children[index] = shifted(patch, target.box.x - patch.box.x, target.box.y - patch.box.y);
 }
 
-/** page slug → [{ file, path, label, scale?, graft?, hide? }] */
+const round = (v) => +Number(v).toFixed(2);
+
+/**
+ * The packet mark that rides each ingest line on the Bullhorn card.
+ *
+ * The frame draws it as a flat 16px ellipse of #19b11f at 40% alpha: no edge, no direction, and
+ * no relation to the line under it, so it reads as a smudge on the artwork rather than as a mark.
+ * The two are also parked at unrelated points along their lines — 41% and 66% — which is what
+ * makes the pair look accidental.
+ *
+ * Redrawn as a record actually in flight. The core is the green the rest of the site already uses
+ * for a safe outcome (#12b76a, the "Nothing left behind" pill) rather than the grass green that
+ * appears nowhere else, it sits in a white gap so it never touches the dashes underneath, and it
+ * trails back the way it came so a still frame still carries the direction of travel. Both packets
+ * take the same fraction of their line, so the pair reads as composed.
+ */
+function ingestPacket(id, [ax, ay], [bx, by], t = 0.42) {
+  const GREEN = '#12b76a';
+  // The arrowhead sits at (ax, ay), so travel runs b → a and the trail streams back toward b.
+  const length = Math.hypot(bx - ax, by - ay);
+  const [ux, uy] = [(bx - ax) / length, (by - ay) / length];
+  const [x, y] = [ax + (bx - ax) * t, ay + (by - ay) * t];
+  const [tx, ty] = [x + ux * 28, y + uy * 28];
+
+  // The trail crosses the route's own grey dashes, so it is laid over a white wash that fades on
+  // the same ramp: solid at the core, where the dashes would otherwise show through the green,
+  // and gone by the tail, where the route resumes as if the packet had never passed.
+  const ramp = (stops) =>
+    `<linearGradient id="${id}-${stops.id}" x1="${round(x)}" y1="${round(y)}" x2="${round(tx)}" y2="${round(ty)}" ` +
+    `gradientUnits="userSpaceOnUse">` +
+    `<stop offset="0%" stop-color="${stops.color}" stop-opacity="${stops.from}"/>` +
+    `<stop offset="100%" stop-color="${stops.color}" stop-opacity="0"/></linearGradient>`;
+
+  const streak = (suffix, width) =>
+    `<line x1="${round(x)}" y1="${round(y)}" x2="${round(tx)}" y2="${round(ty)}" ` +
+    `stroke="url(#${id}-${suffix})" stroke-width="${width}" stroke-linecap="round"/>`;
+
+  return (
+    `<defs>${ramp({ id: 'wash', color: '#ffffff', from: 1 })}${ramp({ id: 'glow', color: GREEN, from: 0.7 })}</defs>` +
+    streak('wash', 4.2) +
+    streak('glow', 2.4) +
+    `<circle cx="${round(x)}" cy="${round(y)}" r="8.4" fill="${GREEN}" fill-opacity="0.12"/>` +
+    `<circle cx="${round(x)}" cy="${round(y)}" r="5.2" fill="#ffffff"/>` +
+    `<circle cx="${round(x)}" cy="${round(y)}" r="3.4" fill="${GREEN}"/>`
+  );
+}
+
+/** page slug → [{ file, path, label, scale?, graft?, hide?, overlay? }] */
 const EXPORTS = {
   // The four approved lockups, taken from the Design system canvas rather than lifted off a page.
   // Each frame is 1495px wide — roughly eight times its largest use — so scale 1 is plenty.
@@ -151,6 +198,10 @@ const EXPORTS = {
     {
       file: 'mg-card-bullhorn',
       path: '#2/Frame 2085665258/#0/Frame 1597881567',
+      hide: ['Group 1597881566/Ellipse 115', 'Group 1597881566/Ellipse 116'],
+      overlay:
+        ingestPacket('mg-packet-a', [158, 125.28], [261.45, 126.02]) +
+        ingestPacket('mg-packet-b', [157.83, 197.05], [261.62, 197.81]),
       label: 'On-premises and cloud ATS deployments being retired',
     },
     {
@@ -272,7 +323,7 @@ async function main() {
       // `hidden` is what the writer already checks for a layer switched off in Figma, so a layer
       // switched off here needs nothing new downstream.
       for (const path of entry.hide ?? []) at(node, path).hidden = true;
-      const svg = await subtreeToSvg(node, images, { label: entry.label });
+      const svg = await subtreeToSvg(node, images, { label: entry.label, overlay: entry.overlay });
       const scale = entry.scale ?? SCALE;
 
       index[entry.file] = await rasterize({
