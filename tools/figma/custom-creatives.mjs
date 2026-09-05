@@ -1359,6 +1359,11 @@ function hvAlwaysOn() {
       <rect x="379.3" y="141.93" width="147" height="31.25" rx="8" fill="#f4f2f0" />
       ${text(452.8, 161.6, 'Response: < 2 Mins', { size: 12.37, weight: 600, anchor: 'middle' })}
 
+      <!-- The rule the removed container border never was: one axis line at the foot of the plot,
+           drawn before the bars so it grounds them and shows through the notch each rounded
+           corner leaves, in the site's own hairline. -->
+      <line x1="${plot.left}" y1="${num(plot.bottom)}" x2="${plot.right}" y2="${num(plot.bottom)}"
+            stroke="#d7d2e5" stroke-width="1.12" stroke-linecap="round" />
       ${plotted}
 
       <!-- The design wraps the three axis labels in a frame carrying a 1px #f4f3ff stroke. That is
