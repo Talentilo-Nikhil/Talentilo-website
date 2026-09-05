@@ -134,6 +134,24 @@
   "designHeight": 536,
   "alt": "AI voice agents engaging 500+ candidates"
  },
+ "mg-card-bullhorn": {
+  "src": "/figma/creatives/mg-card-bullhorn.webp",
+  "fallback": "/figma/creatives/mg-card-bullhorn.png",
+  "width": 960,
+  "height": 640,
+  "designWidth": 480,
+  "designHeight": 320,
+  "alt": "On-premises and cloud ATS deployments being retired"
+ },
+ "mg-card-zoho": {
+  "src": "/figma/creatives/mg-card-zoho.webp",
+  "fallback": "/figma/creatives/mg-card-zoho.png",
+  "width": 960,
+  "height": 640,
+  "designWidth": 480,
+  "designHeight": 320,
+  "alt": "A small-business tool outgrown by enterprise-scale activity"
+ },
  "mg-terminal": {
   "src": "/figma/creatives/mg-terminal.webp",
   "fallback": "/figma/creatives/mg-terminal.png",
@@ -259,24 +277,6 @@
   "designWidth": 1312,
   "designHeight": 560,
   "alt": "One candidate record shown three times — in the old ATS, mid-move with every part of the record ticked off, and arrived in Talentilo with the same notes, submissions and tags intact"
- },
- "mg-card-bullhorn": {
-  "src": "/figma/creatives/mg-card-bullhorn.webp",
-  "fallback": "/figma/creatives/mg-card-bullhorn.png",
-  "width": 1120,
-  "height": 860,
-  "designWidth": 560,
-  "designHeight": 430,
-  "alt": "A Bullhorn migration mapping a static database and paid plugins onto the Talentilo engine, with a decade of relationship data intact"
- },
- "mg-card-zoho": {
-  "src": "/figma/creatives/mg-card-zoho.webp",
-  "fallback": "/figma/creatives/mg-card-zoho.png",
-  "width": 1120,
-  "height": 860,
-  "designWidth": 560,
-  "designHeight": 430,
-  "alt": "A Zoho Recruit migration lifting Small Biz limits and manual workarounds to enterprise scale without losing operational simplicity"
  },
  "ti-boolean-legacy": {
   "src": "/figma/creatives/ti-boolean-legacy.webp",
