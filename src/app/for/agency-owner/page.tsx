@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 
+import { BrandStatement } from '@/components/sections/BrandStatement';
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { LogoStrip } from '@/components/sections/LogoStrip';
 import { PageHero } from '@/components/sections/PageHero';
 import { StatGrid, type Stat } from '@/components/sections/StatGrid';
-import { Testimonial } from '@/components/sections/Testimonial';
 import { Section } from '@/components/ui/Section';
 
 export const metadata: Metadata = {
@@ -38,11 +38,9 @@ export default function AgencyOwnerPage() {
         cta={{ label: 'Calculate EBITDA Impact', href: '/pricing#roi' }}
       />
 
-      <Testimonial
-        quote="Talentilo.ai had everything we needed to build a stunning website in no time. The attention to detail in this product is simply remarkable."
-        name="Paula Bennett"
-        role="VP of Product Development, Morance"
-        avatarHash="da416245e6c0008541ebbaee04a05405e58598b7"
+      <BrandStatement
+        statement="Adding recruiters is not the same as adding capacity. We built Talentilo so the leverage sits in the system rather than in any one desk — the workflow stays when a top biller leaves, and the margin stays with you."
+        context="On the headcount trap"
         tone="azure"
       />
 

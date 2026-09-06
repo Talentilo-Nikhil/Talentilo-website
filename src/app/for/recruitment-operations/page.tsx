@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 
+import { BrandStatement } from '@/components/sections/BrandStatement';
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { LogoStrip } from '@/components/sections/LogoStrip';
 import { PageHero } from '@/components/sections/PageHero';
 import { StatGrid, type Stat } from '@/components/sections/StatGrid';
-import { Testimonial } from '@/components/sections/Testimonial';
 import { Section } from '@/components/ui/Section';
 
 export const metadata: Metadata = {
@@ -38,11 +38,9 @@ export default function RecruitmentOperationsPage() {
         cta={{ label: 'Orchestrate Your Operations', href: '/contact' }}
       />
 
-      <Testimonial
-        quote="Talentilo.ai had everything we needed to build a stunning website in no time. The attention to detail in this product is simply remarkable."
-        name="John Doe"
-        role="VP of Product Development, Morance"
-        avatarHash="2f3ff23866f54c09473c12da8fca1cdaf6e98b2b"
+      <BrandStatement
+        statement="Process should not feel like handcuffs. We built Talentilo so the standard is enforced by the system rather than policed by managers — one record, one source of truth, and a team that moves faster inside it."
+        context="On governance and speed"
         tone="crusta"
       />
 
