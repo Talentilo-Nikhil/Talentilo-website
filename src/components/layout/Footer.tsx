@@ -31,19 +31,37 @@ export function Footer() {
             {/* The oversized pill CTA from the file: ink fill inside a gradient hairline. */}
             <Link
               href="/contact"
-              className="group block w-full max-w-[625px] rounded-[112px] p-px [background-image:var(--gradient-brand)]"
+              className="group relative block w-full max-w-[625px] rounded-[112px] p-px
+                         [background-image:var(--gradient-brand)]"
             >
+              {/*
+                The hover fill: the same wash the header's "Request Demo" pill deepens to on hover,
+                windowed the same way — scaled to 180% and held at its saturated end, which keeps
+                the gradient's near-white stop off the surface. The two buttons differ at rest and
+                land on the same colour when hovered, which is the match Talentilo asked for.
+
+                It sits at inset-0, so it covers the 1px hairline as well as the ink and the pill
+                reads as a bare gradient with no stroke once filled. `background-image` is not an
+                animatable property, hence a faded layer rather than a background swap.
+              */}
               <span
-                className="flex items-center justify-center gap-9 rounded-[112px] bg-ink px-8 py-6 text-center
-                           transition-colors duration-300 group-hover:bg-ink/85 sm:px-13 sm:py-6.5"
+                aria-hidden="true"
+                className="absolute inset-0 z-10 rounded-[112px] bg-[length:180%_100%] bg-[position:0%_50%]
+                           opacity-0 transition-opacity duration-300 ease-[var(--ease-out-soft)]
+                           [background-image:var(--gradient-brand-deep)] group-hover:opacity-100
+                           group-focus-visible:opacity-100"
+              />
+              <span
+                className="flex items-center justify-center gap-9 rounded-[112px] bg-ink px-8 py-6
+                           text-center sm:px-13 sm:py-6.5"
               >
-                <span className="font-sans text-[clamp(1.75rem,1.2rem+2.2vw,2.375rem)] font-medium text-white">
+                <span className="relative z-20 font-sans text-[clamp(1.75rem,1.2rem+2.2vw,2.375rem)] font-medium text-white">
                   Let&rsquo;s Talk
                 </span>
                 {/* The file draws a bare diagonal arrow here, not the ringed one used elsewhere. */}
                 <span
                   aria-hidden="true"
-                  className="grid shrink-0 place-items-center text-[38px] text-white transition-transform
+                  className="relative z-20 grid shrink-0 place-items-center text-[38px] text-white transition-transform
                              duration-300 ease-[var(--ease-out-soft)] group-hover:-translate-y-0.5
                              group-hover:translate-x-0.5"
                 >

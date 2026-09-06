@@ -4135,6 +4135,12 @@
             ],
             "strokeWeight": 1.0661157369613647,
             "strokeAlign": "INSIDE",
+            "strokeSides": {
+             "top": 1.0661157369613647,
+             "right": 0,
+             "bottom": 1.0661157369613647,
+             "left": 0
+            },
             "strokeJoin": "MITER",
             "children": [
              {
@@ -7640,6 +7646,12 @@
           ],
           "strokeWeight": 1.0661157369613647,
           "strokeAlign": "INSIDE",
+          "strokeSides": {
+           "top": 1.0661157369613647,
+           "right": 0,
+           "bottom": 1.0661157369613647,
+           "left": 0
+          },
           "strokeJoin": "MITER",
           "children": [
            {

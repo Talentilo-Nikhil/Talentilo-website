@@ -261,6 +261,24 @@ export function buildTree(node, graph, blobs, ctx) {
     out.strokes = strokes;
     out.strokeWeight = merged.strokeWeight ?? 1;
     out.strokeAlign = merged.strokeAlign ?? 'INSIDE';
+    /*
+     * Figma lets a frame carry a different weight per edge, which is how the file draws row
+     * dividers: one bottom border, no box. That is flagged by `borderStrokeWeightsIndependent`,
+     * and the absent edges simply have no weight field rather than a zero. Collapsing all of it
+     * into the single `strokeWeight` above drew those dividers as four-sided outlines around
+     * every row — an outline the design does not have. Only recorded when the edges actually
+     * differ, so a plain uniform border keeps the simpler shape.
+     */
+    if (merged.borderStrokeWeightsIndependent) {
+      const sides = {
+        top: merged.borderTopWeight ?? 0,
+        right: merged.borderRightWeight ?? 0,
+        bottom: merged.borderBottomWeight ?? 0,
+        left: merged.borderLeftWeight ?? 0,
+      };
+      const values = Object.values(sides);
+      if (values.some((w) => w !== values[0])) out.strokeSides = sides;
+    }
     if (merged.strokeCap && merged.strokeCap !== 'NONE') out.strokeCap = merged.strokeCap;
     if (merged.strokeJoin) out.strokeJoin = merged.strokeJoin;
   }

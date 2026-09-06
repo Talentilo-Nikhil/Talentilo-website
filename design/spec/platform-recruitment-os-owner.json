@@ -7086,6 +7086,12 @@
                         ],
                         "strokeWeight": 0.6808491349220276,
                         "strokeAlign": "INSIDE",
+                        "strokeSides": {
+                         "top": 0,
+                         "right": 0.6808491349220276,
+                         "bottom": 0,
+                         "left": 0
+                        },
                         "strokeJoin": "MITER",
                         "children": [
                          {
@@ -7265,6 +7271,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0.6808491349220276
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -7406,6 +7418,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0.6808491349220276
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -7547,6 +7565,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0.6808491349220276
+                          },
                           "strokeJoin": "MITER",
                           "radius": {
                            "topLeft": 0,
@@ -7694,6 +7718,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0.6808491349220276
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -7835,6 +7865,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0.6808491349220276
+                          },
                           "strokeJoin": "MITER",
                           "radius": {
                            "topLeft": 0,
@@ -7933,6 +7969,12 @@
                         ],
                         "strokeWeight": 0.6808491349220276,
                         "strokeAlign": "INSIDE",
+                        "strokeSides": {
+                         "top": 0,
+                         "right": 0.6808491349220276,
+                         "bottom": 0,
+                         "left": 0
+                        },
                         "strokeJoin": "MITER",
                         "children": [
                          {
@@ -7981,6 +8023,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0.6808491349220276,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -8282,6 +8330,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -8641,6 +8695,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -9000,6 +9060,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -9394,6 +9460,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -9797,6 +9869,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -10127,6 +10205,12 @@
                         ],
                         "strokeWeight": 0.6808491349220276,
                         "strokeAlign": "INSIDE",
+                        "strokeSides": {
+                         "top": 0,
+                         "right": 0.6808491349220276,
+                         "bottom": 0,
+                         "left": 0
+                        },
                         "strokeJoin": "MITER",
                         "children": [
                          {
@@ -10175,6 +10259,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0.6808491349220276,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -10300,6 +10390,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -10761,6 +10857,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -11431,6 +11533,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -12103,6 +12211,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -12775,6 +12889,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -13137,6 +13257,12 @@
                         ],
                         "strokeWeight": 0.6808491349220276,
                         "strokeAlign": "INSIDE",
+                        "strokeSides": {
+                         "top": 0,
+                         "right": 0.6808491349220276,
+                         "bottom": 0,
+                         "left": 0
+                        },
                         "strokeJoin": "MITER",
                         "children": [
                          {
@@ -13185,6 +13311,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0.6808491349220276,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -13310,6 +13442,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -13771,6 +13909,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -14333,6 +14477,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -14897,6 +15047,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -15459,6 +15615,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -15744,6 +15906,12 @@
                         ],
                         "strokeWeight": 0.6808491349220276,
                         "strokeAlign": "INSIDE",
+                        "strokeSides": {
+                         "top": 0,
+                         "right": 0.6808491349220276,
+                         "bottom": 0,
+                         "left": 0
+                        },
                         "strokeJoin": "MITER",
                         "children": [
                          {
@@ -15792,6 +15960,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0.6808491349220276,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -15917,6 +16091,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -16378,6 +16558,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -16942,6 +17128,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -17506,6 +17698,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -18068,6 +18266,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -18401,6 +18605,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0.6808491349220276,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "radius": {
                            "topLeft": 0,
@@ -18532,6 +18742,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -18991,6 +19207,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -19552,6 +19774,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "radius": {
                            "topLeft": 0,
@@ -20119,6 +20347,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -20756,6 +20990,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "radius": {
                            "topLeft": 0,
@@ -21095,6 +21335,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0.6808491349220276,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "radius": {
                            "topLeft": 0,
@@ -21226,6 +21472,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -21428,6 +21680,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -21630,6 +21888,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -21832,6 +22096,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "children": [
                            {
@@ -22034,6 +22304,12 @@
                           ],
                           "strokeWeight": 0.6808491349220276,
                           "strokeAlign": "INSIDE",
+                          "strokeSides": {
+                           "top": 0,
+                           "right": 0.6808491349220276,
+                           "bottom": 0.6808491349220276,
+                           "left": 0
+                          },
                           "strokeJoin": "MITER",
                           "radius": {
                            "topLeft": 0,

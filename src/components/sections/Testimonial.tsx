@@ -86,15 +86,20 @@ export function Testimonial({
 
   return (
     <Section padding="normal">
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+      {/*
+        47/53 rather than 40/60. The wider portrait panel gives the photograph a squarer footprint
+        to sit in, and narrowing the quote panel pulls the pull quote from three lines onto four,
+        which is a measure the eye tracks better and which fills the card instead of stranding it.
+      */}
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,0.94fr)_minmax(0,1.06fr)]">
         <div
           className={cn(
-            'relative flex min-h-[320px] flex-col justify-between overflow-hidden rounded-card p-8 sm:p-10',
+            'relative flex min-h-[420px] flex-col justify-between overflow-hidden rounded-card p-8 sm:p-10 lg:min-h-[520px]',
             palette.tint
           )}
         >
           <div className="relative flex flex-1 items-center justify-center pb-10">
-            <PortraitMark className={cn('absolute size-[228px] max-w-full', palette.mark)} />
+            <PortraitMark className={cn('absolute size-[280px] max-w-full lg:size-[344px]', palette.mark)} />
             <div className="relative size-28 overflow-hidden rounded-full ring-4 ring-white">
               <FigmaImage hash={avatarHash} alt="" />
             </div>
@@ -112,9 +117,26 @@ export function Testimonial({
             stat || link ? 'justify-between' : 'justify-center'
           )}
         >
-          <blockquote className="font-sans text-[clamp(1.375rem,1rem+1.1vw,1.6875rem)] leading-[1.6] font-medium text-ink">
-            &ldquo;{quote}&rdquo;
-          </blockquote>
+          <div>
+            {/*
+              At the panel height Talentilo asked for, a centred quote alone left the card empty —
+              the reference fills its own with a client logo, a case-study link and a stat, none of
+              which we have. An oversized opening mark gives the block the mass that height needs.
+              It replaces the inline quotation marks rather than doubling them.
+            */}
+            <span
+              aria-hidden="true"
+              className={cn(
+                'block font-display text-[100px] leading-[0.72] lg:text-[140px]',
+                palette.mark
+              )}
+            >
+              &ldquo;
+            </span>
+            <blockquote className="mt-7 font-sans text-[clamp(1.375rem,1rem+1.1vw,1.6875rem)] leading-[1.6] font-medium text-ink">
+              {quote}
+            </blockquote>
+          </div>
 
           {stat || link ? (
             <figcaption className="flex flex-col gap-8">
