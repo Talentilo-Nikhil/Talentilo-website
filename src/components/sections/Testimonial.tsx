@@ -29,34 +29,52 @@ const TONE = {
 } as const;
 
 /**
- * The rotated squircle the portrait sits on, in the tone's solid colour.
+ * The organic shape the portrait sits on, one per audience page.
  *
- * The backdrop of every creative on the site is a grid of squares turned 45°, so the panel borrows
- * that motif rather than importing a shape language from somewhere else: one large rounded square
- * off its axis, with four small ones on its faces.
+ * This was a rotated squircle — the site's 45° grid motif turned into a single tile. Talentilo
+ * asked for something less geometric, so each page now gets its own blob from the same family:
+ * a closed Catmull-Rom curve through ten (azure) or eight (crusta) points whose radii swing
+ * between 70 and 132 in a 260 viewBox. Same construction and the same radius band, so the two
+ * read as siblings rather than as two unrelated marks.
  *
- * The small squares sit ±54 from the centre on each diagonal, which is the band that clears the
- * portrait and its ring (69 units) while staying inside the rotated square (88 in its own frame).
- * On the axis points they collided with the portrait on two sides and not the other two, which
- * read as a mistake rather than as a pattern.
+ * The curves are baked rather than generated at render time. A shape randomised per render would
+ * differ between the server and the client pass, and would change on every reload — the point is
+ * an irregular silhouette, not an unstable one.
+ *
+ * The four small squares carry over the grid motif. They sit on the lobes at 60% of each lobe's
+ * own radius, which keeps them inside the shape where it is thickest and clear of the portrait
+ * ring at 45.3 — placing them on fixed diagonals put them outside the blob at its concave points.
  */
-function PortraitMark({ className }: { className?: string }) {
+const PORTRAIT_SHAPES = {
+  azure: {
+    path: 'M254.77 147.54C251.34 162.29 198.83 161.6 181.79 180.02C164.76 198.43 167.34 253.78 152.57 258.03C137.8 262.27 114.3 217.6 93.18 205.5C72.05 193.39 32.22 199.74 25.81 185.4C19.41 171.05 52.72 143.48 54.74 119.42C56.76 95.37 27.41 50.81 37.92 41.08C48.44 31.36 93.59 64.52 117.84 61.06C142.1 57.61 169.39 15.27 183.48 20.35C197.57 25.42 190.52 70.31 202.4 91.5C214.28 112.7 258.21 132.78 254.77 147.54Z',
+    squares: [
+      [200.4, 136],
+      [139, 202.3],
+      [63, 158.7],
+      [70.3, 72.2],
+    ],
+  },
+  crusta: {
+    path: 'M247.61 189.93C238.32 206.62 182.63 196.65 154.1 204.18C125.57 211.72 94.4 242.97 76.43 235.14C58.46 227.31 56.39 184.4 46.31 157.19C36.23 129.99 5.61 87.52 15.95 71.89C26.29 56.26 79.98 72.16 108.37 63.43C136.76 54.7 169.37 12.75 186.29 19.52C203.21 26.28 199.67 75.64 209.89 104.04C220.11 132.44 256.91 173.24 247.61 189.93Z',
+    squares: [
+      [196.1, 161.5],
+      [93.4, 188.6],
+      [57.1, 90.6],
+      [159.3, 59.2],
+    ],
+  },
+} as const;
+
+function PortraitMark({ tone, className }: { tone: keyof typeof PORTRAIT_SHAPES; className?: string }) {
+  const shape = PORTRAIT_SHAPES[tone];
   return (
     <svg viewBox="0 0 260 260" className={className} aria-hidden="true">
-      <rect
-        x="42"
-        y="42"
-        width="176"
-        height="176"
-        rx="48"
-        transform="rotate(45 130 130)"
-        fill="currentColor"
-      />
+      <path d={shape.path} fill="currentColor" />
       <g fill="#ffffff" opacity="0.55">
-        <rect x="71.5" y="71.5" width="9" height="9" rx="2.5" />
-        <rect x="179.5" y="71.5" width="9" height="9" rx="2.5" />
-        <rect x="71.5" y="179.5" width="9" height="9" rx="2.5" />
-        <rect x="179.5" y="179.5" width="9" height="9" rx="2.5" />
+        {shape.squares.map(([x, y]) => (
+          <rect key={`${x}-${y}`} x={x} y={y} width="9" height="9" rx="2.5" />
+        ))}
       </g>
     </svg>
   );
@@ -99,7 +117,7 @@ export function Testimonial({
           )}
         >
           <div className="relative flex flex-1 items-center justify-center pb-10">
-            <PortraitMark className={cn('absolute size-[280px] max-w-full lg:size-[344px]', palette.mark)} />
+            <PortraitMark tone={tone} className={cn('absolute size-[280px] max-w-full lg:size-[344px]', palette.mark)} />
             <div className="relative size-28 overflow-hidden rounded-full ring-4 ring-white">
               <FigmaImage hash={avatarHash} alt="" />
             </div>
