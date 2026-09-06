@@ -3,11 +3,12 @@ import type { Metadata } from 'next';
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { LogoStrip } from '@/components/sections/LogoStrip';
-import { StatGrid, type Stat } from '@/components/sections/StatGrid';
+import { StatGrid } from '@/components/sections/StatGrid';
 import { ButtonLink } from '@/components/ui/Button';
 import { Creative } from '@/components/ui/Creative';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { companyStats } from '@/data/stats';
 
 export const metadata: Metadata = {
   title: 'Talentilo.ai — The Recruitment Operating System',
@@ -23,24 +24,6 @@ const clients = [
   { name: 'logo-salesforce', label: 'Salesforce' },
   { name: 'logo-notion', label: 'Notion' },
 ] as const;
-
-const stats: Stat[] = [
-  {
-    figure: '2.4X',
-    headline: 'Increased Revenue',
-    detail: 'Billings per recruiter without adding headcount',
-  },
-  {
-    figure: '87%',
-    headline: 'Placement Velocity',
-    detail: 'Reduction in time-to-submit using AI',
-  },
-  {
-    figure: '7 hrs.',
-    headline: 'Avg.Time to Submit',
-    detail: 'AI-indexed profiles, ranked by context',
-  },
-];
 
 export default function HomePage() {
   return (
@@ -110,7 +93,7 @@ export default function HomePage() {
           lede="Legacy ATS software builds barriers with data entry and clunky forms. Talentilo's active operating system works in the background, so your connection is direct, unbroken, and human."
         />
         <div className="mt-15">
-          <StatGrid stats={stats} />
+          <StatGrid stats={companyStats} />
         </div>
       </Section>
 

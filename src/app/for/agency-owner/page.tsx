@@ -23,10 +23,27 @@ const clients = [
   { name: 'logo-notion', label: 'Notion' },
 ] as const;
 
+/**
+ * This page makes its own case, so it carries its own row rather than the shared company one:
+ * every figure here is already claimed in the copy above it — the margin lift from "Increase
+ * Profit Margins Up to 30%", the billings multiple from "help your existing team bill 3x more".
+ */
 const stats: Stat[] = [
-  { figure: '2.4 more', headline: 'accurate', detail: 'community- and expert-built templates' },
-  { figure: '97%', headline: 'preferred', detail: 'community- and expert-built templates' },
-  { figure: '100m+', headline: 'sources', detail: 'integrations with technology partners' },
+  {
+    figure: 'Up to 30%',
+    headline: 'Profit Margins',
+    detail: 'Automating the admin and defence layers lifts revenue per seat',
+  },
+  {
+    figure: '3x',
+    headline: 'More Billings',
+    detail: 'From the team you already have, without adding seats',
+  },
+  {
+    figure: '87%',
+    headline: 'Placement Velocity',
+    detail: 'Reduction in time-to-submit using AI',
+  },
 ];
 
 export default function AgencyOwnerPage() {

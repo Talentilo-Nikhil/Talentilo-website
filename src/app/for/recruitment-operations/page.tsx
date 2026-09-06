@@ -5,8 +5,9 @@ import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { LogoStrip } from '@/components/sections/LogoStrip';
 import { PageHero } from '@/components/sections/PageHero';
-import { StatGrid, type Stat } from '@/components/sections/StatGrid';
+import { StatGrid } from '@/components/sections/StatGrid';
 import { Section } from '@/components/ui/Section';
+import { companyStats } from '@/data/stats';
 
 export const metadata: Metadata = {
   title: 'For Recruitment Operations',
@@ -22,12 +23,6 @@ const clients = [
   { name: 'logo-salesforce', label: 'Salesforce' },
   { name: 'logo-notion', label: 'Notion' },
 ] as const;
-
-const stats: Stat[] = [
-  { figure: '2.4 more', headline: 'accurate', detail: 'community- and expert-built templates' },
-  { figure: '97%', headline: 'preferred', detail: 'community- and expert-built templates' },
-  { figure: '100m+', headline: 'sources', detail: 'integrations with technology partners' },
-];
 
 export default function RecruitmentOperationsPage() {
   return (
@@ -62,7 +57,7 @@ export default function RecruitmentOperationsPage() {
       />
 
       <Section tone="none" className="bg-[#f3f2fe]">
-        <StatGrid stats={stats} />
+        <StatGrid stats={companyStats} />
       </Section>
 
       <CtaBanner

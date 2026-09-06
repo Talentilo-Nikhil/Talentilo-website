@@ -3,10 +3,11 @@ import type { Metadata } from 'next';
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
-import { StatGrid, type Stat } from '@/components/sections/StatGrid';
+import { StatGrid } from '@/components/sections/StatGrid';
 import { ButtonLink } from '@/components/ui/Button';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { companyStats } from '@/data/stats';
 
 export const metadata: Metadata = {
   title: 'Tech Recruitment',
@@ -14,12 +15,6 @@ export const metadata: Metadata = {
     'Talentilo decodes the actual tech stack, matching engineers on architectural fit, coding capability and experience density instead of Boolean strings.',
   alternates: { canonical: '/solution/tech-recruitment' },
 };
-
-const stats: Stat[] = [
-  { figure: '2.4 more', headline: 'accurate', detail: 'community- and expert-built templates' },
-  { figure: '97%', headline: 'preferred', detail: 'community- and expert-built templates' },
-  { figure: '100m+', headline: 'sources', detail: 'integrations with technology partners' },
-];
 
 export default function TechRecruitmentPage() {
   return (
@@ -54,7 +49,7 @@ export default function TechRecruitmentPage() {
           lede="In the tech market, the shelf-life of a Senior Engineer is short. Our IT staffing software features like automated WhatsApp cadences and one-click scheduling ensure you lock in the talent while your competitors are still drafting emails."
         />
         <div className="mt-15">
-          <StatGrid stats={stats} />
+          <StatGrid stats={companyStats} />
         </div>
         <div className="mt-10 flex justify-center">
           <ButtonLink href="/contact" variant="dark">
