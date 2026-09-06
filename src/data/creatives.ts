@@ -270,6 +270,15 @@ export const creatives = {
     "designHeight": 536,
     "alt": "Application volume through an overnight campaign launch, with AI capacity running the full height of every hour’s bar and headroom to spare above it"
   },
+  "hv-broadcast": {
+    "src": "/figma/creatives/hv-broadcast.webp",
+    "fallback": "/figma/creatives/hv-broadcast.png",
+    "width": 1800,
+    "height": 1040,
+    "designWidth": 900,
+    "designHeight": 520,
+    "alt": "A WhatsApp send panel: four selected candidates with one unreachable number flagged to be skipped, and the message preview resolved for the first of them"
+  },
   "mg-transfer": {
     "src": "/figma/creatives/mg-transfer.webp",
     "fallback": "/figma/creatives/mg-transfer.png",

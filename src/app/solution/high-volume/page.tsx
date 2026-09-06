@@ -5,6 +5,7 @@ import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
 import { StatGrid, type Stat } from '@/components/sections/StatGrid';
 import { ButtonLink } from '@/components/ui/Button';
+import { Creative } from '@/components/ui/Creative';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 
@@ -53,6 +54,13 @@ export default function HighVolumePage() {
           title="500 Messages. 500 Personal Conversations. One Click"
           lede="Speed is the only currency but spamming kills your brand. Talentilo engages your pool with context. It starts 2-way conversations. 'Hi Sam, a [role] opened near [Sam's City] matching your [Sam's Skill]'. Turn a broadcast into a 1:1 chat, instantly."
         />
+        {/* The design sets the panel at 950 of the 1312 content width, so it stays narrower than
+            the heading above it and the proof row below. It carries 12px labels, which a phone
+            reduces past reading, so it keeps the tap-to-enlarge control. */}
+        <div className="mx-auto mt-12 max-w-[950px]">
+          <Creative name="hv-broadcast" zoom sizes="(min-width: 1024px) 950px, 100vw" />
+        </div>
+
         <div className="mt-15">
           <StatGrid stats={stats} />
         </div>
