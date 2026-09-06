@@ -1610,7 +1610,7 @@ function hvAlwaysOn() {
  * title instead.
  */
 const HV_W = 900;
-const HV_H = 520;
+const HV_H = 574;
 
 const HV = {
   green: '#0f9d58',
@@ -1659,9 +1659,16 @@ function mergedLine(x, baseline, runs, size = 13) {
     .join('');
 }
 
+/**
+ * Every control in the panel keeps the same air around its label, so the footer buttons and the
+ * template chip read as one family rather than three separately-guessed widths.
+ */
+const CONTROL_PAD_X = 26;
+const controlW = (label, size) => Math.round(estWidth(label, size) + CONTROL_PAD_X * 2);
+
 /** A pill button in the panel's footer. */
 function panelButton(right, y, h, label, { dark }) {
-  const w = Math.round(estWidth(label, 13) + 52);
+  const w = controlW(label, 13);
   const x = right - w;
   return {
     width: w,
@@ -1678,7 +1685,7 @@ function panelButton(right, y, h, label, { dark }) {
 }
 
 function hvBroadcast() {
-  const panel = card('hv-panel', 20, 16, 860, 488, 18);
+  const panel = card('hv-panel', 20, 16, 860, 542, 18);
   const left = 48;
   const right = 852;
   const inner = right - left;
@@ -1693,7 +1700,7 @@ function hvBroadcast() {
   const rowH = 37;
   const rows = people
     .map(({ name, ok }, i) => {
-      const top = 140 + i * rowH;
+      const top = 142 + i * rowH;
       const cy = top + rowH / 2;
       const tint = ok ? HV.good : HV.bad;
       const mark = ok
@@ -1709,8 +1716,9 @@ function hvBroadcast() {
     })
     .join('');
 
-  const send = panelButton(right, 466, 36, 'Send', { dark: true });
-  const cancel = panelButton(right - send.width - 12, 466, 36, 'Cancel', { dark: false });
+  const templateW = controlW('Select Template', 12);
+  const send = panelButton(right, 494, 36, 'Send', { dark: true });
+  const cancel = panelButton(right - send.width - 12, 494, 36, 'Cancel', { dark: false });
 
   return {
     file: 'hv-broadcast',
@@ -1728,7 +1736,7 @@ function hvBroadcast() {
         </linearGradient>
       </defs>
 
-      <rect x="20" y="16" width="860" height="488" rx="18" fill="white" stroke="${HV.edge}" stroke-width="1.2"/>
+      <rect x="20" y="16" width="860" height="542" rx="18" fill="white" stroke="${HV.edge}" stroke-width="1.2"/>
       <g clip-path="url(#${panel.clipId})">
         <rect x="20" y="16" width="860" height="80" fill="url(#hv-head)"/>
         <g clip-path="url(#hv-head-clip)" opacity="0.15" fill="white">
@@ -1738,18 +1746,18 @@ function hvBroadcast() {
         ${text(left, 62, 'Send WhatsApp Messages', { size: 22, weight: 600, fill: 'white' })}
 
         ${text(left, 128, 'Send WhatsApp to these candidates?', { size: 14, weight: 600 })}
-        <rect x="${left}" y="140" width="${inner}" height="${rowH * people.length}" rx="12" fill="white" stroke="${HV.edge}" stroke-width="1.2"/>
+        <rect x="${left}" y="142" width="${inner}" height="${rowH * people.length}" rx="12" fill="white" stroke="${HV.edge}" stroke-width="1.2"/>
         ${rows}
 
-        <rect x="${left}" y="300" width="${inner}" height="34" rx="8" fill="${HV.warnBg}" stroke="${HV.warnEdge}" stroke-width="1.2"/>
-        ${alertIcon(left + 22, 317, 14, HV.warnInk)}
-        ${text(left + 40, 322, '1 selected candidate has no valid mobile number and will be skipped automatically.', { size: 12, fill: HV.warnInk })}
+        <rect x="${left}" y="306" width="${inner}" height="34" rx="8" fill="${HV.warnBg}" stroke="${HV.warnEdge}" stroke-width="1.2"/>
+        ${alertIcon(left + 22, 323, 14, HV.warnInk)}
+        ${text(left + 40, 328, '1 selected candidate has no valid mobile number and will be skipped automatically.', { size: 12, fill: HV.warnInk })}
 
-        ${text(left, 362, 'Message Preview', { size: 14, weight: 600 })}
-        ${pill(right - 128, 348, 128, 26, { fill: HV.field, text: 'Select Template', textFill: INK, size: 12 })}
+        ${text(left, 376, 'Message Preview', { size: 14, weight: 600 })}
+        ${pill(right - templateW, 362, templateW, 26, { fill: HV.field, text: 'Select Template', textFill: INK, size: 12 })}
 
-        <rect x="${left}" y="376" width="${inner}" height="76" rx="10" fill="${HV.field}"/>
-        ${mergedLine(left + 18, 404, [
+        <rect x="${left}" y="402" width="${inner}" height="76" rx="10" fill="${HV.field}"/>
+        ${mergedLine(left + 18, 430, [
           { t: 'Hi ' },
           { t: 'Ritik', merged: true },
           { t: ', a ' },
@@ -1757,7 +1765,7 @@ function hvBroadcast() {
           { t: ' role opened near ' },
           { t: 'Pune', merged: true },
         ])}
-        ${mergedLine(left + 18, 432, [
+        ${mergedLine(left + 18, 458, [
           { t: 'matching your ' },
           { t: 'Python', merged: true },
           { t: ' experience. Reply YES and I will send the details.' },
