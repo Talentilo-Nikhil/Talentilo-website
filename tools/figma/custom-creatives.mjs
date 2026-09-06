@@ -394,25 +394,25 @@ function roGovernance() {
  * inside it; the other three were rendered hundreds of pixels below their tiles, off the artwork.
  */
 const TOOL_ICONS = {
-  sheet: (cx, cy) =>
-    `<rect x="${cx - 10}" y="${cy - 10}" width="20" height="20" rx="3" fill="none" stroke="white" stroke-width="1.6" />` +
-    `<line x1="${cx - 10}" y1="${cy - 3.3}" x2="${cx + 10}" y2="${cy - 3.3}" stroke="white" stroke-width="1.2" />` +
-    `<line x1="${cx - 10}" y1="${cy + 3.3}" x2="${cx + 10}" y2="${cy + 3.3}" stroke="white" stroke-width="1.2" />` +
-    `<line x1="${cx - 3.3}" y1="${cy - 10}" x2="${cx - 3.3}" y2="${cy + 10}" stroke="white" stroke-width="1.2" />`,
-  email: (cx, cy) =>
-    `<rect x="${cx - 11}" y="${cy - 8}" width="22" height="16" rx="2.5" fill="none" stroke="white" stroke-width="1.6" />` +
-    `<path d="M${cx - 11},${cy - 7} L${cx},${cy + 2} L${cx + 11},${cy - 7}" fill="none" stroke="white" stroke-width="1.6" stroke-linejoin="round" />`,
+  sheet: (cx, cy, color) =>
+    `<rect x="${cx - 10}" y="${cy - 10}" width="20" height="20" rx="3" fill="none" stroke="${color}" stroke-width="1.6" />` +
+    `<line x1="${cx - 10}" y1="${cy - 3.3}" x2="${cx + 10}" y2="${cy - 3.3}" stroke="${color}" stroke-width="1.2" />` +
+    `<line x1="${cx - 10}" y1="${cy + 3.3}" x2="${cx + 10}" y2="${cy + 3.3}" stroke="${color}" stroke-width="1.2" />` +
+    `<line x1="${cx - 3.3}" y1="${cy - 10}" x2="${cx - 3.3}" y2="${cy + 10}" stroke="${color}" stroke-width="1.2" />`,
+  email: (cx, cy, color) =>
+    `<rect x="${cx - 11}" y="${cy - 8}" width="22" height="16" rx="2.5" fill="none" stroke="${color}" stroke-width="1.6" />` +
+    `<path d="M${cx - 11},${cy - 7} L${cx},${cy + 2} L${cx + 11},${cy - 7}" fill="none" stroke="${color}" stroke-width="1.6" stroke-linejoin="round" />`,
   // A candidate list rather than the calendar this used to borrow, which said nothing about an ATS.
-  ats: (cx, cy) =>
+  ats: (cx, cy, color) =>
     [-7, 0, 7]
       .map(
         (dy) =>
-          `<circle cx="${cx - 8}" cy="${cy + dy}" r="2" fill="white" />` +
-          `<line x1="${cx - 2}" y1="${cy + dy}" x2="${cx + 10}" y2="${cy + dy}" stroke="white" stroke-width="1.6" stroke-linecap="round" />`
+          `<circle cx="${cx - 8}" cy="${cy + dy}" r="2" fill="${color}" />` +
+          `<line x1="${cx - 2}" y1="${cy + dy}" x2="${cx + 10}" y2="${cy + dy}" stroke="${color}" stroke-width="1.6" stroke-linecap="round" />`
       )
       .join(''),
-  chat: (cx, cy) =>
-    `<path d="M${cx - 11},${cy - 8} h22 a2.5 2.5 0 0 1 2.5 2.5 v9 a2.5 2.5 0 0 1 -2.5 2.5 h-14 l-6 5 v-5 h-2 a2.5 2.5 0 0 1 -2.5 -2.5 v-9 a2.5 2.5 0 0 1 2.5 -2.5 z" fill="none" stroke="white" stroke-width="1.6" stroke-linejoin="round" />`,
+  chat: (cx, cy, color) =>
+    `<path d="M${cx - 11},${cy - 8} h22 a2.5 2.5 0 0 1 2.5 2.5 v9 a2.5 2.5 0 0 1 -2.5 2.5 h-14 l-6 5 v-5 h-2 a2.5 2.5 0 0 1 -2.5 -2.5 v-9 a2.5 2.5 0 0 1 2.5 -2.5 z" fill="none" stroke="${color}" stroke-width="1.6" stroke-linejoin="round" />`,
 };
 
 /**
@@ -428,14 +428,23 @@ const CHIP = 64;
 
 function toolChip(x, y, icon, label) {
   return (
-    `<rect x="${x - CHIP / 2}" y="${y - CHIP / 2}" width="${CHIP}" height="${CHIP}" rx="16" fill="${INK}" />` +
-    TOOL_ICONS[icon](x, y) +
+    `<rect x="${x - CHIP / 2}" y="${y - CHIP / 2}" width="${CHIP}" height="${CHIP}" rx="16" fill="white" />` +
+    TOOL_ICONS[icon](x, y, INK) +
     text(x, y + CHIP / 2 + 21, label, { size: 12, weight: 600, anchor: 'middle' })
   );
 }
 
 function roSingleTruth() {
   const bg = backdrop({ from: '#fe7c34', mid: '#ffddb1', to: '#fdfcff', flip: true });
+  /*
+   * The frame's own accent. Ink used to carry the four source tiles, the completed stages and the
+   * badge disc, which put more black on this one frame than the rest of the set carries between
+   * them — the siblings spend ink on the card header and the small dark buttons and nothing else.
+   * The tiles are now white surfaces like everything else here, the rail runs in the wash's own
+   * orange, and the badge disc takes the tinted-status treatment `ro-governance` and
+   * `pc-guardrails` already use.
+   */
+  const ACCENT = '#ff7d37';
   // Four tiles on one line, centred on the canvas and on the point their traces run to.
   const chipY = 64;
   const chips = ['sheet', 'email', 'ats', 'chat'].map((icon, i) => ({
@@ -468,14 +477,16 @@ function roSingleTruth() {
   const stagesMarkup = stages
     .map((stage, i) => {
       const x = stageStartX + i * stageStep;
-      const fill = stage.state === 'pending' ? 'white' : stage.state === 'current' ? '#ff7d37' : INK;
-      const stroke = stage.state === 'pending' ? '#d0d5dd' : 'none';
-      const circle = `<circle cx="${x}" cy="${stageY}" r="16" fill="${fill}" ${stroke !== 'none' ? `stroke="${stroke}" stroke-width="2"` : ''} />`;
+      const fill = stage.state === 'done' ? ACCENT : 'white';
+      const stroke = stage.state === 'done' ? null : stage.state === 'current' ? ACCENT : '#d0d5dd';
+      const circle =
+        `<circle cx="${x}" cy="${stageY}" r="16" fill="${fill}"` +
+        `${stroke ? ` stroke="${stroke}" stroke-width="${stage.state === 'current' ? 3 : 2}"` : ''} />`;
       const glyph =
         stage.state === 'done'
           ? checkIcon(x, stageY, 16, 'white')
           : stage.state === 'current'
-            ? `<circle cx="${x}" cy="${stageY}" r="4.5" fill="white" />`
+            ? `<circle cx="${x}" cy="${stageY}" r="5" fill="${ACCENT}" />`
             : '';
       return circle + glyph + text(x, stageY + 34, stage.label, { size: 12, weight: 600, anchor: 'middle' });
     })
@@ -505,14 +516,14 @@ function roSingleTruth() {
         ${text(cardX + cardW - 116, 180 + headerH / 2 + 4, 'Synced just now', { size: 12, fill: 'white', opacity: 0.75 })}
 
         <line x1="${stageStartX}" y1="${stageY}" x2="${stageEndX}" y2="${stageY}" stroke="#e5e7eb" stroke-width="3" />
-        <line x1="${stageStartX}" y1="${stageY}" x2="${progressX}" y2="${stageY}" stroke="${INK}" stroke-width="3" />
+        <line x1="${stageStartX}" y1="${stageY}" x2="${progressX}" y2="${stageY}" stroke="${ACCENT}" stroke-width="3" />
         ${stagesMarkup}
       </g>
 
       ${badge.surfaceRect}
       <g clip-path="url(#${badge.clipId})">
-        <circle cx="176" cy="446" r="20" fill="${INK}" />
-        ${checkIcon(176, 446, 16, 'white')}
+        <circle cx="176" cy="446" r="20" fill="${STATUS.success.tint}" />
+        ${checkIcon(176, 446, 16, STATUS.success.ink)}
         ${text(208, 440, 'Single Source of Truth', { size: 16, weight: 600 })}
         ${text(208, 461, 'No more copy-pasting between tools', { size: 13, fill: INK_SOFT })}
       </g>
