@@ -274,9 +274,9 @@ export const creatives = {
     "src": "/figma/creatives/hv-broadcast.webp",
     "fallback": "/figma/creatives/hv-broadcast.png",
     "width": 1800,
-    "height": 1040,
+    "height": 1148,
     "designWidth": 900,
-    "designHeight": 520,
+    "designHeight": 574,
     "alt": "A WhatsApp send panel: four selected candidates with one unreachable number flagged to be skipped, and the message preview resolved for the first of them"
   },
   "mg-transfer": {
