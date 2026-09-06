@@ -196,22 +196,36 @@ const FILE_TYPES = {
 function fileIcon(kind, x, y, size = 36) {
   const { tint, ink } = FILE_TYPES[kind];
   // Every glyph is authored on a 24x24 grid and scaled into the tile.
-  const s = (size * 0.58) / 24;
+  const s = (size * 0.62) / 24;
   const gx = x + (size - 24 * s) / 2;
   const gy = y + (size - 24 * s) / 2;
 
+  // A filled sheet with the corner turned down, which is the silhouette a file is recognised by.
+  // The fold is knocked out of the fill rather than drawn on top of it, so it reads as one object.
   const page =
-    `<path d="M4 2.5h9.5L20 9v12.5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1Z" fill="none" stroke="${ink}" stroke-width="1.8" stroke-linejoin="round"/>` +
-    `<path d="M13.5 2.5V9H20" fill="none" stroke="${ink}" stroke-width="1.8" stroke-linejoin="round"/>`;
+    `<path d="M5 2h8.4L19.5 8.4V20a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z" fill="${ink}"/>` +
+    `<path d="M13.4 2 19.5 8.4h-4.9a1.7 1.7 0 0 1-1.7-1.7Z" fill="#ffffff" fill-opacity="0.45"/>`;
 
   const glyph = {
-    pdf: `${page}<rect x="7.5" y="12.5" width="9" height="6.5" rx="1.5" fill="${ink}"/>`,
+    // Two lines of type on the page: enough to say "a document" without pretending to be words.
+    pdf:
+      page +
+      '<rect x="6.3" y="13.2" width="11.2" height="2" rx="1" fill="#ffffff"/>' +
+      '<rect x="6.3" y="16.8" width="7.4" height="2" rx="1" fill="#ffffff"/>',
+    // A filled envelope with the flap cut back out of it in the tile's own tint, so the crease
+    // reads at 22px where a hairline stroke would close up.
     email:
-      `<rect x="2.5" y="5" width="19" height="14" rx="2.5" fill="none" stroke="${ink}" stroke-width="1.8"/>` +
-      `<path d="M3.5 7 12 13.2 20.5 7" fill="none" stroke="${ink}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>`,
+      `<rect x="2.5" y="4.6" width="19" height="14.8" rx="2.6" fill="${ink}"/>` +
+      `<path d="M3.9 6.6 12 13.1l8.1-6.5" fill="none" stroke="${tint}" stroke-width="2.1" ` +
+      'stroke-linecap="round" stroke-linejoin="round"/>',
+    // A real grid rather than a hatch: a white table knocked out of the page, ruled back in ink.
     sheet:
-      `${page}<path d="M7.5 12.5h9M7.5 16h9M12 12.5V19" fill="none" stroke="${ink}" stroke-width="1.6" stroke-linecap="round"/>` +
-      `<rect x="7.5" y="12.5" width="9" height="6.5" rx="1" fill="none" stroke="${ink}" stroke-width="1.6"/>`,
+      page +
+      '<rect x="6.2" y="12.6" width="11.6" height="7.2" rx="1.2" fill="#ffffff"/>' +
+      `<g stroke="${ink}" stroke-width="1" stroke-linecap="round">` +
+      '<line x1="12" y1="12.6" x2="12" y2="19.8"/>' +
+      '<line x1="6.2" y1="15" x2="17.8" y2="15"/>' +
+      '<line x1="6.2" y1="17.4" x2="17.8" y2="17.4"/></g>',
   }[kind];
 
   return (
