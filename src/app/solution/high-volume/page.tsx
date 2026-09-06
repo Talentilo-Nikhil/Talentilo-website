@@ -3,11 +3,12 @@ import type { Metadata } from 'next';
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
-import { StatGrid, type Stat } from '@/components/sections/StatGrid';
+import { StatGrid } from '@/components/sections/StatGrid';
 import { ButtonLink } from '@/components/ui/Button';
 import { Creative } from '@/components/ui/Creative';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { companyStats } from '@/data/stats';
 
 export const metadata: Metadata = {
   title: 'High Volume Hiring',
@@ -15,12 +16,6 @@ export const metadata: Metadata = {
     'Engage, screen and qualify thousands of applicants simultaneously — and give every candidate a responsive, human-grade experience.',
   alternates: { canonical: '/solution/high-volume' },
 };
-
-const stats: Stat[] = [
-  { figure: '2.4 more', headline: 'accurate', detail: 'community- and expert-built templates' },
-  { figure: '97%', headline: 'preferred', detail: 'community- and expert-built templates' },
-  { figure: '100m+', headline: 'sources', detail: 'integrations with technology partners' },
-];
 
 export default function HighVolumePage() {
   return (
@@ -62,7 +57,7 @@ export default function HighVolumePage() {
         </div>
 
         <div className="mt-15">
-          <StatGrid stats={stats} />
+          <StatGrid stats={companyStats} />
         </div>
         <div className="mt-10 flex justify-center">
           <ButtonLink href="/contact" variant="dark">
