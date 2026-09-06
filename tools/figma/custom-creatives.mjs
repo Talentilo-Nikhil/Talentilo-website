@@ -393,26 +393,33 @@ function roGovernance() {
  * (x, x). Only Sheets showed one, because its tile happened to sit at (80, 72) and (80, 80) landed
  * inside it; the other three were rendered hundreds of pixels below their tiles, off the artwork.
  */
+/**
+ * The source-tool glyphs.
+ *
+ * These were hairline outlines, which at 24px on a white tile read as grey scratches rather than
+ * as the products they stand for. Each is now a solid silhouette in its own colour with the
+ * detail knocked out in white, which is how the real tools draw their own marks.
+ */
 const TOOL_ICONS = {
   sheet: (cx, cy, color) =>
-    `<rect x="${cx - 10}" y="${cy - 10}" width="20" height="20" rx="3" fill="none" stroke="${color}" stroke-width="1.6" />` +
-    `<line x1="${cx - 10}" y1="${cy - 3.3}" x2="${cx + 10}" y2="${cy - 3.3}" stroke="${color}" stroke-width="1.2" />` +
-    `<line x1="${cx - 10}" y1="${cy + 3.3}" x2="${cx + 10}" y2="${cy + 3.3}" stroke="${color}" stroke-width="1.2" />` +
-    `<line x1="${cx - 3.3}" y1="${cy - 10}" x2="${cx - 3.3}" y2="${cy + 10}" stroke="${color}" stroke-width="1.2" />`,
+    `<rect x="${cx - 11}" y="${cy - 10}" width="22" height="20" rx="3.5" fill="${color}" />` +
+    `<path d="M${cx - 11} ${cy - 3.4} H${cx + 11} M${cx - 3.6} ${cy - 3.4} V${cy + 10} M${cx + 4.4} ${cy - 3.4} V${cy + 10}" stroke="#ffffff" stroke-width="1.8" />`,
   email: (cx, cy, color) =>
-    `<rect x="${cx - 11}" y="${cy - 8}" width="22" height="16" rx="2.5" fill="none" stroke="${color}" stroke-width="1.6" />` +
-    `<path d="M${cx - 11},${cy - 7} L${cx},${cy + 2} L${cx + 11},${cy - 7}" fill="none" stroke="${color}" stroke-width="1.6" stroke-linejoin="round" />`,
+    `<rect x="${cx - 11}" y="${cy - 8}" width="22" height="16" rx="3" fill="${color}" />` +
+    `<path d="M${cx - 10.5} ${cy - 5.5} L${cx} ${cy + 2.5} L${cx + 10.5} ${cy - 5.5}" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" />`,
   // A candidate list rather than the calendar this used to borrow, which said nothing about an ATS.
   ats: (cx, cy, color) =>
-    [-7, 0, 7]
+    `<rect x="${cx - 11}" y="${cy - 10}" width="22" height="20" rx="3.5" fill="${color}" />` +
+    [-5, 0, 5]
       .map(
         (dy) =>
-          `<circle cx="${cx - 8}" cy="${cy + dy}" r="2" fill="${color}" />` +
-          `<line x1="${cx - 2}" y1="${cy + dy}" x2="${cx + 10}" y2="${cy + dy}" stroke="${color}" stroke-width="1.6" stroke-linecap="round" />`
+          `<circle cx="${cx - 5.5}" cy="${cy + dy}" r="1.7" fill="#ffffff" />` +
+          `<line x1="${cx - 1.5}" y1="${cy + dy}" x2="${cx + 6.5}" y2="${cy + dy}" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" />`
       )
       .join(''),
   chat: (cx, cy, color) =>
-    `<path d="M${cx - 11},${cy - 8} h22 a2.5 2.5 0 0 1 2.5 2.5 v9 a2.5 2.5 0 0 1 -2.5 2.5 h-14 l-6 5 v-5 h-2 a2.5 2.5 0 0 1 -2.5 -2.5 v-9 a2.5 2.5 0 0 1 2.5 -2.5 z" fill="none" stroke="${color}" stroke-width="1.6" stroke-linejoin="round" />`,
+    `<path d="M${cx - 8} ${cy - 9} H${cx + 8} A3 3 0 0 1 ${cx + 11} ${cy - 6} V${cy + 2} A3 3 0 0 1 ${cx + 8} ${cy + 5} H${cx - 2} L${cx - 6} ${cy + 10} V${cy + 5} H${cx - 8} A3 3 0 0 1 ${cx - 11} ${cy + 2} V${cy - 6} A3 3 0 0 1 ${cx - 8} ${cy - 9} Z" fill="${color}" />` +
+    [-5, 0, 5].map((dx) => `<circle cx="${cx + dx}" cy="${cy - 2}" r="1.6" fill="#ffffff" />`).join(''),
 };
 
 /**
@@ -426,10 +433,10 @@ const TOOL_ICONS = {
  */
 const CHIP = 64;
 
-function toolChip(x, y, icon, label) {
+function toolChip(x, y, icon, label, color) {
   return (
     `<rect x="${x - CHIP / 2}" y="${y - CHIP / 2}" width="${CHIP}" height="${CHIP}" rx="16" fill="white" />` +
-    TOOL_ICONS[icon](x, y, INK) +
+    TOOL_ICONS[icon](x, y, color) +
     text(x, y + CHIP / 2 + 21, label, { size: 12, weight: 600, anchor: 'middle' })
   );
 }
@@ -447,13 +454,21 @@ function roSingleTruth() {
   const ACCENT = '#ff7d37';
   // Four tiles on one line, centred on the canvas and on the point their traces run to.
   const chipY = 64;
+  // One brand colour per source, so four white tiles still read as four different systems.
+  const TOOL_COLORS = { sheet: '#15803d', email: '#216fef', ats: '#6f35f2', chat: '#e66239' };
   const chips = ['sheet', 'email', 'ats', 'chat'].map((icon, i) => ({
     x: 120 + i * 116,
     y: chipY,
     icon,
     label: ['Sheets', 'Email', 'ATS', 'Chat'][i],
   }));
-  const converge = { x: 294, y: 170 };
+  /*
+   * The traces run to the top edge of the record card rather than stopping 10 short of it, so
+   * they visibly arrive somewhere. They were white at 0.6 over a wash that fades to #fdfcff
+   * right where they run, which is white on white — they are ink now, at the weight the rest of
+   * the frame's hairlines use.
+   */
+  const converge = { x: 294, y: 180 };
 
   const cardX = 40;
   const cardW = 508;
@@ -504,9 +519,9 @@ function roSingleTruth() {
       ${bg.rect}
 
       ${chips
-        .map((c) => `<line x1="${c.x}" y1="${c.y + CHIP / 2 + 30}" x2="${converge.x}" y2="${converge.y}" stroke="white" stroke-opacity="0.6" stroke-width="1.5" stroke-dasharray="4 4" />`)
+        .map((c) => `<line x1="${c.x}" y1="${c.y + CHIP / 2 + 30}" x2="${converge.x}" y2="${converge.y}" stroke="${INK}" stroke-opacity="0.32" stroke-width="1.6" stroke-dasharray="5 4" />`)
         .join('')}
-      ${chips.map((c) => toolChip(c.x, c.y, c.icon, c.label)).join('')}
+      ${chips.map((c) => toolChip(c.x, c.y, c.icon, c.label, TOOL_COLORS[c.icon])).join('')}
 
       ${main.surfaceRect}
       <g clip-path="url(#${main.clipId})">
