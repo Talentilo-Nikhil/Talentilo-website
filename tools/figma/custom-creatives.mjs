@@ -188,22 +188,36 @@ const FILE_TYPES = {
 function fileIcon(kind, x, y, size = 36) {
   const { tint, ink } = FILE_TYPES[kind];
   // Every glyph is authored on a 24x24 grid and scaled into the tile.
-  const s = (size * 0.58) / 24;
+  const s = (size * 0.62) / 24;
   const gx = x + (size - 24 * s) / 2;
   const gy = y + (size - 24 * s) / 2;
 
+  // A filled sheet with the corner turned down, which is the silhouette a file is recognised by.
+  // The fold is knocked out of the fill rather than drawn on top of it, so it reads as one object.
   const page =
-    `<path d="M4 2.5h9.5L20 9v12.5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1Z" fill="none" stroke="${ink}" stroke-width="1.8" stroke-linejoin="round"/>` +
-    `<path d="M13.5 2.5V9H20" fill="none" stroke="${ink}" stroke-width="1.8" stroke-linejoin="round"/>`;
+    `<path d="M5 2h8.4L19.5 8.4V20a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z" fill="${ink}"/>` +
+    `<path d="M13.4 2 19.5 8.4h-4.9a1.7 1.7 0 0 1-1.7-1.7Z" fill="#ffffff" fill-opacity="0.45"/>`;
 
   const glyph = {
-    pdf: `${page}<rect x="7.5" y="12.5" width="9" height="6.5" rx="1.5" fill="${ink}"/>`,
+    // Two lines of type on the page: enough to say "a document" without pretending to be words.
+    pdf:
+      page +
+      '<rect x="6.3" y="13.2" width="11.2" height="2" rx="1" fill="#ffffff"/>' +
+      '<rect x="6.3" y="16.8" width="7.4" height="2" rx="1" fill="#ffffff"/>',
+    // A filled envelope with the flap cut back out of it in the tile's own tint, so the crease
+    // reads at 22px where a hairline stroke would close up.
     email:
-      `<rect x="2.5" y="5" width="19" height="14" rx="2.5" fill="none" stroke="${ink}" stroke-width="1.8"/>` +
-      `<path d="M3.5 7 12 13.2 20.5 7" fill="none" stroke="${ink}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>`,
+      `<rect x="2.5" y="4.6" width="19" height="14.8" rx="2.6" fill="${ink}"/>` +
+      `<path d="M3.9 6.6 12 13.1l8.1-6.5" fill="none" stroke="${tint}" stroke-width="2.1" ` +
+      'stroke-linecap="round" stroke-linejoin="round"/>',
+    // A real grid rather than a hatch: a white table knocked out of the page, ruled back in ink.
     sheet:
-      `${page}<path d="M7.5 12.5h9M7.5 16h9M12 12.5V19" fill="none" stroke="${ink}" stroke-width="1.6" stroke-linecap="round"/>` +
-      `<rect x="7.5" y="12.5" width="9" height="6.5" rx="1" fill="none" stroke="${ink}" stroke-width="1.6"/>`,
+      page +
+      '<rect x="6.2" y="12.6" width="11.6" height="7.2" rx="1.2" fill="#ffffff"/>' +
+      `<g stroke="${ink}" stroke-width="1" stroke-linecap="round">` +
+      '<line x1="12" y1="12.6" x2="12" y2="19.8"/>' +
+      '<line x1="6.2" y1="15" x2="17.8" y2="15"/>' +
+      '<line x1="6.2" y1="17.4" x2="17.8" y2="17.4"/></g>',
   }[kind];
 
   return (
@@ -1576,9 +1590,190 @@ function hvAlwaysOn() {
   };
 }
 
+
+/**
+ * The send panel under "500 Messages. 500 Personal Conversations. One Click" on
+ * /solution/high-volume, from the `Hero v1/Desktop` frame of the Update-v2 file.
+ *
+ * Two things are drawn differently from that frame, both because it is a screen capture being
+ * asked to work as a marketing illustration.
+ *
+ * The frame's message preview shows the template unresolved — `{{1}}`, `{{2}}`, `{{3}}`, `{{4}}`
+ * — which is what an operator sees while composing, and reads on a marketing page as artwork
+ * that failed to load its data. The claim above it is that a broadcast arrives as a personal
+ * message, so the preview is resolved here and the merged values are tinted: the reader sees the
+ * template and the personalisation in the same glance. The words are the page's own example from
+ * the lede above it, not new copy.
+ *
+ * The frame also carries the WhatsApp mark as a header watermark. A third-party logo redrawn from
+ * memory is a logo drawn wrong, so the watermark is a chat glyph and the channel is named in the
+ * title instead.
+ */
+const HV_W = 900;
+const HV_H = 520;
+
+const HV = {
+  green: '#0f9d58',
+  greenLight: '#25d366',
+  warnBg: '#fff7ed',
+  warnEdge: '#fed7aa',
+  warnInk: '#b54708',
+  edge: '#e8e8e8',
+  field: '#f7f8f9',
+  merge: '#daedff',
+  mergeInk: '#1959dc',
+  bad: '#d92c20',
+  good: '#12b76a',
+  muted: '#697282',
+};
+
+/** A line of the message, some of it fixed and some of it merged in for this candidate. */
+function mergedLine(x, baseline, runs, size = 13) {
+  const r = (v) => +v.toFixed(2);
+  const PAD = 4;
+  let cursor = x;
+  let tight = false;
+  return runs
+    .map(({ t, merged }) => {
+      const w = estWidth(t, size);
+      if (!merged) {
+        // Punctuation closes the word before it, so it comes back over the tint's trailing pad
+        // rather than floating a space away from the value it belongs to.
+        if (tight && /^[,.!?;:]/.test(t)) cursor -= PAD;
+        tight = false;
+        const plain = text(r(cursor), baseline, t, { size, fill: '#3f4147' });
+        cursor += w;
+        return plain;
+      }
+      tight = true;
+      // The tint is padded, so the padding has to take up room in the line as well — drawn around
+      // the run without advancing past it, it sat over the space that follows and welded the
+      // merged value to the next word.
+      const markup =
+        `<rect x="${r(cursor)}" y="${baseline - size + 1}" width="${r(w + PAD * 2)}" height="${size + 7}" ` +
+        `rx="4" fill="${HV.merge}"/>` +
+        text(r(cursor + PAD), baseline, t, { size, weight: 600, fill: HV.mergeInk });
+      cursor += w + PAD * 2;
+      return markup;
+    })
+    .join('');
+}
+
+/** A pill button in the panel's footer. */
+function panelButton(right, y, h, label, { dark }) {
+  const w = Math.round(estWidth(label, 13) + 52);
+  const x = right - w;
+  return {
+    width: w,
+    markup:
+      `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="${dark ? INK : 'white'}" ` +
+      `stroke="${dark ? INK : '#d5d7dc'}" stroke-width="1.2"/>` +
+      text(x + w / 2, y + h / 2 + 4.5, label, {
+        size: 13,
+        weight: 600,
+        fill: dark ? 'white' : INK,
+        anchor: 'middle',
+      }),
+  };
+}
+
+function hvBroadcast() {
+  const panel = card('hv-panel', 20, 16, 860, 488, 18);
+  const left = 48;
+  const right = 852;
+  const inner = right - left;
+
+  // The frame's own list, with the one number that cannot be reached called out in red.
+  const people = [
+    { name: 'Ritik Chugh', ok: true },
+    { name: 'Sayali Mahale', ok: true },
+    { name: 'Taniya Sharma', ok: true },
+    { name: 'Malaya Ranjan Pradhan', ok: false },
+  ];
+  const rowH = 37;
+  const rows = people
+    .map(({ name, ok }, i) => {
+      const top = 140 + i * rowH;
+      const cy = top + rowH / 2;
+      const tint = ok ? HV.good : HV.bad;
+      const mark = ok
+        ? `<path d="M${right - 32 - 4},${cy} l3,3 l5.6,-6" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>`
+        : `<g stroke="white" stroke-width="1.8" stroke-linecap="round"><line x1="${right - 32 - 3}" y1="${cy - 3}" x2="${right - 32 + 3}" y2="${cy + 3}"/><line x1="${right - 32 + 3}" y1="${cy - 3}" x2="${right - 32 - 3}" y2="${cy + 3}"/></g>`;
+      return (
+        (i ? `<line x1="${left + 20}" y1="${top}" x2="${right - 20}" y2="${top}" stroke="${DIVIDER}"/>` : '') +
+        text(left + 22, cy + 5, String(i + 1), { size: 13, fill: HV.muted }) +
+        text(left + 48, cy + 5, name, { size: 14, weight: 500, fill: ok ? INK : HV.bad }) +
+        `<circle cx="${right - 32}" cy="${cy}" r="9" fill="${tint}"/>` +
+        mark
+      );
+    })
+    .join('');
+
+  const send = panelButton(right, 466, 36, 'Send', { dark: true });
+  const cancel = panelButton(right - send.width - 12, 466, 36, 'Cancel', { dark: false });
+
+  return {
+    file: 'hv-broadcast',
+    label:
+      'A WhatsApp send panel: four selected candidates with one unreachable number flagged to be skipped, and the message preview resolved for the first of them',
+    designWidth: HV_W,
+    designHeight: HV_H,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${HV_W} ${HV_H}" width="${HV_W}" height="${HV_H}" fill="none" role="img" aria-label="A WhatsApp send panel: four selected candidates with one unreachable number flagged to be skipped, and the message preview resolved for the first of them">
+      <defs>
+        ${panel.defs}
+        <clipPath id="hv-head-clip"><rect x="20" y="16" width="860" height="80"/></clipPath>
+        <linearGradient id="hv-head" x1="20" y1="16" x2="880" y2="96" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="${HV.green}"/>
+          <stop offset="100%" stop-color="${HV.greenLight}"/>
+        </linearGradient>
+      </defs>
+
+      <rect x="20" y="16" width="860" height="488" rx="18" fill="white" stroke="${HV.edge}" stroke-width="1.2"/>
+      <g clip-path="url(#${panel.clipId})">
+        <rect x="20" y="16" width="860" height="80" fill="url(#hv-head)"/>
+        <g clip-path="url(#hv-head-clip)" opacity="0.15" fill="white">
+          <path transform="translate(672,-2) scale(0.92)" d="M20 0 H120 A20 20 0 0 1 140 20 V70 A20 20 0 0 1 120 90 H52 L24 112 V90 H20 A20 20 0 0 1 0 70 V20 A20 20 0 0 1 20 0 Z"/>
+          <path transform="translate(786,26) scale(0.62)" d="M20 0 H120 A20 20 0 0 1 140 20 V70 A20 20 0 0 1 120 90 H52 L24 112 V90 H20 A20 20 0 0 1 0 70 V20 A20 20 0 0 1 20 0 Z"/>
+        </g>
+        ${text(left, 62, 'Send WhatsApp Messages', { size: 22, weight: 600, fill: 'white' })}
+
+        ${text(left, 128, 'Send WhatsApp to these candidates?', { size: 14, weight: 600 })}
+        <rect x="${left}" y="140" width="${inner}" height="${rowH * people.length}" rx="12" fill="white" stroke="${HV.edge}" stroke-width="1.2"/>
+        ${rows}
+
+        <rect x="${left}" y="300" width="${inner}" height="34" rx="8" fill="${HV.warnBg}" stroke="${HV.warnEdge}" stroke-width="1.2"/>
+        ${alertIcon(left + 22, 317, 14, HV.warnInk)}
+        ${text(left + 40, 322, '1 selected candidate has no valid mobile number and will be skipped automatically.', { size: 12, fill: HV.warnInk })}
+
+        ${text(left, 362, 'Message Preview', { size: 14, weight: 600 })}
+        ${pill(right - 128, 348, 128, 26, { fill: HV.field, text: 'Select Template', textFill: INK, size: 12 })}
+
+        <rect x="${left}" y="376" width="${inner}" height="76" rx="10" fill="${HV.field}"/>
+        ${mergedLine(left + 18, 404, [
+          { t: 'Hi ' },
+          { t: 'Ritik', merged: true },
+          { t: ', a ' },
+          { t: 'Senior Data Engineer', merged: true },
+          { t: ' role opened near ' },
+          { t: 'Pune', merged: true },
+        ])}
+        ${mergedLine(left + 18, 432, [
+          { t: 'matching your ' },
+          { t: 'Python', merged: true },
+          { t: ' experience. Reply YES and I will send the details.' },
+        ])}
+
+        ${cancel.markup}
+        ${send.markup}
+      </g>
+    </svg>`,
+  };
+}
+
 export function customCreatives() {
   return [
     hvAlwaysOn(),
+    hvBroadcast(),
     mgTransfer(),
     tiBooleanLegacy(),
     tiBooleanSemantic(),
