@@ -6260,6 +6260,12 @@
                     ],
                     "strokeWeight": 0.6808491349220276,
                     "strokeAlign": "INSIDE",
+                    "strokeSides": {
+                     "top": 0,
+                     "right": 0,
+                     "bottom": 0.6808491349220276,
+                     "left": 0
+                    },
                     "strokeJoin": "MITER",
                     "children": [
                      {
@@ -6593,6 +6599,12 @@
                     ],
                     "strokeWeight": 0.6808491349220276,
                     "strokeAlign": "INSIDE",
+                    "strokeSides": {
+                     "top": 0,
+                     "right": 0,
+                     "bottom": 0.6808491349220276,
+                     "left": 0
+                    },
                     "strokeJoin": "MITER",
                     "children": [
                      {
@@ -6921,6 +6933,12 @@
                     ],
                     "strokeWeight": 0.6808491349220276,
                     "strokeAlign": "INSIDE",
+                    "strokeSides": {
+                     "top": 0,
+                     "right": 0,
+                     "bottom": 0.6808491349220276,
+                     "left": 0
+                    },
                     "strokeJoin": "MITER",
                     "children": [
                      {
@@ -14013,6 +14031,12 @@
                         ],
                         "strokeWeight": 0.6808491349220276,
                         "strokeAlign": "INSIDE",
+                        "strokeSides": {
+                         "top": 0,
+                         "right": 0,
+                         "bottom": 0.6808491349220276,
+                         "left": 0
+                        },
                         "strokeJoin": "MITER",
                         "children": [
                          {
@@ -14678,6 +14702,12 @@
                         ],
                         "strokeWeight": 0.6808491349220276,
                         "strokeAlign": "INSIDE",
+                        "strokeSides": {
+                         "top": 0,
+                         "right": 0,
+                         "bottom": 0.6808491349220276,
+                         "left": 0
+                        },
                         "strokeJoin": "MITER",
                         "children": [
                          {
@@ -15343,6 +15373,12 @@
                         ],
                         "strokeWeight": 0.6808491349220276,
                         "strokeAlign": "INSIDE",
+                        "strokeSides": {
+                         "top": 0,
+                         "right": 0,
+                         "bottom": 0.6808491349220276,
+                         "left": 0
+                        },
                         "strokeJoin": "MITER",
                         "children": [
                          {
