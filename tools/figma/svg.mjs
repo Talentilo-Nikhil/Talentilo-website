@@ -266,7 +266,25 @@ class SvgWriter {
             : `<rect width="${num(box.w)}" height="${num(box.h)}" fill="${this.fillValue(fill, box)}"/>`
         );
       }
-      if (node.strokes?.length) {
+      if (node.strokes?.length && node.strokeSides) {
+        /*
+         * A frame whose edges carry different weights — the file's row dividers are one bottom
+         * border. Drawn edge by edge so the absent sides stay absent; a four-sided rect here put
+         * an outline around every row that the design never had. Each line sits half its weight
+         * inside the box, matching the INSIDE alignment the rect branch below assumes. Corner
+         * radius is not honoured, which costs nothing: every node in the file that sets per-edge
+         * weights is a square-cornered divider.
+         */
+        const paintValue = this.fillValue(node.strokes[0], box);
+        const edge = (x1, y1, x2, y2, w) =>
+          `<line x1="${num(x1)}" y1="${num(y1)}" x2="${num(x2)}" y2="${num(y2)}" ` +
+          `stroke="${paintValue}" stroke-width="${num(w)}"/>`;
+        const { top, right, bottom, left } = node.strokeSides;
+        if (top) parts.push(edge(0, top / 2, box.w, top / 2, top));
+        if (bottom) parts.push(edge(0, box.h - bottom / 2, box.w, box.h - bottom / 2, bottom));
+        if (left) parts.push(edge(left / 2, 0, left / 2, box.h, left));
+        if (right) parts.push(edge(box.w - right / 2, 0, box.w - right / 2, box.h, right));
+      } else if (node.strokes?.length) {
         const inset = (node.strokeWeight ?? 1) / 2;
         const insetRadius = hasRadius
           ? {
