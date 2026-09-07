@@ -1503,7 +1503,8 @@ function hvAlwaysOn() {
   const plot = { left: 61.7, right: 526.31, bottom: 359.44 };
 
   /*
-   * [load, headroom] per hour — the design's own volumes, untouched.
+   * [load, headroom] per bucket — the design's own volumes, untouched. Ten of them across the
+   * 08:00-10:00 axis is a bucket every twelve minutes, not an hour apiece.
    *
    * Its slot geometry is not kept, because it does not hold: the ten bars carry three different
    * widths (26.55 four times, 27 once, 25.87 five times) against a constant 22.45 gap, so the
@@ -1549,7 +1550,7 @@ function hvAlwaysOn() {
       return (
         bar(x, width, headroom, CAP_TRACK) +
         bar(x, width, load, 'url(#hv-bar)') +
-        // Capacity spans the whole of that hour's load — the mark's length is the message.
+        // Capacity spans the whole of that bucket's load — the mark's length is the message.
         `<line x1="${num(centre)}" y1="${num(top + 4)}" x2="${num(centre)}" y2="${num(plot.bottom - 4)}" ` +
         `stroke="${CAPACITY}" stroke-width="3" stroke-linecap="round" />`
       );
@@ -1614,7 +1615,10 @@ function hvAlwaysOn() {
       <!-- The end labels were inset 10px from the plot, which was padding inside the frame removed
            with its border; on their own they line up with the first and last bar instead. -->
       ${text(plot.left, 389.44, '08:00', { size: 12.37, weight: 500 })}
-      ${text(num((plot.left + plot.right) / 2), 389.44, 'Overnight Campaign Launch', { size: 12.37, weight: 500, anchor: 'middle' })}
+      <!-- The caption read "Overnight Campaign Launch" under an 08:00-10:00 axis: ten bars over
+           two morning hours is not an overnight run, and the two halves of the same axis
+           contradicted each other. The window the axis actually draws is what it names now. -->
+      ${text(num((plot.left + plot.right) / 2), 389.44, 'Morning Application Surge', { size: 12.37, weight: 500, anchor: 'middle' })}
       ${text(plot.right, 389.44, '10:00', { size: 12.37, weight: 500, anchor: 'end' })}
     </svg>`,
   };
