@@ -34,15 +34,18 @@ export default function RecruitmentOperationsPage() {
       />
 
       {/*
-        Attributed on Talentilo's say-so that Mohit Sharma is a real customer. Two things are
-        deliberately absent until they arrive as facts rather than inventions: the employer, and
-        the photograph — the stock portrait that used to sit here is a different person, and a
-        real name wearing someone else's face is worse than no face at all.
+        Attributed on Talentilo's say-so that Mohit Sharma is a real customer, and that Berlin is
+        where he works — a location rather than the invented employer "Morance" that stood here,
+        which named a company that does not exist.
+
+        The photograph stays off. The stock portrait that used to sit here is a photograph of a
+        different real person, and captioning it with Mohit's name misrepresents both of them.
+        His own headshot is one prop away.
       */}
       <Testimonial
         quote="The team used to lose half a day a week copy-pasting between the ATS and email. Now the record updates itself, and a stalled candidate surfaces before I go looking for one."
         name="Mohit Sharma"
-        role="Head of Recruitment Operations"
+        role="Head of Recruitment Operations, Berlin"
         tone="crusta"
       />
 
