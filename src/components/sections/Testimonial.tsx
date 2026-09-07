@@ -7,7 +7,13 @@ type TestimonialProps = {
   quote: string;
   name: string;
   role: string;
-  avatarHash: keyof typeof figmaImages;
+  /**
+   * Optional. Where there is no photograph of this person, the card falls back to their initials
+   * rather than to a stock face: every stock portrait is a photograph of some other real person,
+   * and captioning one with this name misrepresents both of them. A monogram fills the same
+   * circle and claims nothing.
+   */
+  avatarHash?: keyof typeof figmaImages;
   /** Each audience page pairs the panels with its own tinted/solid colour trio. */
   tone?: 'azure' | 'crusta';
 };
@@ -19,9 +25,25 @@ type TestimonialProps = {
  * section.
  */
 const TONE = {
-  azure: { tint: 'bg-azure-100', wash: 'bg-azure-50', mark: 'text-azure-400' },
-  crusta: { tint: 'bg-crusta-100', wash: 'bg-crusta-50', mark: 'text-crusta-400' },
+  azure: {
+    tint: 'bg-azure-100',
+    wash: 'bg-azure-50',
+    mark: 'text-azure-400',
+    monogram: 'bg-azure-50 text-azure-800',
+  },
+  crusta: {
+    tint: 'bg-crusta-100',
+    wash: 'bg-crusta-50',
+    mark: 'text-crusta-400',
+    monogram: 'bg-crusta-50 text-crusta-800',
+  },
 } as const;
+
+/** First letters of the first and last words of a name — "Mohit Sharma" gives "MS". */
+function initials(name: string) {
+  const parts = name.trim().split(/\s+/);
+  return `${parts[0]?.[0] ?? ''}${parts.length > 1 ? (parts.at(-1)?.[0] ?? '') : ''}`.toUpperCase();
+}
 
 /**
  * The organic shape the portrait sits on, one per audience page.
@@ -108,8 +130,19 @@ export function Testimonial({ quote, name, role, avatarHash, tone = 'azure' }: T
               tone={tone}
               className={cn('absolute size-[280px] max-w-full lg:size-[344px]', palette.mark)}
             />
-            <div className="relative size-28 overflow-hidden rounded-full ring-4 ring-white">
-              <FigmaImage hash={avatarHash} alt="" />
+            <div
+              className={cn(
+                'relative grid size-28 place-items-center overflow-hidden rounded-full ring-4 ring-white',
+                !avatarHash && palette.monogram
+              )}
+            >
+              {avatarHash ? (
+                <FigmaImage hash={avatarHash} alt="" />
+              ) : (
+                <span aria-hidden="true" className="font-sans text-[2rem] font-semibold">
+                  {initials(name)}
+                </span>
+              )}
             </div>
           </div>
           <div className="relative text-body text-ink/80">
