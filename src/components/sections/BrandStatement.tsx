@@ -122,14 +122,19 @@ export function BrandStatement({ statement, context, tone = 'azure' }: BrandStat
             An oversized opening mark gives the block the mass the panel height needs — a statement
             alone, centred in 520, left the panel empty. It stands in for the inline quotation
             marks rather than doubling them.
+
+            The gap under it is set by measurement, not by the box model. The mark's ink fills only
+            the top third of its line box, and the statement carries its own half-leading above the
+            first line, so the two boxes touching still left 102px of visible space. Tightening the
+            line box to 0.34 and pulling the statement up 16px brings the ink-to-ink gap to 31px.
           */}
           <span
             aria-hidden="true"
-            className={cn('block font-display text-[100px] leading-[0.72] lg:text-[140px]', palette.mark)}
+            className={cn('block font-display text-[100px] leading-[0.34] lg:text-[140px]', palette.mark)}
           >
             &ldquo;
           </span>
-          <p className="mt-7 font-sans text-[clamp(1.375rem,1rem+1.1vw,1.6875rem)] leading-[1.6] font-medium text-ink">
+          <p className="-mt-4 font-sans text-[clamp(1.375rem,1rem+1.1vw,1.6875rem)] leading-[1.6] font-medium text-ink">
             {statement}
           </p>
         </div>
