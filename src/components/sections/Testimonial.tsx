@@ -7,7 +7,12 @@ type TestimonialProps = {
   quote: string;
   name: string;
   role: string;
-  avatarHash: keyof typeof figmaImages;
+  /**
+   * Optional. A card with a real name on it and no photograph of that person is better than one
+   * wearing a stock face belonging to somebody else, so the portrait can be left off and the
+   * shape stands on its own.
+   */
+  avatarHash?: keyof typeof figmaImages;
   /** Each audience page pairs the panels with its own tinted/solid colour trio. */
   tone?: 'azure' | 'crusta';
 };
@@ -106,11 +111,17 @@ export function Testimonial({ quote, name, role, avatarHash, tone = 'azure' }: T
           <div className="relative flex flex-1 items-center justify-center pb-10">
             <PortraitMark
               tone={tone}
-              className={cn('absolute size-[280px] max-w-full lg:size-[344px]', palette.mark)}
+              className={cn(
+                'size-[280px] max-w-full lg:size-[344px]',
+                avatarHash && 'absolute',
+                palette.mark
+              )}
             />
-            <div className="relative size-28 overflow-hidden rounded-full ring-4 ring-white">
-              <FigmaImage hash={avatarHash} alt="" />
-            </div>
+            {avatarHash ? (
+              <div className="relative size-28 overflow-hidden rounded-full ring-4 ring-white">
+                <FigmaImage hash={avatarHash} alt="" />
+              </div>
+            ) : null}
           </div>
           <div className="relative text-body text-ink/80">
             <span className="block font-medium text-ink">{name}</span>

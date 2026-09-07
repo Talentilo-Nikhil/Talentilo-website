@@ -33,12 +33,16 @@ export default function RecruitmentOperationsPage() {
         cta={{ label: 'Orchestrate Your Operations', href: '/contact' }}
       />
 
-      {/* Placeholder attribution and photograph — replace before this is treated as social proof. */}
+      {/*
+        Attributed on Talentilo's say-so that Mohit Sharma is a real customer. Two things are
+        deliberately absent until they arrive as facts rather than inventions: the employer, and
+        the photograph — the stock portrait that used to sit here is a different person, and a
+        real name wearing someone else's face is worse than no face at all.
+      */}
       <Testimonial
         quote="The team used to lose half a day a week copy-pasting between the ATS and email. Now the record updates itself, and a stalled candidate surfaces before I go looking for one."
-        name="John Doe"
-        role="Head of Recruitment Operations, Morance"
-        avatarHash="2f3ff23866f54c09473c12da8fca1cdaf6e98b2b"
+        name="Mohit Sharma"
+        role="Head of Recruitment Operations"
         tone="crusta"
       />
 
