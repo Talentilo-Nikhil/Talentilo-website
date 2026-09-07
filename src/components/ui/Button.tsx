@@ -8,13 +8,21 @@ const VARIANT = {
   /**
    * The brand wash used for the primary call to action.
    *
-   * `--gradient-brand` runs to a near-white `#fdfcff`, and the file sets this label to white, so
-   * the pale end of the gradient cannot sit under the text. The background is scaled to 180% and
-   * held at its saturated end — the wash is never slid along on hover, which is what used to
-   * wash the label out. Hover deepens the colour instead; see below.
+   * `--gradient-brand` runs to a near-white `#fdfcff`, so the background is scaled to 180% and
+   * held at its saturated end, keeping the pale end off the surface. The wash is never slid along
+   * on hover, which is what used to wash the label out; hover deepens the colour instead.
+   *
+   * The label is ink, not the white the file sets. White on this wash measures 2.52:1 at the
+   * azure end and 2.18:1 at the lavender — this is small text, which needs 4.5:1, so the file's
+   * own combination was the weakest contrast on the site. Ink on the same wash reads 7.82:1 at
+   * its worst. Darkening the wash instead would have cleared 4.5:1 too, but only by moving the
+   * resting button to the colour hover already uses, so the wash is kept exactly as designed and
+   * the label carries the fix. On hover the wash deepens and the label turns white, which holds
+   * 4.50:1 there.
    */
   gradient:
-    'relative isolate text-white [background-image:var(--gradient-brand)] bg-[length:180%_100%] ' +
+    'relative isolate text-ink hover:text-white focus-visible:text-white ' +
+    '[background-image:var(--gradient-brand)] bg-[length:180%_100%] ' +
     'bg-[position:0%_50%] shadow-[0_1px_2px_rgb(12_10_16/0.08)] ' +
     /*
      * Hover deepens the wash. `background-image` is not animatable, so the deeper gradient is a
