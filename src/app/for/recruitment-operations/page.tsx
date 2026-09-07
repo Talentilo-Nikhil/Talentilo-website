@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 
-import { BrandStatement } from '@/components/sections/BrandStatement';
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { LogoStrip } from '@/components/sections/LogoStrip';
 import { PageHero } from '@/components/sections/PageHero';
 import { StatGrid } from '@/components/sections/StatGrid';
+import { Testimonial } from '@/components/sections/Testimonial';
 import { Section } from '@/components/ui/Section';
 import { companyStats } from '@/data/stats';
 
@@ -33,9 +33,12 @@ export default function RecruitmentOperationsPage() {
         cta={{ label: 'Orchestrate Your Operations', href: '/contact' }}
       />
 
-      <BrandStatement
-        statement="Process should not feel like handcuffs. We built Talentilo so the standard is enforced by the system rather than policed by managers — one record, one source of truth, and a team that moves faster inside it."
-        context="On governance and speed"
+      {/* Placeholder attribution and photograph — replace before this is treated as social proof. */}
+      <Testimonial
+        quote="The team used to lose half a day a week copy-pasting between the ATS and email. Now the record updates itself, and a stalled candidate surfaces before I go looking for one."
+        name="John Doe"
+        role="Head of Recruitment Operations, Morance"
+        avatarHash="2f3ff23866f54c09473c12da8fca1cdaf6e98b2b"
         tone="crusta"
       />
 

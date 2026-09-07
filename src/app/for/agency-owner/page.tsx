@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 
-import { BrandStatement } from '@/components/sections/BrandStatement';
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { LogoStrip } from '@/components/sections/LogoStrip';
 import { PageHero } from '@/components/sections/PageHero';
 import { StatGrid, type Stat } from '@/components/sections/StatGrid';
+import { Testimonial } from '@/components/sections/Testimonial';
 import { Section } from '@/components/ui/Section';
 
 export const metadata: Metadata = {
@@ -55,9 +55,12 @@ export default function AgencyOwnerPage() {
         cta={{ label: 'Calculate EBITDA Impact', href: '/pricing#roi' }}
       />
 
-      <BrandStatement
-        statement="Adding recruiters is not the same as adding capacity. We built Talentilo so the leverage sits in the system rather than in any one desk — the workflow stays when a top biller leaves, and the margin stays with you."
-        context="On the headcount trap"
+      {/* Placeholder attribution and photograph — replace before this is treated as social proof. */}
+      <Testimonial
+        quote="We were running four systems and reconciling them by hand every Monday. Talentilo put the whole desk in one place — I can see margin per placement without asking anyone for a spreadsheet."
+        name="Paula Bennett"
+        role="VP of Talent Operations, Morance"
+        avatarHash="da416245e6c0008541ebbaee04a05405e58598b7"
         tone="azure"
       />
 
