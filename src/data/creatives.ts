@@ -385,7 +385,7 @@ export const creatives = {
     "height": 1072,
     "designWidth": 588,
     "designHeight": 536,
-    "alt": "Semantic matching across a real tech stack"
+    "alt": "A tech stack grouped by what each technology implies, with the keyword link between Java and JavaScript cut"
   },
   "tr-verify": {
     "src": "/figma/creatives/tr-verify.webp",
@@ -394,7 +394,7 @@ export const creatives = {
     "height": 1072,
     "designWidth": 588,
     "designHeight": 536,
-    "alt": "Candidates ranked by assessment pass rate"
+    "alt": "Three candidates ranked by the assessment they passed rather than the level they claimed"
   },
   "rd-notice-tracker": {
     "src": "/figma/creatives/rd-notice-tracker.webp",

@@ -805,127 +805,184 @@ function tiRanking() {
   };
 }
 
+/**
+ * The pair on /solution/tech-recruitment.
+ *
+ * Both were the same object: an ink header bar over a table of rows, which is the simulated
+ * product screen the rest of this pass has been moving away from, and which said nothing about
+ * either section beyond "here is some software". The two sections argue different things, so they
+ * are drawn as two different pictures rather than one card with different rows in it.
+ *
+ * They share a surface and nothing else — the same white panel on the section's own gradient — so
+ * the page reads as a set while each half carries the form its own argument needs.
+ */
+const TR = { x: 40, y: 96, w: 508, h: 344, r: 20 };
+const TR_EDGE = '#e5e5e5';
+const r2 = (v) => +Number(v).toFixed(2);
+
+/** A technology, as a node in the graph: white, hairline, sized to its own name. */
+function nodeChip(cx, cy, label) {
+  const h = 32;
+  const size = 13;
+  const w = Math.round(estWidth(label, size) + 30);
+  return (
+    `<rect x="${r2(cx - w / 2)}" y="${cy - h / 2}" width="${w}" height="${h}" rx="${h / 2}" ` +
+    `fill="white" stroke="${TR_EDGE}" stroke-width="1.2"/>` +
+    text(cx, cy + 5, label, { size, weight: 500, fill: INK, anchor: 'middle' })
+  );
+}
+
+/** The competency a cluster of technologies adds up to. */
+function domainHub(cx, cy, label, fill, ink) {
+  const h = 38;
+  const w = Math.round(estWidth(label, 14) + 40);
+  return (
+    `<rect x="${r2(cx - w / 2)}" y="${cy - h / 2}" width="${w}" height="${h}" rx="${h / 2}" fill="${fill}"/>` +
+    text(cx, cy + 5, label, { size: 14, weight: 600, fill: ink, anchor: 'middle' })
+  );
+}
+
+/**
+ * "Stop Matching Java to JavaScript" — so the picture is the stack as the engine groups it.
+ *
+ * Two hubs, each with the technologies that imply it hanging off it. The two names the section is
+ * about end up in different clusters and adjacent across the gap between them, which is the whole
+ * argument: they sit next to each other in the alphabet and nowhere near each other in the graph.
+ * The link a keyword matcher would draw between them is the one edge on the page that is cut.
+ */
 function trSemantic() {
   const bg = backdrop({ from: '#ff3aaf', mid: '#da8dff', to: '#fdfcff' });
+  const surface = card('trs-surface', TR.x, TR.y, TR.w, TR.h, TR.r);
 
-  // The floating "Genuine Competency" card was dropped, so the table is the whole composition and
-  // is centred on the canvas rather than sitting high with the space the card used to fill.
-  // The body carries padding rather than handing its whole height to the rows, which put the
-  // first pill 14.5px under the header and the last one the same distance off the bottom edge.
-  // The card grows by the padding it gains, so the rows keep the pitch they had.
-  const bodyPad = 12;
-  const headerH = 56;
-  const cardH = 324;
-  const cardY = (H - cardH) / 2;
-  const mainCard = card('trs-main', 40, cardY, 508, cardH, 16);
-  const rows = [
-    { from: 'React', to: 'Frontend Engineering' },
-    { from: 'Docker', to: 'DevOps' },
-    { from: 'Kubernetes', to: 'Container Orchestration' },
-    { from: 'Postgres', to: 'Database Design' },
+  const clusters = [
+    {
+      hub: { cx: 160, cy: 250, label: 'Frontend', fill: '#daedff', ink: '#1959dc' },
+      nodes: [
+        { cx: 160, cy: 160, label: 'React' },
+        { cx: 104, cy: 340, label: 'TypeScript' },
+        { cx: 224, cy: 340, label: 'JavaScript' },
+      ],
+    },
+    {
+      hub: { cx: 428, cy: 250, label: 'JVM / Backend', fill: '#ebe8ff', ink: '#501dba' },
+      nodes: [
+        { cx: 428, cy: 160, label: 'Spring' },
+        { cx: 364, cy: 340, label: 'Java' },
+        { cx: 492, cy: 340, label: 'Kotlin' },
+      ],
+    },
   ];
-  const rowH = (cardH - headerH - bodyPad * 2) / rows.length;
-  const rowsMarkup = rows
-    .map((row, i) => {
-      const rowY = cardY + headerH + bodyPad + i * rowH;
-      const midY = rowY + rowH / 2;
-      const fromW = 128;
-      const fromH = 32;
-      const toW = 292;
-      const toH = 32;
-      const fromX = 64;
-      const toX = 524 - toW;
-      const arrowX = fromX + fromW + (toX - fromX - fromW) / 2;
-      return (
-        pill(fromX, midY - fromH / 2, fromW, fromH, { fill: '#f1f2f4', text: row.from, textFill: INK, size: 13 }) +
-        arrowIcon(arrowX, midY, '#c026d3') +
-        pill(toX, midY - toH / 2, toW, toH, { fill: '#daedff', text: row.to, textFill: '#1959dc', size: 13 })
-      );
-    })
+
+  // Edges run under the nodes, so each one is drawn full length and then covered at both ends.
+  const edges = clusters
+    .flatMap(({ hub, nodes }) =>
+      nodes.map(
+        (n) =>
+          `<line x1="${hub.cx}" y1="${hub.cy}" x2="${n.cx}" y2="${n.cy}" stroke="${INK}" ` +
+          'stroke-opacity="0.22" stroke-width="1.5" stroke-linecap="round"/>'
+      )
+    )
     .join('');
+
+  // The edge a keyword matcher would draw, cut where it would have joined.
+  const severed = (() => {
+    const [x1, x2, y] = [279, 328, 340];
+    const mx = (x1 + x2) / 2;
+    return (
+      `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="#e8342a" stroke-width="1.5" ` +
+      'stroke-dasharray="4 4" stroke-linecap="round"/>' +
+      `<circle cx="${mx}" cy="${y}" r="9" fill="white"/>` +
+      `<circle cx="${mx}" cy="${y}" r="7.2" fill="none" stroke="#e8342a" stroke-width="1.8"/>` +
+      `<g stroke="#e8342a" stroke-width="1.8" stroke-linecap="round">` +
+      `<line x1="${mx - 3.2}" y1="${y - 3.2}" x2="${mx + 3.2}" y2="${y + 3.2}"/>` +
+      `<line x1="${mx + 3.2}" y1="${y - 3.2}" x2="${mx - 3.2}" y2="${y + 3.2}"/></g>`
+    );
+  })();
+
+  const label = 'A tech stack grouped by what each technology implies, with the keyword link between Java and JavaScript cut';
 
   return {
     file: 'tr-semantic',
-    label: 'Semantic matching across a real tech stack',
+    label,
     designWidth: W,
     designHeight: H,
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="Semantic matching across a real tech stack">
-      <defs>${bg.defs}${mainCard.defs}</defs>
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="${esc(label)}">
+      <defs>${bg.defs}${surface.defs}</defs>
       ${bg.rect}
-
-      ${mainCard.surfaceRect}
-      <g clip-path="url(#${mainCard.clipId})">
-        <rect x="40" y="${cardY}" width="508" height="${headerH}" fill="${INK}" />
-        ${text(64, cardY + headerH / 2 + 6, 'Semantic Brain', { size: 17, weight: 600, fill: 'white' })}
-        ${rowsMarkup}
+      ${surface.surfaceRect}
+      <g clip-path="url(#${surface.clipId})">
+        ${edges}
+        ${severed}
+        ${clusters.map(({ hub }) => domainHub(hub.cx, hub.cy, hub.label, hub.fill, hub.ink)).join('')}
+        ${clusters.flatMap(({ nodes }) => nodes.map((n) => nodeChip(n.cx, n.cy, n.label))).join('')}
+        ${text(294, 408, 'Related by meaning, not by spelling', { size: 13, fill: INK_SOFT, anchor: 'middle' })}
       </g>
     </svg>`,
   };
 }
 
+/**
+ * "A resume claims expertise. A challenge proves it." — so the picture is the two side by side,
+ * ordered by the half that was measured.
+ *
+ * The adjective a candidate picked for themselves sits on the left and what they actually passed
+ * on the right, sorted by the right-hand column. The two who called themselves Expert come out
+ * top and bottom, which is the section's point made by the ordering rather than by a caption.
+ */
 function trVerify() {
   const bg = backdrop({ from: '#fe7c34', mid: '#ffddb1', to: '#fdfcff', flip: true });
+  const surface = card('trv-surface', TR.x, TR.y, TR.w, TR.h, TR.r);
 
-  // Without its button the floating card only needs room for the icon and two lines, so it comes
-  // down from 124 to 70 — which leaves the icon's 12px of top padding matched at the bottom. It
-  // clears the table rather than overlapping it, and the two are centred as one block so the
-  // gap between them does not push the composition off the bottom of the canvas.
-  // Padded on the same terms as the table on tr-semantic, its pair on this page, and grown by
-  // the padding so the rows keep the pitch they had.
-  const bodyPad = 12;
-  const headerH = 56;
-  const cardH = 294;
-  const alertH = 70;
-  const gap = 20;
-  const cardY = (H - (cardH + gap + alertH)) / 2;
-  const alertY = cardY + cardH + gap;
+  const left = 72;
+  const claimRight = 300;
+  const trackX = 324;
+  const trackW = 146;
+  const pctRight = 516;
 
-  const mainCard = card('trv-main', 40, cardY, 508, cardH, 16);
+  // Ranked by the measured column, which is the ordering the section is describing.
   const rows = [
-    { name: 'Amit K.', role: 'Backend Engineer', score: '96%', colors: { bg: '#dcfce7', text: '#15803d' } },
-    { name: 'Priya S.', role: 'Full-Stack Engineer', score: '88%', colors: { bg: '#dcfce7', text: '#15803d' } },
-    { name: 'John D.', role: 'Frontend Engineer', score: '54%', colors: { bg: '#ffe9d4', text: '#c62c08' } },
+    { name: 'Amit K.', claim: 'Advanced', pass: 96 },
+    { name: 'Priya S.', claim: 'Expert', pass: 88 },
+    { name: 'John D.', claim: 'Expert', pass: 54 },
   ];
-  const rowH = (cardH - headerH - bodyPad * 2) / rows.length;
+
   const rowsMarkup = rows
-    .map((row, i) => {
-      const rowY = cardY + headerH + bodyPad + i * rowH;
-      const midY = rowY + rowH / 2;
-      const divider = i < rows.length - 1 ? `<line x1="64" y1="${rowY + rowH}" x2="476" y2="${rowY + rowH}" stroke="${DIVIDER}" />` : '';
-      const pillW = 76;
-      const pillH = 28;
+    .map(({ name, claim, pass }, i) => {
+      const midY = 200 + i * 70;
+      const chipW = Math.round(estWidth(claim, 12) + 28);
+      const fill = r2((pass / 100) * trackW);
       return (
-        text(64, midY - 3, row.name, { size: 15, weight: 600 }) +
-        text(64, midY + 16, row.role, { size: 12, fill: INK_SOFT }) +
-        pill(476 - pillW, midY - pillH / 2, pillW, pillH, { fill: row.colors.bg, text: row.score, textFill: row.colors.text }) +
-        divider
+        text(left, midY + 5, name, { size: 15, weight: 600 }) +
+        pill(claimRight - chipW, midY - 13, chipW, 26, {
+          fill: '#f1f2f4',
+          text: claim,
+          textFill: INK_SOFT,
+          size: 12,
+        }) +
+        `<rect x="${trackX}" y="${midY - 5}" width="${trackW}" height="10" rx="5" fill="${INK}" fill-opacity="0.08"/>` +
+        `<rect x="${trackX}" y="${midY - 5}" width="${fill}" height="10" rx="5" fill="#1959dc"/>` +
+        text(pctRight, midY + 5, `${pass}%`, { size: 14, weight: 600, anchor: 'end' })
       );
     })
     .join('');
 
-  const alert = floatingCard('trv-alert', 88, alertY, 420, alertH, {
-    status: 'success',
-    headline: 'Auto-Ranked by Code Quality',
-    subtext: 'No manual resume screening required',
-  });
+  const label = 'Three candidates ranked by the assessment they passed rather than the level they claimed';
 
   return {
     file: 'tr-verify',
-    label: 'Candidates ranked by assessment pass rate',
+    label,
     designWidth: W,
     designHeight: H,
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="Candidates ranked by assessment pass rate">
-      <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="${esc(label)}">
+      <defs>${bg.defs}${surface.defs}</defs>
       ${bg.rect}
-
-      ${mainCard.surfaceRect}
-      <g clip-path="url(#${mainCard.clipId})">
-        <rect x="40" y="${cardY}" width="508" height="${headerH}" fill="${INK}" />
-        ${text(64, cardY + headerH / 2 + 6, 'Assessment Leaderboard', { size: 17, weight: 600, fill: 'white' })}
+      ${surface.surfaceRect}
+      <g clip-path="url(#${surface.clipId})">
+        ${text(left, 140, 'RESUME SAYS', { size: 11, weight: 600, fill: INK_SOFT })}
+        ${text(trackX, 140, 'CODE SAYS', { size: 11, weight: 600, fill: INK_SOFT })}
         ${rowsMarkup}
+        ${text(294, 408, 'Ranked by what they passed, not what they claimed', { size: 13, fill: INK_SOFT, anchor: 'middle' })}
       </g>
-
-      ${alert.markup}
     </svg>`,
   };
 }
@@ -1503,7 +1560,8 @@ function hvAlwaysOn() {
   const plot = { left: 61.7, right: 526.31, bottom: 359.44 };
 
   /*
-   * [load, headroom] per hour — the design's own volumes, untouched.
+   * [load, headroom] per bucket — the design's own volumes, untouched. Ten of them across the
+   * 08:00-10:00 axis is a bucket every twelve minutes, not an hour apiece.
    *
    * Its slot geometry is not kept, because it does not hold: the ten bars carry three different
    * widths (26.55 four times, 27 once, 25.87 five times) against a constant 22.45 gap, so the
@@ -1549,7 +1607,7 @@ function hvAlwaysOn() {
       return (
         bar(x, width, headroom, CAP_TRACK) +
         bar(x, width, load, 'url(#hv-bar)') +
-        // Capacity spans the whole of that hour's load — the mark's length is the message.
+        // Capacity spans the whole of that bucket's load — the mark's length is the message.
         `<line x1="${num(centre)}" y1="${num(top + 4)}" x2="${num(centre)}" y2="${num(plot.bottom - 4)}" ` +
         `stroke="${CAPACITY}" stroke-width="3" stroke-linecap="round" />`
       );
@@ -1614,7 +1672,10 @@ function hvAlwaysOn() {
       <!-- The end labels were inset 10px from the plot, which was padding inside the frame removed
            with its border; on their own they line up with the first and last bar instead. -->
       ${text(plot.left, 389.44, '08:00', { size: 12.37, weight: 500 })}
-      ${text(num((plot.left + plot.right) / 2), 389.44, 'Overnight Campaign Launch', { size: 12.37, weight: 500, anchor: 'middle' })}
+      <!-- The caption read "Overnight Campaign Launch" under an 08:00-10:00 axis: ten bars over
+           two morning hours is not an overnight run, and the two halves of the same axis
+           contradicted each other. The window the axis actually draws is what it names now. -->
+      ${text(num((plot.left + plot.right) / 2), 389.44, 'Morning Application Surge', { size: 12.37, weight: 500, anchor: 'middle' })}
       ${text(plot.right, 389.44, '10:00', { size: 12.37, weight: 500, anchor: 'end' })}
     </svg>`,
   };
