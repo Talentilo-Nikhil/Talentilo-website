@@ -444,18 +444,22 @@ function toolChip(x, y, icon, label, color) {
 function roSingleTruth() {
   const bg = backdrop({ from: '#fe7c34', mid: '#ffddb1', to: '#fdfcff', flip: true });
   /*
-   * The frame's own accent. Ink used to carry the four source tiles, the completed stages and the
-   * badge disc, which put more black on this one frame than the rest of the set carries between
-   * them — the siblings spend ink on the card header and the small dark buttons and nothing else.
-   * The tiles are now white surfaces like everything else here, the rail runs in the wash's own
-   * orange, and the badge disc takes the tinted-status treatment `ro-governance` and
-   * `pc-guardrails` already use.
+   * The frame's single accent, carrying the source glyphs, the completed stages and the rail.
+   *
+   * Ink used to carry the tiles, the stages and the badge disc, which put more black on this one
+   * frame than the rest of the set carries between them — the siblings spend ink on the card
+   * header and the small dark buttons and nothing else. The tiles are white surfaces now, and the
+   * badge disc takes the tinted-status treatment `ro-governance` and `pc-guardrails` already use.
+   *
+   * One tone rather than a colour per source: four different hues made the tiles read as four
+   * unrelated products rather than as one row of inputs. It is crusta-600 rather than the 400 the
+   * wash is drawn from, which is the step Talentilo asked for and also the one that carries the
+   * white checks inside the stage dots — 3.88:1 against 2.55:1, so they clear the 3:1 a glyph
+   * needs where they did not before.
    */
-  const ACCENT = '#ff7d37';
+  const ACCENT = '#ef4007';
   // Four tiles on one line, centred on the canvas and on the point their traces run to.
   const chipY = 64;
-  // One brand colour per source, so four white tiles still read as four different systems.
-  const TOOL_COLORS = { sheet: '#15803d', email: '#216fef', ats: '#6f35f2', chat: '#e66239' };
   const chips = ['sheet', 'email', 'ats', 'chat'].map((icon, i) => ({
     x: 120 + i * 116,
     y: chipY,
@@ -521,7 +525,7 @@ function roSingleTruth() {
       ${chips
         .map((c) => `<line x1="${c.x}" y1="${c.y + CHIP / 2 + 30}" x2="${converge.x}" y2="${converge.y}" stroke="${INK}" stroke-opacity="0.32" stroke-width="1.6" stroke-dasharray="5 4" />`)
         .join('')}
-      ${chips.map((c) => toolChip(c.x, c.y, c.icon, c.label, TOOL_COLORS[c.icon])).join('')}
+      ${chips.map((c) => toolChip(c.x, c.y, c.icon, c.label, ACCENT)).join('')}
 
       ${main.surfaceRect}
       <g clip-path="url(#${main.clipId})">
