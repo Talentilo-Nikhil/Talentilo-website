@@ -277,6 +277,25 @@ const EXPORTS = {
       label: 'A pending-review queue listing each job with its client and how long it has waited',
     },
   ],
+
+  // AI Powers and Revenue Defense had no Figma source for their hero art — the hero ran on a
+  // live panel standing in for it. website-update-v2.fig supplies the real frame for both, drawn
+  // the same way Recruitment OS's command centre is: the artwork bleeds off the band, and the CTA
+  // floats over its foot — see HERO_REVEAL and `ctaPlacement="overlay"` in PageHero.
+  'platform-ai-powers-hero': [
+    {
+      file: 'ap-hero-screening',
+      path: 'Frame 2085665236/Frame 2085665231/Candidate Screening',
+      label: 'A candidate call summary: overall score, evidence for the score, and the recording it came from',
+    },
+  ],
+  'platform-revenue-defense-hero': [
+    {
+      file: 'rd-hero-offers',
+      path: 'Frame 2085665236/Frame 2085665231/Offer Reminders',
+      label: 'The offer-reminders workspace tracking every signed candidate through their notice period',
+    },
+  ],
 };
 
 /** Rasterise one SVG string to webp+png at `width`x`height`, write both, return its manifest entry. */
