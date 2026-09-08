@@ -297,6 +297,16 @@ const EXPORTS = {
           path: 'Frame 2085665674/Frame 2085665830/Frame 2085665690/Frame 2085665689/Frame 2085665686/Frame 2085665687/Checkbox validation/Icon/Icon/Vector',
           fills: [{ kind: 'solid', color: 'rgba(255, 255, 255, 1)', hex: '#ffffff' }],
         },
+        // The line measures 450px (Canvas 2d, Albert Sans SemiBold 14px) but the row only has
+        // ~380px before it runs off the creative's own canvas — there's no clip-path catching it,
+        // "questions." starts past the edge and the pixels just don't exist out there. Trimmed to
+        // 363px, under the sibling line's own 385px, same three things checked, no attempt at
+        // wrapping (the row is a single auto-width line, not a text box Figma would wrap).
+        {
+          path: 'Frame 2085665674/Frame 2085665830/Frame 2085665690/Frame 2085665689/Frame 2085665686/Frame 2085665687/Checkbox validation/#1',
+          text: 'Introduced company, confirmed availability, relevant Qs.',
+          lines: [{ text: 'Introduced company, confirmed availability, relevant Qs.', x: 0, y: 15.9, w: 363 }],
+        },
         // Both recordings carry the same "0:00 / 1:23" from the source file, which reads as one
         // clip pasted twice rather than two real calls. Given different, plausible lengths.
         {
