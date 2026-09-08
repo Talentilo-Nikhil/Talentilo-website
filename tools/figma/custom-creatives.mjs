@@ -1671,12 +1671,24 @@ function hvAlwaysOn() {
            encloses nothing and belongs to no scale, so only the labels inside it are kept. -->
       <!-- The end labels were inset 10px from the plot, which was padding inside the frame removed
            with its border; on their own they line up with the first and last bar instead. -->
-      ${text(plot.left, 389.44, '08:00', { size: 12.37, weight: 500 })}
-      <!-- The caption read "Overnight Campaign Launch" under an 08:00-10:00 axis: ten bars over
-           two morning hours is not an overnight run, and the two halves of the same axis
-           contradicted each other. The window the axis actually draws is what it names now. -->
-      ${text(num((plot.left + plot.right) / 2), 389.44, 'Morning Application Surge', { size: 12.37, weight: 500, anchor: 'middle' })}
-      ${text(plot.right, 389.44, '10:00', { size: 12.37, weight: 500, anchor: 'end' })}
+      <!-- The frame labelled these ends 08.00 and 10:00 under the caption "Overnight Campaign
+           Launch". Ten bars across two hours is 12-minute buckets, which is neither overnight nor
+           the hourly reading every other part of this chart takes: the capacity mark is described
+           hour by hour, and the section's copy is about applications landing "overnight… while
+           your competitors are sleeping".
+
+           Both ends of that contradiction have now been tried. An earlier pass kept the axis and
+           renamed the caption "Morning Application Surge", which settled the axis against itself
+           but left the chart disagreeing with the paragraph beside it and with its own alt text,
+           both of which still say overnight — and left "every hour's bar" false, since two hours
+           over ten bars is 12-minute buckets. Naming the window the other way costs page copy;
+           moving the axis costs two labels. So the span is relabelled and the data untouched:
+           ten bars, one per hour, 20:00 through 06:00. That puts the existing peak at bars five
+           to seven at roughly 00:00–02:00, where the copy says the spike is, and makes the
+           caption, the paragraph and the alt text agree without rewriting any of them. -->
+      ${text(plot.left, 389.44, '20:00', { size: 12.37, weight: 500 })}
+      ${text(num((plot.left + plot.right) / 2), 389.44, 'Overnight Campaign Launch', { size: 12.37, weight: 500, anchor: 'middle' })}
+      ${text(plot.right, 389.44, '06:00', { size: 12.37, weight: 500, anchor: 'end' })}
     </svg>`,
   };
 }
