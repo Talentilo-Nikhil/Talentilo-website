@@ -46,12 +46,10 @@ export default function FasterOperationsPage() {
         body="Email is for contracts. Messaging is for connections. Talentilo treats WhatsApp as a first-class citizen, allowing you to engage candidates instantly without ever leaving your dashboard."
         points={[]}
         media={
-          <CreativeGround>
-            <div className="flex flex-col gap-5">
-              <ComparePanel
-                before={{ label: 'Email (Legacy)', value: '20%', caption: 'Open rate' }}
-                after={{ label: 'WhatsApp (Talentilo)', value: '98%', caption: 'Open rate' }}
-              />
+          /* The design gives a slot one creative, so the handset has it to itself and keeps the
+             588x536 the other three sit at. The open-rate contrast reads as its caption below. */
+          <div className="flex flex-col gap-5">
+            <CreativeGround tone="brand">
               <PhonePanel
                 name="Sarah J."
                 initials="SJ"
@@ -61,8 +59,12 @@ export default function FasterOperationsPage() {
                   { from: 'us', text: "Let's book it — pick a slot:", action: 'View Calendar', time: '10:04' },
                 ]}
               />
-            </div>
-          </CreativeGround>
+            </CreativeGround>
+            <ComparePanel
+              before={{ label: 'Email (Legacy)', value: '20%', caption: 'Open rate' }}
+              after={{ label: 'WhatsApp (Talentilo)', value: '98%', caption: 'Open rate' }}
+            />
+          </div>
         }
       />
 
@@ -74,7 +76,7 @@ export default function FasterOperationsPage() {
         pullQuote="Context never gets lost."
         mediaSide="left"
         media={
-          <CreativeGround>
+          <CreativeGround tone="magenta">
             <MergePanel
               title="Unified History"
               sources={['WhatsApp', 'Email', 'Call']}
@@ -110,7 +112,7 @@ export default function FasterOperationsPage() {
         body="Most automation looks robotic. Talentilo's Smart Cadences mix channels intelligently — send a WhatsApp nudge after an unread email, drop a call if a text goes ignored."
         points={[]}
         media={
-          <CreativeGround>
+          <CreativeGround tone="warm">
             <Panel title="Cadence: Senior Developer Outreach">
             <div className="p-5 sm:p-6">
               <FlowPanel
@@ -146,7 +148,7 @@ export default function FasterOperationsPage() {
         points={['No back-and-forth emails', 'Synced to the whole team']}
         mediaSide="left"
         media={
-          <CreativeGround>
+          <CreativeGround tone="magenta">
             <SlotPicker
             title="Interview Invitation"
             lede="Select a time below"
