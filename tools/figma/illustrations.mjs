@@ -287,6 +287,29 @@ const EXPORTS = {
       file: 'ap-hero-screening',
       path: 'Frame 2085665236/Frame 2085665231/Candidate Screening',
       label: 'A candidate call summary: overall score, evidence for the score, and the recording it came from',
+      patch: [
+        // The Recruiter QA check icon's own vector is #4f4f4f — a dark grey that reads as a smudge
+        // on the green circle behind it. Every other icon on the page recolours to fit the chip it
+        // sits in (the X's stroke is already the alert orange); this one just didn't. White is the
+        // only value here that isn't read off the file, chosen to match the circle's fill the way
+        // a check-on-a-colour-chip normally would.
+        {
+          path: 'Frame 2085665674/Frame 2085665830/Frame 2085665690/Frame 2085665689/Frame 2085665686/Frame 2085665687/Checkbox validation/Icon/Icon/Vector',
+          fills: [{ kind: 'solid', color: 'rgba(255, 255, 255, 1)', hex: '#ffffff' }],
+        },
+        // Both recordings carry the same "0:00 / 1:23" from the source file, which reads as one
+        // clip pasted twice rather than two real calls. Given different, plausible lengths.
+        {
+          path: 'Frame 2085665674/Frame 2085665688/#1/#2',
+          text: '0:00 / 1:47',
+          lines: [{ text: '0:00 / 1:47', x: 0, y: 12.79, w: 66.76 }],
+        },
+        {
+          path: 'Frame 2085665674/Frame 2085665688/#2/#2',
+          text: '0:00 / 2:12',
+          lines: [{ text: '0:00 / 2:12', x: 0, y: 12.79, w: 66.76 }],
+        },
+      ],
     },
   ],
   'platform-revenue-defense-hero': [
@@ -335,13 +358,18 @@ async function main() {
   for (const [slug, entries] of Object.entries(EXPORTS)) {
     const spec = readSpec(slug);
     for (const entry of entries) {
-      // A graft or a hide rewrites the tree, so it works on a copy the other entries never see.
-      const tree = entry.graft || entry.hide ? structuredClone(spec.tree) : spec.tree;
+      // A graft, a hide or a patch rewrites the tree, so it works on a copy the other entries
+      // never see.
+      const tree = entry.graft || entry.hide || entry.patch ? structuredClone(spec.tree) : spec.tree;
       const node = at(tree, entry.path);
       for (const patch of entry.graft ?? []) applyGraft(node, patch);
       // `hidden` is what the writer already checks for a layer switched off in Figma, so a layer
       // switched off here needs nothing new downstream.
       for (const path of entry.hide ?? []) at(node, path).hidden = true;
+      // A field-level fix for one layer's own values — a fill the source file got wrong, copy a
+      // spec text run carries verbatim. `{ path, ...fields }`; fields are shallow-merged onto the
+      // node `at(path)` resolves to.
+      for (const { path, ...fields } of entry.patch ?? []) Object.assign(at(node, path), fields);
       const svg = await subtreeToSvg(node, images, { label: entry.label, overlay: entry.overlay });
       const scale = entry.scale ?? SCALE;
 
