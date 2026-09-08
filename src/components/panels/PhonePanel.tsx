@@ -73,7 +73,7 @@ export function PhonePanel({
         style={{ aspectRatio: '1 / 2' }}
       >
         <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[1.7rem] bg-white">
-          <div className="flex items-center gap-3 px-4 pt-3 pb-3" style={{ backgroundColor: WA.header }}>
+          <div className="flex items-center gap-2.5 px-4 pt-2.5 pb-2.5" style={{ backgroundColor: WA.header }}>
             <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0" fill="none" aria-hidden="true">
               <path
                 d="M15 5 8 12l7 7"
@@ -88,11 +88,11 @@ export function PhonePanel({
             </span>
             <span className="min-w-0">
               <span className="block truncate text-small font-semibold text-white">{name}</span>
-              <span className="block text-caption text-white/85">{status}</span>
+              <span className="block truncate text-caption text-white/85">{status}</span>
             </span>
           </div>
 
-          <div className="flex min-h-0 flex-1 flex-col gap-2 px-2.5 py-3" style={{ backgroundColor: WA.chat }}>
+          <div className="flex min-h-0 flex-1 flex-col gap-2.5 px-2.5 py-1.5" style={{ backgroundColor: WA.chat }}>
             {messages.map((message, i) => {
               const us = message.from === 'us';
               return (
@@ -102,22 +102,22 @@ export function PhonePanel({
                 >
                   <div
                     className={cn(
-                      'flex max-w-[88%] flex-col gap-1.5 px-3 py-2 shadow-[0_1px_1px_rgb(12_10_16/0.13)]',
+                      'flex max-w-[94%] flex-col gap-0.5 px-3 py-1 shadow-[0_1px_1px_rgb(12_10_16/0.13)]',
                       us ? 'rounded-xl rounded-tr-sm' : 'rounded-xl rounded-tl-sm'
                     )}
                     style={{ backgroundColor: us ? WA.outgoing : WA.incoming }}
                   >
-                    <p className="text-small leading-snug text-ink">{message.text}</p>
+                    <p className="text-body leading-snug text-ink">{message.text}</p>
 
                     {message.action ? (
-                      <span className="mt-0.5 block border-t border-ink/10 pt-1.5 text-center text-caption font-semibold text-[#027eb5]">
+                      <span className="mt-0.5 block border-t border-ink/10 pt-1 text-center text-small font-semibold text-[#027eb5]">
                         {message.action}
                       </span>
                     ) : null}
 
                     <span className="flex items-center justify-end gap-1">
                       {message.time ? (
-                        <span className="text-[0.625rem]" style={{ color: WA.meta }}>
+                        <span className="text-caption" style={{ color: WA.meta }}>
                           {message.time}
                         </span>
                       ) : null}
@@ -129,9 +129,9 @@ export function PhonePanel({
             })}
 
             {/* The composer, so the screen reads as a live thread rather than a transcript. */}
-            <div className="mt-auto flex items-center gap-2 pt-2">
+            <div className="mt-auto flex items-center gap-2 pt-1">
               <span
-                className="flex-1 rounded-pill bg-white px-3 py-2 text-caption"
+                className="flex-1 rounded-pill bg-white px-3 py-1.5 text-small"
                 style={{ color: WA.meta }}
               >
                 Message
