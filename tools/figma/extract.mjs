@@ -82,6 +82,16 @@ export const STANDALONE_SOURCES = [
       { section: 'Homepage-Offer risk', frame: 'Visual-2', slug: 'upd-offer-risk' },
     ],
   },
+  {
+    // Both frames sit straight on the canvas, no section. The hero artwork on these two pages was
+    // still a live panel with no Figma source; this is that source, for the "Candidate Screening"
+    // and "Offer Reminders" creatives it carries — see illustrations.mjs.
+    file: 'website-update-v2.fig',
+    frames: [
+      { frame: '/platform/ai-powers', slug: 'platform-ai-powers-hero' },
+      { frame: '/platform/revenue-defense', slug: 'platform-revenue-defense-hero' },
+    ],
+  },
 ];
 
 const guidKey = (g) => `${g.sessionID}:${g.localID}`;

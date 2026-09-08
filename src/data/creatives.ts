@@ -261,6 +261,24 @@ export const creatives = {
     "designHeight": 536,
     "alt": "A pending-review queue listing each job with its client and how long it has waited"
   },
+  "ap-hero-screening": {
+    "src": "/figma/creatives/ap-hero-screening.webp",
+    "fallback": "/figma/creatives/ap-hero-screening.png",
+    "width": 1898,
+    "height": 1350,
+    "designWidth": 949,
+    "designHeight": 675,
+    "alt": "A candidate call summary: overall score, evidence for the score, and the recording it came from"
+  },
+  "rd-hero-offers": {
+    "src": "/figma/creatives/rd-hero-offers.webp",
+    "fallback": "/figma/creatives/rd-hero-offers.png",
+    "width": 2148,
+    "height": 1188,
+    "designWidth": 1074.13,
+    "designHeight": 593.9,
+    "alt": "The offer-reminders workspace tracking every signed candidate through their notice period"
+  },
   "hv-always-on": {
     "src": "/figma/creatives/hv-always-on.webp",
     "fallback": "/figma/creatives/hv-always-on.png",
