@@ -23,6 +23,8 @@ type ComparePanelProps = {
   after: CompareSide;
   /** Brand colour for the winning side. */
   accent?: 'azure' | 'crusta';
+  /** Tighter padding and a smaller figure, for a pair sitting under the copy rather than in a slot. */
+  compact?: boolean;
   className?: string;
 };
 
@@ -30,19 +32,26 @@ type ComparePanelProps = {
  * The recurring "status quo vs Talentilo" pair: Boolean/Semantic, 4 hours/90 seconds,
  * 20%/98% open rate, 40hrs/1hr. One layout, seven placements across the Platform pages.
  */
-export function ComparePanel({ tone = 'light', before, after, accent = 'azure', className }: ComparePanelProps) {
+export function ComparePanel({
+  tone = 'light',
+  before,
+  after,
+  accent = 'azure',
+  compact = false,
+  className,
+}: ComparePanelProps) {
   const accentText = accent === 'crusta' ? 'text-crusta-500' : 'text-azure-600';
   const accentBorder = accent === 'crusta' ? 'border-crusta-300' : 'border-azure-300';
-  const accentBadge =
-    accent === 'crusta' ? 'bg-crusta-100 text-crusta-700' : 'bg-azure-100 text-azure-800';
+  const accentBadge = accent === 'crusta' ? 'bg-crusta-100 text-crusta-700' : 'bg-azure-100 text-azure-800';
 
   return (
     <div className={cn('grid gap-4 sm:grid-cols-2', className)}>
-      <Side tone={tone} side={before} kind="before" />
+      <Side tone={tone} side={before} kind="before" compact={compact} />
       <Side
         tone={tone}
         side={after}
         kind="after"
+        compact={compact}
         accentText={accentText}
         accentBorder={accentBorder}
         accentBadge={accentBadge}
@@ -55,6 +64,7 @@ function Side({
   tone,
   side,
   kind,
+  compact,
   accentText,
   accentBorder,
   accentBadge,
@@ -62,6 +72,7 @@ function Side({
   tone: PanelTone;
   side: CompareSide;
   kind: 'before' | 'after';
+  compact?: boolean;
   accentText?: string;
   accentBorder?: string;
   accentBadge?: string;
@@ -71,7 +82,8 @@ function Side({
   return (
     <div
       className={cn(
-        'flex flex-col gap-4 rounded-card border p-6',
+        'flex flex-col rounded-card border',
+        compact ? 'gap-2 p-4' : 'gap-4 p-6',
         panelSurface(tone),
         winner && accentBorder
       )}
@@ -98,11 +110,7 @@ function Side({
           <span
             className={cn(
               'shrink-0 rounded-pill px-2.5 py-1 text-caption font-semibold',
-              winner
-                ? accentBadge
-                : tone === 'dark'
-                  ? 'bg-white/10 text-white/65'
-                  : 'bg-ink/8 text-ink/75'
+              winner ? accentBadge : tone === 'dark' ? 'bg-white/10 text-white/65' : 'bg-ink/8 text-ink/75'
             )}
           >
             {side.badge}
@@ -113,7 +121,8 @@ function Side({
       {side.value ? (
         <p
           className={cn(
-            'font-figure text-[clamp(1.75rem,1.2rem+1.8vw,2.5rem)] leading-[1.1] font-semibold',
+            'font-figure leading-[1.1] font-semibold',
+            compact ? 'text-[1.75rem]' : 'text-[clamp(1.75rem,1.2rem+1.8vw,2.5rem)]',
             winner ? accentText : panelMuted(tone)
           )}
         >
@@ -127,7 +136,10 @@ function Side({
         <ul className={cn('flex flex-col gap-2 text-small', panelMuted(tone))}>
           {side.items.map((item) => (
             <li key={item} className="flex gap-2">
-              <span aria-hidden="true" className="mt-1.5 size-1 shrink-0 rounded-full bg-current opacity-50" />
+              <span
+                aria-hidden="true"
+                className="mt-1.5 size-1 shrink-0 rounded-full bg-current opacity-50"
+              />
               {item}
             </li>
           ))}
