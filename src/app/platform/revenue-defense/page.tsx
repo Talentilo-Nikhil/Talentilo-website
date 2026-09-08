@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import { ChecklistPanel } from '@/components/panels/ChecklistPanel';
 import { ComparePanel } from '@/components/panels/ComparePanel';
 import { CreativeGround } from '@/components/panels/CreativeGround';
-import { FlowPanel } from '@/components/panels/FlowPanel';
 import { MeterPanel } from '@/components/panels/MeterPanel';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
@@ -20,29 +19,19 @@ export default function RevenueDefensePage() {
   return (
     <>
       {/* The other two /platform pages open on the brand wash with their artwork sitting in it —
-          see faster-operations. This page opened on an ink field instead. */}
+          see faster-operations. This page opened on an ink field instead. The hero art had no
+          Figma source until website-update-v2.fig; it ran on a stand-in FlowPanel. Now it's the
+          real offers-workspace frame, bleeding off the band the way Recruitment OS's command
+          centre does — 561 of its 593.9px show, so the cut lands 37px above the CTA's foot. */}
       <PageHero
         title={"The Deal Isn't Closed\nUntil They Show Up."}
         lede="Recruitment teams lose 20% of secured talent after the offer is signed. Our Revenue Defense protocol monitors the danger zone — the silence between signature and start date — predicting ghosting risk and counter-offers before they force you to restart the search."
         cta={{ label: 'Secure Your Next Hire', href: '/contact' }}
+        ctaPlacement="overlay"
         note="Stops fall-offs. Protects forecasts."
         wash="brand"
-        media={
-          <FlowPanel
-            orientation="horizontal"
-            className="mx-auto max-w-[980px]"
-            steps={[
-              { label: 'Offer signed', detail: 'The handshake, not the finish line.', state: 'done' },
-              {
-                label: 'The notice period',
-                detail: 'The danger zone — active monitoring runs here.',
-                state: 'alert',
-              },
-              { label: 'Day 1 start', detail: 'Placement secured.', state: 'done' },
-            ]}
-            connectors={['Revenue Defense', 'Safe']}
-          />
-        }
+        creative="rd-hero-offers"
+        reveal={561 / 593.9}
       />
 
       <FeatureSplit

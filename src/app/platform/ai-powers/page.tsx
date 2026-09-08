@@ -5,7 +5,6 @@ import { ChecklistPanel } from '@/components/panels/ChecklistPanel';
 import { ComparePanel } from '@/components/panels/ComparePanel';
 import { CreativeGround } from '@/components/panels/CreativeGround';
 import { FlowPanel } from '@/components/panels/FlowPanel';
-import { MeterPanel } from '@/components/panels/MeterPanel';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
@@ -20,22 +19,18 @@ export const metadata: Metadata = {
 export default function AiPowersPage() {
   return (
     <>
-      {/* The brand wash the other /platform pages open on — see faster-operations. */}
+      {/* The brand wash the other /platform pages open on — see faster-operations. The hero art
+          had no Figma source until website-update-v2.fig; it ran on a stand-in MeterPanel. Now
+          it's the real call-summary frame, bleeding off the band the way Recruitment OS's
+          command centre does — 634 of its 675px show, so the cut lands 37px above the CTA's foot. */}
       <PageHero
         title={'Scale Your Output.\nNot Just Your Headcount.'}
         lede="Screening with Talentilo takes seconds. It's the AI-native platform that handles the top-of-funnel grind — screening, verifying and scheduling — so your team can focus on closing."
         cta={{ label: 'Deploy AI Screening', href: '/contact' }}
+        ctaPlacement="overlay"
         wash="brand"
-        media={
-          <MeterPanel
-            className="mx-auto max-w-[460px]"
-            title="AI Calling Capacity"
-            status="Active"
-            label="Capability"
-            value="500 calls / hour"
-            caption="Scaled automatically, in parallel, with no extra headcount."
-          />
-        }
+        creative="ap-hero-screening"
+        reveal={634 / 675}
       />
 
       <FeatureSplit
