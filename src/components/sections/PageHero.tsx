@@ -13,9 +13,14 @@ import { cn } from '@/lib/cn';
  */
 export const HERO_REVEAL = 561 / 595;
 
+/*
+ * There is deliberately no `eyebrow` here. The small-caps kicker is a section device — it belongs
+ * to `SectionHeading`, `FeatureSplit` and `CenteredFeature`, where it labels one block among many.
+ * Above an h1 it labels the page, which the h1 is already doing, so it reads as a second, quieter
+ * title competing with the real one. Dropping the prop rather than just clearing the four call
+ * sites is what keeps it gone: re-adding it is now a type error instead of a silent regression.
+ */
 type PageHeroProps = {
-  /** The small caps kicker above the headline, e.g. "Real-Time Velocity". */
-  eyebrow?: ReactNode;
   title: ReactNode;
   lede: ReactNode;
   cta?: { label: string; href: string };
@@ -49,7 +54,6 @@ type PageHeroProps = {
  * bleeding off the bottom of a gradient band.
  */
 export function PageHero({
-  eyebrow,
   title,
   lede,
   cta,
@@ -86,17 +90,6 @@ export function PageHero({
     >
       <Container>
         <div className="flex flex-col items-center gap-6 text-center">
-          {eyebrow ? (
-            <p
-              className={cn(
-                'font-sans text-small font-medium tracking-[0.08em] uppercase',
-                dark ? 'text-brand-violet' : 'text-muted'
-              )}
-            >
-              {eyebrow}
-            </p>
-          ) : null}
-
           <h1
             className={cn(
               'max-w-[950px] text-[clamp(2.25rem,1.35rem+3.9vw,4.0625rem)] whitespace-pre-line',
