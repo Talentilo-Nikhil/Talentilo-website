@@ -150,10 +150,10 @@ export function PhonePanel({
               {initials}
             </span>
             <span className="min-w-0 flex-1">
-              <span className="block truncate text-[11px] leading-tight font-semibold text-white">
+              <span className="block truncate text-[13px] leading-tight font-semibold text-white">
                 {name}
               </span>
-              <span className="block text-[9px] leading-tight text-white/80">{status}</span>
+              <span className="block text-[10px] leading-tight text-white/80">{status}</span>
             </span>
             <span className="flex shrink-0 items-center gap-3 pr-1" aria-hidden="true">
               {/* video and voice call, which sit in every real thread header */}
@@ -169,7 +169,7 @@ export function PhonePanel({
           <div
             // Anchored to the bottom, which is where a thread sits when it is shorter than the
             // screen — and padded wide enough that the bubble tails are not clipped by the bezel.
-            className="flex min-h-0 flex-1 flex-col justify-end gap-1.5 px-3.5 py-2"
+            className="flex min-h-0 flex-1 flex-col justify-end gap-2.5 px-3.5 py-2"
             style={{ backgroundColor: WA.chat, backgroundImage: WALLPAPER }}
           >
             <span
@@ -190,20 +190,20 @@ export function PhonePanel({
                 >
                   <div
                     className={cn(
-                      'relative max-w-[86%] rounded-lg px-1.5 py-1 shadow-[0_1px_0.5px_rgb(12_10_16/0.13)]',
+                      'relative max-w-[86%] rounded-lg px-2 py-1.5 shadow-[0_1px_0.5px_rgb(12_10_16/0.13)]',
                       firstOfSide && (us ? 'rounded-tr-none' : 'rounded-tl-none')
                     )}
                     style={{ backgroundColor: us ? WA.outgoing : WA.incoming }}
                   >
                     {firstOfSide ? <Tail side={us ? 'right' : 'left'} /> : null}
 
-                    <p className="px-0.5 text-[11px] leading-[1.35] text-ink">
+                    <p className="px-0.5 text-[13px] leading-[1.4] text-ink">
                       {message.text}
                       {/* The time rides the end of the last line the way it does in the app, and only
                           pushes to its own line when the text fills the width. */}
                       <span className="float-right ml-2 inline-flex translate-y-1 items-center gap-0.5">
                         {message.time ? (
-                          <span className="text-[8px]" style={{ color: WA.meta }}>
+                          <span className="text-[10px]" style={{ color: WA.meta }}>
                             {message.time}
                           </span>
                         ) : null}
@@ -213,7 +213,7 @@ export function PhonePanel({
 
                     {message.action ? (
                       <span
-                        className="mt-1 block border-t px-0.5 pt-1 text-center text-[10px] font-semibold"
+                        className="mt-1.5 block border-t px-0.5 pt-1.5 text-center text-[12px] font-semibold"
                         style={{ borderColor: WA.divider, color: WA.link }}
                       >
                         {message.action}
@@ -242,7 +242,7 @@ export function PhonePanel({
                 <circle cx="9" cy="10" r="0.9" fill={WA.meta} stroke="none" />
                 <circle cx="15" cy="10" r="0.9" fill={WA.meta} stroke="none" />
               </svg>
-              <span className="flex-1 text-[10px]" style={{ color: WA.meta }}>
+              <span className="flex-1 text-[12px]" style={{ color: WA.meta }}>
                 Message
               </span>
               <svg
