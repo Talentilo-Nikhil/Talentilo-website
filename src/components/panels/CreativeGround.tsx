@@ -80,10 +80,18 @@ function Motif() {
 
 export function CreativeGround({
   tone = 'brand',
+  fill = false,
   className,
   children,
 }: {
   tone?: GroundTone;
+  /**
+   * Pin the content to the slot instead of letting it set the height. A panel that sizes itself
+   * from its own height — the handset takes its width from a phone's proportion — needs something
+   * definite to resolve against, and an auto grid row is not that: it grows to whatever the panel
+   * asks for and the panel asks for whatever the row gave it.
+   */
+  fill?: boolean;
   className?: string;
   children: ReactNode;
 }) {
@@ -100,7 +108,20 @@ export function CreativeGround({
       */}
       <div aria-hidden="true" className="col-start-1 row-start-1" style={{ paddingTop: RATIO }} />
       <Motif />
-      <div className="col-start-1 row-start-1 grid place-items-center p-6 sm:p-10">{children}</div>
+      {/* Positioned, so it paints above the motif. A static grid item would sit under an
+          absolutely-positioned sibling however late it came in the DOM, and the outlines
+          ran across the artwork instead of behind it. */}
+      <div
+        className={cn(
+          // Both branches are positioned, so either paints above the motif. `relative` cannot be in
+          // the base string: cn is a plain join, Tailwind emits .relative after .absolute, and the
+          // base would silently win over the modifier.
+          'col-start-1 row-start-1 grid place-items-center p-6 sm:p-10',
+          fill ? 'absolute inset-0' : 'relative h-full'
+        )}
+      >
+        {children}
+      </div>
     </div>
   );
 }

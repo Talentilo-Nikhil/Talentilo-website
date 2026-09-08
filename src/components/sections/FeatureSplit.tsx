@@ -16,6 +16,8 @@ export type FeatureSplitProps = {
   /** The short emphasis line that closes the copy, e.g. "Context never gets lost." */
   pullQuote?: string;
   cta?: { label: string; href: string };
+  /** Supporting content under the copy — a stat pair, a caption. Sits after the CTA. */
+  aside?: ReactNode;
   creative?: CreativeName;
   /** Alt text for the artwork; pass '' when a nearby caption already describes it. */
   creativeAlt?: string;
@@ -39,6 +41,7 @@ export function FeatureSplit({
   points,
   pullQuote,
   cta,
+  aside,
   creative,
   creativeAlt,
   media,
@@ -105,6 +108,8 @@ export function FeatureSplit({
               </ButtonLink>
             </div>
           ) : null}
+
+          {aside ? <div className="mt-2">{aside}</div> : null}
         </div>
 
         <div className={cn(mediaSide === 'left' && 'lg:order-1')}>

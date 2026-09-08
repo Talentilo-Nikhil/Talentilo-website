@@ -45,26 +45,28 @@ export default function FasterOperationsPage() {
         title={'Meet the Candidate\nWhere They Live.'}
         body="Email is for contracts. Messaging is for connections. Talentilo treats WhatsApp as a first-class citizen, allowing you to engage candidates instantly without ever leaving your dashboard."
         points={[]}
+        aside={
+          <ComparePanel
+            compact
+            before={{ label: 'Email (Legacy)', value: '20%', caption: 'Open rate' }}
+            after={{ label: 'WhatsApp (Talentilo)', value: '98%', caption: 'Open rate' }}
+          />
+        }
         media={
           /* The design gives a slot one creative, so the handset has it to itself and keeps the
-             588x536 the other three sit at. The open-rate contrast reads as its caption below. */
-          <div className="flex flex-col gap-5">
-            <CreativeGround tone="brand">
-              <PhonePanel
-                name="Sarah J."
-                initials="SJ"
-                messages={[
-                  { from: 'us', text: 'Hi Sarah! I have a Sr. React role ($140k). Interested?', time: '10:02' },
-                  { from: 'them', text: 'Hey! That sounds perfect. Can we chat?', time: '10:03' },
-                  { from: 'us', text: "Let's book it — pick a slot:", action: 'View Calendar', time: '10:04' },
-                ]}
-              />
-            </CreativeGround>
-            <ComparePanel
-              before={{ label: 'Email (Legacy)', value: '20%', caption: 'Open rate' }}
-              after={{ label: 'WhatsApp (Talentilo)', value: '98%', caption: 'Open rate' }}
+             588x536 the other three sit at. */
+          <CreativeGround tone="brand" fill>
+            <PhonePanel
+              name="Talentilo"
+              initials="T"
+              status="Business account"
+              messages={[
+                { from: 'them', text: 'Hi Sarah! I have a Sr. React role ($140k). Interested?', time: '10:02' },
+                { from: 'us', text: 'That sounds perfect. Can we chat?', time: '10:03' },
+                { from: 'them', text: 'Pick a slot that suits you:', action: 'View Calendar', time: '10:04' },
+              ]}
             />
-          </div>
+          </CreativeGround>
         }
       />
 
