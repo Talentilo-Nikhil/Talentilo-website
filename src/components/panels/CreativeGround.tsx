@@ -116,7 +116,10 @@ export function CreativeGround({
           // Both branches are positioned, so either paints above the motif. `relative` cannot be in
           // the base string: cn is a plain join, Tailwind emits .relative after .absolute, and the
           // base would silently win over the modifier.
-          'col-start-1 row-start-1 grid place-items-center p-6 sm:p-10',
+          // `items-center` only. `place-items-center` also sets justify-items, which sizes a panel
+          // to its own content and leaves it floating in the middle of the slot; stretch is the
+          // default and lets it use the width the slot has.
+          'col-start-1 row-start-1 grid items-center p-6 sm:p-8',
           fill ? 'absolute inset-0' : 'relative h-full'
         )}
       >
