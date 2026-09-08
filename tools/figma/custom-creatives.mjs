@@ -1609,9 +1609,16 @@ function hvAlwaysOn() {
            encloses nothing and belongs to no scale, so only the labels inside it are kept. -->
       <!-- The end labels were inset 10px from the plot, which was padding inside the frame removed
            with its border; on their own they line up with the first and last bar instead. -->
-      ${text(plot.left, 389.44, '08:00', { size: 12.37, weight: 500 })}
+      <!-- The frame labelled these ends 08.00 and 10:00 under the caption "Overnight Campaign
+           Launch". Ten bars across two hours is 12-minute buckets, which is neither overnight nor
+           the hourly reading every other part of this chart takes: the capacity mark is described
+           hour by hour, and the section's copy is about applications landing "overnight… while
+           your competitors are sleeping". So the span is relabelled rather than the data — ten
+           bars, one per hour, 20:00 through 06:00 — which puts the existing peak at bars five to
+           seven at roughly 00:00–02:00, where the copy says the spike is. No volume changes. -->
+      ${text(plot.left, 389.44, '20:00', { size: 12.37, weight: 500 })}
       ${text(num((plot.left + plot.right) / 2), 389.44, 'Overnight Campaign Launch', { size: 12.37, weight: 500, anchor: 'middle' })}
-      ${text(plot.right, 389.44, '10:00', { size: 12.37, weight: 500, anchor: 'end' })}
+      ${text(plot.right, 389.44, '06:00', { size: 12.37, weight: 500, anchor: 'end' })}
     </svg>`,
   };
 }
