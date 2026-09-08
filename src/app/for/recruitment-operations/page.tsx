@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 
-import { BrandStatement } from '@/components/sections/BrandStatement';
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { LogoStrip } from '@/components/sections/LogoStrip';
 import { PageHero } from '@/components/sections/PageHero';
 import { StatGrid } from '@/components/sections/StatGrid';
+import { Testimonial } from '@/components/sections/Testimonial';
 import { Section } from '@/components/ui/Section';
 import { companyStats } from '@/data/stats';
 
@@ -33,9 +33,21 @@ export default function RecruitmentOperationsPage() {
         cta={{ label: 'Orchestrate Your Operations', href: '/contact' }}
       />
 
-      <BrandStatement
-        statement="Process should not feel like handcuffs. We built Talentilo so the standard is enforced by the system rather than policed by managers — one record, one source of truth, and a team that moves faster inside it."
-        context="On governance and speed"
+      {/*
+        Attributed on Talentilo's say-so that Mohit Sharma is a real customer, and that Berlin is
+        where he works — a location rather than the invented employer "Morance" that stood here,
+        which named a company that does not exist.
+
+        PLACEHOLDER PORTRAIT. The photograph is a stock image of somebody else, kept at Talentilo's
+        direction until Mohit's own headshot is available. It should be replaced rather than left:
+        a stock face under a named customer both misrepresents him and puts a model's likeness
+        behind an endorsement. Swapping it is this one prop.
+      */}
+      <Testimonial
+        quote="The team used to lose half a day a week copy-pasting between the ATS and email. Now the record updates itself, and a stalled candidate surfaces before I go looking for one."
+        name="Mohit Sharma"
+        role="Head of Recruitment Operations, Berlin"
+        avatarHash="2f3ff23866f54c09473c12da8fca1cdaf6e98b2b"
         tone="crusta"
       />
 

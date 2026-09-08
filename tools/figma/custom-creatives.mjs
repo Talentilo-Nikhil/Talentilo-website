@@ -444,18 +444,22 @@ function toolChip(x, y, icon, label, color) {
 function roSingleTruth() {
   const bg = backdrop({ from: '#fe7c34', mid: '#ffddb1', to: '#fdfcff', flip: true });
   /*
-   * The frame's own accent. Ink used to carry the four source tiles, the completed stages and the
-   * badge disc, which put more black on this one frame than the rest of the set carries between
-   * them — the siblings spend ink on the card header and the small dark buttons and nothing else.
-   * The tiles are now white surfaces like everything else here, the rail runs in the wash's own
-   * orange, and the badge disc takes the tinted-status treatment `ro-governance` and
-   * `pc-guardrails` already use.
+   * The frame's single accent, carrying the source glyphs, the completed stages and the rail.
+   *
+   * Ink used to carry the tiles, the stages and the badge disc, which put more black on this one
+   * frame than the rest of the set carries between them — the siblings spend ink on the card
+   * header and the small dark buttons and nothing else. The tiles are white surfaces now, and the
+   * badge disc takes the tinted-status treatment `ro-governance` and `pc-guardrails` already use.
+   *
+   * One tone rather than a colour per source: four different hues made the tiles read as four
+   * unrelated products rather than as one row of inputs. It is crusta-600 rather than the 400 the
+   * wash is drawn from, which is the step Talentilo asked for and also the one that carries the
+   * white checks inside the stage dots — 3.88:1 against 2.55:1, so they clear the 3:1 a glyph
+   * needs where they did not before.
    */
-  const ACCENT = '#ff7d37';
+  const ACCENT = '#ef4007';
   // Four tiles on one line, centred on the canvas and on the point their traces run to.
   const chipY = 64;
-  // One brand colour per source, so four white tiles still read as four different systems.
-  const TOOL_COLORS = { sheet: '#15803d', email: '#216fef', ats: '#6f35f2', chat: '#e66239' };
   const chips = ['sheet', 'email', 'ats', 'chat'].map((icon, i) => ({
     x: 120 + i * 116,
     y: chipY,
@@ -521,7 +525,7 @@ function roSingleTruth() {
       ${chips
         .map((c) => `<line x1="${c.x}" y1="${c.y + CHIP / 2 + 30}" x2="${converge.x}" y2="${converge.y}" stroke="${INK}" stroke-opacity="0.32" stroke-width="1.6" stroke-dasharray="5 4" />`)
         .join('')}
-      ${chips.map((c) => toolChip(c.x, c.y, c.icon, c.label, TOOL_COLORS[c.icon])).join('')}
+      ${chips.map((c) => toolChip(c.x, c.y, c.icon, c.label, ACCENT)).join('')}
 
       ${main.surfaceRect}
       <g clip-path="url(#${main.clipId})">
@@ -801,127 +805,184 @@ function tiRanking() {
   };
 }
 
+/**
+ * The pair on /solution/tech-recruitment.
+ *
+ * Both were the same object: an ink header bar over a table of rows, which is the simulated
+ * product screen the rest of this pass has been moving away from, and which said nothing about
+ * either section beyond "here is some software". The two sections argue different things, so they
+ * are drawn as two different pictures rather than one card with different rows in it.
+ *
+ * They share a surface and nothing else — the same white panel on the section's own gradient — so
+ * the page reads as a set while each half carries the form its own argument needs.
+ */
+const TR = { x: 40, y: 96, w: 508, h: 344, r: 20 };
+const TR_EDGE = '#e5e5e5';
+const r2 = (v) => +Number(v).toFixed(2);
+
+/** A technology, as a node in the graph: white, hairline, sized to its own name. */
+function nodeChip(cx, cy, label) {
+  const h = 32;
+  const size = 13;
+  const w = Math.round(estWidth(label, size) + 30);
+  return (
+    `<rect x="${r2(cx - w / 2)}" y="${cy - h / 2}" width="${w}" height="${h}" rx="${h / 2}" ` +
+    `fill="white" stroke="${TR_EDGE}" stroke-width="1.2"/>` +
+    text(cx, cy + 5, label, { size, weight: 500, fill: INK, anchor: 'middle' })
+  );
+}
+
+/** The competency a cluster of technologies adds up to. */
+function domainHub(cx, cy, label, fill, ink) {
+  const h = 38;
+  const w = Math.round(estWidth(label, 14) + 40);
+  return (
+    `<rect x="${r2(cx - w / 2)}" y="${cy - h / 2}" width="${w}" height="${h}" rx="${h / 2}" fill="${fill}"/>` +
+    text(cx, cy + 5, label, { size: 14, weight: 600, fill: ink, anchor: 'middle' })
+  );
+}
+
+/**
+ * "Stop Matching Java to JavaScript" — so the picture is the stack as the engine groups it.
+ *
+ * Two hubs, each with the technologies that imply it hanging off it. The two names the section is
+ * about end up in different clusters and adjacent across the gap between them, which is the whole
+ * argument: they sit next to each other in the alphabet and nowhere near each other in the graph.
+ * The link a keyword matcher would draw between them is the one edge on the page that is cut.
+ */
 function trSemantic() {
   const bg = backdrop({ from: '#ff3aaf', mid: '#da8dff', to: '#fdfcff' });
+  const surface = card('trs-surface', TR.x, TR.y, TR.w, TR.h, TR.r);
 
-  // The floating "Genuine Competency" card was dropped, so the table is the whole composition and
-  // is centred on the canvas rather than sitting high with the space the card used to fill.
-  // The body carries padding rather than handing its whole height to the rows, which put the
-  // first pill 14.5px under the header and the last one the same distance off the bottom edge.
-  // The card grows by the padding it gains, so the rows keep the pitch they had.
-  const bodyPad = 12;
-  const headerH = 56;
-  const cardH = 324;
-  const cardY = (H - cardH) / 2;
-  const mainCard = card('trs-main', 40, cardY, 508, cardH, 16);
-  const rows = [
-    { from: 'React', to: 'Frontend Engineering' },
-    { from: 'Docker', to: 'DevOps' },
-    { from: 'Kubernetes', to: 'Container Orchestration' },
-    { from: 'Postgres', to: 'Database Design' },
+  const clusters = [
+    {
+      hub: { cx: 160, cy: 250, label: 'Frontend', fill: '#daedff', ink: '#1959dc' },
+      nodes: [
+        { cx: 160, cy: 160, label: 'React' },
+        { cx: 104, cy: 340, label: 'TypeScript' },
+        { cx: 224, cy: 340, label: 'JavaScript' },
+      ],
+    },
+    {
+      hub: { cx: 428, cy: 250, label: 'JVM / Backend', fill: '#ebe8ff', ink: '#501dba' },
+      nodes: [
+        { cx: 428, cy: 160, label: 'Spring' },
+        { cx: 364, cy: 340, label: 'Java' },
+        { cx: 492, cy: 340, label: 'Kotlin' },
+      ],
+    },
   ];
-  const rowH = (cardH - headerH - bodyPad * 2) / rows.length;
-  const rowsMarkup = rows
-    .map((row, i) => {
-      const rowY = cardY + headerH + bodyPad + i * rowH;
-      const midY = rowY + rowH / 2;
-      const fromW = 128;
-      const fromH = 32;
-      const toW = 292;
-      const toH = 32;
-      const fromX = 64;
-      const toX = 524 - toW;
-      const arrowX = fromX + fromW + (toX - fromX - fromW) / 2;
-      return (
-        pill(fromX, midY - fromH / 2, fromW, fromH, { fill: '#f1f2f4', text: row.from, textFill: INK, size: 13 }) +
-        arrowIcon(arrowX, midY, '#c026d3') +
-        pill(toX, midY - toH / 2, toW, toH, { fill: '#daedff', text: row.to, textFill: '#1959dc', size: 13 })
-      );
-    })
+
+  // Edges run under the nodes, so each one is drawn full length and then covered at both ends.
+  const edges = clusters
+    .flatMap(({ hub, nodes }) =>
+      nodes.map(
+        (n) =>
+          `<line x1="${hub.cx}" y1="${hub.cy}" x2="${n.cx}" y2="${n.cy}" stroke="${INK}" ` +
+          'stroke-opacity="0.22" stroke-width="1.5" stroke-linecap="round"/>'
+      )
+    )
     .join('');
+
+  // The edge a keyword matcher would draw, cut where it would have joined.
+  const severed = (() => {
+    const [x1, x2, y] = [279, 328, 340];
+    const mx = (x1 + x2) / 2;
+    return (
+      `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="#e8342a" stroke-width="1.5" ` +
+      'stroke-dasharray="4 4" stroke-linecap="round"/>' +
+      `<circle cx="${mx}" cy="${y}" r="9" fill="white"/>` +
+      `<circle cx="${mx}" cy="${y}" r="7.2" fill="none" stroke="#e8342a" stroke-width="1.8"/>` +
+      `<g stroke="#e8342a" stroke-width="1.8" stroke-linecap="round">` +
+      `<line x1="${mx - 3.2}" y1="${y - 3.2}" x2="${mx + 3.2}" y2="${y + 3.2}"/>` +
+      `<line x1="${mx + 3.2}" y1="${y - 3.2}" x2="${mx - 3.2}" y2="${y + 3.2}"/></g>`
+    );
+  })();
+
+  const label = 'A tech stack grouped by what each technology implies, with the keyword link between Java and JavaScript cut';
 
   return {
     file: 'tr-semantic',
-    label: 'Semantic matching across a real tech stack',
+    label,
     designWidth: W,
     designHeight: H,
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="Semantic matching across a real tech stack">
-      <defs>${bg.defs}${mainCard.defs}</defs>
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="${esc(label)}">
+      <defs>${bg.defs}${surface.defs}</defs>
       ${bg.rect}
-
-      ${mainCard.surfaceRect}
-      <g clip-path="url(#${mainCard.clipId})">
-        <rect x="40" y="${cardY}" width="508" height="${headerH}" fill="${INK}" />
-        ${text(64, cardY + headerH / 2 + 6, 'Semantic Brain', { size: 17, weight: 600, fill: 'white' })}
-        ${rowsMarkup}
+      ${surface.surfaceRect}
+      <g clip-path="url(#${surface.clipId})">
+        ${edges}
+        ${severed}
+        ${clusters.map(({ hub }) => domainHub(hub.cx, hub.cy, hub.label, hub.fill, hub.ink)).join('')}
+        ${clusters.flatMap(({ nodes }) => nodes.map((n) => nodeChip(n.cx, n.cy, n.label))).join('')}
+        ${text(294, 408, 'Related by meaning, not by spelling', { size: 13, fill: INK_SOFT, anchor: 'middle' })}
       </g>
     </svg>`,
   };
 }
 
+/**
+ * "A resume claims expertise. A challenge proves it." — so the picture is the two side by side,
+ * ordered by the half that was measured.
+ *
+ * The adjective a candidate picked for themselves sits on the left and what they actually passed
+ * on the right, sorted by the right-hand column. The two who called themselves Expert come out
+ * top and bottom, which is the section's point made by the ordering rather than by a caption.
+ */
 function trVerify() {
   const bg = backdrop({ from: '#fe7c34', mid: '#ffddb1', to: '#fdfcff', flip: true });
+  const surface = card('trv-surface', TR.x, TR.y, TR.w, TR.h, TR.r);
 
-  // Without its button the floating card only needs room for the icon and two lines, so it comes
-  // down from 124 to 70 — which leaves the icon's 12px of top padding matched at the bottom. It
-  // clears the table rather than overlapping it, and the two are centred as one block so the
-  // gap between them does not push the composition off the bottom of the canvas.
-  // Padded on the same terms as the table on tr-semantic, its pair on this page, and grown by
-  // the padding so the rows keep the pitch they had.
-  const bodyPad = 12;
-  const headerH = 56;
-  const cardH = 294;
-  const alertH = 70;
-  const gap = 20;
-  const cardY = (H - (cardH + gap + alertH)) / 2;
-  const alertY = cardY + cardH + gap;
+  const left = 72;
+  const claimRight = 300;
+  const trackX = 324;
+  const trackW = 146;
+  const pctRight = 516;
 
-  const mainCard = card('trv-main', 40, cardY, 508, cardH, 16);
+  // Ranked by the measured column, which is the ordering the section is describing.
   const rows = [
-    { name: 'Amit K.', role: 'Backend Engineer', score: '96%', colors: { bg: '#dcfce7', text: '#15803d' } },
-    { name: 'Priya S.', role: 'Full-Stack Engineer', score: '88%', colors: { bg: '#dcfce7', text: '#15803d' } },
-    { name: 'John D.', role: 'Frontend Engineer', score: '54%', colors: { bg: '#ffe9d4', text: '#c62c08' } },
+    { name: 'Amit K.', claim: 'Advanced', pass: 96 },
+    { name: 'Priya S.', claim: 'Expert', pass: 88 },
+    { name: 'John D.', claim: 'Expert', pass: 54 },
   ];
-  const rowH = (cardH - headerH - bodyPad * 2) / rows.length;
+
   const rowsMarkup = rows
-    .map((row, i) => {
-      const rowY = cardY + headerH + bodyPad + i * rowH;
-      const midY = rowY + rowH / 2;
-      const divider = i < rows.length - 1 ? `<line x1="64" y1="${rowY + rowH}" x2="476" y2="${rowY + rowH}" stroke="${DIVIDER}" />` : '';
-      const pillW = 76;
-      const pillH = 28;
+    .map(({ name, claim, pass }, i) => {
+      const midY = 200 + i * 70;
+      const chipW = Math.round(estWidth(claim, 12) + 28);
+      const fill = r2((pass / 100) * trackW);
       return (
-        text(64, midY - 3, row.name, { size: 15, weight: 600 }) +
-        text(64, midY + 16, row.role, { size: 12, fill: INK_SOFT }) +
-        pill(476 - pillW, midY - pillH / 2, pillW, pillH, { fill: row.colors.bg, text: row.score, textFill: row.colors.text }) +
-        divider
+        text(left, midY + 5, name, { size: 15, weight: 600 }) +
+        pill(claimRight - chipW, midY - 13, chipW, 26, {
+          fill: '#f1f2f4',
+          text: claim,
+          textFill: INK_SOFT,
+          size: 12,
+        }) +
+        `<rect x="${trackX}" y="${midY - 5}" width="${trackW}" height="10" rx="5" fill="${INK}" fill-opacity="0.08"/>` +
+        `<rect x="${trackX}" y="${midY - 5}" width="${fill}" height="10" rx="5" fill="#1959dc"/>` +
+        text(pctRight, midY + 5, `${pass}%`, { size: 14, weight: 600, anchor: 'end' })
       );
     })
     .join('');
 
-  const alert = floatingCard('trv-alert', 88, alertY, 420, alertH, {
-    status: 'success',
-    headline: 'Auto-Ranked by Code Quality',
-    subtext: 'No manual resume screening required',
-  });
+  const label = 'Three candidates ranked by the assessment they passed rather than the level they claimed';
 
   return {
     file: 'tr-verify',
-    label: 'Candidates ranked by assessment pass rate',
+    label,
     designWidth: W,
     designHeight: H,
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="Candidates ranked by assessment pass rate">
-      <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="${esc(label)}">
+      <defs>${bg.defs}${surface.defs}</defs>
       ${bg.rect}
-
-      ${mainCard.surfaceRect}
-      <g clip-path="url(#${mainCard.clipId})">
-        <rect x="40" y="${cardY}" width="508" height="${headerH}" fill="${INK}" />
-        ${text(64, cardY + headerH / 2 + 6, 'Assessment Leaderboard', { size: 17, weight: 600, fill: 'white' })}
+      ${surface.surfaceRect}
+      <g clip-path="url(#${surface.clipId})">
+        ${text(left, 140, 'RESUME SAYS', { size: 11, weight: 600, fill: INK_SOFT })}
+        ${text(trackX, 140, 'CODE SAYS', { size: 11, weight: 600, fill: INK_SOFT })}
         ${rowsMarkup}
+        ${text(294, 408, 'Ranked by what they passed, not what they claimed', { size: 13, fill: INK_SOFT, anchor: 'middle' })}
       </g>
-
-      ${alert.markup}
     </svg>`,
   };
 }
@@ -1499,7 +1560,8 @@ function hvAlwaysOn() {
   const plot = { left: 61.7, right: 526.31, bottom: 359.44 };
 
   /*
-   * [load, headroom] per hour — the design's own volumes, untouched.
+   * [load, headroom] per bucket — the design's own volumes, untouched. Ten of them across the
+   * 08:00-10:00 axis is a bucket every twelve minutes, not an hour apiece.
    *
    * Its slot geometry is not kept, because it does not hold: the ten bars carry three different
    * widths (26.55 four times, 27 once, 25.87 five times) against a constant 22.45 gap, so the
@@ -1545,7 +1607,7 @@ function hvAlwaysOn() {
       return (
         bar(x, width, headroom, CAP_TRACK) +
         bar(x, width, load, 'url(#hv-bar)') +
-        // Capacity spans the whole of that hour's load — the mark's length is the message.
+        // Capacity spans the whole of that bucket's load — the mark's length is the message.
         `<line x1="${num(centre)}" y1="${num(top + 4)}" x2="${num(centre)}" y2="${num(plot.bottom - 4)}" ` +
         `stroke="${CAPACITY}" stroke-width="3" stroke-linecap="round" />`
       );
@@ -1613,9 +1675,17 @@ function hvAlwaysOn() {
            Launch". Ten bars across two hours is 12-minute buckets, which is neither overnight nor
            the hourly reading every other part of this chart takes: the capacity mark is described
            hour by hour, and the section's copy is about applications landing "overnight… while
-           your competitors are sleeping". So the span is relabelled rather than the data — ten
-           bars, one per hour, 20:00 through 06:00 — which puts the existing peak at bars five to
-           seven at roughly 00:00–02:00, where the copy says the spike is. No volume changes. -->
+           your competitors are sleeping".
+
+           Both ends of that contradiction have now been tried. An earlier pass kept the axis and
+           renamed the caption "Morning Application Surge", which settled the axis against itself
+           but left the chart disagreeing with the paragraph beside it and with its own alt text,
+           both of which still say overnight — and left "every hour's bar" false, since two hours
+           over ten bars is 12-minute buckets. Naming the window the other way costs page copy;
+           moving the axis costs two labels. So the span is relabelled and the data untouched:
+           ten bars, one per hour, 20:00 through 06:00. That puts the existing peak at bars five
+           to seven at roughly 00:00–02:00, where the copy says the spike is, and makes the
+           caption, the paragraph and the alt text agree without rewriting any of them. -->
       ${text(plot.left, 389.44, '20:00', { size: 12.37, weight: 500 })}
       ${text(num((plot.left + plot.right) / 2), 389.44, 'Overnight Campaign Launch', { size: 12.37, weight: 500, anchor: 'middle' })}
       ${text(plot.right, 389.44, '06:00', { size: 12.37, weight: 500, anchor: 'end' })}
@@ -1642,6 +1712,31 @@ function hvAlwaysOn() {
  * memory is a logo drawn wrong, so the watermark is a chat glyph and the channel is named in the
  * title instead.
  */
+/**
+ * The WhatsApp mark, as the header watermark.
+ *
+ * The design carries the real logo here as a raster, so there was no vector in the file to lift.
+ * This is the standard 24-unit outline of the mark — the bubble with its tail and the handset
+ * knocked out of it — drawn as one path so it can be filled at any size without seams.
+ *
+ * It is a third party's trademark, so it is used the one way a trademark may be: to name the
+ * channel this panel sends on, in a single flat colour, whole and unaltered in shape. Swap this
+ * constant for the official asset from Meta's brand resources when it is to hand — nothing else
+ * has to change.
+ */
+const WHATSAPP_GLYPH =
+  'M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164' +
+  '-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297' +
+  '-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52' +
+  '-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074' +
+  '-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487' +
+  '.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248' +
+  '-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214' +
+  '-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122' +
+  ' 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815' +
+  ' 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882' +
+  ' 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z';
+
 const HV_W = 900;
 const HV_H = 574;
 
@@ -1772,9 +1867,8 @@ function hvBroadcast() {
       <rect x="20" y="16" width="860" height="542" rx="18" fill="white" stroke="${HV.edge}" stroke-width="1.2"/>
       <g clip-path="url(#${panel.clipId})">
         <rect x="20" y="16" width="860" height="80" fill="url(#hv-head)"/>
-        <g clip-path="url(#hv-head-clip)" opacity="0.15" fill="white">
-          <path transform="translate(672,-2) scale(0.92)" d="M20 0 H120 A20 20 0 0 1 140 20 V70 A20 20 0 0 1 120 90 H52 L24 112 V90 H20 A20 20 0 0 1 0 70 V20 A20 20 0 0 1 20 0 Z"/>
-          <path transform="translate(786,26) scale(0.62)" d="M20 0 H120 A20 20 0 0 1 140 20 V70 A20 20 0 0 1 120 90 H52 L24 112 V90 H20 A20 20 0 0 1 0 70 V20 A20 20 0 0 1 20 0 Z"/>
+        <g clip-path="url(#hv-head-clip)" opacity="0.17" fill="white">
+          <path transform="translate(742,-14) scale(5.2)" d="${WHATSAPP_GLYPH}"/>
         </g>
         ${text(left, 62, 'Send WhatsApp Messages', { size: 22, weight: 600, fill: 'white' })}
 
