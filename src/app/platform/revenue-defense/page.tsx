@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 
 import { ChecklistPanel } from '@/components/panels/ChecklistPanel';
 import { ComparePanel } from '@/components/panels/ComparePanel';
+import { CreativeGround } from '@/components/panels/CreativeGround';
 import { FlowPanel } from '@/components/panels/FlowPanel';
 import { MeterPanel } from '@/components/panels/MeterPanel';
 import { CtaCentered } from '@/components/sections/CtaCentered';
@@ -18,16 +19,17 @@ export const metadata: Metadata = {
 export default function RevenueDefensePage() {
   return (
     <>
+      {/* The other two /platform pages open on the brand wash with their artwork sitting in it —
+          see faster-operations. This page opened on an ink field instead. */}
       <PageHero
         eyebrow="Offer Management & Pre-Boarding"
         title={"The Deal Isn't Closed\nUntil They Show Up."}
         lede="Recruitment teams lose 20% of secured talent after the offer is signed. Our Revenue Defense protocol monitors the danger zone — the silence between signature and start date — predicting ghosting risk and counter-offers before they force you to restart the search."
         cta={{ label: 'Secure Your Next Hire', href: '/contact' }}
         note="Stops fall-offs. Protects forecasts."
-        wash="dark"
+        wash="brand"
         media={
           <FlowPanel
-            tone="dark"
             orientation="horizontal"
             className="mx-auto max-w-[980px]"
             steps={[
@@ -50,28 +52,30 @@ export default function RevenueDefensePage() {
         body="Candidates are most vulnerable right after they sign. Current bosses throw counter-offers. Doubt creeps in. Passive software ignores this critical window — Talentilo actively looks for signals of a hire going sideways."
         points={[]}
         media={
-          <ComparePanel
-            accent="crusta"
-            before={{
-              label: 'The status quo',
-              caption: 'Result: costly backout',
-              items: [
-                'Silence after the signature',
-                'Team assumes the candidate is safe',
-                'Counter-offer strikes unseen',
-              ],
-            }}
-            after={{
-              label: 'Talentilo Defense',
-              caption: 'Result: placement secured',
-              items: [
-                'Active monitoring through notice',
-                "System detects hesitation",
-                'Alert triggers instantly',
-              ],
-              badge: 'System active',
-            }}
-          />
+          <CreativeGround tone="brand">
+            <ComparePanel
+              accent="crusta"
+              before={{
+                label: 'The status quo',
+                caption: 'Result: costly backout',
+                items: [
+                  'Silence after the signature',
+                  'Team assumes the candidate is safe',
+                  'Counter-offer strikes unseen',
+                ],
+              }}
+              after={{
+                label: 'Talentilo Defense',
+                caption: 'Result: placement secured',
+                items: [
+                  'Active monitoring through notice',
+                  'System detects hesitation',
+                  'Alert triggers instantly',
+                ],
+                badge: 'System active',
+              }}
+            />
+          </CreativeGround>
         }
       />
 
@@ -83,20 +87,22 @@ export default function RevenueDefensePage() {
         pullQuote="Ghosting isn't sudden. It's a pattern."
         mediaSide="left"
         media={
-          <MeterPanel
-            accent="rose"
-            title="Engagement Latency — Sarah T."
-            status="Anomaly detected"
-            label="Notice period · day 12 of 30"
-            value="24h+"
-            caption="Reply latency, up from a 4h average."
-            bars={[
-              { label: 'Wk 1', value: 18 },
-              { label: 'Wk 2', value: 32 },
-              { label: 'Now', value: 96, alert: true },
-            ]}
-            note="Risk alert: high probability of counter-offer. Intervene."
-          />
+          <CreativeGround tone="magenta">
+            <MeterPanel
+              accent="rose"
+              title="Engagement Latency — Sarah T."
+              status="Anomaly detected"
+              label="Notice period · day 12 of 30"
+              value="24h+"
+              caption="Reply latency, up from a 4h average."
+              bars={[
+                { label: 'Wk 1', value: 18 },
+                { label: 'Wk 2', value: 32 },
+                { label: 'Now', value: 96, alert: true },
+              ]}
+              note="Risk alert: high probability of counter-offer. Intervene."
+            />
+          </CreativeGround>
         }
       />
 
@@ -107,18 +113,20 @@ export default function RevenueDefensePage() {
         points={[]}
         pullQuote="Micro-commitments prevent back-outs."
         media={
-          <ChecklistPanel
-            title="Pre-Boarding Tracker"
-            meta="75% complete"
-            progress={75}
-            items={[
-              { label: 'Offer accepted via DocuSign', status: 'Oct 12' },
-              { label: 'Resignation letter copy uploaded', status: 'Oct 14' },
-              { label: 'Old laptop returned to employer', status: 'Oct 18' },
-              { label: 'Welcome kit sent', status: 'Pending', state: 'pending' },
-              { label: 'Day 1 orientation set', status: 'Pending', state: 'pending' },
-            ]}
-          />
+          <CreativeGround tone="warm">
+            <ChecklistPanel
+              title="Pre-Boarding Tracker"
+              meta="75% complete"
+              progress={75}
+              items={[
+                { label: 'Offer accepted via DocuSign', status: 'Oct 12' },
+                { label: 'Resignation letter copy uploaded', status: 'Oct 14' },
+                { label: 'Old laptop returned to employer', status: 'Oct 18' },
+                { label: 'Welcome kit sent', status: 'Pending', state: 'pending' },
+                { label: 'Day 1 orientation set', status: 'Pending', state: 'pending' },
+              ]}
+            />
+          </CreativeGround>
         }
       />
 
@@ -129,19 +137,21 @@ export default function RevenueDefensePage() {
         points={[]}
         mediaSide="left"
         media={
-          <ComparePanel
-            before={{
-              label: 'Standard CRM forecast',
-              value: '10',
-              caption: 'Projected hires — assumes 0% drop-off',
-            }}
-            after={{
-              label: 'Risk-adjusted (Talentilo)',
-              value: '8 + 2',
-              caption: '8 solid / protected · 2 at-risk / flagged',
-              badge: 'Board-ready',
-            }}
-          />
+          <CreativeGround tone="magenta">
+            <ComparePanel
+              before={{
+                label: 'Standard CRM forecast',
+                value: '10',
+                caption: 'Projected hires — assumes 0% drop-off',
+              }}
+              after={{
+                label: 'Risk-adjusted (Talentilo)',
+                value: '8 + 2',
+                caption: '8 solid / protected · 2 at-risk / flagged',
+                badge: 'Board-ready',
+              }}
+            />
+          </CreativeGround>
         }
       />
 
