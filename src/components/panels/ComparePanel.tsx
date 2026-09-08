@@ -41,7 +41,6 @@ export function ComparePanel({
   className,
 }: ComparePanelProps) {
   const accentText = accent === 'crusta' ? 'text-crusta-500' : 'text-azure-600';
-  const accentBorder = accent === 'crusta' ? 'border-crusta-300' : 'border-azure-300';
   const accentBadge = accent === 'crusta' ? 'bg-crusta-100 text-crusta-700' : 'bg-azure-100 text-azure-800';
 
   return (
@@ -53,7 +52,6 @@ export function ComparePanel({
         kind="after"
         compact={compact}
         accentText={accentText}
-        accentBorder={accentBorder}
         accentBadge={accentBadge}
       />
     </div>
@@ -66,7 +64,6 @@ function Side({
   kind,
   compact,
   accentText,
-  accentBorder,
   accentBadge,
 }: {
   tone: PanelTone;
@@ -74,7 +71,6 @@ function Side({
   kind: 'before' | 'after';
   compact?: boolean;
   accentText?: string;
-  accentBorder?: string;
   accentBadge?: string;
 }) {
   const winner = kind === 'after';
@@ -82,10 +78,11 @@ function Side({
   return (
     <div
       className={cn(
-        'flex flex-col rounded-card border',
+        // The winner reads from its figure colour, its check and its badge. It used to carry an
+        // accent border too, which now sets a colour on a zero-width edge and does nothing.
+        'flex flex-col rounded-card',
         compact ? 'gap-2 p-4' : 'gap-4 p-6',
-        panelSurface(tone),
-        winner && accentBorder
+        panelSurface(tone)
       )}
     >
       <div className="flex items-start justify-between gap-3">

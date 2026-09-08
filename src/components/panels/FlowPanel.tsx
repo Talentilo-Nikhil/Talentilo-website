@@ -46,7 +46,7 @@ export function FlowPanel({
       <ol className={cn('flex flex-col gap-3 sm:flex-row sm:items-stretch', className)}>
         {steps.map((step, i) => (
           <li key={step.label} className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center">
-            <div className={cn('flex-1 rounded-card border p-5', panelSurface(tone))}>
+            <div className={cn('flex-1 rounded-card p-5', panelSurface(tone))}>
               <div className="flex items-center gap-2.5">
                 <Dot state={step.state} />
                 <p className={cn('text-small font-semibold', panelText(tone))}>{step.label}</p>
