@@ -25,8 +25,14 @@ export type PanelProps = {
   children: ReactNode;
 };
 
+/**
+ * The card's fill only. No edge: a 1px border sits in the border box, which the card's own near-
+ * white background shows through, so on a saturated ground it renders as a pale hairline round
+ * every creative. The dark fill is carried up from 4% to compensate for the edge it loses —
+ * at 4% with no border a panel on ink is barely a panel.
+ */
 export function panelSurface(tone: PanelTone) {
-  return tone === 'dark' ? 'bg-white/[0.04] border-white/10' : 'bg-surface border-ink/10';
+  return tone === 'dark' ? 'bg-white/[0.08]' : 'bg-surface';
 }
 
 export function panelText(tone: PanelTone) {
@@ -41,7 +47,7 @@ export function Panel({ tone = 'light', title, meta, className, children }: Pane
   return (
     <div
       className={cn(
-        'overflow-hidden rounded-card border shadow-[0_10px_30px_rgb(12_10_16/0.06)]',
+        'overflow-hidden rounded-card shadow-[0_10px_30px_rgb(12_10_16/0.06)]',
         panelSurface(tone),
         className
       )}
