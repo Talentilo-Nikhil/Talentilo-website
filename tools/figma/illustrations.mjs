@@ -337,6 +337,52 @@ const EXPORTS = {
       file: 'rd-hero-offers',
       path: 'Frame 2085665236/Frame 2085665231/Offer Reminders',
       label: 'The offer-reminders workspace tracking every signed candidate through their notice period',
+      patch: [
+        // The signed-in user in the top-right chip was the file's own placeholder, "John Doe".
+        // Its frame is an auto-layout row (avatar, name+role, chevron) that Figma would reflow on
+        // its own; the export just draws the resolved absolute boxes, so a longer name needs its
+        // neighbours re-laid-out by hand. "Rohan Sharma" measures 69.08px at this chip's own size
+        // (10.44px, Albert Sans SemiBold — the ADVANCE table's calibration weight) against "John
+        // Doe"'s 46px, a 23.08px gap the chip has nowhere to absorb on its own: expanding it
+        // rightward alone runs the chevron 8.17px past the creative's own right edge, and pinning
+        // the chevron and expanding leftward alone runs the avatar into the icon left of it. Split
+        // 13px left, 10.08px right instead, which lands both sides with a buffer still in hand —
+        // 7.89px between the avatar and that icon, 4.83px between the chevron and the canvas edge.
+        {
+          path: 'Body/Frame 2085665351/Frame 2085665376/Frame 2085665372/Frame 2085665373',
+          box: { x: 1117.51, y: 518.93, w: 137.7, h: 29.84 },
+        },
+        {
+          path: 'Body/Frame 2085665351/Frame 2085665376/Frame 2085665372/Frame 2085665373/29 9',
+          box: { x: 1120.49, y: 518.93, w: 29.84, h: 29.84 },
+        },
+        {
+          path: 'Body/Frame 2085665351/Frame 2085665376/Frame 2085665372/Frame 2085665373/_Avatar online indicator',
+          box: { x: 1142.12, y: 540.57, w: 7.46, h: 7.46 },
+        },
+        {
+          path: 'Body/Frame 2085665351/Frame 2085665376/Frame 2085665372/Frame 2085665373/Frame 2085665374',
+          box: { x: 1159.28, y: 520.35, w: 69.08, h: 27.02 },
+        },
+        {
+          path: 'Body/Frame 2085665351/Frame 2085665376/Frame 2085665372/Frame 2085665373/Frame 2085665374/John Doe',
+          box: { x: 1159.28, y: 520.35, w: 69.08, h: 17 },
+          text: 'Rohan Sharma',
+          lines: [{ text: 'Rohan Sharma', x: 0, y: 12.16, w: 69.08 }],
+        },
+        {
+          path: 'Body/Frame 2085665351/Frame 2085665376/Frame 2085665372/Frame 2085665373/Frame 2085665374/Manager',
+          box: { x: 1159.28, y: 534.36, w: 33, h: 13 },
+        },
+        {
+          path: 'Body/Frame 2085665351/Frame 2085665376/Frame 2085665372/Frame 2085665373/ChevronDown',
+          box: { x: 1237.31, y: 526.39, w: 14.92, h: 14.92 },
+        },
+        {
+          path: 'Body/Frame 2085665351/Frame 2085665376/Frame 2085665372/Frame 2085665373/ChevronDown/Icon',
+          box: { x: 1241.41, y: 532.55, w: 7.09, h: 4.1 },
+        },
+      ],
     },
   ],
 };
