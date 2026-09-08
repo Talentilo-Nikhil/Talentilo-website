@@ -19,7 +19,6 @@ export default function RevenueDefensePage() {
   return (
     <>
       <PageHero
-        eyebrow="Offer Management & Pre-Boarding"
         title={"The Deal Isn't Closed\nUntil They Show Up."}
         lede="Recruitment teams lose 20% of secured talent after the offer is signed. Our Revenue Defense protocol monitors the danger zone — the silence between signature and start date — predicting ghosting risk and counter-offers before they force you to restart the search."
         cta={{ label: 'Secure Your Next Hire', href: '/contact' }}
