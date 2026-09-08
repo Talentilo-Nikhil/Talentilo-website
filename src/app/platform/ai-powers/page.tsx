@@ -24,7 +24,6 @@ export default function AiPowersPage() {
           it's the real call-summary frame, bleeding off the band the way Recruitment OS's
           command centre does — 634 of its 675px show, so the cut lands 37px above the CTA's foot. */}
       <PageHero
-        eyebrow="AI-Native Operations"
         title={'Scale Your Output.\nNot Just Your Headcount.'}
         lede="Screening with Talentilo takes seconds. It's the AI-native platform that handles the top-of-funnel grind — screening, verifying and scheduling — so your team can focus on closing."
         cta={{ label: 'Deploy AI Screening', href: '/contact' }}

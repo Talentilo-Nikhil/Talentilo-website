@@ -55,10 +55,11 @@ export default function AgencyOwnerPage() {
         cta={{ label: 'Calculate EBITDA Impact', href: '/pricing#roi' }}
       />
 
+      {/* Placeholder attribution and photograph — replace before this is treated as social proof. */}
       <Testimonial
-        quote="Talentilo.ai had everything we needed to build a stunning website in no time. The attention to detail in this product is simply remarkable."
+        quote="We were running four systems and reconciling them by hand every Monday. Talentilo put the whole desk in one place — I can see margin per placement without asking anyone for a spreadsheet."
         name="Paula Bennett"
-        role="VP of Product Development, Morance"
+        role="VP of Talent Operations, Morance"
         avatarHash="da416245e6c0008541ebbaee04a05405e58598b7"
         tone="azure"
       />

@@ -24,7 +24,6 @@ export default function RevenueDefensePage() {
           real offers-workspace frame, bleeding off the band the way Recruitment OS's command
           centre does — 561 of its 593.9px show, so the cut lands 37px above the CTA's foot. */}
       <PageHero
-        eyebrow="Offer Management & Pre-Boarding"
         title={"The Deal Isn't Closed\nUntil They Show Up."}
         lede="Recruitment teams lose 20% of secured talent after the offer is signed. Our Revenue Defense protocol monitors the danger zone — the silence between signature and start date — predicting ghosting risk and counter-offers before they force you to restart the search."
         cta={{ label: 'Secure Your Next Hire', href: '/contact' }}

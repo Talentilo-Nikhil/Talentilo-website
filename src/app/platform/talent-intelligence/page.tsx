@@ -28,7 +28,6 @@ export default function TalentIntelligencePage() {
   return (
     <>
       <PageHero
-        eyebrow="Contextual Intelligence"
         title={'Your Next Hire is NOT\na Search Away.'}
         lede="Your ATS is likely a graveyard where great talent goes to be forgotten. Talentilo reads your job descriptions like a human and helps you find the best matches from your existing database — before you spend a rupee on new job ads or portals."
         cta={{ label: 'Rank Your Existing Candidates', href: '/contact' }}

@@ -393,26 +393,33 @@ function roGovernance() {
  * (x, x). Only Sheets showed one, because its tile happened to sit at (80, 72) and (80, 80) landed
  * inside it; the other three were rendered hundreds of pixels below their tiles, off the artwork.
  */
+/**
+ * The source-tool glyphs.
+ *
+ * These were hairline outlines, which at 24px on a white tile read as grey scratches rather than
+ * as the products they stand for. Each is now a solid silhouette in its own colour with the
+ * detail knocked out in white, which is how the real tools draw their own marks.
+ */
 const TOOL_ICONS = {
-  sheet: (cx, cy) =>
-    `<rect x="${cx - 10}" y="${cy - 10}" width="20" height="20" rx="3" fill="none" stroke="white" stroke-width="1.6" />` +
-    `<line x1="${cx - 10}" y1="${cy - 3.3}" x2="${cx + 10}" y2="${cy - 3.3}" stroke="white" stroke-width="1.2" />` +
-    `<line x1="${cx - 10}" y1="${cy + 3.3}" x2="${cx + 10}" y2="${cy + 3.3}" stroke="white" stroke-width="1.2" />` +
-    `<line x1="${cx - 3.3}" y1="${cy - 10}" x2="${cx - 3.3}" y2="${cy + 10}" stroke="white" stroke-width="1.2" />`,
-  email: (cx, cy) =>
-    `<rect x="${cx - 11}" y="${cy - 8}" width="22" height="16" rx="2.5" fill="none" stroke="white" stroke-width="1.6" />` +
-    `<path d="M${cx - 11},${cy - 7} L${cx},${cy + 2} L${cx + 11},${cy - 7}" fill="none" stroke="white" stroke-width="1.6" stroke-linejoin="round" />`,
+  sheet: (cx, cy, color) =>
+    `<rect x="${cx - 11}" y="${cy - 10}" width="22" height="20" rx="3.5" fill="${color}" />` +
+    `<path d="M${cx - 11} ${cy - 3.4} H${cx + 11} M${cx - 3.6} ${cy - 3.4} V${cy + 10} M${cx + 4.4} ${cy - 3.4} V${cy + 10}" stroke="#ffffff" stroke-width="1.8" />`,
+  email: (cx, cy, color) =>
+    `<rect x="${cx - 11}" y="${cy - 8}" width="22" height="16" rx="3" fill="${color}" />` +
+    `<path d="M${cx - 10.5} ${cy - 5.5} L${cx} ${cy + 2.5} L${cx + 10.5} ${cy - 5.5}" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" />`,
   // A candidate list rather than the calendar this used to borrow, which said nothing about an ATS.
-  ats: (cx, cy) =>
-    [-7, 0, 7]
+  ats: (cx, cy, color) =>
+    `<rect x="${cx - 11}" y="${cy - 10}" width="22" height="20" rx="3.5" fill="${color}" />` +
+    [-5, 0, 5]
       .map(
         (dy) =>
-          `<circle cx="${cx - 8}" cy="${cy + dy}" r="2" fill="white" />` +
-          `<line x1="${cx - 2}" y1="${cy + dy}" x2="${cx + 10}" y2="${cy + dy}" stroke="white" stroke-width="1.6" stroke-linecap="round" />`
+          `<circle cx="${cx - 5.5}" cy="${cy + dy}" r="1.7" fill="#ffffff" />` +
+          `<line x1="${cx - 1.5}" y1="${cy + dy}" x2="${cx + 6.5}" y2="${cy + dy}" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" />`
       )
       .join(''),
-  chat: (cx, cy) =>
-    `<path d="M${cx - 11},${cy - 8} h22 a2.5 2.5 0 0 1 2.5 2.5 v9 a2.5 2.5 0 0 1 -2.5 2.5 h-14 l-6 5 v-5 h-2 a2.5 2.5 0 0 1 -2.5 -2.5 v-9 a2.5 2.5 0 0 1 2.5 -2.5 z" fill="none" stroke="white" stroke-width="1.6" stroke-linejoin="round" />`,
+  chat: (cx, cy, color) =>
+    `<path d="M${cx - 8} ${cy - 9} H${cx + 8} A3 3 0 0 1 ${cx + 11} ${cy - 6} V${cy + 2} A3 3 0 0 1 ${cx + 8} ${cy + 5} H${cx - 2} L${cx - 6} ${cy + 10} V${cy + 5} H${cx - 8} A3 3 0 0 1 ${cx - 11} ${cy + 2} V${cy - 6} A3 3 0 0 1 ${cx - 8} ${cy - 9} Z" fill="${color}" />` +
+    [-5, 0, 5].map((dx) => `<circle cx="${cx + dx}" cy="${cy - 2}" r="1.6" fill="#ffffff" />`).join(''),
 };
 
 /**
@@ -426,16 +433,31 @@ const TOOL_ICONS = {
  */
 const CHIP = 64;
 
-function toolChip(x, y, icon, label) {
+function toolChip(x, y, icon, label, color) {
   return (
-    `<rect x="${x - CHIP / 2}" y="${y - CHIP / 2}" width="${CHIP}" height="${CHIP}" rx="16" fill="${INK}" />` +
-    TOOL_ICONS[icon](x, y) +
+    `<rect x="${x - CHIP / 2}" y="${y - CHIP / 2}" width="${CHIP}" height="${CHIP}" rx="16" fill="white" />` +
+    TOOL_ICONS[icon](x, y, color) +
     text(x, y + CHIP / 2 + 21, label, { size: 12, weight: 600, anchor: 'middle' })
   );
 }
 
 function roSingleTruth() {
   const bg = backdrop({ from: '#fe7c34', mid: '#ffddb1', to: '#fdfcff', flip: true });
+  /*
+   * The frame's single accent, carrying the source glyphs, the completed stages and the rail.
+   *
+   * Ink used to carry the tiles, the stages and the badge disc, which put more black on this one
+   * frame than the rest of the set carries between them — the siblings spend ink on the card
+   * header and the small dark buttons and nothing else. The tiles are white surfaces now, and the
+   * badge disc takes the tinted-status treatment `ro-governance` and `pc-guardrails` already use.
+   *
+   * One tone rather than a colour per source: four different hues made the tiles read as four
+   * unrelated products rather than as one row of inputs. It is crusta-600 rather than the 400 the
+   * wash is drawn from, which is the step Talentilo asked for and also the one that carries the
+   * white checks inside the stage dots — 3.88:1 against 2.55:1, so they clear the 3:1 a glyph
+   * needs where they did not before.
+   */
+  const ACCENT = '#ef4007';
   // Four tiles on one line, centred on the canvas and on the point their traces run to.
   const chipY = 64;
   const chips = ['sheet', 'email', 'ats', 'chat'].map((icon, i) => ({
@@ -444,7 +466,13 @@ function roSingleTruth() {
     icon,
     label: ['Sheets', 'Email', 'ATS', 'Chat'][i],
   }));
-  const converge = { x: 294, y: 170 };
+  /*
+   * The traces run to the top edge of the record card rather than stopping 10 short of it, so
+   * they visibly arrive somewhere. They were white at 0.6 over a wash that fades to #fdfcff
+   * right where they run, which is white on white — they are ink now, at the weight the rest of
+   * the frame's hairlines use.
+   */
+  const converge = { x: 294, y: 180 };
 
   const cardX = 40;
   const cardW = 508;
@@ -468,14 +496,16 @@ function roSingleTruth() {
   const stagesMarkup = stages
     .map((stage, i) => {
       const x = stageStartX + i * stageStep;
-      const fill = stage.state === 'pending' ? 'white' : stage.state === 'current' ? '#ff7d37' : INK;
-      const stroke = stage.state === 'pending' ? '#d0d5dd' : 'none';
-      const circle = `<circle cx="${x}" cy="${stageY}" r="16" fill="${fill}" ${stroke !== 'none' ? `stroke="${stroke}" stroke-width="2"` : ''} />`;
+      const fill = stage.state === 'done' ? ACCENT : 'white';
+      const stroke = stage.state === 'done' ? null : stage.state === 'current' ? ACCENT : '#d0d5dd';
+      const circle =
+        `<circle cx="${x}" cy="${stageY}" r="16" fill="${fill}"` +
+        `${stroke ? ` stroke="${stroke}" stroke-width="${stage.state === 'current' ? 3 : 2}"` : ''} />`;
       const glyph =
         stage.state === 'done'
           ? checkIcon(x, stageY, 16, 'white')
           : stage.state === 'current'
-            ? `<circle cx="${x}" cy="${stageY}" r="4.5" fill="white" />`
+            ? `<circle cx="${x}" cy="${stageY}" r="5" fill="${ACCENT}" />`
             : '';
       return circle + glyph + text(x, stageY + 34, stage.label, { size: 12, weight: 600, anchor: 'middle' });
     })
@@ -493,9 +523,9 @@ function roSingleTruth() {
       ${bg.rect}
 
       ${chips
-        .map((c) => `<line x1="${c.x}" y1="${c.y + CHIP / 2 + 30}" x2="${converge.x}" y2="${converge.y}" stroke="white" stroke-opacity="0.6" stroke-width="1.5" stroke-dasharray="4 4" />`)
+        .map((c) => `<line x1="${c.x}" y1="${c.y + CHIP / 2 + 30}" x2="${converge.x}" y2="${converge.y}" stroke="${INK}" stroke-opacity="0.32" stroke-width="1.6" stroke-dasharray="5 4" />`)
         .join('')}
-      ${chips.map((c) => toolChip(c.x, c.y, c.icon, c.label)).join('')}
+      ${chips.map((c) => toolChip(c.x, c.y, c.icon, c.label, ACCENT)).join('')}
 
       ${main.surfaceRect}
       <g clip-path="url(#${main.clipId})">
@@ -505,14 +535,14 @@ function roSingleTruth() {
         ${text(cardX + cardW - 116, 180 + headerH / 2 + 4, 'Synced just now', { size: 12, fill: 'white', opacity: 0.75 })}
 
         <line x1="${stageStartX}" y1="${stageY}" x2="${stageEndX}" y2="${stageY}" stroke="#e5e7eb" stroke-width="3" />
-        <line x1="${stageStartX}" y1="${stageY}" x2="${progressX}" y2="${stageY}" stroke="${INK}" stroke-width="3" />
+        <line x1="${stageStartX}" y1="${stageY}" x2="${progressX}" y2="${stageY}" stroke="${ACCENT}" stroke-width="3" />
         ${stagesMarkup}
       </g>
 
       ${badge.surfaceRect}
       <g clip-path="url(#${badge.clipId})">
-        <circle cx="176" cy="446" r="20" fill="${INK}" />
-        ${checkIcon(176, 446, 16, 'white')}
+        <circle cx="176" cy="446" r="20" fill="${STATUS.success.tint}" />
+        ${checkIcon(176, 446, 16, STATUS.success.ink)}
         ${text(208, 440, 'Single Source of Truth', { size: 16, weight: 600 })}
         ${text(208, 461, 'No more copy-pasting between tools', { size: 13, fill: INK_SOFT })}
       </g>
@@ -1530,7 +1560,8 @@ function hvAlwaysOn() {
   const plot = { left: 61.7, right: 526.31, bottom: 359.44 };
 
   /*
-   * [load, headroom] per hour — the design's own volumes, untouched.
+   * [load, headroom] per bucket — the design's own volumes, untouched. Ten of them across the
+   * 08:00-10:00 axis is a bucket every twelve minutes, not an hour apiece.
    *
    * Its slot geometry is not kept, because it does not hold: the ten bars carry three different
    * widths (26.55 four times, 27 once, 25.87 five times) against a constant 22.45 gap, so the
@@ -1576,7 +1607,7 @@ function hvAlwaysOn() {
       return (
         bar(x, width, headroom, CAP_TRACK) +
         bar(x, width, load, 'url(#hv-bar)') +
-        // Capacity spans the whole of that hour's load — the mark's length is the message.
+        // Capacity spans the whole of that bucket's load — the mark's length is the message.
         `<line x1="${num(centre)}" y1="${num(top + 4)}" x2="${num(centre)}" y2="${num(plot.bottom - 4)}" ` +
         `stroke="${CAPACITY}" stroke-width="3" stroke-linecap="round" />`
       );
@@ -1640,9 +1671,24 @@ function hvAlwaysOn() {
            encloses nothing and belongs to no scale, so only the labels inside it are kept. -->
       <!-- The end labels were inset 10px from the plot, which was padding inside the frame removed
            with its border; on their own they line up with the first and last bar instead. -->
-      ${text(plot.left, 389.44, '08:00', { size: 12.37, weight: 500 })}
+      <!-- The frame labelled these ends 08.00 and 10:00 under the caption "Overnight Campaign
+           Launch". Ten bars across two hours is 12-minute buckets, which is neither overnight nor
+           the hourly reading every other part of this chart takes: the capacity mark is described
+           hour by hour, and the section's copy is about applications landing "overnight… while
+           your competitors are sleeping".
+
+           Both ends of that contradiction have now been tried. An earlier pass kept the axis and
+           renamed the caption "Morning Application Surge", which settled the axis against itself
+           but left the chart disagreeing with the paragraph beside it and with its own alt text,
+           both of which still say overnight — and left "every hour's bar" false, since two hours
+           over ten bars is 12-minute buckets. Naming the window the other way costs page copy;
+           moving the axis costs two labels. So the span is relabelled and the data untouched:
+           ten bars, one per hour, 20:00 through 06:00. That puts the existing peak at bars five
+           to seven at roughly 00:00–02:00, where the copy says the spike is, and makes the
+           caption, the paragraph and the alt text agree without rewriting any of them. -->
+      ${text(plot.left, 389.44, '20:00', { size: 12.37, weight: 500 })}
       ${text(num((plot.left + plot.right) / 2), 389.44, 'Overnight Campaign Launch', { size: 12.37, weight: 500, anchor: 'middle' })}
-      ${text(plot.right, 389.44, '10:00', { size: 12.37, weight: 500, anchor: 'end' })}
+      ${text(plot.right, 389.44, '06:00', { size: 12.37, weight: 500, anchor: 'end' })}
     </svg>`,
   };
 }
