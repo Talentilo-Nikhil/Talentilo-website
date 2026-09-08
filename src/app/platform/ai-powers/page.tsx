@@ -20,7 +20,6 @@ export default function AiPowersPage() {
   return (
     <>
       <PageHero
-        eyebrow="AI-Native Operations"
         title={'Scale Your Output.\nNot Just Your Headcount.'}
         lede="Screening with Talentilo takes seconds. It's the AI-native platform that handles the top-of-funnel grind — screening, verifying and scheduling — so your team can focus on closing."
         cta={{ label: 'Deploy AI Screening', href: '/contact' }}

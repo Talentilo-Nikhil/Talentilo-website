@@ -20,7 +20,6 @@ export default function FasterOperationsPage() {
   return (
     <>
       <PageHero
-        eyebrow="Real-Time Velocity"
         title={'Speed is the Only\nCompetitive Advantage Left.'}
         lede="Top talent goes to the agency that connects first. The Operations Engine shifts your workflow from 'Administrative Latency' to 'Real-Time Velocity', eliminating the gap between Sourced and Interviewed."
         cta={{ label: 'Accelerate Your Workflow', href: '/contact' }}
