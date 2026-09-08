@@ -3,34 +3,80 @@ import type { ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
 /**
- * The ground the exported creatives sit on, rebuilt in CSS for the panels that are markup.
+ * The ground the exported creatives sit on, rebuilt for the panels that are markup.
  *
- * Every artwork creative on the site is drawn on the same thing — a diagonal brand gradient with
- * a hairline white grid over it, and the content floating on that as an inset card (see
- * `backdrop()` in tools/figma/custom-creatives.mjs). The Platform pages that carry live panels
- * instead of exported artwork had no ground at all: their cards sat directly on the page's white,
- * so the same section on /platform/talent-intelligence and /platform/faster-operations did not
- * look like it came from the same site.
+ * Read off the design rather than approximated. In `design/spec/*.json` every creative slot is a
+ * `Visual-n` frame at exactly 588x536 that clips its content, filled with one of the page
+ * gradients, with a group of outlined squares hanging off its top-left corner and running out of
+ * frame. The Platform pages built from live panels had no ground at all, so the same kind of
+ * section looked unrelated next to a page whose artwork was exported.
  *
- * The grid is the SVG pattern's geometry read back out: a 110px tile turned 45°, ruled at 1.5px in
- * white at 0.28. Two repeating gradients give the same two families of lines the rotated tile does.
+ * Three things here come straight from the spec and should not be "improved":
+ *
+ * - The frame is 588x536. That is the slot every creative on the site is drawn in, so a panel that
+ *   wants to sit beside them has to keep the same ratio.
+ * - The gradients are the page tokens, at the angles the tokens already carry. The design runs the
+ *   saturated end toward the middle of the page and the pale end toward the outer edge, which is
+ *   why `brand` and `warm` are 270deg and `magenta` is 90deg — so a section picks the tone whose
+ *   direction suits the side its media sits on.
+ * - The motif is four squares stroked in white at 1.2, no fill: a 419.53 container with three
+ *   140.68 squares stepping its diagonal at 139.01. It is placed off the top-left corner and
+ *   clipped, which is what gives a slot its partial squares rather than a tidy centred badge.
+ *
+ * The one value the spec does not carry is the corner radius — the extractor drops it — so 16 is
+ * set here to match the rendered artwork.
  */
 export type GroundTone = 'brand' | 'warm' | 'magenta';
 
-/**
- * The page tokens run these ramps horizontally, for full-width bands. A creative's ground runs the
- * same ramp corner to corner — that is what `backdrop()` draws, and it is what gives the grid
- * something to cut across — so the angle is set here rather than borrowing the token.
- */
 const GRADIENT: Record<GroundTone, string> = {
-  brand: 'linear-gradient(135deg, #fdfcff 0%, #b1a4ff 46%, #4da8fd 100%)',
-  warm: 'linear-gradient(135deg, #fdfcff 0%, #ffddb1 46%, #fe7c34 100%)',
-  magenta: 'linear-gradient(135deg, #fdfcff 0%, #da8dff 46%, #ff3aaf 100%)',
+  brand: 'var(--gradient-brand)',
+  warm: 'var(--gradient-warm)',
+  magenta: 'var(--gradient-magenta)',
 };
 
-const GRID =
-  'repeating-linear-gradient(45deg, rgb(255 255 255 / 0.28) 0 1.5px, transparent 1.5px 110px), ' +
-  'repeating-linear-gradient(135deg, rgb(255 255 255 / 0.28) 0 1.5px, transparent 1.5px 110px)';
+/** Slot geometry, in the design's own units. The SVG below is drawn in this same space. */
+const SLOT = { w: 588, h: 536 };
+/** 536 / 588, as the percentage padding-top resolves against the box's own width. */
+const RATIO = `${((536 / 588) * 100).toFixed(4)}%`;
+const MOTIF = { x: -121.77, y: -87.8, size: 419.53, cell: 140.68, step: 139.01, radius: 16 };
+
+function Motif() {
+  const cells = [0, 1, 2].map((i) => ({
+    x: MOTIF.x + i * MOTIF.step,
+    y: MOTIF.y + i * MOTIF.step,
+  }));
+
+  return (
+    <svg
+      viewBox={`0 0 ${SLOT.w} ${SLOT.h}`}
+      className="pointer-events-none absolute inset-0 h-full w-full"
+      fill="none"
+      stroke="#ffffff"
+      strokeWidth="1.2"
+      aria-hidden="true"
+    >
+      <rect
+        x={MOTIF.x}
+        y={MOTIF.y}
+        width={MOTIF.size}
+        height={MOTIF.size}
+        rx={MOTIF.radius}
+        vectorEffect="non-scaling-stroke"
+      />
+      {cells.map((c) => (
+        <rect
+          key={c.x}
+          x={c.x}
+          y={c.y}
+          width={MOTIF.cell}
+          height={MOTIF.cell}
+          rx={MOTIF.radius}
+          vectorEffect="non-scaling-stroke"
+        />
+      ))}
+    </svg>
+  );
+}
 
 export function CreativeGround({
   tone = 'brand',
@@ -43,10 +89,18 @@ export function CreativeGround({
 }) {
   return (
     <div
-      className={cn('rounded-card p-6 sm:p-10', className)}
-      style={{ backgroundImage: `${GRID}, ${GRADIENT[tone]}` }}
+      className={cn('relative grid overflow-hidden rounded-card', className)}
+      style={{ backgroundImage: GRADIENT[tone] }}
     >
-      {children}
+      {/*
+        The slot's ratio as a spacer rather than `aspect-ratio` on the box itself. Both this and the
+        content sit in the same grid cell, so the row takes whichever is taller: a short panel gets
+        the design's 588x536, and one carrying more than a single card grows instead of being
+        clipped by the overflow rule the motif needs.
+      */}
+      <div aria-hidden="true" className="col-start-1 row-start-1" style={{ paddingTop: RATIO }} />
+      <Motif />
+      <div className="col-start-1 row-start-1 grid place-items-center p-6 sm:p-10">{children}</div>
     </div>
   );
 }
