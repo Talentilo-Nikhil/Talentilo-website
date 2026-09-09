@@ -7,20 +7,44 @@ import { StatGrid } from '@/components/sections/StatGrid';
 import { ButtonLink } from '@/components/ui/Button';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { site } from '@/config/site';
 import { companyStats } from '@/data/stats';
 
+const PAGE_DESCRIPTION =
+  'Talentilo is tech recruitment software that matches engineers by architectural fit, coding capability and experience density — not Boolean keyword strings.';
+const PAGE_PATH = '/solution/tech-recruitment';
+
 export const metadata: Metadata = {
-  title: 'Tech Recruitment',
-  description:
-    'Talentilo decodes the actual tech stack, matching engineers on architectural fit, coding capability and experience density instead of Boolean strings.',
-  alternates: { canonical: '/solution/tech-recruitment' },
+  title: 'Tech Recruitment Software for Engineers',
+  description: PAGE_DESCRIPTION,
+  alternates: { canonical: PAGE_PATH },
+};
+
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Talentilo Tech Recruitment Software',
+  description: PAGE_DESCRIPTION,
+  serviceType: 'Technical recruitment software',
+  url: `${site.url}${PAGE_PATH}`,
+  provider: {
+    '@type': 'Organization',
+    name: site.name,
+    url: site.url,
+  },
 };
 
 export default function TechRecruitmentPage() {
   return (
     <>
+      {/* Static, locally-defined JSON-LD — no user input reaches this markup. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
+
       <PageHero
-        title="Speak the Language of Engineering"
+        title="Tech Recruitment Software That Speaks the Language of Engineering"
         lede="Great developers don't fit into keyword boxes. Most IT staffing software relies on rigid Boolean strings that miss top engineering talent. Talentilo decodes the actual tech stack, matching candidates based on architectural fit, coding capability, and experience density."
         cta={{ label: 'Start Semantic Search', href: '/contact' }}
       />
