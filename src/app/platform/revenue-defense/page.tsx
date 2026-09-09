@@ -4,6 +4,7 @@ import { ChecklistPanel } from '@/components/panels/ChecklistPanel';
 import { ComparePanel } from '@/components/panels/ComparePanel';
 import { CreativeGround } from '@/components/panels/CreativeGround';
 import { MeterPanel } from '@/components/panels/MeterPanel';
+import { LiveDot, Panel } from '@/components/panels/Panel';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
@@ -39,32 +40,7 @@ export default function RevenueDefensePage() {
         title={'A Signed Offer is\nNot a Closed Deal.'}
         body="Candidates are most vulnerable right after they sign. Current bosses throw counter-offers. Doubt creeps in. Passive software ignores this critical window — Talentilo actively looks for signals of a hire going sideways."
         points={[]}
-        media={
-          <CreativeGround tone="brand">
-            <ComparePanel
-              accent="crusta"
-              before={{
-                label: 'The status quo',
-                caption: 'Result: costly backout',
-                items: [
-                  'Silence after the signature',
-                  'Team assumes the candidate is safe',
-                  'Counter-offer strikes unseen',
-                ],
-              }}
-              after={{
-                label: 'Talentilo Defense',
-                caption: 'Result: placement secured',
-                items: [
-                  'Active monitoring through notice',
-                  'System detects hesitation',
-                  'Alert triggers instantly',
-                ],
-                badge: 'System active',
-              }}
-            />
-          </CreativeGround>
-        }
+        creative="rd-notice-tracker"
       />
 
       <FeatureSplit
@@ -126,19 +102,22 @@ export default function RevenueDefensePage() {
         mediaSide="left"
         media={
           <CreativeGround tone="magenta">
-            <ComparePanel
-              before={{
-                label: 'Standard CRM forecast',
-                value: '10',
-                caption: 'Projected hires — assumes 0% drop-off',
-              }}
-              after={{
-                label: 'Risk-adjusted (Talentilo)',
-                value: '8 + 2',
-                caption: '8 solid / protected · 2 at-risk / flagged',
-                badge: 'Board-ready',
-              }}
-            />
+            <Panel title="Placement Forecast" meta={<LiveDot label="Board-ready" />}>
+              <div className="p-6 sm:p-7">
+                <ComparePanel
+                  before={{
+                    label: 'Standard CRM forecast',
+                    value: '10',
+                    caption: 'Projected hires — assumes 0% drop-off',
+                  }}
+                  after={{
+                    label: 'Risk-adjusted (Talentilo)',
+                    value: '8 + 2',
+                    caption: '8 solid / protected · 2 at-risk / flagged',
+                  }}
+                />
+              </div>
+            </Panel>
           </CreativeGround>
         }
       />
