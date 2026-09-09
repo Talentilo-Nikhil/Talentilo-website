@@ -45,15 +45,18 @@ export function panelMuted(tone: PanelTone) {
 
 export function Panel({ tone = 'light', title, meta, className, children }: PanelProps) {
   return (
+    // A container, so everything inside answers to the card's own width. These are drawn in a
+    // creative slot, which is laid out at the design's fixed width and scaled down as one piece —
+    // a viewport breakpoint would reach past that and reflow the card the slot had already sized.
     <div
       className={cn(
-        'overflow-hidden rounded-card shadow-[0_10px_30px_rgb(12_10_16/0.06)]',
+        '@container overflow-hidden rounded-card shadow-[0_10px_30px_rgb(12_10_16/0.06)]',
         panelSurface(tone),
         className
       )}
     >
       {title ? (
-        <div className="flex items-center justify-between gap-4 bg-ink px-5 py-4 sm:px-6">
+        <div className="flex items-center justify-between gap-4 bg-ink px-5 py-4 @sm:px-6">
           <p className="font-sans text-body font-semibold text-white">{title}</p>
           {meta ? <div className="shrink-0 text-small text-white/70">{meta}</div> : null}
         </div>

@@ -44,16 +44,22 @@ export function ComparePanel({
   const accentBadge = accent === 'crusta' ? 'bg-crusta-100 text-crusta-700' : 'bg-azure-100 text-azure-800';
 
   return (
-    <div className={cn('grid gap-4 sm:grid-cols-2', className)}>
-      <Side tone={tone} side={before} kind="before" compact={compact} />
-      <Side
-        tone={tone}
-        side={after}
-        kind="after"
-        compact={compact}
-        accentText={accentText}
-        accentBadge={accentBadge}
-      />
+    // Paired against its own width rather than the viewport's. This sits in two different kinds of
+    // place — inside a creative slot, which is laid out at the design's fixed width and scaled, and
+    // inline under body copy, where it really is as wide as the column — and only the container
+    // answers both: the slot always has room for the pair, a phone's copy column never does.
+    <div className={cn('@container', className)}>
+      <div className="grid gap-4 @sm:grid-cols-2">
+        <Side tone={tone} side={before} kind="before" compact={compact} />
+        <Side
+          tone={tone}
+          side={after}
+          kind="after"
+          compact={compact}
+          accentText={accentText}
+          accentBadge={accentBadge}
+        />
+      </div>
     </div>
   );
 }
@@ -119,7 +125,9 @@ function Side({
         <p
           className={cn(
             'font-figure leading-[1.1] font-semibold',
-            compact ? 'text-[1.75rem]' : 'text-[clamp(1.75rem,1.2rem+1.8vw,2.5rem)]',
+            // `cqw`, not `vw`: the figure grows with the column it is set in, which inside a
+            // creative slot is the design's fixed width and so always the design's own size.
+            compact ? 'text-[1.75rem]' : 'text-[clamp(1.75rem,1.2rem+1.8cqw,2.5rem)]',
             winner ? accentText : panelMuted(tone)
           )}
         >
