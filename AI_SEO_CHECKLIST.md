@@ -9,6 +9,18 @@ A practical, beginner-friendly checklist for optimizing pages for traditional Go
 
 ---
 
+## Executive summary
+
+This guide turns on-page SEO into a repeatable checklist you can run on any page, without specialist knowledge or paid tools. It covers the traditional fundamentals that still decide whether a page ranks (title tags, headings, indexability, page structure) and the newer practices that make content easier for AI systems to read, quote and represent accurately.
+
+The core insight is that these two goals mostly overlap. Writing a clear direct answer up front, using descriptive headings, keeping paragraphs self-contained, and being factually specific helps a human skimming the page, helps Google understand it, and makes it easier for an AI system to extract and cite. Very little of this is exotic "AI SEO" — it is mostly good writing applied consistently.
+
+Work is split into three tiers so it doesn't become overwhelming: **Must Do** (roughly 14 items, apply to every important page), **Recommended** (depends on the page type and business), and **Optional/Advanced** (safely ignore at this level). If you only ever do the Must Do tier, you will have covered the majority of the available benefit.
+
+Two honest caveats. First, no tactic here — or anywhere — guarantees a Google ranking position or a citation in an AI answer; AI systems do not publish their selection criteria. Second, the AI-search (GEO) field is young, so this guide deliberately marks which advice comes from Google's own documentation, which is established SEO practice, and which is reasonable-but-unproven, rather than presenting it all with equal confidence.
+
+---
+
 ## How this guide was built
 
 The recommendations below focus on three things:
@@ -374,7 +386,7 @@ A tech recruitment page links to "See how pricing works" (→ `/pricing`) and "R
 - Vague, unsourced stats ("Studies show...")
 - Linking out excessively or to low-quality/unrelated sites
 
-**Priority: Recommended** — not every page needs citations, but pages making factual claims benefit from them, and this is a genuine, reasonable AI-search-readability practice (AI systems weigh sourced claims more usefully).
+**Priority: Medium** — not every page needs citations, but pages making factual claims benefit from them, and this is a genuine, reasonable AI-search-readability practice (AI systems weigh sourced claims more usefully).
 
 ---
 
@@ -396,7 +408,7 @@ A tech recruitment page links to "See how pricing works" (→ `/pricing`) and "R
 - Fake or exaggerated author credentials
 - No author information at all on advice/guide content
 
-**Priority: Recommended** for blog/guide content; **Optional** for straightforward product/service pages where a company voice is expected instead.
+**Priority: Medium** — High for blog/guide content where a named author adds real credibility; Low for straightforward product/service pages, where a company voice is expected instead.
 
 ---
 
@@ -418,7 +430,7 @@ A stat grid showing real, specific numbers (placements made, time saved) rather 
 - Unverifiable superlatives ("#1 rated," "the best") with no evidence
 - Fabricated or outdated statistics
 
-**Priority: Recommended**, High for commercial/conversion pages specifically.
+**Priority: Medium** — High for commercial/conversion pages specifically.
 
 ---
 
@@ -474,7 +486,7 @@ A stat grid showing real, specific numbers (placements made, time saved) rather 
 - Use **Schema.org's validator** (validator.schema.org) for general syntax checking.
 - Re-check after any content change that affects the marked-up fields.
 
-**Priority: Recommended**, not Must-Do — valuable when it accurately reflects real content, skippable otherwise.
+**Priority: Medium** — valuable when it accurately reflects real content, skippable otherwise. Never a substitute for the content itself.
 
 ---
 
@@ -496,7 +508,7 @@ A "2024 guide to X" gets its stats and screenshots actually refreshed before the
 - Changing the "last updated" date without changing any actual content
 - Letting stats/pricing pages go stale for years
 
-**Priority: Recommended**
+**Priority: Medium**
 
 ---
 
@@ -546,6 +558,36 @@ One well-developed "Tech Recruitment" solution page instead of five thin variant
 - Leaving `noindex` on from a staging/testing phase
 
 **Priority: High** — foundational; if a page isn't indexable, none of the on-page work matters. **May require developer help** to implement `robots.txt`/sitemap generation correctly.
+
+> **Audit finding for talentilo.ai (at time of writing):** the site had **no `robots.txt` and no XML sitemap** — neither `/robots.txt` nor `/sitemap.xml` existed. This is the highest-impact gap found during this audit, because it affects how efficiently every page on the site gets discovered. Both have now been added (`src/app/robots.ts` and `src/app/sitemap.ts`, generated from the existing `allRoutes` list so they stay in sync automatically). After deploying, submit the sitemap in Google Search Console.
+
+---
+
+## Technical Basics
+
+The handful of technical things that directly affect whether a page can be displayed and trusted. This is deliberately not a full technical audit.
+
+**What to check**
+- Each page has a canonical URL pointing at itself (or at the preferred version, if duplicates exist)
+- The page works properly on a phone
+- The page loads in a reasonable time
+- The site uses HTTPS everywhere
+
+**How to do it**
+1. **Canonical URL** — a canonical tag tells search engines "this is the official version of this page," which prevents duplicate versions (with/without trailing slash, tracking parameters) from competing with each other. Check it by loading the page, viewing source (Ctrl/Cmd+U), and searching for `rel="canonical"`. It should show the clean, preferred URL of that page.
+2. **Mobile usability** — open the page on an actual phone, or use your browser's device mode (right-click → Inspect → toggle the device toolbar). Check that text is readable without zooming, buttons are tappable, and nothing overflows sideways.
+3. **Page speed / Core Web Vitals** — run the page through Google's free **PageSpeed Insights** (pagespeed.web.dev). Aim for "Good" on the three Core Web Vitals (LCP = how fast the main content appears, CLS = how much the layout jumps around, INP = how quickly it responds to taps). Fix the specific issues it lists — usually oversized images. Don't chase a perfect score of 100; "Good" is enough.
+4. **HTTPS** — check for the padlock in the address bar, and confirm that typing the `http://` version redirects to `https://`.
+
+**Good example**
+Page source contains `<link rel="canonical" href="https://talentilo.ai/solution/tech-recruitment"/>`, PageSpeed Insights reports all three Core Web Vitals as "Good" on mobile, and `http://` requests redirect to `https://`.
+
+**Avoid**
+- Every page pointing its canonical at the homepage (a common and damaging mistake)
+- Ignoring mobile because the desktop version looks fine — most search traffic is mobile, and Google indexes the mobile version
+- Chasing a perfect 100 speed score at the expense of everything else
+
+**Priority: High** — **May require developer help** for canonical tags, redirects, and speed fixes.
 
 ---
 
@@ -741,7 +783,7 @@ Fictional example: a page for a project management tool's "task automation" feat
 | Rewrite opening paragraph as direct answer | Must | Medium | 10–20 min/page | All pages |
 | Cover missing subtopics | Recommended | Medium–Hard | 30–90 min/page | Blog, Service, Product |
 | Add FAQ section | Recommended | Medium | 20–40 min/page | Blog, Service, Product |
-| Add internal links | Must | Easy | 10 min/page | All pages |
+| Add internal links | Recommended | Easy | 10 min/page | All pages |
 | Add external citations | Recommended | Easy–Medium | 10–20 min/page | Blog, guides |
 | Add author/expertise info | Recommended | Easy | 10 min/page | Blog, guides |
 | Add trust signals (stats, testimonials) | Recommended | Medium | 30–60 min/page | Product, Service, Local business |

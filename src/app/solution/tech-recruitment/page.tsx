@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
@@ -11,7 +12,7 @@ import { site } from '@/config/site';
 import { companyStats } from '@/data/stats';
 
 const PAGE_DESCRIPTION =
-  'Talentilo is tech recruitment software that matches engineers by architectural fit, coding capability and experience density — not Boolean keyword strings.';
+  'Talentilo is tech recruitment software that matches engineers on architectural fit, coding capability and experience density — not Boolean strings.';
 const PAGE_PATH = '/solution/tech-recruitment';
 
 export const metadata: Metadata = {
@@ -54,6 +55,18 @@ export default function TechRecruitmentPage() {
         body="Generic recruitment tools look for exact word matches. They flood your pipeline with false positives—candidates who mentioned a skill once in 2015. Talentilo’s Semantic Brain understands the relationship between technologies. It knows that 'React' implies 'Frontend' and 'Docker' implies 'DevOps,' filtering for genuine competency, not just buzzwords"
         points={[]}
         cta={{ label: 'Get Started', href: '/contact' }}
+        aside={
+          <p className="text-small text-ink/80">
+            The same engine powers{' '}
+            <Link
+              href="/platform/talent-intelligence"
+              className="underline underline-offset-4 hover:text-brand-blue"
+            >
+              semantic search and candidate ranking
+            </Link>{' '}
+            across every role you hire for.
+          </p>
+        }
         creative="tr-semantic"
         mediaSide="left"
       />
@@ -75,10 +88,17 @@ export default function TechRecruitmentPage() {
         <div className="mt-15">
           <StatGrid stats={companyStats} />
         </div>
-        <div className="mt-10 flex justify-center">
+        <div className="mt-10 flex flex-col items-center gap-4">
           <ButtonLink href="/contact" variant="dark">
             See the Dashboard Live
           </ButtonLink>
+          <p className="text-small text-ink/80">
+            Every plan includes technical matching —{' '}
+            <Link href="/pricing" className="underline underline-offset-4 hover:text-brand-blue">
+              see what it costs
+            </Link>
+            .
+          </p>
         </div>
       </Section>
 
