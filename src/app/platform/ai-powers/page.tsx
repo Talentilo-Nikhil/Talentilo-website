@@ -4,7 +4,7 @@ import { CallPanel } from '@/components/panels/CallPanel';
 import { ChecklistPanel } from '@/components/panels/ChecklistPanel';
 import { ComparePanel } from '@/components/panels/ComparePanel';
 import { CreativeGround } from '@/components/panels/CreativeGround';
-import { FlowPanel } from '@/components/panels/FlowPanel';
+import { LiveDot, Panel } from '@/components/panels/Panel';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
@@ -40,28 +40,25 @@ export default function AiPowersPage() {
         points={[]}
         media={
           <CreativeGround tone="brand">
-            <div className="flex flex-col gap-4">
-              <ComparePanel
-                before={{
-                  label: 'The Grind (System Zone)',
-                  caption: 'Handled by the AI agent',
-                  items: ['Dialing and voicemails', 'Basic qualification', '"Are you interested?"'],
-                }}
-                after={{
-                  label: 'The Glory (Human Zone)',
-                  caption: 'Focus for human recruiters',
-                  items: ['Negotiation and culture fit', 'Career coaching', 'Closing the deal'],
-                }}
-              />
-              <FlowPanel
-                orientation="horizontal"
-                steps={[
-                  { label: '1,000 raw candidates', state: 'pending' },
-                  { label: '3 ready to close', state: 'done' },
-                ]}
-                connectors={['AI filter']}
-              />
-            </div>
+            <Panel title="Call Queue" meta={<LiveDot label="AI active" />}>
+              <div className="p-6 sm:p-7">
+                <ComparePanel
+                  before={{
+                    label: 'The Grind (System Zone)',
+                    caption: 'Handled by the AI agent',
+                    items: ['Dialing and voicemails', 'Basic qualification', '"Are you interested?"'],
+                  }}
+                  after={{
+                    label: 'The Glory (Human Zone)',
+                    caption: 'Focus for human recruiters',
+                    items: ['Negotiation and culture fit', 'Career coaching', 'Closing the deal'],
+                  }}
+                />
+              </div>
+              <p className="bg-surface-tint px-5 py-4 text-small font-semibold text-ink sm:px-6">
+                1,000 raw candidates → 3 ready to close
+              </p>
+            </Panel>
           </CreativeGround>
         }
       />
@@ -127,20 +124,23 @@ export default function AiPowersPage() {
         mediaSide="left"
         media={
           <CreativeGround tone="magenta">
-            <ComparePanel
-              accent="crusta"
-              before={{
-                label: 'Manual recruiter team',
-                value: '40 hrs',
-                caption: 'To process 500 candidates',
-              }}
-              after={{
-                label: 'Talentilo AI',
-                value: '1 hr',
-                caption: '498 / 500 screened',
-                badge: 'Parallel',
-              }}
-            />
+            <Panel title="Bulk Screening Run" meta={<LiveDot label="Parallel" />}>
+              <div className="p-6 sm:p-7">
+                <ComparePanel
+                  accent="crusta"
+                  before={{
+                    label: 'Manual recruiter team',
+                    value: '40 hrs',
+                    caption: 'To process 500 candidates',
+                  }}
+                  after={{
+                    label: 'Talentilo AI',
+                    value: '1 hr',
+                    caption: '498 / 500 screened',
+                  }}
+                />
+              </div>
+            </Panel>
           </CreativeGround>
         }
       />
