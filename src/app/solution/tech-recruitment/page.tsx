@@ -6,10 +6,11 @@ import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
 import { StatGrid } from '@/components/sections/StatGrid';
 import { ButtonLink } from '@/components/ui/Button';
+import { JsonLd } from '@/components/ui/JsonLd';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { ORGANIZATION_ID, site } from '@/config/site';
 import { companyStats } from '@/data/stats';
+import { serviceSchema } from '@/lib/json-ld';
 
 const PAGE_DESCRIPTION =
   'Talentilo is tech recruitment software that matches engineers on architectural fit, coding capability and experience density — not Boolean strings.';
@@ -21,23 +22,16 @@ export const metadata: Metadata = {
   alternates: { canonical: PAGE_PATH },
 };
 
-const serviceJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Service',
-  name: 'Talentilo Tech Recruitment Software',
-  description: PAGE_DESCRIPTION,
-  serviceType: 'Technical recruitment software',
-  url: `${site.url}${PAGE_PATH}`,
-  provider: { '@id': ORGANIZATION_ID },
-};
-
 export default function TechRecruitmentPage() {
   return (
     <>
-      {/* Static, locally-defined JSON-LD — no user input reaches this markup. */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      <JsonLd
+        data={serviceSchema({
+          name: 'Talentilo Tech Recruitment Software',
+          description: PAGE_DESCRIPTION,
+          path: PAGE_PATH,
+          serviceType: 'Technical recruitment software',
+        })}
       />
 
       <PageHero

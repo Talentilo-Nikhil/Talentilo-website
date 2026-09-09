@@ -1,16 +1,22 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 import { CenteredFeature } from '@/components/sections/CenteredFeature';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { HERO_REVEAL, PageHero } from '@/components/sections/PageHero';
 import { Creative } from '@/components/ui/Creative';
+import { JsonLd } from '@/components/ui/JsonLd';
+import { serviceSchema } from '@/lib/json-ld';
+
+const PAGE_DESCRIPTION =
+  'Talentilo reads your job descriptions like a human and ranks the best matches already sitting in your database — before you spend on new job ads.';
+const PAGE_PATH = '/platform/talent-intelligence';
 
 export const metadata: Metadata = {
-  title: 'AI Candidate Sourcing & Resume Parsing Software',
-  description:
-    'Your ATS is a graveyard where great talent goes to be forgotten. Talentilo reads your job descriptions like a human and finds the best matches already in your database — before you spend on new ads.',
-  alternates: { canonical: '/platform/talent-intelligence' },
+  title: 'AI Candidate Sourcing Software',
+  description: PAGE_DESCRIPTION,
+  alternates: { canonical: PAGE_PATH },
 };
 
 const parserPoints = [
@@ -27,6 +33,15 @@ const RECALL_SIZES = '(min-width: 1200px) 1074px, 100vw';
 export default function TalentIntelligencePage() {
   return (
     <>
+      <JsonLd
+        data={serviceSchema({
+          name: 'Talentilo Talent Intelligence',
+          description: PAGE_DESCRIPTION,
+          path: PAGE_PATH,
+          serviceType: 'AI candidate sourcing and resume parsing software',
+        })}
+      />
+
       <PageHero
         title={'Your Next Hire is NOT\na Search Away.'}
         lede="Your ATS is likely a graveyard where great talent goes to be forgotten. Talentilo reads your job descriptions like a human and helps you find the best matches from your existing database — before you spend a rupee on new job ads or portals."
@@ -66,6 +81,18 @@ export default function TalentIntelligencePage() {
         points={[]}
         pullQuote="Don't read 50 resumes. Read the top 5."
         cta={{ label: 'See It In Action', href: '/contact' }}
+        aside={
+          <p className="text-small text-ink/80">
+            Hiring engineers? See how the same scoring handles{' '}
+            <Link
+              href="/solution/tech-recruitment"
+              className="underline underline-offset-4 hover:text-brand-blue"
+            >
+              technical roles
+            </Link>
+            .
+          </p>
+        }
         creative="ti-ranking"
         mediaSide="left"
       />
@@ -80,7 +107,18 @@ export default function TalentIntelligencePage() {
           // headings, which read oversized against the page's own type at full bleed.
           <Creative name="ti-recall" className="mx-auto max-w-[1074px]" sizes={RECALL_SIZES} />
         }
-      />
+      >
+        <p className="mt-4 text-center text-small text-ink/80">
+          Recall results surface in the{' '}
+          <Link
+            href="/platform/recruitment-os"
+            className="underline underline-offset-4 hover:text-brand-blue"
+          >
+            recruitment command centre
+          </Link>{' '}
+          alongside every open role.
+        </p>
+      </CenteredFeature>
 
       <CenteredFeature
         eyebrow="Universal Parser"

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 import { CallPanel } from '@/components/panels/CallPanel';
 import { ChecklistPanel } from '@/components/panels/ChecklistPanel';
@@ -8,17 +9,31 @@ import { LiveDot, Panel } from '@/components/panels/Panel';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
+import { JsonLd } from '@/components/ui/JsonLd';
+import { serviceSchema } from '@/lib/json-ld';
+
+const PAGE_DESCRIPTION =
+  'Talentilo handles top-of-funnel work with AI voice screening, salary and interest checks, and automatic scheduling — so your team can focus on closing.';
+const PAGE_PATH = '/platform/ai-powers';
 
 export const metadata: Metadata = {
-  title: 'AI Recruitment Software & Automated Candidate Screening',
-  description:
-    'Scale your output, not your headcount. Talentilo is the AI-native platform that handles the top-of-funnel grind — screening, verifying and scheduling — so your team can focus on closing.',
-  alternates: { canonical: '/platform/ai-powers' },
+  title: 'AI Candidate Screening Software',
+  description: PAGE_DESCRIPTION,
+  alternates: { canonical: PAGE_PATH },
 };
 
 export default function AiPowersPage() {
   return (
     <>
+      <JsonLd
+        data={serviceSchema({
+          name: 'Talentilo AI Screening',
+          description: PAGE_DESCRIPTION,
+          path: PAGE_PATH,
+          serviceType: 'AI candidate screening software',
+        })}
+      />
+
       {/* The brand wash the other /platform pages open on — see faster-operations. The hero art
           had no Figma source until website-update-v2.fig; it ran on a stand-in MeterPanel. Now
           it's the real call-summary frame, bleeding off the band the way Recruitment OS's
@@ -69,6 +84,18 @@ export default function AiPowersPage() {
         body="Talentilo isn't a robotic dialer — it's a conversational engine. It calls your passive list, verifies interest against the JD, checks salary expectations in natural language, and drops a meeting straight onto your recruiter's calendar when they match."
         points={[]}
         pullQuote="Your team only talks to candidates who are a right fit."
+        aside={
+          <p className="text-small text-ink/80">
+            Booked meetings land straight in your{' '}
+            <Link
+              href="/platform/faster-operations"
+              className="underline underline-offset-4 hover:text-brand-blue"
+            >
+              scheduling and messaging flow
+            </Link>
+            .
+          </p>
+        }
         mediaSide="left"
         media={
           <CreativeGround tone="magenta">
@@ -121,6 +148,18 @@ export default function AiPowersPage() {
         title={'Screen 500 Candidates\nBefore Lunch.'}
         body="Capacity planning used to mean hiring more staff. Now it happens instantly. Need to vet a massive inbound funnel for a generic role? Talentilo scales its calling capacity automatically, vetting thousands of applicants in parallel."
         points={[]}
+        aside={
+          <p className="text-small text-ink/80">
+            Built for{' '}
+            <Link
+              href="/solution/high-volume"
+              className="underline underline-offset-4 hover:text-brand-blue"
+            >
+              high-volume hiring campaigns
+            </Link>
+            .
+          </p>
+        }
         mediaSide="left"
         media={
           <CreativeGround tone="magenta">

@@ -3,6 +3,7 @@ import { Albert_Sans, EB_Garamond } from 'next/font/google';
 
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
+import { JsonLd } from '@/components/ui/JsonLd';
 import { ORGANIZATION_ID, site } from '@/config/site';
 import './globals.css';
 
@@ -67,11 +68,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       className={`${albertSans.variable} ${ebGaramond.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        {/* Static, locally-defined JSON-LD — no user input reaches this markup. */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-        />
+        <JsonLd data={organizationJsonLd} />
         <Header />
         <main id="main" className="flex-1">
           {children}
