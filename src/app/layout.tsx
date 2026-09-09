@@ -3,7 +3,7 @@ import { Albert_Sans, EB_Garamond } from 'next/font/google';
 
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
-import { site } from '@/config/site';
+import { ORGANIZATION_ID, site } from '@/config/site';
 import './globals.css';
 
 const albertSans = Albert_Sans({
@@ -43,6 +43,23 @@ export const viewport: Viewport = {
   colorScheme: 'light',
 };
 
+/** The one description of the company as an entity, emitted on every page. */
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': ORGANIZATION_ID,
+  name: site.name,
+  url: site.url,
+  logo: `${site.url}/figma/creatives/logo-color.png`,
+  description: site.description,
+  sameAs: [site.social.linkedin, site.social.x, site.social.instagram],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'sales',
+    email: site.email.sales,
+  },
+};
+
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
@@ -50,6 +67,11 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       className={`${albertSans.variable} ${ebGaramond.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
+        {/* Static, locally-defined JSON-LD — no user input reaches this markup. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         <Header />
         <main id="main" className="flex-1">
           {children}

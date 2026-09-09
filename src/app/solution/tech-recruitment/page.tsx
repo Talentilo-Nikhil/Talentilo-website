@@ -8,7 +8,7 @@ import { StatGrid } from '@/components/sections/StatGrid';
 import { ButtonLink } from '@/components/ui/Button';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { site } from '@/config/site';
+import { ORGANIZATION_ID, site } from '@/config/site';
 import { companyStats } from '@/data/stats';
 
 const PAGE_DESCRIPTION =
@@ -28,11 +28,7 @@ const serviceJsonLd = {
   description: PAGE_DESCRIPTION,
   serviceType: 'Technical recruitment software',
   url: `${site.url}${PAGE_PATH}`,
-  provider: {
-    '@type': 'Organization',
-    name: site.name,
-    url: site.url,
-  },
+  provider: { '@id': ORGANIZATION_ID },
 };
 
 export default function TechRecruitmentPage() {
