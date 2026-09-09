@@ -53,7 +53,7 @@ export function ChecklistPanel({
             <li
               key={item.label}
               className={cn(
-                'flex items-center justify-between gap-4 px-5 py-4 sm:px-6',
+                'flex items-center justify-between gap-4 px-5 py-4 @sm:px-6',
                 i > 0 && (tone === 'dark' ? 'border-t border-white/8' : 'border-t border-ink/8')
               )}
             >
@@ -98,7 +98,7 @@ export function ChecklistPanel({
       {footer ? (
         <p
           className={cn(
-            'px-5 py-4 text-small font-semibold sm:px-6',
+            'px-5 py-4 text-small font-semibold @sm:px-6',
             tone === 'dark' ? 'bg-white/[0.06] text-white' : 'bg-surface-tint text-ink'
           )}
         >

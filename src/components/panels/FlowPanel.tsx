@@ -43,9 +43,12 @@ export function FlowPanel({
 }: FlowPanelProps) {
   if (orientation === 'horizontal') {
     return (
-      <ol className={cn('flex flex-col gap-3 sm:flex-row sm:items-stretch', className)}>
+      // Against its own width, not the viewport's — a creative slot is laid out at the design's
+      // width and scaled, so the row it draws there has to be the same row at every viewport.
+      <div className={cn('@container', className)}>
+        <ol className="flex flex-col gap-3 @sm:flex-row @sm:items-stretch">
         {steps.map((step, i) => (
-          <li key={step.label} className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center">
+          <li key={step.label} className="flex flex-1 flex-col gap-3 @sm:flex-row @sm:items-center">
             <div className={cn('flex-1 rounded-card p-5', panelSurface(tone))}>
               <div className="flex items-center gap-2.5">
                 <Dot state={step.state} />
@@ -68,7 +71,8 @@ export function FlowPanel({
             ) : null}
           </li>
         ))}
-      </ol>
+        </ol>
+      </div>
     );
   }
 

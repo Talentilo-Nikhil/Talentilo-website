@@ -50,7 +50,7 @@ export function CallPanel({
 
   return (
     <Panel tone={tone} title={title} className={className}>
-      <div className="flex flex-col gap-5 p-5 sm:p-6">
+      <div className="flex flex-col gap-5 p-5 @sm:p-6">
         <div className="flex items-center gap-3">
           <span
             className={cn(

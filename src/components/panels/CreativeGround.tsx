@@ -36,8 +36,8 @@ const GRADIENT: Record<GroundTone, string> = {
 
 /** Slot geometry, in the design's own units. The SVG below is drawn in this same space. */
 const SLOT = { w: 588, h: 536 };
-/** 536 / 588, as the percentage padding-top resolves against the box's own width. */
-const RATIO = `${((536 / 588) * 100).toFixed(4)}%`;
+/** The design's own padding between the slot edge and the panel inside it. */
+const SLOT_PAD = 32;
 const MOTIF = { x: -121.77, y: -87.8, size: 419.53, cell: 140.68, step: 139.01, radius: 16 };
 
 function Motif() {
@@ -78,50 +78,50 @@ function Motif() {
   );
 }
 
+/**
+ * A creative built from markup has to behave the way an exported one does, because they sit in
+ * the same row on the same pages: an exported creative is an image, so it holds its design's
+ * proportions at every width and everything inside it shrinks by one factor. A panel laid out
+ * against the slot's live width does not — it reflows, so the slot's own shape changes with the
+ * viewport. Measured across the three pages that carry these: every exported slot held its ratio
+ * from 1440 down to 375 exactly (1.804, 1.936, 1.097, 2.533, 3.051), while the eleven panel slots
+ * each collapsed to a different arbitrary one (0.488 through 0.761) against the design's 1.097.
+ *
+ * So the panel is laid out once, in the design's own 588x536 space, and scaled to whatever width
+ * the column gives it — the same single factor an image gets. `tan(atan2(...))` is the CSS cast
+ * from a length ratio to the plain number `scale()` needs; `cqw` resolves against the slot, which
+ * is why it carries `container-type: inline-size`.
+ */
 export function CreativeGround({
   tone = 'brand',
-  fill = false,
   className,
   children,
 }: {
   tone?: GroundTone;
-  /**
-   * Pin the content to the slot instead of letting it set the height. A panel that sizes itself
-   * from its own height — the handset takes its width from a phone's proportion — needs something
-   * definite to resolve against, and an auto grid row is not that: it grows to whatever the panel
-   * asks for and the panel asks for whatever the row gave it.
-   */
-  fill?: boolean;
   className?: string;
   children: ReactNode;
 }) {
   return (
     <div
-      className={cn('relative grid overflow-hidden rounded-card', className)}
-      style={{ backgroundImage: GRADIENT[tone] }}
+      className={cn('@container relative overflow-hidden rounded-card', className)}
+      style={{ aspectRatio: `${SLOT.w} / ${SLOT.h}`, backgroundImage: GRADIENT[tone] }}
     >
-      {/*
-        The slot's ratio as a spacer rather than `aspect-ratio` on the box itself. Both this and the
-        content sit in the same grid cell, so the row takes whichever is taller: a short panel gets
-        the design's 588x536, and one carrying more than a single card grows instead of being
-        clipped by the overflow rule the motif needs.
-      */}
-      <div aria-hidden="true" className="col-start-1 row-start-1" style={{ paddingTop: RATIO }} />
       <Motif />
-      {/* Positioned, so it paints above the motif. A static grid item would sit under an
-          absolutely-positioned sibling however late it came in the DOM, and the outlines
-          ran across the artwork instead of behind it. */}
+      {/* Positioned, so it paints above the motif. A static sibling would sit under an
+          absolutely-positioned one however late it came in the DOM, and the outlines ran across
+          the artwork instead of behind it. */}
+      {/* A container in its own right, so a panel inside it sizes against the design's 588 rather
+          than the phone the slot is drawn on — the layout is the same one at every width, which is
+          the whole point of scaling it. Its own `cqw` above still resolves against the slot, since
+          a container query always answers from an ancestor. */}
       <div
-        className={cn(
-          // Both branches are positioned, so either paints above the motif. `relative` cannot be in
-          // the base string: cn is a plain join, Tailwind emits .relative after .absolute, and the
-          // base would silently win over the modifier.
-          // `items-center` only. `place-items-center` also sets justify-items, which sizes a panel
-          // to its own content and leaves it floating in the middle of the slot; stretch is the
-          // default and lets it use the width the slot has.
-          'col-start-1 row-start-1 grid items-center p-6 sm:p-8',
-          fill ? 'absolute inset-0' : 'relative h-full'
-        )}
+        className="@container absolute top-0 left-0 grid origin-top-left items-center"
+        style={{
+          width: `${SLOT.w}px`,
+          height: `${SLOT.h}px`,
+          padding: `${SLOT_PAD}px`,
+          transform: `scale(tan(atan2(100cqw, ${SLOT.w}px)))`,
+        }}
       >
         {children}
       </div>

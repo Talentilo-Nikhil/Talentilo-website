@@ -32,7 +32,7 @@ export function SlotPicker({
 }: SlotPickerProps) {
   return (
     <Panel tone={tone} className={className}>
-      <div className="flex flex-col gap-5 p-5 sm:p-6">
+      <div className="flex flex-col gap-5 p-5 @sm:p-6">
         <div className="flex items-center gap-4">
           {date ? (
             <div
@@ -50,7 +50,7 @@ export function SlotPicker({
           </div>
         </div>
 
-        <ul className="grid gap-2.5 sm:grid-cols-2">
+        <ul className="grid gap-2.5 @sm:grid-cols-2">
           {slots.map((slot, i) => (
             <li
               key={slot}

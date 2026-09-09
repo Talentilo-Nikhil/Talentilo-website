@@ -103,7 +103,7 @@ export default function RevenueDefensePage() {
         media={
           <CreativeGround tone="magenta">
             <Panel title="Placement Forecast" meta={<LiveDot label="Board-ready" />}>
-              <div className="p-6 sm:p-7">
+              <div className="p-6 @sm:p-7">
                 <ComparePanel
                   before={{
                     label: 'Standard CRM forecast',

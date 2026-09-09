@@ -30,9 +30,6 @@ export default function AiPowersPage() {
         ctaPlacement="overlay"
         wash="brand"
         creative="ap-hero-screening"
-        // Its 949px design width sits just under Creative's default 1000px zoom threshold, but a
-        // call-summary frame this dense in text is unreadable at a phone's width regardless.
-        creativeZoom
         reveal={634 / 675}
       />
 
@@ -44,7 +41,7 @@ export default function AiPowersPage() {
         media={
           <CreativeGround tone="brand">
             <Panel title="Call Queue" meta={<LiveDot label="AI active" />}>
-              <div className="p-6 sm:p-7">
+              <div className="p-6 @sm:p-7">
                 <ComparePanel
                   before={{
                     label: 'The Grind (System Zone)',
@@ -58,7 +55,7 @@ export default function AiPowersPage() {
                   }}
                 />
               </div>
-              <p className="bg-surface-tint px-5 py-4 text-small font-semibold text-ink sm:px-6">
+              <p className="bg-surface-tint px-5 py-4 text-small font-semibold text-ink @sm:px-6">
                 1,000 raw candidates → 3 ready to close
               </p>
             </Panel>
@@ -128,7 +125,7 @@ export default function AiPowersPage() {
         media={
           <CreativeGround tone="magenta">
             <Panel title="Bulk Screening Run" meta={<LiveDot label="Parallel" />}>
-              <div className="p-6 sm:p-7">
+              <div className="p-6 @sm:p-7">
                 <ComparePanel
                   accent="crusta"
                   before={{
