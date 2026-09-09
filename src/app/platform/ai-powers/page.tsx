@@ -30,6 +30,9 @@ export default function AiPowersPage() {
         ctaPlacement="overlay"
         wash="brand"
         creative="ap-hero-screening"
+        // Its 949px design width sits just under Creative's default 1000px zoom threshold, but a
+        // call-summary frame this dense in text is unreadable at a phone's width regardless.
+        creativeZoom
         reveal={634 / 675}
       />
 

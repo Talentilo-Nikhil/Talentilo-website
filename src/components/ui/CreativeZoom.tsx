@@ -123,13 +123,22 @@ export function CreativeZoom({ asset, alt, children }: CreativeZoomProps) {
         className="group relative block w-full cursor-zoom-in"
       >
         {children}
+        {/* Top-right rather than a bottom corner: a hero creative floats its own CTA across the
+            bottom of the image, which a label there would collide or fight for space with. */}
         <span
           aria-hidden="true"
-          className="absolute right-3 bottom-3 inline-flex size-9 items-center justify-center rounded-full
-                     bg-ink/80 text-[18px] text-white shadow-[0_2px_8px_rgb(12_10_16/0.3)]
+          className="pointer-events-none absolute top-0 right-0 h-16 w-1/2 rounded-tr-card
+                     bg-[radial-gradient(ellipse_at_top_right,rgb(12_10_16/0.5)_0%,rgb(12_10_16/0)_70%)]"
+        />
+        <span
+          aria-hidden="true"
+          className="absolute top-3 right-3 flex items-center gap-1.5 rounded-pill bg-ink/85
+                     px-3.5 py-2 text-small font-semibold whitespace-nowrap text-white
+                     shadow-[0_2px_8px_rgb(12_10_16/0.3)]
                      transition-transform duration-200 group-active:scale-95"
         >
-          <Plus />
+          <Plus className="size-4 shrink-0" />
+          Tap to enlarge
         </span>
       </button>
 

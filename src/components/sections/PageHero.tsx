@@ -33,6 +33,12 @@ type PageHeroProps = {
   note?: string;
   creative?: CreativeName;
   creativeAlt?: string;
+  /**
+   * Forces the tap-to-enlarge control on or off, overriding `Creative`'s own width threshold.
+   * A hero mockup this text-dense is squeezed past reading well before that threshold, so a
+   * narrower one still wants the control offered.
+   */
+  creativeZoom?: boolean;
   /** A hand-built panel in place of an exported creative. Takes precedence over `creative`. */
   media?: ReactNode;
   /**
@@ -61,6 +67,7 @@ export function PageHero({
   note,
   creative,
   creativeAlt,
+  creativeZoom,
   media,
   wash = 'none',
   reveal = 1,
@@ -126,6 +133,7 @@ export function PageHero({
                   alt={creativeAlt}
                   priority
                   sizes={`(min-width: 1440px) ${maxWidth}, 100vw`}
+                  zoom={creativeZoom}
                 />
               </div>
               {overlay ? (
