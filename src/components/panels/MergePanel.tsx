@@ -45,7 +45,7 @@ export function MergePanel({
 
   return (
     <Panel tone={tone} title={title} className={className}>
-      <div className="flex flex-col p-5 sm:p-6">
+      <div className="flex flex-col p-5 @sm:p-6">
         <div
           className="grid gap-2"
           style={{

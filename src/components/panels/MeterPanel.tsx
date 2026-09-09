@@ -58,7 +58,7 @@ export function MeterPanel({
       meta={status ? <LiveDot label={status} /> : undefined}
       className={className}
     >
-      <div className="flex flex-col gap-5 p-6 sm:p-7">
+      <div className="flex flex-col gap-5 p-6 @sm:p-7">
         <div className="flex flex-col gap-1.5">
           {label ? (
             <p
@@ -72,7 +72,9 @@ export function MeterPanel({
           ) : null}
           <p
             className={cn(
-              'font-figure text-[clamp(1.875rem,1.2rem+2.2vw,2.75rem)] leading-[1.1] font-semibold',
+              // `cqw`, not `vw` — see ComparePanel: the figure answers to the card it sits in, so a
+              // creative slot draws it at the design's size whatever the viewport is doing.
+              'font-figure text-[clamp(1.875rem,1.2rem+2.2cqw,2.75rem)] leading-[1.1] font-semibold',
               palette.text
             )}
           >

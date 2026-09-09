@@ -52,12 +52,8 @@ export default function FasterOperationsPage() {
           />
         }
         media={
-          /* The design gives a slot one creative, so the handset has it to itself and keeps the
-             588x536 the other three sit at — but that ratio, scaled down to a phone-width column,
-             gives the handset less height than its own status bar, header and three bubbles need,
-             so the thread got clipped at the top. Below `lg` (where the slot is its own full-width
-             column rather than half of 588px) it gets a floor tall enough for that content instead. */
-          <CreativeGround tone="brand" fill className="min-h-[440px] lg:min-h-0">
+          /* The design gives a slot one creative, so the handset has it to itself. */
+          <CreativeGround tone="brand">
             <PhonePanel
               name="Talentilo"
               initials="T"
@@ -118,7 +114,7 @@ export default function FasterOperationsPage() {
         media={
           <CreativeGround tone="warm">
             <Panel title="Cadence: Senior Developer Outreach">
-            <div className="p-5 sm:p-6">
+            <div className="p-5 @sm:p-6">
               <FlowPanel
                 steps={[
                   {

@@ -25,7 +25,7 @@ type ChatPanelProps = {
 export function ChatPanel({ tone = 'light', title, status, messages, caption, className }: ChatPanelProps) {
   return (
     <Panel tone={tone} title={title} meta={status ? <LiveDot label={status} /> : undefined} className={className}>
-      <div className="flex flex-col gap-3 p-5 sm:p-6">
+      <div className="flex flex-col gap-3 p-5 @sm:p-6">
         {messages.map((message, i) => {
           const us = message.from === 'us';
           return (
