@@ -40,8 +40,21 @@ async function main() {
       page.on('requestfailed', (request) => problems.push(`request failed: ${request.url()}`));
 
       const response = await page.goto(`${BASE}${route}`, { waitUntil: 'networkidle', timeout: 60_000 });
+      // `Creative` renders every non-priority image `loading="lazy" decoding="async"` — right for
+      // a visitor, wrong for this script. Stripping `loading` makes every image fetch immediately
+      // rather than wait on a viewport it never really occupies during `fullPage: true`'s
+      // beyond-viewport composite; but even fetched, `img.complete` goes true the moment the bytes
+      // land, before an async decode has actually finished painting anything. Both silently held
+      // an empty rect at that image's position in the fullPage capture below even once caught up,
+      // for the two largest creatives (1176x1072, 2624px wide) often enough to be worth this: only
+      // `img.decode()`'s own promise settles once each image is genuinely ready to paint.
+      await page.evaluate(() => {
+        for (const img of document.images) img.removeAttribute('loading');
+      });
       await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-      await page.waitForTimeout(700);
+      await page
+        .evaluate(() => Promise.all([...document.images].map((img) => img.decode().catch(() => {}))))
+        .catch(() => {});
       await page.evaluate(() => window.scrollTo(0, 0));
       await page.waitForTimeout(400);
 
