@@ -43,35 +43,83 @@ function at(tree, path) {
 const readSpec = (slug) => JSON.parse(readFileSync(resolve(ROOT, `design/spec/${slug}.json`), 'utf8'));
 
 /**
+ * Greedy line-breaking at a measured width, the way a fixed-width text box wraps.
+ *
+ * Words only — a single word longer than the budget gets its own over-long line rather than
+ * being split, which is what Figma does too and what a caller wants to see fail loudly.
+ */
+function wrapLines(text, size, budget) {
+  const out = [];
+  for (const paragraph of String(text).split('\n')) {
+    let line = '';
+    for (const word of paragraph.split(' ')) {
+      const next = line ? `${line} ${word}` : word;
+      if (line && estWidth(next, size) > budget) {
+        out.push(line);
+        line = word;
+      } else {
+        line = next;
+      }
+    }
+    out.push(line);
+  }
+  return out;
+}
+
+/**
  * Replace the copy of one TEXT layer.
  *
  * A text node carries its string twice: `text`, and the `lines` Figma already laid out. The
  * writer prefers `lines` when it is there — those carry the baseline coordinates — so setting
  * `text` alone changes nothing on the canvas. Both are rewritten here.
  *
- * The layers this is used on are single-line and left-aligned, which is what makes it safe: the
- * string grows rightward from a fixed origin, so nothing below it re-flows. The new width is
- * measured off the ADVANCE table rather than estimated, and a replacement wider than the string
- * it replaces throws — these all sit in table cells whose neighbours are a fixed distance away,
- * and silently overrunning one is how a name ends up under the column beside it. `clipped: true`
- * waives that one check for a layer the frame already cuts, and only for such a layer.
+ * Only left-aligned layers are accepted: the string then grows rightward from a fixed origin, so
+ * nothing beside it re-flows. Widths are measured off the ADVANCE table, never estimated.
+ *
+ * How wide the replacement may be:
+ *
+ *   - by default, no wider than the string it replaces. That is the safe assumption for a layer
+ *     whose surroundings are unknown, and it is what the pending-review cells rely on.
+ *   - `within: '<ancestor path>'` measures the real budget instead — the ancestor's box, less the
+ *     layer's own left inset mirrored on the right. A table cell insets its text by a fixed
+ *     amount either side, so this is the width the design actually leaves, which is usually much
+ *     more than the old string happened to occupy.
+ *   - `clipped: true` waives the check entirely, and only for a layer the export frame already
+ *     cuts — asserted below, not trusted.
+ *
+ * Line count may change. A box that wraps (`autoResize: 'HEIGHT'`, a fixed width Figma flows text
+ * inside) is re-wrapped to its own width; a box that hugs its text breaks only where the string
+ * says. Either way the baselines are re-laid at the layer's own line pitch, the height follows the
+ * line count, and — when `within` is given — the block is re-centred in that ancestor, which is
+ * how the design positions one- and two-line cells in the same fixed-height row.
  */
-function applyRetext(root, { path, text, clipped = false }) {
+function applyRetext(root, { path, text, clipped = false, within }) {
   const node = at(root, path);
   const frame = root.box;
   if (node.type !== 'TEXT') throw new Error(`retext "${path}" is a ${node.type}, not TEXT`);
-  if ((node.lines?.length ?? 0) > 1) throw new Error(`retext "${path}" is multi-line`);
   if (node.textStyle?.align && node.textStyle.align !== 'LEFT') {
     throw new Error(`retext "${path}" is ${node.textStyle.align}-aligned, not LEFT`);
   }
 
-  const size = node.textStyle?.size ?? 16;
-  const before = node.lines?.[0]?.w ?? node.box.w;
-  const after = estWidth(text, size);
-  if (after > before && !clipped) {
+  const style = node.textStyle ?? {};
+  const size = style.size ?? 16;
+  const lineHeight =
+    typeof style.lineHeight === 'string' ? parseFloat(style.lineHeight) : (style.lineHeight ?? 1.2) * size;
+
+  const box = within ? at(root, within).box : null;
+  // The inset the design gives this layer on its left, mirrored on the right.
+  const budget = box ? box.w - 2 * (node.box.x - box.x) : (node.lines?.[0]?.w ?? node.box.w);
+
+  const wraps = style.autoResize === 'HEIGHT';
+  const lines = wraps ? wrapLines(text, size, node.box.w) : String(text).split('\n');
+  const widths = lines.map((line) => estWidth(line, size));
+  const widest = Math.max(...widths);
+
+  if (widest > budget && !clipped) {
+    const which = lines[widths.indexOf(widest)];
     throw new Error(
-      `retext "${path}": ${JSON.stringify(text)} measures ${after.toFixed(2)}px against ` +
-        `${JSON.stringify(node.text)}'s ${before.toFixed(2)}px — it would run past the layer's box`
+      `retext "${path}": ${JSON.stringify(which)} measures ${widest.toFixed(2)}px against a ` +
+        `${budget.toFixed(2)}px budget — it would run past ${within ? `"${within}"` : "the layer's box"}`
     );
   }
 
@@ -82,19 +130,40 @@ function applyRetext(root, { path, text, clipped = false }) {
    * itself past it. Asserted rather than trusted: if the old string ended inside the frame, the
    * layer was whole, growing it would newly push it out of view, and that is a bug not a choice.
    */
-  if (after > before) {
+  if (widest > budget) {
     const edge = frame.x + frame.w;
-    if (node.box.x + before <= edge) {
+    const was = node.box.x + (node.lines?.[0]?.w ?? node.box.w);
+    if (was <= edge) {
       throw new Error(
         `retext "${path}": marked clipped, but ${JSON.stringify(node.text)} ends at ` +
-          `${(node.box.x + before).toFixed(2)} inside a frame ending at ${edge.toFixed(2)} — it is not cut today`
+          `${was.toFixed(2)} inside a frame ending at ${edge.toFixed(2)} — it is not cut today`
       );
     }
   }
 
-  node.text = text;
-  if (node.lines?.length) node.lines = [{ ...node.lines[0], text, w: after }];
-  node.box = { ...node.box, w: after };
+  // The layer's own pitch where two lines reveal it, its line height rounded where they do not —
+  // which is the same number on every layer here, checked against the file's own two-line cells.
+  const first = node.lines?.[0]?.y ?? lineHeight;
+  const pitch =
+    node.lines?.length > 1 ? node.lines[1].y - node.lines[0].y : Math.round(lineHeight);
+
+  node.text = lines.join('\n');
+  node.lines = lines.map((line, i) => ({ text: line, x: 0, y: first + pitch * i, w: widths[i] }));
+  node.box = {
+    ...node.box,
+    w: wraps ? node.box.w : widest,
+    h: pitch * lines.length,
+  };
+  // A cell centres its text block vertically, so a line-count change moves the top edge.
+  if (box) {
+    if (node.box.h > box.h) {
+      throw new Error(
+        `retext "${path}": ${lines.length} lines is ${node.box.h}px against a ${box.h}px row — ` +
+          'it would spill into the rows above and below'
+      );
+    }
+    node.box.y = box.y + (box.h - node.box.h) / 2;
+  }
 }
 
 
@@ -211,11 +280,10 @@ const EXPORTS = {
         { path: '#4/#1/#1/#1/#1/#1/#1/#1/#1/#2/#0/#0/#0/#1/#1/#0', text: 'UI/UX Designer | Arden' },
       ],
     },
-    { file: 'logo-bell', path: '#2/#1/Bell Logo', label: 'Bell' },
-    { file: 'logo-asana', path: '#2/#1/Asana Logo', label: 'Asana' },
-    { file: 'logo-sap', path: '#2/#1/SAP Logo', label: 'SAP' },
-    { file: 'logo-salesforce', path: '#2/#1/Salesforce Logo', label: 'Salesforce' },
-    { file: 'logo-notion', path: '#2/#1/Notion Logo', label: 'Notion' },
+    // The five client logos the "Trusted by industry leaders" strip used are not exported any
+    // more: the strip is gone from all three pages that carried it, because none of these
+    // companies is a Talentilo customer. Nothing else referenced them, and they are third-party
+    // trademarks — no reason to keep shipping them in public/.
     {
       file: 'semantic-matching',
       path: '#4/Semantic Matching Engine',
@@ -341,6 +409,54 @@ const EXPORTS = {
       file: 'ti-hero-database',
       path: '#1/Frame 2085665231/#1',
       label: 'The Talentilo candidate database listing every profile with education, experience and skills',
+      /*
+       * The file's demo rows were unfinished: four cells held a bare "-", two degrees were
+       * sentence-cased ("Mba", "Pgdm"), one address was title-cased mid-string, every candidate
+       * carried the identical SAP skill list, and rows 3 and 4 shared a phone number. Filled in
+       * here so the table shows six distinguishable people.
+       *
+       * `within` points each swap at its own cell, so the budget is the width the design leaves —
+       * cell width less the layer's inset mirrored on the right — and the block is re-centred when
+       * the line count changes. Widest line per cell, against its budget: emails 151.3/154.0 at
+       * worst, education 91.3/94.0, skills 139.0/144.0.
+       */
+      retext: [
+        // Addresses: title-casing fixed, and the domains mixed rather than six gmails.
+        { path: '#1/#1/#1/#0/#1/#1/#1/#1/#1', within: '#1/#1/#1/#0/#1/#1/#1', text: 'sayali.mahale@outlook.com' },
+        { path: '#1/#1/#1/#0/#1/#1/#3/#1/#1', within: '#1/#1/#1/#0/#1/#1/#3', text: 'taniya.sharma@yahoo.co.in' },
+        { path: '#1/#1/#1/#0/#1/#1/#4/#1/#1', within: '#1/#1/#1/#0/#1/#1/#4', text: 'priyansh.agrawal@outlook.com' },
+        { path: '#1/#1/#1/#0/#1/#1/#6/#1/#1', within: '#1/#1/#1/#0/#1/#1/#6', text: 'sharanabasava.j@yahoo.com' },
+
+        // Rows 3 and 4 both read 8766863739.
+        { path: '#1/#1/#1/#0/#1/#2/#4/#0', within: '#1/#1/#1/#0/#1/#2/#4', text: '7012459388' },
+
+        // The two empty locations.
+        { path: '#1/#1/#1/#0/#1/#3/#3/#0', within: '#1/#1/#1/#0/#1/#3/#3', text: 'Jaipur' },
+        { path: '#1/#1/#1/#0/#1/#3/#4/#0', within: '#1/#1/#1/#0/#1/#3/#4', text: 'Gurugram' },
+
+        // Education: the empty one filled, the two sentence-cased degrees capitalised, and row 1's
+        // "Master Of Business And Administration" corrected — the degree has no "and" in it.
+        { path: '#1/#1/#1/#0/#1/#4/#1/#1', within: '#1/#1/#1/#0/#1/#4/#1', text: 'Master of Business\nAdministration' },
+        { path: '#1/#1/#1/#0/#1/#4/#2/#0', within: '#1/#1/#1/#0/#1/#4/#2', text: 'B.Tech,\nComputer Science' },
+        { path: '#1/#1/#1/#0/#1/#4/#4/#0', within: '#1/#1/#1/#0/#1/#4/#4', text: 'MBA' },
+        { path: '#1/#1/#1/#0/#1/#4/#6/#0', within: '#1/#1/#1/#0/#1/#4/#6', text: 'PGDM' },
+
+        /*
+         * Skills, one set per candidate and each plausible for that person's degree and years:
+         * the MBA in operations keeps the SAP stack, the computer-science graduate gets the JVM
+         * one, the chartered accountant audit tooling, and so on.
+         *
+         * Row 4's cell is the odd one — it held the "-" placeholder, so it hugs its text instead
+         * of wrapping like the other five. Its line break is written into the string rather than
+         * left to the wrapper.
+         */
+        { path: '#1/#1/#1/#0/#1/#6/#1/#1', within: '#1/#1/#1/#0/#1/#6/#1', text: "'sap s/4 hana', 'sap fiori', 'sap ecc 6.0'" },
+        { path: '#1/#1/#1/#0/#1/#6/#2/#0', within: '#1/#1/#1/#0/#1/#6/#2', text: "'java', 'spring boot', 'kafka', 'postgresql'" },
+        { path: '#1/#1/#1/#0/#1/#6/#3/#0', within: '#1/#1/#1/#0/#1/#6/#3', text: "'ifrs', 'tally erp', 'statutory audit'" },
+        { path: '#1/#1/#1/#0/#1/#6/#4/#0', within: '#1/#1/#1/#0/#1/#6/#4', text: "'salesforce crm',\n'demand gen', 'hubspot'" },
+        { path: '#1/#1/#1/#0/#1/#6/#5/#0', within: '#1/#1/#1/#0/#1/#6/#5', text: "'python', 'pandas', 'sql', 'power bi'" },
+        { path: '#1/#1/#1/#0/#1/#6/#6/#0', within: '#1/#1/#1/#0/#1/#6/#6', text: "'brand strategy', 'seo',\n'google ads'" },
+      ],
     },
     { file: 'ti-recall', path: '#4/Frame 2085665278', label: 'External search cost compared with Active Recall' },
     // `#5/Frame 2085665277` (Universal Parser) and the two `Content` frames under `#2` (the
