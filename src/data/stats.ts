@@ -10,10 +10,14 @@ import type { Stat } from '@/components/sections/StatGrid';
  * again.
  *
  * A page with a claim of its own to make writes its own row instead — see /for/agency-owner.
+ *
+ * The billings multiple read 2.4X here and 3x on /for/agency-owner — the same claim, the same
+ * audience, two numbers on one site. 3x is the one that stands, so it is the one stated here,
+ * in the casing /for/agency-owner already uses.
  */
 export const companyStats: Stat[] = [
   {
-    figure: '2.4X',
+    figure: '3x',
     headline: 'Increased Revenue',
     detail: 'Billings per recruiter without adding headcount',
   },
