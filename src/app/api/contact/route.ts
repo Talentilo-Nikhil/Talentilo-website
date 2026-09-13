@@ -45,7 +45,7 @@ export async function POST(request: Request) {
   }
 
   // The honeypot is only ever filled by something automated; answer as if it worked.
-  if (parsed.data.company) return Response.json({ ok: true, delivered: false });
+  if (parsed.data.website) return Response.json({ ok: true, delivered: false });
 
   try {
     const result = await deliverContactMessage(parsed.data);
