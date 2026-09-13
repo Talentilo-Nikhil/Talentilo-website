@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
-import { LogoStrip } from '@/components/sections/LogoStrip';
 import { PageHero } from '@/components/sections/PageHero';
 import { StatGrid } from '@/components/sections/StatGrid';
 import { Section } from '@/components/ui/Section';
@@ -15,14 +14,6 @@ export const metadata: Metadata = {
   alternates: { canonical: '/for/recruitment-operations' },
 };
 
-const clients = [
-  { name: 'logo-bell', label: 'Bell' },
-  { name: 'logo-asana', label: 'Asana' },
-  { name: 'logo-sap', label: 'SAP' },
-  { name: 'logo-salesforce', label: 'Salesforce' },
-  { name: 'logo-notion', label: 'Notion' },
-] as const;
-
 export default function RecruitmentOperationsPage() {
   return (
     <>
@@ -31,8 +22,6 @@ export default function RecruitmentOperationsPage() {
         lede="Most enterprise tools feel like handcuffs—they slow recruiters down in the name of process. Talentilo is different. We built an Enterprise Talent Acquisition Platform that enforces excellence while accelerating the workflow. Give your global team a standard of working that actually helps them hire"
         cta={{ label: 'Orchestrate Your Operations', href: '/contact' }}
       />
-
-      <LogoStrip title="Trusted by industry leaders and developers worldwide" logos={[...clients]} />
 
       <FeatureSplit
         title="Global Governance. Local Execution"

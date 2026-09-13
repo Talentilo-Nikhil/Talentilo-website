@@ -211,11 +211,10 @@ const EXPORTS = {
         { path: '#4/#1/#1/#1/#1/#1/#1/#1/#1/#2/#0/#0/#0/#1/#1/#0', text: 'UI/UX Designer | Arden' },
       ],
     },
-    { file: 'logo-bell', path: '#2/#1/Bell Logo', label: 'Bell' },
-    { file: 'logo-asana', path: '#2/#1/Asana Logo', label: 'Asana' },
-    { file: 'logo-sap', path: '#2/#1/SAP Logo', label: 'SAP' },
-    { file: 'logo-salesforce', path: '#2/#1/Salesforce Logo', label: 'Salesforce' },
-    { file: 'logo-notion', path: '#2/#1/Notion Logo', label: 'Notion' },
+    // The five client logos the "Trusted by industry leaders" strip used are not exported any
+    // more: the strip is gone from all three pages that carried it, because none of these
+    // companies is a Talentilo customer. Nothing else referenced them, and they are third-party
+    // trademarks — no reason to keep shipping them in public/.
     {
       file: 'semantic-matching',
       path: '#4/Semantic Matching Engine',
