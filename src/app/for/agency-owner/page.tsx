@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
-import { LogoStrip } from '@/components/sections/LogoStrip';
 import { PageHero } from '@/components/sections/PageHero';
 import { StatGrid, type Stat } from '@/components/sections/StatGrid';
 import { Section } from '@/components/ui/Section';
@@ -13,14 +12,6 @@ export const metadata: Metadata = {
     'The headcount trap kills agency margins. Talentilo uses AI leverage to help your existing team bill 3x more, without adding seats.',
   alternates: { canonical: '/for/agency-owner' },
 };
-
-const clients = [
-  { name: 'logo-bell', label: 'Bell' },
-  { name: 'logo-asana', label: 'Asana' },
-  { name: 'logo-sap', label: 'SAP' },
-  { name: 'logo-salesforce', label: 'Salesforce' },
-  { name: 'logo-notion', label: 'Notion' },
-] as const;
 
 /**
  * This page makes its own case, so it carries its own row rather than the shared company one:
@@ -53,8 +44,6 @@ export default function AgencyOwnerPage() {
         lede="The 'Headcount Trap' kills agency margins. You hire more recruiters to get more billings, but your profits stay flat. Talentilo is the Agency Management Software that breaks the cycle—using AI Leverage to help your existing team bill 3x more"
         cta={{ label: 'Request Demo', href: '/contact' }}
       />
-
-      <LogoStrip title="Trusted by industry leaders and developers worldwide" logos={[...clients]} />
 
       <FeatureSplit
         title={'Don’t Just Rely on "Superstar" Recruiters'}

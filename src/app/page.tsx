@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
-import { LogoStrip } from '@/components/sections/LogoStrip';
 import { StatGrid } from '@/components/sections/StatGrid';
 import { ButtonLink } from '@/components/ui/Button';
 import { Creative } from '@/components/ui/Creative';
@@ -16,14 +15,6 @@ export const metadata: Metadata = {
     "Recruitment isn't about admin; it's about connection. Talentilo automates your workflow, closes the Speed Gap, and handles the end-to-end recruitment lifecycle.",
   alternates: { canonical: '/' },
 };
-
-const clients = [
-  { name: 'logo-bell', label: 'Bell' },
-  { name: 'logo-asana', label: 'Asana' },
-  { name: 'logo-sap', label: 'SAP' },
-  { name: 'logo-salesforce', label: 'Salesforce' },
-  { name: 'logo-notion', label: 'Notion' },
-] as const;
 
 export default function HomePage() {
   return (
@@ -78,8 +69,6 @@ export default function HomePage() {
           />
         </div>
       </Section>
-
-      <LogoStrip title="Powering Recruitment for 200+ Recruiters Across" logos={[...clients]} />
 
       {/* Proof */}
       <Section padding="normal">

@@ -44,51 +44,6 @@
   "designHeight": 650,
   "alt": "Talentilo command centre dashboard"
  },
- "logo-bell": {
-  "src": "/figma/creatives/logo-bell.webp",
-  "fallback": "/figma/creatives/logo-bell.png",
-  "width": 340,
-  "height": 180,
-  "designWidth": 170,
-  "designHeight": 90,
-  "alt": "Bell"
- },
- "logo-asana": {
-  "src": "/figma/creatives/logo-asana.webp",
-  "fallback": "/figma/creatives/logo-asana.png",
-  "width": 340,
-  "height": 180,
-  "designWidth": 170,
-  "designHeight": 90,
-  "alt": "Asana"
- },
- "logo-sap": {
-  "src": "/figma/creatives/logo-sap.webp",
-  "fallback": "/figma/creatives/logo-sap.png",
-  "width": 340,
-  "height": 180,
-  "designWidth": 170,
-  "designHeight": 90,
-  "alt": "SAP"
- },
- "logo-salesforce": {
-  "src": "/figma/creatives/logo-salesforce.webp",
-  "fallback": "/figma/creatives/logo-salesforce.png",
-  "width": 342,
-  "height": 180,
-  "designWidth": 171,
-  "designHeight": 90,
-  "alt": "Salesforce"
- },
- "logo-notion": {
-  "src": "/figma/creatives/logo-notion.webp",
-  "fallback": "/figma/creatives/logo-notion.png",
-  "width": 342,
-  "height": 180,
-  "designWidth": 171,
-  "designHeight": 90,
-  "alt": "Notion"
- },
  "semantic-matching": {
   "src": "/figma/creatives/semantic-matching.webp",
   "fallback": "/figma/creatives/semantic-matching.png",
