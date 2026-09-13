@@ -59,8 +59,8 @@ export default function HomePage() {
               <ButtonLink href="/platform/recruitment-os" variant="dark">
                 See the OS in Action
               </ButtonLink>
-              <ButtonLink href="/pricing#roi" variant="ghost">
-                View ROI Calculator
+              <ButtonLink href="/contact" variant="ghost">
+                Request Demo
               </ButtonLink>
             </div>
           </SectionHeading>
