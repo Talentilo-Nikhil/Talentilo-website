@@ -23,7 +23,7 @@ export const companyStats: Stat[] = [
     detail: 'Reduction in time-to-submit using AI',
   },
   {
-    figure: '7 hrs.',
+    figure: '2 hrs.',
     headline: 'Avg. Time to Submit',
     detail: 'AI-indexed profiles, ranked by context',
   },

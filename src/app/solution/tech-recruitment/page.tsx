@@ -84,8 +84,8 @@ export default function TechRecruitmentPage() {
           </ButtonLink>
           <p className="text-small text-ink/80">
             Every plan includes technical matching —{' '}
-            <Link href="/pricing" className="underline underline-offset-4 hover:text-brand-blue">
-              see what it costs
+            <Link href="/contact" className="underline underline-offset-4 hover:text-brand-blue">
+              talk to us about cost
             </Link>
             .
           </p>

@@ -11,7 +11,6 @@ export const ROUTES = [
   '/solution/high-volume',
   '/solution/tech-recruitment',
   '/migration',
-  '/pricing',
   '/contact',
   '/privacy',
   '/terms',

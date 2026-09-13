@@ -13,9 +13,9 @@ const results = [];
 
 /**
  * Everything src/config/navigation.ts puts in the drawer: five Platform pages, four Solution
- * pages, Migration, Pricing, Sign In and Request Demo.
+ * pages, Migration, Sign In and Request Demo.
  */
-const DRAWER_LINKS = 13;
+const DRAWER_LINKS = 12;
 
 function check(name, condition, detail = '') {
   results.push({ name, pass: Boolean(condition), detail });
@@ -109,59 +109,11 @@ async function mobileDrawer(browser) {
 
   await open.click();
   await page.waitForTimeout(300);
-  await dialog.getByRole('link', { name: 'Pricing', exact: true }).click();
-  await page.waitForURL('**/pricing');
+  await dialog.getByRole('link', { name: 'Migration', exact: true }).click();
+  await page.waitForURL('**/migration');
   check('drawer: closes after navigating', (await open.getAttribute('aria-expanded')) === 'false');
 
   await context.close();
-}
-
-async function accordion(page) {
-  await page.goto(`${BASE}/pricing`, { waitUntil: 'networkidle' });
-  const first = page.getByRole('button', { name: /Is Talentilo just an ATS/ });
-  const second = page.getByRole('button', { name: /Can I upgrade my plan/ });
-
-  check('faq: first item starts open', (await first.getAttribute('aria-expanded')) === 'true');
-  await second.click();
-  await page.waitForTimeout(400);
-  check('faq: opening one closes the other', (await first.getAttribute('aria-expanded')) === 'false');
-  check('faq: clicked item opens', (await second.getAttribute('aria-expanded')) === 'true');
-  await second.click();
-  await page.waitForTimeout(400);
-  check('faq: clicking again collapses', (await second.getAttribute('aria-expanded')) === 'false');
-}
-
-async function pricing(page) {
-  await page.goto(`${BASE}/pricing`, { waitUntil: 'networkidle' });
-  check(
-    'pricing: states the annual per-seat rate by default',
-    await page.locator('text=/₹1,299\\/month/').first().isVisible()
-  );
-  check(
-    'pricing: says how that rate is billed',
-    await page.locator('text=Per Seat (Billed Annually)').first().isVisible()
-  );
-  check(
-    'pricing: billing toggle present',
-    (await page.getByRole('button', { name: /Pay Monthly|Pay Annually/ }).count()) === 2
-  );
-  await page.getByRole('button', { name: 'Pay Monthly' }).click();
-  await page.waitForTimeout(150);
-  check(
-    'pricing: switching the toggle updates the billing label',
-    await page.locator('text=Per Seat (Billed Monthly)').first().isVisible()
-  );
-}
-
-async function roiSliders(page) {
-  await page.goto(`${BASE}/pricing#roi`, { waitUntil: 'networkidle' });
-  const before = await page.locator('text=/Recovered value each month/').locator('..').innerText();
-  const slider = page.getByLabel('Billable value per hour');
-  await slider.focus();
-  for (let i = 0; i < 5; i++) await page.keyboard.press('ArrowRight');
-  await page.waitForTimeout(150);
-  const after = await page.locator('text=/Recovered value each month/').locator('..').innerText();
-  check('roi: slider recomputes the output', before !== after, `${before} -> ${after}`);
 }
 
 async function tabs(page) {
@@ -370,7 +322,7 @@ async function landsAtTop(browser) {
   const page = await context.newPage();
   await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
 
-  for (const label of ['Pricing', 'Migration']) {
+  for (const label of ['Migration']) {
     await page.evaluate(() => window.scrollTo(0, 3000));
     await page.waitForTimeout(200);
     await page.getByRole('link', { name: label, exact: true }).first().click();
@@ -424,7 +376,7 @@ async function loadsWhole(browser) {
   const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await context.newPage();
 
-  for (const route of ['/', '/solution/high-volume', '/pricing']) {
+  for (const route of ['/', '/solution/high-volume', '/platform/recruitment-os']) {
     await page.goto(`${BASE}${route}`, { waitUntil: 'networkidle' });
     const faded = await page.evaluate(() => {
       const bad = [];
@@ -479,12 +431,6 @@ async function main() {
   await navDropdown(page);
   console.log('mobile drawer');
   await mobileDrawer(browser);
-  console.log('faq');
-  await accordion(page);
-  console.log('pricing');
-  await pricing(page);
-  console.log('roi');
-  await roiSliders(page);
   console.log('tabs');
   await tabs(page);
   await tabsOnPhone(browser);

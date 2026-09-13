@@ -189,15 +189,6 @@ export const creatives = {
     "designHeight": 536,
     "alt": "Operational guardrail alerts for SLA breaches, offers, AI matches and daily digests"
   },
-  "ros-ingestion": {
-    "src": "/figma/creatives/ros-ingestion.webp",
-    "fallback": "/figma/creatives/ros-ingestion.png",
-    "width": 2273,
-    "height": 657,
-    "designWidth": 1136.52,
-    "designHeight": 328.47,
-    "alt": "The Talentilo translation layer importing a legacy export into a structured candidate record"
-  },
   "ros-view-owner": {
     "src": "/figma/creatives/ros-view-owner.webp",
     "fallback": "/figma/creatives/ros-view-owner.png",

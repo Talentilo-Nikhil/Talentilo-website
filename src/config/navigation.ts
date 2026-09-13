@@ -104,7 +104,6 @@ export const primaryNav: NavItem[] = [
     ],
   },
   { label: 'Migration', href: '/migration' },
-  { label: 'Pricing', href: '/pricing' },
 ];
 
 export const headerActions = {
@@ -129,7 +128,6 @@ export const footerColumns: FooterColumn[] = [
     heading: 'Company',
     links: [
       { label: 'Migration', href: '/migration' },
-      { label: 'Pricing', href: '/pricing' },
       { label: 'Contact', href: '/contact' },
     ],
   },
@@ -154,7 +152,6 @@ export const allRoutes = [
   '/solution/high-volume',
   '/solution/tech-recruitment',
   '/migration',
-  '/pricing',
   '/contact',
   '/privacy',
   '/terms',
