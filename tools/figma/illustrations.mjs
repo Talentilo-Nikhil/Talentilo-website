@@ -53,10 +53,12 @@ const readSpec = (slug) => JSON.parse(readFileSync(resolve(ROOT, `design/spec/${
  * string grows rightward from a fixed origin, so nothing below it re-flows. The new width is
  * measured off the ADVANCE table rather than estimated, and a replacement wider than the string
  * it replaces throws — these all sit in table cells whose neighbours are a fixed distance away,
- * and silently overrunning one is how a name ends up under the column beside it.
+ * and silently overrunning one is how a name ends up under the column beside it. `clipped: true`
+ * waives that one check for a layer the frame already cuts, and only for such a layer.
  */
-function applyRetext(root, { path, text }) {
+function applyRetext(root, { path, text, clipped = false }) {
   const node = at(root, path);
+  const frame = root.box;
   if (node.type !== 'TEXT') throw new Error(`retext "${path}" is a ${node.type}, not TEXT`);
   if ((node.lines?.length ?? 0) > 1) throw new Error(`retext "${path}" is multi-line`);
   if (node.textStyle?.align && node.textStyle.align !== 'LEFT') {
@@ -66,11 +68,28 @@ function applyRetext(root, { path, text }) {
   const size = node.textStyle?.size ?? 16;
   const before = node.lines?.[0]?.w ?? node.box.w;
   const after = estWidth(text, size);
-  if (after > before) {
+  if (after > before && !clipped) {
     throw new Error(
       `retext "${path}": ${JSON.stringify(text)} measures ${after.toFixed(2)}px against ` +
         `${JSON.stringify(node.text)}'s ${before.toFixed(2)}px — it would run past the layer's box`
     );
+  }
+
+  /*
+   * `clipped` allows the one case where growing the string changes nothing: a layer the export
+   * frame already cuts. The frame's own right edge decides what renders, so a label that is
+   * cut at the same x before and after looks identical up to the cut — it simply loses more of
+   * itself past it. Asserted rather than trusted: if the old string ended inside the frame, the
+   * layer was whole, growing it would newly push it out of view, and that is a bug not a choice.
+   */
+  if (after > before) {
+    const edge = frame.x + frame.w;
+    if (node.box.x + before <= edge) {
+      throw new Error(
+        `retext "${path}": marked clipped, but ${JSON.stringify(node.text)} ends at ` +
+          `${(node.box.x + before).toFixed(2)} inside a frame ending at ${edge.toFixed(2)} — it is not cut today`
+      );
+    }
   }
 
   node.text = text;
@@ -349,6 +368,30 @@ const EXPORTS = {
         { path: '#1/#0/#1/#1/#3/#1/#0', text: 'Lyra Inc' },
         { path: '#1/#0/#1/#1/#4/#1/#0', text: 'Vero Auto' },
         { path: '#1/#0/#1/#1/#5/#1/#0', text: 'Vero Auto' },
+        { path: '#1/#0/#1/#4/#1/#2/#0', text: 'Send reminders', clipped: true },
+        { path: '#1/#0/#1/#4/#2/#2/#0', text: 'Send reminders', clipped: true },
+        { path: '#1/#0/#1/#4/#3/#0/#0', text: 'Send reminders', clipped: true },
+        { path: '#1/#0/#1/#4/#4/#0/#0', text: 'Send reminders', clipped: true },
+        { path: '#1/#0/#1/#4/#5/#0/#0', text: 'Send reminders', clipped: true },
+      ],
+      /*
+       * "Go to job" -> "Send reminders" on all five rows.
+       *
+       * The label is cut either way: the frame ends at x=588 and the button runs to 611.6, so
+       * only 28.21px of any label renders — "Go to j" today, "Send r" after this. Shipping it cut
+       * is the deliberate call; fitting it whole needs the table re-cut, not a shorter string.
+       *
+       * The pill is widened with the label (62.62 -> 90.26, keeping its 10.81 padding either
+       * side) so the button still fits its own text. That edge sits at 639.24, well past the
+       * frame, so it changes nothing visible — it keeps the geometry honest for whoever re-cuts
+       * this later.
+       */
+      patch: [
+        { path: '#1/#0/#1/#4/#1/#2', box: { x: 548.98, y: 226.63, w: 90.26, h: 25.81 } },
+        { path: '#1/#0/#1/#4/#2/#2', box: { x: 548.98, y: 275.29, w: 90.26, h: 25.81 } },
+        { path: '#1/#0/#1/#4/#3/#0', box: { x: 548.98, y: 323.94, w: 90.26, h: 25.81 } },
+        { path: '#1/#0/#1/#4/#4/#0', box: { x: 548.98, y: 372.6, w: 90.26, h: 25.81 } },
+        { path: '#1/#0/#1/#4/#5/#0', box: { x: 548.98, y: 421.26, w: 90.26, h: 25.81 } },
       ],
     },
   ],
