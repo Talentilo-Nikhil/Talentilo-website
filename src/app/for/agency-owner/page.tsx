@@ -52,7 +52,7 @@ export default function AgencyOwnerPage() {
       <PageHero
         title="Scale Revenue. Not Just The Headcount"
         lede="The 'Headcount Trap' kills agency margins. You hire more recruiters to get more billings, but your profits stay flat. Talentilo is the Agency Management Software that breaks the cycle—using AI Leverage to help your existing team bill 3x more"
-        cta={{ label: 'Calculate EBITDA Impact', href: '/pricing#roi' }}
+        cta={{ label: 'Request Demo', href: '/contact' }}
       />
 
       {/* Placeholder attribution and photograph — replace before this is treated as social proof. */}

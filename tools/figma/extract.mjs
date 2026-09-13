@@ -42,7 +42,6 @@ export const PAGE_MAP = [
   { frame: 'solution/high-volume', slug: 'solution-high-volume', route: '/solution/high-volume' },
   { frame: '/solution/tech-recruitment', slug: 'solution-tech-recruitment', route: '/solution/tech-recruitment' },
   { frame: '/migration', slug: 'migration', route: '/migration' },
-  { frame: '/Pricing', slug: 'pricing', route: '/pricing' },
   { frame: 'Contact-us', slug: 'contact', route: '/contact' },
   { frame: '/404', slug: 'not-found', route: '/404' },
 ];
