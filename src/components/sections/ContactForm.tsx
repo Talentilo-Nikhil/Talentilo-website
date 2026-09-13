@@ -71,7 +71,7 @@ export function ContactForm() {
       <div className="flex min-h-[420px] flex-col justify-center gap-4 rounded-card bg-surface-mint p-10">
         <p className="font-sans text-h5 font-medium text-ink">Thanks — your message is on its way.</p>
         <p className="text-body text-ink/80">
-          We reply from {site.email.support}, usually within one working day.
+          We reply from {site.email.support}, weekdays, within one working day.
         </p>
         <div>
           <Button variant="dark" onClick={() => setStatus('idle')}>
