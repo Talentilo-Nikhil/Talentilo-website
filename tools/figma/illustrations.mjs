@@ -16,7 +16,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
-import { customCreatives } from './custom-creatives.mjs';
+import { customCreatives, estWidth } from './custom-creatives.mjs';
 import { subtreeToSvg } from './svg.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
@@ -41,6 +41,43 @@ function at(tree, path) {
 }
 
 const readSpec = (slug) => JSON.parse(readFileSync(resolve(ROOT, `design/spec/${slug}.json`), 'utf8'));
+
+/**
+ * Replace the copy of one TEXT layer.
+ *
+ * A text node carries its string twice: `text`, and the `lines` Figma already laid out. The
+ * writer prefers `lines` when it is there — those carry the baseline coordinates — so setting
+ * `text` alone changes nothing on the canvas. Both are rewritten here.
+ *
+ * The layers this is used on are single-line and left-aligned, which is what makes it safe: the
+ * string grows rightward from a fixed origin, so nothing below it re-flows. The new width is
+ * measured off the ADVANCE table rather than estimated, and a replacement wider than the string
+ * it replaces throws — these all sit in table cells whose neighbours are a fixed distance away,
+ * and silently overrunning one is how a name ends up under the column beside it.
+ */
+function applyRetext(root, { path, text }) {
+  const node = at(root, path);
+  if (node.type !== 'TEXT') throw new Error(`retext "${path}" is a ${node.type}, not TEXT`);
+  if ((node.lines?.length ?? 0) > 1) throw new Error(`retext "${path}" is multi-line`);
+  if (node.textStyle?.align && node.textStyle.align !== 'LEFT') {
+    throw new Error(`retext "${path}" is ${node.textStyle.align}-aligned, not LEFT`);
+  }
+
+  const size = node.textStyle?.size ?? 16;
+  const before = node.lines?.[0]?.w ?? node.box.w;
+  const after = estWidth(text, size);
+  if (after > before) {
+    throw new Error(
+      `retext "${path}": ${JSON.stringify(text)} measures ${after.toFixed(2)}px against ` +
+        `${JSON.stringify(node.text)}'s ${before.toFixed(2)}px — it would run past the layer's box`
+    );
+  }
+
+  node.text = text;
+  if (node.lines?.length) node.lines = [{ ...node.lines[0], text, w: after }];
+  node.box = { ...node.box, w: after };
+}
+
 
 /** Deep-copy a subtree with every position moved by (dx, dy), so it can land somewhere else. */
 function shifted(node, dx, dy) {
@@ -138,7 +175,23 @@ const EXPORTS = {
   ],
 
   homepage: [
-    { file: 'hero-command-center', path: '#1/Visual-1', label: 'Talentilo command centre dashboard' },
+    {
+      file: 'hero-command-center',
+      path: '#1/Visual-1',
+      label: 'Talentilo command centre dashboard',
+      // The file's demo data names real companies — Oracle, Tata Motors, Bajaj Inc, Microsoft —
+      // and HDFC Bank as the employers behind these jobs. Shipping that on marketing artwork
+      // reads as a customer
+      // list. Swapped for invented ones, each measured to sit inside the string it replaces so
+      // no cell re-flows: Arden, Vero Auto, Lyra Inc, Halden, Nord Bank.
+      retext: [
+        { path: '#4/#1/#1/#1/#0/#0/#0/#1/#2/#0/#1/#1', text: 'Sara K. has a final round interview with Halden.' },
+        { path: '#4/#1/#1/#1/#0/#0/#0/#1/#2/#0/#1/#0/#0', text: 'Manoj Trivedi joins Nord Bank (Fee: ₹2.0L).' },
+        { path: '#4/#1/#1/#1/#1/#1/#1/#1/#1/#0/#0/#0/#1/#0/#1/#0', text: 'Data scientist | Arden' },
+        { path: '#4/#1/#1/#1/#1/#1/#1/#1/#1/#1/#0/#0/#0/#1/#1/#0', text: 'Full stack developer | Arden' },
+        { path: '#4/#1/#1/#1/#1/#1/#1/#1/#1/#2/#0/#0/#0/#1/#1/#0', text: 'UI/UX Designer | Arden' },
+      ],
+    },
     { file: 'logo-bell', path: '#2/#1/Bell Logo', label: 'Bell' },
     { file: 'logo-asana', path: '#2/#1/Asana Logo', label: 'Asana' },
     { file: 'logo-sap', path: '#2/#1/SAP Logo', label: 'SAP' },
@@ -239,9 +292,27 @@ const EXPORTS = {
     { file: 'ros-view-owner', path: '', label: 'The owner view: annual revenue targets tracked per recruiter' },
   ],
   'platform-recruitment-os-ops': [
-    { file: 'ros-view-ops', path: '', label: 'The operations view: floor alerts, held-up CVs and offer accept rate' },
+    {
+      file: 'ros-view-ops',
+      path: '',
+      label: 'The operations view: floor alerts, held-up CVs and offer accept rate',
+      // The file's demo data names real companies — Oracle, Tata Motors, Bajaj Inc, Microsoft —
+      // and HDFC Bank as the employers behind these jobs. Shipping that on marketing artwork
+      // reads as a customer
+      // list. Swapped for invented ones, each measured to sit inside the string it replaces so
+      // no cell re-flows: Arden, Vero Auto, Lyra Inc, Halden, Nord Bank.
+      retext: [
+        { path: '#3/#1/#1/#1/#0/#0/#0/#1/#2/#0/#1/#1', text: 'Sara K. has a final round interview with Halden.' },
+        { path: '#3/#1/#1/#1/#0/#0/#0/#1/#2/#0/#1/#0/#0', text: 'Rohan Sharma joins Nord Bank (Fee: ₹2.0L).' },
+        { path: '#3/#1/#1/#1/#1/#1/#1/#1/#1/#0/#0/#0/#1/#0/#1/#0', text: 'Data scientist | Arden' },
+        { path: '#3/#1/#1/#1/#1/#1/#1/#1/#1/#1/#0/#0/#0/#1/#1/#0', text: 'Full stack developer | Arden' },
+        { path: '#3/#1/#1/#1/#1/#1/#1/#1/#1/#2/#0/#0/#0/#1/#1/#0', text: 'UI/UX Designer | Arden' },
+      ],
+    },
   ],
   'platform-recruitment-os-recruiter': [
+    // The three "Tata Motors" fields this frame also carries sit at y=814 in a frame 614 tall,
+    // so the export clips them away — nothing to swap here.
     { file: 'ros-view-recruiter', path: '', label: 'The recruiter view: a single candidate record with contact details and history' },
   ],
 
@@ -267,6 +338,18 @@ const EXPORTS = {
       file: 'ros-pending-review',
       path: '',
       label: 'A pending-review queue listing each job with its client and how long it has waited',
+      // The file's demo data names real companies — Oracle, Tata Motors, Bajaj Inc, Microsoft —
+      // and HDFC Bank as the employers behind these jobs. Shipping that on marketing artwork
+      // reads as a customer
+      // list. Swapped for invented ones, each measured to sit inside the string it replaces so
+      // no cell re-flows: Arden, Vero Auto, Lyra Inc, Halden, Nord Bank.
+      retext: [
+        { path: '#1/#0/#1/#1/#1/#1/#0', text: 'Arden' },
+        { path: '#1/#0/#1/#1/#2/#1/#0', text: 'Vero Auto' },
+        { path: '#1/#0/#1/#1/#3/#1/#0', text: 'Lyra Inc' },
+        { path: '#1/#0/#1/#1/#4/#1/#0', text: 'Vero Auto' },
+        { path: '#1/#0/#1/#1/#5/#1/#0', text: 'Vero Auto' },
+      ],
     },
   ],
 
@@ -329,6 +412,14 @@ const EXPORTS = {
       file: 'rd-hero-offers',
       path: 'Frame 2085665236/Frame 2085665231/Offer Reminders',
       label: 'The offer-reminders workspace tracking every signed candidate through their notice period',
+      // Same real-company demo data as the Recruitment OS artwork — see the note there.
+      retext: [
+        { path: '#1/#1/#1/#0/#1/#2/#1/#1/#0', text: 'Arden' },
+        { path: '#1/#1/#1/#0/#1/#2/#2/#1/#0', text: 'Arden' },
+        { path: '#1/#1/#1/#0/#1/#2/#3/#1/#0', text: 'Lyra Inc' },
+        { path: '#1/#1/#1/#0/#1/#2/#5/#1/#0', text: 'Vero Auto' },
+        { path: '#1/#1/#1/#0/#1/#2/#6/#1/#0', text: 'Vero Auto' },
+      ],
       patch: [
         // The signed-in user in the top-right chip was the file's own placeholder, "John Doe".
         // Its frame is an auto-layout row (avatar, name+role, chevron) that Figma would reflow on
@@ -418,7 +509,10 @@ async function main() {
     for (const entry of entries) {
       // A graft, a hide or a patch rewrites the tree, so it works on a copy the other entries
       // never see.
-      const tree = entry.graft || entry.hide || entry.patch ? structuredClone(spec.tree) : spec.tree;
+      const tree =
+        entry.graft || entry.hide || entry.patch || entry.retext
+          ? structuredClone(spec.tree)
+          : spec.tree;
       const node = at(tree, entry.path);
       for (const patch of entry.graft ?? []) applyGraft(node, patch);
       // `hidden` is what the writer already checks for a layer switched off in Figma, so a layer
@@ -428,6 +522,8 @@ async function main() {
       // spec text run carries verbatim. `{ path, ...fields }`; fields are shallow-merged onto the
       // node `at(path)` resolves to.
       for (const { path, ...fields } of entry.patch ?? []) Object.assign(at(node, path), fields);
+      // Copy the source file wrote that the site cannot ship — see applyRetext.
+      for (const swap of entry.retext ?? []) applyRetext(node, swap);
       const svg = await subtreeToSvg(node, images, { label: entry.label, overlay: entry.overlay });
       const scale = entry.scale ?? SCALE;
 

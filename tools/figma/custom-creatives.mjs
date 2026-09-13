@@ -100,7 +100,7 @@ const ADVANCE = {
  * "12 Countries · One Standard" by 14% and understated "+30% Margin" by 3%. Summing real advances
  * lands every label on this page within 1%. Unlisted characters fall back to the old constant.
  */
-const estWidth = (str, size) => [...str].reduce((total, c) => total + (ADVANCE[c] ?? 0.54), 0) * size;
+export const estWidth = (str, size) => [...str].reduce((total, c) => total + (ADVANCE[c] ?? 0.54), 0) * size;
 
 /**
  * The white notice that hangs above the card on four of these creatives.
