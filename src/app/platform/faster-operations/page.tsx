@@ -60,11 +60,25 @@ export default function FasterOperationsPage() {
         body="Email is for contracts. Messaging is for connections. Talentilo treats WhatsApp as a first-class citizen, allowing you to engage candidates instantly without ever leaving your dashboard."
         points={[]}
         aside={
-          <ComparePanel
-            compact
-            before={{ label: 'Email (Legacy)', value: '20%', caption: 'Open rate' }}
-            after={{ label: 'WhatsApp (Talentilo)', value: '98%', caption: 'Open rate' }}
-          />
+          <div className="flex flex-col gap-4">
+            <ComparePanel
+              compact
+              before={{ label: 'Email (Legacy)', value: '20%', caption: 'Open rate' }}
+              after={{ label: 'WhatsApp (Talentilo)', value: '98%', caption: 'Open rate' }}
+            />
+            {/*
+              The cost of the channel, stated where the channel is sold.
+
+              This lived only on the pricing page, which meant a buyer sold on WhatsApp-first
+              learned at the very end that it runs on their own vendor account and bills
+              separately. Zero markup is a good thing to be able to say — early it is a selling
+              point, late it is a surprise. Wording follows the pricing page's own "Note on Comms".
+            */}
+            <p className="max-w-[549px] text-small text-ink/80">
+              WhatsApp runs on your own Gupshup or Frejun account. You pay the vendor&rsquo;s actual
+              rates directly &mdash; Talentilo adds zero markup on communications.
+            </p>
+          </div>
         }
         media={
           /* The design gives a slot one creative, so the handset has it to itself. */
