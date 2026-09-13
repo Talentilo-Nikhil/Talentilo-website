@@ -201,9 +201,9 @@ export const creatives = {
   "ros-pending-review": {
     "src": "/figma/creatives/ros-pending-review.webp",
     "fallback": "/figma/creatives/ros-pending-review.png",
-    "width": 1176,
+    "width": 1280,
     "height": 1072,
-    "designWidth": 588,
+    "designWidth": 640,
     "designHeight": 536,
     "alt": "A pending-review queue listing each job with its client and how long it has waited"
   },
