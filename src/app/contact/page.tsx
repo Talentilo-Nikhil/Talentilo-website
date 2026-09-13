@@ -9,25 +9,25 @@ import { site } from '@/config/site';
 export const metadata: Metadata = {
   title: 'Contact',
   description:
-    'Questions, support or a demo — the Talentilo team is here to help. Send a message and we reply from marketing@talentilo.ai, usually within one working day.',
+    'Questions, support or a demo — the Talentilo team is here to help. Send a message and we reply from marketing@talentilo.ai, weekdays, within one working day.',
   alternates: { canonical: '/contact' },
 };
 
 /** The photograph filling the panel beside the form, from the file's image fill. */
 const PANEL_IMAGE = '8b4fc046b6a14ec7293f0af2b03e2519cec94957' as const;
 
-const desks = [
-  {
-    name: 'Support',
-    email: site.email.support,
-    detail: 'Need help? Our support team is available 24/7 to assist with any issues.',
-  },
-  {
-    name: 'Sales',
-    email: site.email.sales,
-    detail: 'Interested in Talentilo.ai for your business? Reach out to discuss pricing and solutions.',
-  },
-];
+/*
+ * One desk, one address, one promise.
+ *
+ * This was two columns, Support and Sales, printing the same marketing@ address under each — which
+ * reads as an oversight rather than a choice, and is the thing to fix while the address genuinely
+ * is shared. Support also promised "available 24/7" directly beside the page's own "within one
+ * working day", and 24/7 is not a promise a shared inbox with no phone number behind it can keep.
+ *
+ * When sales@, support@ and privacy@ exist, this goes back to separate desks — one entry each,
+ * each with its own address.
+ */
+const inbox = site.email.support;
 
 export default function ContactPage() {
   return (
@@ -55,22 +55,21 @@ export default function ContactPage() {
 
       <Section padding="normal">
         {/* Every line in this block is centered in the file — heading, email and body alike. */}
-        <ul className="mx-auto grid max-w-[843px] gap-10 text-center sm:grid-cols-2">
-          {desks.map((desk) => (
-            <li key={desk.name} className="flex flex-col items-center gap-3">
-              <h2 className="font-sans text-[clamp(1.5rem,1.25rem+0.9vw,1.75rem)] font-semibold text-ink">
-                {desk.name}
-              </h2>
-              <a
-                href={`mailto:${desk.email}`}
-                className="text-body text-ink underline-offset-4 transition-colors duration-200 hover:text-brand-blue hover:underline"
-              >
-                {desk.email}
-              </a>
-              <p className="text-body text-ink/80">{desk.detail}</p>
-            </li>
-          ))}
-        </ul>
+        <div className="mx-auto flex max-w-[560px] flex-col items-center gap-3 text-center">
+          <h2 className="font-sans text-[clamp(1.5rem,1.25rem+0.9vw,1.75rem)] font-semibold text-ink">
+            Email us
+          </h2>
+          <a
+            href={`mailto:${inbox}`}
+            className="text-body text-ink underline-offset-4 transition-colors duration-200 hover:text-brand-blue hover:underline"
+          >
+            {inbox}
+          </a>
+          <p className="text-body text-ink/80">
+            Support questions and sales enquiries both reach this inbox. We reply weekdays, within one
+            working day.
+          </p>
+        </div>
       </Section>
     </>
   );
