@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 import { ComparePanel } from '@/components/panels/ComparePanel';
 import { CreativeGround } from '@/components/panels/CreativeGround';
@@ -10,17 +11,31 @@ import { SlotPicker } from '@/components/panels/SlotPicker';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
+import { JsonLd } from '@/components/ui/JsonLd';
+import { serviceSchema } from '@/lib/json-ld';
+
+const PAGE_DESCRIPTION =
+  'Talentilo runs WhatsApp, email and calls in one thread, with automated cadences and self-service scheduling that close the gap to interview.';
+const PAGE_PATH = '/platform/faster-operations';
 
 export const metadata: Metadata = {
-  title: 'WhatsApp Recruitment Software & Automated Scheduling',
-  description:
-    'Speed is the only competitive advantage left. The Operations Engine shifts your workflow from administrative latency to real-time velocity, eliminating the gap between sourced and interviewed.',
-  alternates: { canonical: '/platform/faster-operations' },
+  title: 'WhatsApp Recruitment Software',
+  description: PAGE_DESCRIPTION,
+  alternates: { canonical: PAGE_PATH },
 };
 
 export default function FasterOperationsPage() {
   return (
     <>
+      <JsonLd
+        data={serviceSchema({
+          name: 'Talentilo Operations Engine',
+          description: PAGE_DESCRIPTION,
+          path: PAGE_PATH,
+          serviceType: 'Recruitment messaging and scheduling automation',
+        })}
+      />
+
       {/* The other two /platform pages open on the brand wash with their artwork sitting in it.
           These three opened on an ink field instead, so the same nav section read as a different
           site depending on which item you picked. */}
@@ -74,6 +89,18 @@ export default function FasterOperationsPage() {
         body="Recruiters lose hours switching between phone, email and the ATS just to find the conversation. Talentilo builds a universal timeline, folding WhatsApp, email and calls into one linear thread."
         points={[]}
         pullQuote="Context never gets lost."
+        aside={
+          <p className="text-small text-ink/80">
+            Every thread lands in the{' '}
+            <Link
+              href="/platform/recruitment-os"
+              className="underline underline-offset-4 hover:text-brand-blue"
+            >
+              recruitment command centre
+            </Link>
+            .
+          </p>
+        }
         mediaSide="left"
         media={
           <CreativeGround tone="magenta">
@@ -146,6 +173,18 @@ export default function FasterOperationsPage() {
         title={'Kill the Scheduling\nPing-Pong.'}
         body="The 'Are you free Tuesday?' email chain delays hiring by days. Your team publishes its availability, the candidate picks a slot, and the interview locks itself in."
         points={['No back-and-forth emails', 'Synced to the whole team']}
+        aside={
+          <p className="text-small text-ink/80">
+            Let{' '}
+            <Link
+              href="/platform/ai-powers"
+              className="underline underline-offset-4 hover:text-brand-blue"
+            >
+              AI screening
+            </Link>{' '}
+            book the slot for you.
+          </p>
+        }
         mediaSide="left"
         media={
           <CreativeGround tone="magenta">

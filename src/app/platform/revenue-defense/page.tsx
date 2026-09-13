@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 import { ChecklistPanel } from '@/components/panels/ChecklistPanel';
 import { ComparePanel } from '@/components/panels/ComparePanel';
@@ -8,17 +9,31 @@ import { LiveDot, Panel } from '@/components/panels/Panel';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
+import { JsonLd } from '@/components/ui/JsonLd';
+import { serviceSchema } from '@/lib/json-ld';
+
+const PAGE_DESCRIPTION =
+  'Talentilo monitors the silence between signature and start date, flagging ghosting risk and counter-offers early enough for you to still intervene.';
+const PAGE_PATH = '/platform/revenue-defense';
 
 export const metadata: Metadata = {
-  title: 'Offer Management & Ghosting Prevention Software',
-  description:
-    'The deal isn’t closed until they show up. Revenue Defense monitors the silence between signature and start date, predicting ghosting risk and counter-offers before you have to restart the search.',
-  alternates: { canonical: '/platform/revenue-defense' },
+  title: 'Offer Management & Ghosting Prevention',
+  description: PAGE_DESCRIPTION,
+  alternates: { canonical: PAGE_PATH },
 };
 
 export default function RevenueDefensePage() {
   return (
     <>
+      <JsonLd
+        data={serviceSchema({
+          name: 'Talentilo Revenue Defense',
+          description: PAGE_DESCRIPTION,
+          path: PAGE_PATH,
+          serviceType: 'Offer management and attrition-risk software',
+        })}
+      />
+
       {/* The other two /platform pages open on the brand wash with their artwork sitting in it —
           see faster-operations. This page opened on an ink field instead. The hero art had no
           Figma source until website-update-v2.fig; it ran on a stand-in FlowPanel. Now it's the
@@ -49,6 +64,18 @@ export default function RevenueDefensePage() {
         body="How do you know a hire is wobbling? They stop replying quickly. They use hesitant language. Talentilo analyses communication patterns and response times through the notice period, and triggers a risk alert the moment engagement latency climbs — while you can still intervene."
         points={[]}
         pullQuote="Ghosting isn't sudden. It's a pattern."
+        aside={
+          <p className="text-small text-ink/80">
+            Risk signals come from the response data in your{' '}
+            <Link
+              href="/platform/faster-operations"
+              className="underline underline-offset-4 hover:text-brand-blue"
+            >
+              unified message thread
+            </Link>
+            .
+          </p>
+        }
         mediaSide="left"
         media={
           <CreativeGround tone="magenta">
@@ -99,6 +126,18 @@ export default function RevenueDefensePage() {
         title={'Protect Your Forecast.\nSecure Your Growth.'}
         body="Inaccurate forecasts kill growth plans — you cannot count hires that fall off. Revenue Defense gives ops leaders a risk-adjusted forecast, separating solid outcomes from at-risk pipeline so you can report to the board with confidence."
         points={[]}
+        aside={
+          <p className="text-small text-ink/80">
+            Forecasts surface alongside every other metric in the{' '}
+            <Link
+              href="/platform/recruitment-os"
+              className="underline underline-offset-4 hover:text-brand-blue"
+            >
+              command centre
+            </Link>
+            .
+          </p>
+        }
         mediaSide="left"
         media={
           <CreativeGround tone="magenta">
