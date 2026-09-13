@@ -109,7 +109,7 @@ export function ContactForm() {
 
         <div className="flex flex-col gap-2">
           <label htmlFor={`${id}-email`} className="text-body font-medium text-ink">
-            Your Email<span aria-hidden="true">*</span>
+            Company Email<span aria-hidden="true">*</span>
           </label>
           <input
             id={`${id}-email`}
@@ -117,7 +117,7 @@ export function ContactForm() {
             type="email"
             autoComplete="email"
             required
-            placeholder="Drop your email here"
+            placeholder="you@yourcompany.com"
             aria-invalid={errors.email ? true : undefined}
             aria-describedby={errors.email ? `${id}-email-error` : undefined}
             className={cn(field, errors.email ? 'border-negative' : 'border-transparent')}
@@ -125,6 +125,28 @@ export function ContactForm() {
           {errors.email ? (
             <p id={`${id}-email-error`} className="text-small text-negative">
               {errors.email}
+            </p>
+          ) : null}
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label htmlFor={`${id}-company`} className="text-body font-medium text-ink">
+            Company Name<span aria-hidden="true">*</span>
+          </label>
+          <input
+            id={`${id}-company`}
+            name="company"
+            type="text"
+            autoComplete="organization"
+            required
+            placeholder="Your company"
+            aria-invalid={errors.company ? true : undefined}
+            aria-describedby={errors.company ? `${id}-company-error` : undefined}
+            className={cn(field, errors.company ? 'border-negative' : 'border-transparent')}
+          />
+          {errors.company ? (
+            <p id={`${id}-company-error`} className="text-small text-negative">
+              {errors.company}
             </p>
           ) : null}
         </div>
@@ -150,10 +172,17 @@ export function ContactForm() {
           ) : null}
         </div>
 
-        {/* Honeypot: visually and programmatically hidden, so only bots complete it. */}
+        {/*
+          Honeypot: visually and programmatically hidden, so only bots complete it.
+
+          It was named `company` until Company Name became a real, required field. Sharing the
+          name would have meant every genuine submission tripped the trap and was dropped with a
+          success response — so the trap is `website` now, which is just as attractive to a bot
+          and belongs to nothing on the visible form.
+        */}
         <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
-          <label htmlFor={`${id}-company`}>Company</label>
-          <input id={`${id}-company`} name="company" type="text" tabIndex={-1} autoComplete="off" />
+          <label htmlFor={`${id}-website`}>Website</label>
+          <input id={`${id}-website`} name="website" type="text" tabIndex={-1} autoComplete="off" />
         </div>
 
         <div aria-live="polite" className="min-h-0">

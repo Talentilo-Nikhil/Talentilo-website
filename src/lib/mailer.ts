@@ -23,6 +23,7 @@ export async function deliverContactMessage(input: ContactInput): Promise<Delive
       to,
       from: input.email,
       name: input.name,
+      company: input.company,
       length: input.message.length,
     });
     return { delivered: false, provider: 'log' };
@@ -35,10 +36,13 @@ export async function deliverContactMessage(input: ContactInput): Promise<Delive
     from,
     to: [to],
     replyTo: input.email,
-    subject: `Website enquiry from ${input.name}`,
-    text: `${input.name} <${input.email}>\n\n${input.message}`,
+    // The company is on the subject line as well as in the body: it is the first thing worth
+    // knowing about an enquiry, and it makes the inbox sortable without opening anything.
+    subject: `Website enquiry from ${input.name} at ${input.company}`,
+    text: `${input.name} <${input.email}>\n${input.company}\n\n${input.message}`,
     html:
       `<p><strong>${escapeHtml(input.name)}</strong> &lt;${escapeHtml(input.email)}&gt;</p>` +
+      `<p>${escapeHtml(input.company)}</p>` +
       `<p style="white-space:pre-wrap">${escapeHtml(input.message)}</p>`,
   });
 
