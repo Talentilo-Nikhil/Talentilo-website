@@ -5,7 +5,6 @@ import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { LogoStrip } from '@/components/sections/LogoStrip';
 import { PageHero } from '@/components/sections/PageHero';
 import { StatGrid, type Stat } from '@/components/sections/StatGrid';
-import { Testimonial } from '@/components/sections/Testimonial';
 import { Section } from '@/components/ui/Section';
 
 export const metadata: Metadata = {
@@ -53,15 +52,6 @@ export default function AgencyOwnerPage() {
         title="Scale Revenue. Not Just The Headcount"
         lede="The 'Headcount Trap' kills agency margins. You hire more recruiters to get more billings, but your profits stay flat. Talentilo is the Agency Management Software that breaks the cycle—using AI Leverage to help your existing team bill 3x more"
         cta={{ label: 'Request Demo', href: '/contact' }}
-      />
-
-      {/* Placeholder attribution and photograph — replace before this is treated as social proof. */}
-      <Testimonial
-        quote="We were running four systems and reconciling them by hand every Monday. Talentilo put the whole desk in one place — I can see margin per placement without asking anyone for a spreadsheet."
-        name="Paula Bennett"
-        role="VP of Talent Operations, Morance"
-        avatarHash="da416245e6c0008541ebbaee04a05405e58598b7"
-        tone="azure"
       />
 
       <LogoStrip title="Trusted by industry leaders and developers worldwide" logos={[...clients]} />
