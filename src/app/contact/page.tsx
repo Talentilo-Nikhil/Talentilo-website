@@ -13,10 +13,8 @@ export const metadata: Metadata = {
   alternates: { canonical: '/contact' },
 };
 
-/** The photograph behind the testimonial panel, from the file's image fill. */
+/** The photograph filling the panel beside the form, from the file's image fill. */
 const PANEL_IMAGE = '8b4fc046b6a14ec7293f0af2b03e2519cec94957' as const;
-/** The reviewer's headshot, also an image fill rather than an initial or icon. */
-const AVATAR_IMAGE = '3d81068413f1faecb4c870bb763d0dae05babf7d' as const;
 
 const desks = [
   {
@@ -43,31 +41,10 @@ export default function ContactPage() {
         />
 
         <div className="mt-10 grid gap-5 lg:grid-cols-[740px_552px] lg:justify-center">
-          <div className="relative isolate flex min-h-[420px] flex-col justify-end overflow-hidden rounded-card bg-ink p-6 sm:p-8">
+          <div className="relative isolate min-h-[420px] overflow-hidden rounded-card bg-ink">
             <div className="absolute inset-0 -z-10 [&_img]:size-full [&_img]:object-cover [&_picture]:block [&_picture]:size-full">
               <FigmaImage hash={PANEL_IMAGE} alt="" sizes="(min-width: 1024px) 740px, 100vw" />
             </div>
-            <div aria-hidden="true" className="absolute inset-0 -z-10 bg-ink/45" />
-
-            <figure className="max-w-[360px] rounded-card bg-white p-5">
-              <blockquote className="text-body font-medium text-ink">
-                &ldquo;Finally, a platform that honors intentional Recruitment&rdquo;
-              </blockquote>
-              <figcaption className="mt-4 flex flex-col gap-2">
-                <span className="text-body text-ink">Sana&rsquo;s Member</span>
-                <span className="flex items-center gap-1">
-                  {/*
-                    Sized by the wrapper rather than by overriding FigmaImage's own w-full/h-auto:
-                    the source photo is square, so h-auto already resolves to a 32px square once
-                    the wrapper fixes the width — no competing height utility to fight over.
-                  */}
-                  <span className="size-8 shrink-0 overflow-hidden rounded-full">
-                    <FigmaImage hash={AVATAR_IMAGE} alt="" />
-                  </span>
-                  <span className="text-body font-semibold text-ink">Alissa Josh</span>
-                </span>
-              </figcaption>
-            </figure>
           </div>
 
           <div>
