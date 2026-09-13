@@ -40,6 +40,28 @@ function at(tree, path) {
   return node;
 }
 
+/**
+ * The pending-review action buttons' label style.
+ *
+ * Their own, at 8px rather than the table's 9.46: "Send reminders" is 68.64px at the table size
+ * against an Action column only 84.25px wide, so at full size the pill cannot fit the column it
+ * sits in. At 8px the label is 58.04px and the pill 74.04px, which leaves 5.1px of column either
+ * side — the smallest reduction that fits, found by measuring rather than by trying sizes in the
+ * rasteriser.
+ */
+const BUTTON_LABEL = {
+  family: 'Albert Sans',
+  style: 'SemiBold',
+  size: 8,
+  lineHeight: 1.6,
+  letterSpacing: null,
+  align: 'LEFT',
+  verticalAlign: 'CENTER',
+  case: null,
+  decoration: null,
+  autoResize: 'WIDTH_AND_HEIGHT',
+};
+
 const readSpec = (slug) => JSON.parse(readFileSync(resolve(ROOT, `design/spec/${slug}.json`), 'utf8'));
 
 /**
@@ -501,30 +523,65 @@ const EXPORTS = {
         { path: '#1/#0/#1/#1/#3/#1/#0', text: 'Lyra Inc' },
         { path: '#1/#0/#1/#1/#4/#1/#0', text: 'Vero Auto' },
         { path: '#1/#0/#1/#1/#5/#1/#0', text: 'Vero Auto' },
-        { path: '#1/#0/#1/#4/#1/#2/#0', text: 'Send reminders', clipped: true },
-        { path: '#1/#0/#1/#4/#2/#2/#0', text: 'Send reminders', clipped: true },
-        { path: '#1/#0/#1/#4/#3/#0/#0', text: 'Send reminders', clipped: true },
-        { path: '#1/#0/#1/#4/#4/#0/#0', text: 'Send reminders', clipped: true },
-        { path: '#1/#0/#1/#4/#5/#0/#0', text: 'Send reminders', clipped: true },
+        { path: '#1/#0/#1/#4/#1/#2/#0', within: '#1/#0/#1/#4/#1/#2', text: 'Send reminders' },
+        { path: '#1/#0/#1/#4/#2/#2/#0', within: '#1/#0/#1/#4/#2/#2', text: 'Send reminders' },
+        { path: '#1/#0/#1/#4/#3/#0/#0', within: '#1/#0/#1/#4/#3/#0', text: 'Send reminders' },
+        { path: '#1/#0/#1/#4/#4/#0/#0', within: '#1/#0/#1/#4/#4/#0', text: 'Send reminders' },
+        { path: '#1/#0/#1/#4/#5/#0/#0', within: '#1/#0/#1/#4/#5/#0', text: 'Send reminders' },
       ],
       /*
-       * "Go to job" -> "Send reminders" on all five rows.
+       * "Go to job" -> "Send reminders", readable rather than cut.
        *
-       * The label is cut either way: the frame ends at x=588 and the button runs to 611.6, so
-       * only 28.21px of any label renders — "Go to j" today, "Send r" after this. Shipping it cut
-       * is the deliberate call; fitting it whole needs the table re-cut, not a shorter string.
+       * The frame used to stop at x=588 while the card runs to 627.6, so the table bled off the
+       * right and took the Action column's buttons with it — "Go to j" before, "Send r" after the
+       * relabel. The frame is 640 now, which shows the whole card and ends the bleed; 536 tall is
+       * unchanged, so the creative goes from 588x536 to 640x536.
        *
-       * The pill is widened with the label (62.62 -> 90.26, keeping its 10.81 padding either
-       * side) so the button still fits its own text. That edge sits at 639.24, well past the
-       * frame, so it changes nothing visible — it keeps the geometry honest for whoever re-cuts
-       * this later.
+       * The label had to shrink to fit the column it lives in, not the frame: at the table's own
+       * 9.46px it measures 68.64px, and a pill around it would be 84.63px against an 84.25px
+       * column. At 8px it is 58.04px, the pill 74.04px, leaving 5.1px of column either side.
+       *
+       * `lines` is seeded with the new baseline because the writer draws from it and retext keeps
+       * whatever y it finds; the rest of each line — the string and its width — retext recomputes,
+       * and `within` makes it check the result against the pill rather than the old label's width.
        */
       patch: [
-        { path: '#1/#0/#1/#4/#1/#2', box: { x: 548.98, y: 226.63, w: 90.26, h: 25.81 } },
-        { path: '#1/#0/#1/#4/#2/#2', box: { x: 548.98, y: 275.29, w: 90.26, h: 25.81 } },
-        { path: '#1/#0/#1/#4/#3/#0', box: { x: 548.98, y: 323.94, w: 90.26, h: 25.81 } },
-        { path: '#1/#0/#1/#4/#4/#0', box: { x: 548.98, y: 372.6, w: 90.26, h: 25.81 } },
-        { path: '#1/#0/#1/#4/#5/#0', box: { x: 548.98, y: 421.26, w: 90.26, h: 25.81 } },
+        { path: '', box: { x: 0, y: 0, w: 640, h: 536 } },
+        { path: '#1/#0/#1/#4/#1/#2', box: { x: 543.27, y: 226.63, w: 74.04, h: 25.81 } },
+        {
+          path: '#1/#0/#1/#4/#1/#2/#0',
+          box: { x: 551.27, y: 233.03, w: 58.04, h: 13 },
+          lines: [{ text: 'Go to job', x: 0, y: 9.14, w: 40.83 }],
+          textStyle: { ...BUTTON_LABEL },
+        },
+        { path: '#1/#0/#1/#4/#2/#2', box: { x: 543.27, y: 275.29, w: 74.04, h: 25.81 } },
+        {
+          path: '#1/#0/#1/#4/#2/#2/#0',
+          box: { x: 551.27, y: 281.69, w: 58.04, h: 13 },
+          lines: [{ text: 'Go to job', x: 0, y: 9.14, w: 40.83 }],
+          textStyle: { ...BUTTON_LABEL },
+        },
+        { path: '#1/#0/#1/#4/#3/#0', box: { x: 543.27, y: 323.94, w: 74.04, h: 25.81 } },
+        {
+          path: '#1/#0/#1/#4/#3/#0/#0',
+          box: { x: 551.27, y: 330.34, w: 58.04, h: 13 },
+          lines: [{ text: 'Go to job', x: 0, y: 9.14, w: 40.83 }],
+          textStyle: { ...BUTTON_LABEL },
+        },
+        { path: '#1/#0/#1/#4/#4/#0', box: { x: 543.27, y: 372.6, w: 74.04, h: 25.81 } },
+        {
+          path: '#1/#0/#1/#4/#4/#0/#0',
+          box: { x: 551.27, y: 379.0, w: 58.04, h: 13 },
+          lines: [{ text: 'Go to job', x: 0, y: 9.14, w: 40.83 }],
+          textStyle: { ...BUTTON_LABEL },
+        },
+        { path: '#1/#0/#1/#4/#5/#0', box: { x: 543.27, y: 421.26, w: 74.04, h: 25.81 } },
+        {
+          path: '#1/#0/#1/#4/#5/#0/#0',
+          box: { x: 551.27, y: 427.66, w: 58.04, h: 13 },
+          lines: [{ text: 'Go to job', x: 0, y: 9.14, w: 40.83 }],
+          textStyle: { ...BUTTON_LABEL },
+        },
       ],
     },
   ],
