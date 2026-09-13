@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-import { CenteredFeature } from '@/components/sections/CenteredFeature';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { HERO_REVEAL, PageHero } from '@/components/sections/PageHero';
@@ -110,16 +109,6 @@ export default function RecruitmentOsPage() {
         }
         creative="ros-guardrails"
         mediaSide="left"
-      />
-
-      <CenteredFeature
-        eyebrow="Intelligent Ingestion"
-        title="Clean Data. Zero Manual Entry."
-        lede="A Command Center is useless without accurate data. Talentilo ingests legacy trackers and messy spreadsheets, maps the columns, and standardises every field instantly."
-        pullQuote="From Excel hell to structured truth in 30 seconds."
-        creative="ros-ingestion"
-        tone="mint"
-        cta={{ label: 'See the Dashboard Live', href: '/migration' }}
       />
 
       <Section>

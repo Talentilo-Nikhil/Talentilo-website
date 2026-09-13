@@ -232,14 +232,6 @@ const EXPORTS = {
       path: '#3/Content',
       label: 'Operational guardrail alerts for SLA breaches, offers, AI matches and daily digests',
     },
-    {
-      // Only the candidate form on the right of this pair was revised, so the corrected frame is
-      // dropped back onto the original terminal rather than the whole pair being re-exported.
-      file: 'ros-ingestion',
-      path: '#4/Frame 2085665792',
-      graft: [{ replace: 'Add Candidate-3', from: { slug: 'upd-add-candidate' } }],
-      label: 'The Talentilo translation layer importing a legacy export into a structured candidate record',
-    },
   ],
 
   // One capture per role tab. Each is a whole 1312x614 frame, so the export takes the tree root.
