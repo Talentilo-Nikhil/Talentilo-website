@@ -154,7 +154,6 @@ function applyRetext(root, { path, text, clipped = false, within }) {
     w: wraps ? node.box.w : widest,
     h: pitch * lines.length,
   };
-  // A cell centres its text block vertically, so a line-count change moves the top edge.
   if (box) {
     if (node.box.h > box.h) {
       throw new Error(
@@ -162,7 +161,25 @@ function applyRetext(root, { path, text, clipped = false, within }) {
           'it would spill into the rows above and below'
       );
     }
-    node.box.y = box.y + (box.h - node.box.h) / 2;
+
+    /*
+     * A cell centres its text block vertically, so a line-count change moves the top edge — but
+     * only when the block IS this layer. A cell that stacks two layers, a name over an address,
+     * positions each from the stack at a fixed pitch, and centring one of them in the whole cell
+     * drags it toward the other and halves the gap. That is a real bug this rule caused: the four
+     * addresses swapped on the candidate table each rose 8.5px against a 17px pitch, so the rows
+     * whose address changed sat tighter than the rows whose address did not.
+     *
+     * So: re-centre only a layer that is its cell's only text.
+     */
+    let texts = 0;
+    (function count(n) {
+      if (!n || n.hidden) return;
+      if (typeof n.text === 'string' && n.text.trim()) texts += 1;
+      (n.children ?? []).filter(Boolean).forEach(count);
+    })(at(root, within));
+
+    if (texts === 1) node.box.y = box.y + (box.h - node.box.h) / 2;
   }
 }
 
