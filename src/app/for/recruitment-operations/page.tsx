@@ -24,11 +24,15 @@ export default function RecruitmentOperationsPage() {
       />
 
       {/*
-        TODO — AWAITING VIDEO. The media column is deliberately empty: this section is getting an
-        AI-calling video that has not been supplied yet, and `ro-governance` (the compliance-rules
-        artwork that used to sit here) does not illustrate calling. FeatureSplit renders nothing
-        when neither `creative` nor `media` is passed, so the column collapses and the copy holds
-        the left half on its own until the video lands. Drop the video in through the `media` prop.
+        TODO — AWAITING VIDEO. The panel below is the slot the AI-calling video drops into: replace
+        the div with the player and keep the wrapper's ratio and rounding.
+
+        It holds the wash on its own because the gradient was never a separate background — it was
+        painted into `ro-governance.png` along with the compliance-rules card, so dropping that
+        creative took the wash with it and left the column empty. `--gradient-brand` is the same
+        wash the file used (sampled off the old export: #4da8fd through #b1a4ff to #fdfcff), and
+        the 588x536 ratio is the one every exported creative is drawn at, so the video lands in a
+        box the right shape and nothing on the page moves when it does.
       */}
       <FeatureSplit
         eyebrow="AI Calling"
@@ -36,6 +40,13 @@ export default function RecruitmentOperationsPage() {
         body="No team can dial a whole inbound list, so most applicants are never spoken to at all. Talentilo's AI voice agent works the entire list — verifying interest against the JD, checking salary expectations in natural language, and dropping a meeting onto a recruiter's calendar when someone matches. Every applicant gets the same screen, in the same words, every time."
         points={[]}
         cta={{ label: 'Explore AI Powers', href: '/platform/ai-powers' }}
+        media={
+          <div
+            aria-hidden="true"
+            className="aspect-[588/536] w-full max-w-full rounded-card"
+            style={{ backgroundImage: 'var(--gradient-brand)' }}
+          />
+        }
       />
 
       <FeatureSplit
