@@ -61,7 +61,7 @@ export function ContactForm() {
       setStatus('sent');
       form.reset();
     } catch {
-      setFormError(`We could not reach the server. Please email ${site.email.support}.`);
+      setFormError(`We could not reach the server. Please email ${site.email.sales}.`);
       setStatus('error');
     }
   }
@@ -70,9 +70,12 @@ export function ContactForm() {
     return (
       <div className="flex min-h-[420px] flex-col justify-center gap-4 rounded-card bg-surface-mint p-10">
         <p className="font-sans text-h5 font-medium text-ink">Thanks — your message is on its way.</p>
-        <p className="text-body text-ink/80">
-          We reply from {site.email.support}, weekdays, within one working day.
-        </p>
+        {/*
+          No address named here. Enquiries deliver to whichever inbox `CONTACT_TO_EMAIL` points at,
+          so naming the one the page happens to print would be a promise this component cannot
+          keep. The timing is the part that is always true.
+        */}
+        <p className="text-body text-ink/80">We reply weekdays, within one working day.</p>
         <div>
           <Button variant="dark" onClick={() => setStatus('idle')}>
             Send another message

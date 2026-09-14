@@ -92,11 +92,17 @@ function Side({
       )}
     >
       <div className="flex items-start justify-between gap-3">
-        <div className="flex items-center gap-2">
+        {/*
+          Aligned to the label's first line, not to the middle of the block. `items-center` put the
+          mark halfway down a label that wrapped to two lines, so it floated between them; the
+          1px offset is half the difference between the 20px mark and the 22.4px line box the
+          14px label sets.
+        */}
+        <div className="flex items-start gap-2">
           <span
             aria-hidden="true"
             className={cn(
-              'grid size-5 shrink-0 place-items-center rounded-full text-[11px]',
+              'mt-px grid size-5 shrink-0 place-items-center rounded-full text-[11px]',
               winner
                 ? 'bg-emerald-100 text-emerald-700'
                 : tone === 'dark'
@@ -141,9 +147,10 @@ function Side({
         <ul className={cn('flex flex-col gap-2 text-small', panelMuted(tone))}>
           {side.items.map((item) => (
             <li key={item} className="flex gap-2">
+              {/* 9px, not 6: the 4px dot centres on a 22.4px line box at (22.4 - 4) / 2. */}
               <span
                 aria-hidden="true"
-                className="mt-1.5 size-1 shrink-0 rounded-full bg-current opacity-50"
+                className="mt-[9px] size-1 shrink-0 rounded-full bg-current opacity-50"
               />
               {item}
             </li>

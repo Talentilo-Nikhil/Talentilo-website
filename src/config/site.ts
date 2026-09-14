@@ -4,10 +4,17 @@ export const site = {
   description:
     'Talentilo is the intelligent Operating System for recruitment agencies — semantic matching, offer risk alerts and the Agency Velocity Index in one place.',
   url: 'https://talentilo.ai',
-  /** Both enquiry types route to the same inbox today. */
   email: {
-    support: 'marketing@talentilo.ai',
-    sales: 'marketing@talentilo.ai',
+    support: 'support@talentilo.ai',
+    sales: 'sales@talentilo.ai',
+    /**
+     * Where the contact form delivers when `CONTACT_TO_EMAIL` is unset.
+     *
+     * Deliberately separate from the two addresses above: those are what the site prints, this is
+     * where live enquiries land. Moving it is an operational change, not a copy one — point it at
+     * sales@ once someone is reading that inbox, and not before.
+     */
+    enquiries: 'marketing@talentilo.ai',
   },
   social: {
     linkedin: 'https://www.linkedin.com/company/talentilo',

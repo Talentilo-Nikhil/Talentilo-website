@@ -9,7 +9,7 @@ import { site } from '@/config/site';
 export const metadata: Metadata = {
   title: 'Contact',
   description:
-    'Questions, support or a demo — the Talentilo team is here to help. Send a message and we reply from marketing@talentilo.ai, weekdays, within one working day.',
+    'Questions, support or a demo — the Talentilo team is here to help. Send a message, or write to support@talentilo.ai or sales@talentilo.ai. We reply weekdays, within one working day.',
   alternates: { canonical: '/contact' },
 };
 
@@ -17,17 +17,29 @@ export const metadata: Metadata = {
 const PANEL_IMAGE = '8b4fc046b6a14ec7293f0af2b03e2519cec94957' as const;
 
 /*
- * One desk, one address, one promise.
+ * Two desks, two addresses, one promise.
  *
- * This was two columns, Support and Sales, printing the same marketing@ address under each — which
- * reads as an oversight rather than a choice, and is the thing to fix while the address genuinely
- * is shared. Support also promised "available 24/7" directly beside the page's own "within one
- * working day", and 24/7 is not a promise a shared inbox with no phone number behind it can keep.
+ * These were merged into a single block while both printed the same marketing@ address — two
+ * columns under one inbox reads as an oversight rather than a choice. Now that support@ and sales@
+ * are real, they are separate entries again, which is what the design had.
  *
- * When sales@, support@ and privacy@ exist, this goes back to separate desks — one entry each,
- * each with its own address.
+ * The one thing that does not come back with them is "support available 24/7". It sat directly
+ * beside this page's own "within one working day", and 24/7 is not a promise a shared inbox with
+ * no phone number behind it can keep. The response time is stated once, under both desks, so the
+ * two columns cannot drift apart on it again.
  */
-const inbox = site.email.support;
+const desks = [
+  {
+    name: 'Support',
+    email: site.email.support,
+    detail: 'Already using Talentilo and something needs fixing? This reaches the team who can.',
+  },
+  {
+    name: 'Sales',
+    email: site.email.sales,
+    detail: 'Looking at Talentilo for your agency? Ask about pricing, migration or a demo.',
+  },
+];
 
 export default function ContactPage() {
   return (
@@ -55,21 +67,25 @@ export default function ContactPage() {
 
       <Section padding="normal">
         {/* Every line in this block is centered in the file — heading, email and body alike. */}
-        <div className="mx-auto flex max-w-[560px] flex-col items-center gap-3 text-center">
-          <h2 className="font-sans text-[clamp(1.5rem,1.25rem+0.9vw,1.75rem)] font-semibold text-ink">
-            Email us
-          </h2>
-          <a
-            href={`mailto:${inbox}`}
-            className="text-body text-ink underline-offset-4 transition-colors duration-200 hover:text-brand-blue hover:underline"
-          >
-            {inbox}
-          </a>
-          <p className="text-body text-ink/80">
-            Support questions and sales enquiries both reach this inbox. We reply weekdays, within one
-            working day.
-          </p>
-        </div>
+        <ul className="mx-auto grid max-w-[843px] gap-10 text-center sm:grid-cols-2">
+          {desks.map((desk) => (
+            <li key={desk.name} className="flex flex-col items-center gap-3">
+              <h2 className="font-sans text-[clamp(1.5rem,1.25rem+0.9vw,1.75rem)] font-semibold text-ink">
+                {desk.name}
+              </h2>
+              <a
+                href={`mailto:${desk.email}`}
+                className="text-body text-ink underline-offset-4 transition-colors duration-200 hover:text-brand-blue hover:underline"
+              >
+                {desk.email}
+              </a>
+              <p className="text-body text-ink/80">{desk.detail}</p>
+            </li>
+          ))}
+        </ul>
+        <p className="mx-auto mt-10 max-w-[843px] text-center text-body text-ink/80">
+          Both are answered weekdays, within one working day.
+        </p>
       </Section>
     </>
   );

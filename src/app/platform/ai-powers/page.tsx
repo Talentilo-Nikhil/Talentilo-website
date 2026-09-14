@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
+import { BatchPanel } from '@/components/panels/BatchPanel';
 import { CallPanel } from '@/components/panels/CallPanel';
-import { ComparePanel } from '@/components/panels/ComparePanel';
 import { CreativeGround } from '@/components/panels/CreativeGround';
 import { IntakePanel } from '@/components/panels/IntakePanel';
-import { LiveDot, Panel } from '@/components/panels/Panel';
+import { QueuePanel } from '@/components/panels/QueuePanel';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
@@ -55,25 +55,21 @@ export default function AiPowersPage() {
         points={[]}
         media={
           <CreativeGround tone="brand">
-            <Panel title="Call Queue" meta={<LiveDot label="AI active" />}>
-              <div className="p-6 @sm:p-7">
-                <ComparePanel
-                  before={{
-                    label: 'The Grind (System Zone)',
-                    caption: 'Handled by the AI agent',
-                    items: ['Dialing and voicemails', 'Basic qualification', '"Are you interested?"'],
-                  }}
-                  after={{
-                    label: 'The Glory (Human Zone)',
-                    caption: 'Focus for human recruiters',
-                    items: ['Negotiation and culture fit', 'Career coaching', 'Closing the deal'],
-                  }}
-                />
-              </div>
-              <p className="bg-surface-tint px-5 py-4 text-small font-semibold text-ink @sm:px-6">
-                1,000 raw candidates → 3 ready to close
-              </p>
-            </Panel>
+            <QueuePanel
+              handled={[
+                { name: 'Rohit M.', outcome: 'Voicemail — no callback' },
+                { name: 'Sneha K.', outcome: 'Not looking right now' },
+                { name: 'Imran S.', outcome: 'Salary out of range' },
+                { name: 'Divya R.', outcome: 'Number unreachable' },
+                { name: 'Karan B.', outcome: 'Wrong stack' },
+              ]}
+              passed={{
+                name: 'Priya N.',
+                reason: 'Interested, available in 30 days, salary matched.',
+                to: 'Booked with Daniel — senior recruiter',
+              }}
+              volume="1,000 raw candidates dialled · 3 ready to close"
+            />
           </CreativeGround>
         }
       />
@@ -182,23 +178,13 @@ export default function AiPowersPage() {
         mediaSide="left"
         media={
           <CreativeGround tone="magenta">
-            <Panel title="Bulk Screening Run" meta={<LiveDot label="Parallel" />}>
-              <div className="p-6 @sm:p-7">
-                <ComparePanel
-                  accent="crusta"
-                  before={{
-                    label: 'Manual recruiter team',
-                    value: '40 hrs',
-                    caption: 'To process 500 candidates',
-                  }}
-                  after={{
-                    label: 'Talentilo AI',
-                    value: '1 hr',
-                    caption: '498 / 500 screened',
-                  }}
-                />
-              </div>
-            </Panel>
+            <BatchPanel
+              total={500}
+              screened={498}
+              duration="1 hr"
+              caption="498 of 500 screened — the other two never picked up"
+              manual="The same list by hand: 40 hrs across a recruiter team"
+            />
           </CreativeGround>
         }
       />
