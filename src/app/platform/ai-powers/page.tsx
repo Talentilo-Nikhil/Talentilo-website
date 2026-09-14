@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import { CallPanel } from '@/components/panels/CallPanel';
-import { ChecklistPanel } from '@/components/panels/ChecklistPanel';
 import { ComparePanel } from '@/components/panels/ComparePanel';
 import { CreativeGround } from '@/components/panels/CreativeGround';
+import { FlowPanel } from '@/components/panels/FlowPanel';
 import { LiveDot, Panel } from '@/components/panels/Panel';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
@@ -121,24 +121,52 @@ export default function AiPowersPage() {
       />
 
       <FeatureSplit
-        eyebrow="Risk Management"
-        title={'Perfect Pitch.\nEvery Single Time.'}
-        body="Humans have bad days and skip questions. Talentilo never does. It follows your defined parameters strictly, so every candidate is screened with full adherence to your brand and legal standards."
+        eyebrow="Automated Intake"
+        title={'Write the Role.\nGet the Shortlist.'}
+        body="A role starts as a two-line brief and ends as a ranked list. Talentilo drafts the job description for your approval, parses every resume that arrives — PDF, DOCX, or a scan of a printout — into one structured profile, and scores each candidate against the role from 0 to 100."
         points={[]}
-        pullQuote="Scale consistency, not just volume."
+        pullQuote="Your recruiter opens a shortlist, not an inbox."
+        aside={
+          <p className="text-small text-ink/80">
+            How the parser and the score work is set out under{' '}
+            <Link
+              href="/platform/talent-intelligence"
+              className="underline underline-offset-4 hover:text-brand-blue"
+            >
+              talent intelligence
+            </Link>
+            .
+          </p>
+        }
         media={
           <CreativeGround tone="warm">
-            <ChecklistPanel
-              title="Candidate Profile Check"
-              meta="System audit logged"
-              items={[
-                { label: 'Visa / work authorization', status: 'Confirmed' },
-                { label: 'Salary expectations within range', status: 'Matched' },
-                { label: 'Notice period acceptable', status: 'Checked' },
-                { label: 'Technical keyword validation', status: 'Passed' },
-              ]}
-              footer="Approved for interview"
-            />
+            <Panel title="Role Intake" meta="Senior React Developer">
+              <div className="p-5 @sm:p-6">
+                <FlowPanel
+                  steps={[
+                    {
+                      label: 'Job description drafted',
+                      meta: '38 sec',
+                      detail: 'Written from a two-line brief — title, seniority, must-have skills.',
+                      state: 'done',
+                    },
+                    {
+                      label: 'Resumes parsed',
+                      meta: '412 files',
+                      detail: 'Every format read into one structured profile you can edit.',
+                      state: 'done',
+                    },
+                    {
+                      label: 'Candidates scored',
+                      meta: 'Top match 94%',
+                      detail: 'Ranked 0–100 on skills density, career trajectory and role fit.',
+                      state: 'active',
+                    },
+                  ]}
+                  connectors={['Approved by you', 'Matched against the JD']}
+                />
+              </div>
+            </Panel>
           </CreativeGround>
         }
       />
