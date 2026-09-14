@@ -20,23 +20,19 @@ export const metadata: Metadata = {
 /**
  * The screen this section shows, and the copy that goes with it.
  *
- * TODO — AWAITING ARTWORK. The creative below is still the Owner/VP targets table
- * (`ros-view-owner`). It is standing in for the Recruiter Performance screen at node 2414:910 of
- * the design file, which the copy here describes: one recruiter's month, target against achieved,
- * the gap on each metric, and their average beside the organisation's. The two overlap enough to
- * hold — the stand-in is the same targets data one level up — but they are not the same screen.
- *
- * Swapping it is a one-line change once the artwork exists: export the frame through
- * `tools/figma/` (the `.fig` reader in tools/figma/fig.mjs takes the archive offline, which is the
- * route here — figma.com itself is blocked by this session's egress policy), then name the new
- * creative below. Nothing else on the page moves.
+ * Cut from `Recruiter-Target-1` in website-update-v3.fig — the archive route, since figma.com
+ * itself is blocked by this session's egress policy. See the `recruiter-performance` entry in
+ * tools/figma/illustrations.mjs for what was swept out of the frame on the way through.
  */
 const performanceView: ViewTab = {
   label: 'Recruiter Performance',
   title: 'Recruiter Performance',
   detail:
     "One recruiter's month: target against achieved, the gap on every metric, and their average beside the organisation's.",
-  media: <Creative name="ros-view-owner" sizes="(min-width: 1280px) 1216px, 100vw" />,
+  // `creative` rather than `media`: this frame is the bare app screen, with none of the padded
+  // panel the Recruitment OS cuts have baked into them, so it takes the rounded card ViewPanel
+  // puts around an exported creative.
+  creative: 'home-recruiter-targets',
 };
 
 export default function HomePage() {

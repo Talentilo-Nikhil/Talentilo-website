@@ -119,8 +119,9 @@ function applyRetext(root, { path, text, clipped = false, within }) {
   const node = at(root, path);
   const frame = root.box;
   if (node.type !== 'TEXT') throw new Error(`retext "${path}" is a ${node.type}, not TEXT`);
-  if (node.textStyle?.align && node.textStyle.align !== 'LEFT') {
-    throw new Error(`retext "${path}" is ${node.textStyle.align}-aligned, not LEFT`);
+  const align = node.textStyle?.align ?? 'LEFT';
+  if (align !== 'LEFT' && align !== 'CENTER') {
+    throw new Error(`retext "${path}" is ${align}-aligned; only LEFT and CENTER are laid out here`);
   }
 
   const style = node.textStyle ?? {};
@@ -129,10 +130,15 @@ function applyRetext(root, { path, text, clipped = false, within }) {
     typeof style.lineHeight === 'string' ? parseFloat(style.lineHeight) : (style.lineHeight ?? 1.2) * size;
 
   const box = within ? at(root, within).box : null;
-  // The inset the design gives this layer on its left, mirrored on the right.
-  const budget = box ? box.w - 2 * (node.box.x - box.x) : (node.lines?.[0]?.w ?? node.box.w);
-
   const wraps = style.autoResize === 'HEIGHT';
+  // The inset the design gives this layer on its left, mirrored on the right. A wrapping box is
+  // its own budget: it flows text at its fixed width, so that width is what the design allows —
+  // not whatever the first line happened to occupy, which is narrower every time a line breaks.
+  const budget = box
+    ? box.w - 2 * (node.box.x - box.x)
+    : wraps
+      ? node.box.w
+      : (node.lines?.[0]?.w ?? node.box.w);
   const lines = wraps ? wrapLines(text, size, node.box.w) : String(text).split('\n');
   const widths = lines.map((line) => estWidth(line, size));
   const widest = Math.max(...widths);
@@ -169,13 +175,25 @@ function applyRetext(root, { path, text, clipped = false, within }) {
   const pitch =
     node.lines?.length > 1 ? node.lines[1].y - node.lines[0].y : Math.round(lineHeight);
 
+  /*
+   * The writer takes each line's own `x` as its start and never re-anchors, so a centred layer is
+   * centred here, line by line. Figma centres on the trimmed line — a trailing space hangs outside
+   * the block rather than pushing it left — which is what the file's own three-line cards show
+   * (a 171.06 box centring a 144.34 line at 13.36, not the 148.26 the line stores with its space).
+   */
+  const width = wraps ? node.box.w : widest;
+  const startOf = (line) => (align === 'CENTER' ? (width - estWidth(line.trimEnd(), size)) / 2 : 0);
+
   node.text = lines.join('\n');
-  node.lines = lines.map((line, i) => ({ text: line, x: 0, y: first + pitch * i, w: widths[i] }));
-  node.box = {
-    ...node.box,
-    w: wraps ? node.box.w : widest,
-    h: pitch * lines.length,
-  };
+  node.lines = lines.map((line, i) => ({
+    text: line,
+    x: startOf(line),
+    y: first + pitch * i,
+    w: widths[i],
+  }));
+  // A hugging box grows from its own edge; a centred one has to grow from its middle instead.
+  const x = align === 'CENTER' && !wraps ? node.box.x - (width - node.box.w) / 2 : node.box.x;
+  node.box = { ...node.box, x, w: width, h: pitch * lines.length };
   if (box) {
     if (node.box.h > box.h) {
       throw new Error(
@@ -414,6 +432,68 @@ const EXPORTS = {
   ],
 
   // One capture per role tab. Each is a whole 1312x614 frame, so the export takes the tree root.
+  /**
+   * The per-recruiter targets screen behind the home page's "Set the Targets. Watch Them Land."
+   * section, from website-update-v3.fig.
+   *
+   * The frame ships with the usual template residue. Two of the three kinds render and are fixed
+   * below: a "Lorem Ipsum" What's New card, and "Achived" spelled that way three times. The rest
+   * is already hidden in the file and left alone — four "This is a hint text to help user." lines
+   * under the inputs, and three "-20% off" badges left behind by whatever pricing toggle the
+   * Annual/Monthly switch was built from. Checked rather than assumed: swapping text on a layer
+   * nothing renders is config that looks like a fix and is not one.
+   *
+   * Of the figures, only the revenue card is touched, and only because it had to be: "₹ 24,0,000"
+   * is not a number in any grouping. Correcting it forces a value, and the one chosen is the card's
+   * own — 85% of ₹24L is ₹19.9L, which is exactly what the chart at the foot of the same card has
+   * been plotting all along ("₹ 19.9L / ₹24L"). The ₹23,0,000 achieved against ₹4,0,000 remaining
+   * it used to print agreed with neither, and did not sum to the target either.
+   *
+   * The interviews and submissions cards are left alone. Their totals do sum (951 + 119 = 1,070),
+   * so nothing there is malformed — what disagrees is the percentage above them, 45% and 29% where
+   * the totals say 89% and 98%, and that figure is drawn as a bar as well as written. Re-cutting
+   * the geometry to settle a number the design chose is a call for whoever owns the design, not a
+   * defect to sweep. Flagged rather than fixed.
+   */
+  'recruiter-performance': [
+    {
+      file: 'home-recruiter-targets',
+      path: '',
+      label:
+        "One recruiter's targets for the month, with revenue, interviews and submissions tracked against them",
+      retext: [
+        // The What's New card, matching the line the other exported creatives carry.
+        { path: '#0/#2/#0/#2', text: 'AI Calling is live. Screen in half the time.' },
+
+        // "Achived". Spelling it correctly needs 101.5px where the label has 92.46 before it runs
+        // into the figure beside it, so the label drops "YTD" — which the "85% Achieved YTD" line
+        // directly above already establishes — and pairs with the "Remaining:" under it.
+        { path: '#1/#1/#1/#0/#2/#1/#0/#0/#0/#2/#0/#0/#0', text: 'Achieved:' },
+        { path: '#1/#1/#1/#0/#2/#1/#0/#0/#1/#2/#0/#0/#0', text: 'Achieved:' },
+        { path: '#1/#1/#1/#0/#2/#1/#0/#0/#2/#2/#0/#0/#0', text: 'Achieved:' },
+
+        /*
+         * Revenue, in the lakh form the frame already uses on this tile ("₹0.5L") and under the
+         * chart ("₹ 19.9L / ₹24L"). Two things settle it: "₹ 24,0,000" is not a number in any
+         * grouping, and the corrected grouping does not fit — ₹24,00,000 wants 77.84px where the
+         * cell has 73.94 before it reaches the figure beside it. The lakh form fixes both, and the
+         * chart underneath has been stating the year this way all along.
+         *
+         * The values are the card's own 85% against its own ₹24L target, which is the ₹19.9L the
+         * chart plots. It read ₹23,0,000 achieved with ₹4,0,000 remaining — a pair that agrees
+         * with neither the bar above it nor the chart below it, and does not sum to the target.
+         */
+        { path: '#1/#1/#1/#0/#0/#0/#2/#0/#1/#1', text: 'Target: ₹24L' },
+        { path: '#1/#1/#1/#0/#2/#1/#0/#0/#0/#0/#1/#1', text: '₹24L' },
+        { path: '#1/#1/#1/#0/#2/#1/#0/#0/#0/#2/#0/#0/#1', text: '₹19.9L' },
+        { path: '#1/#1/#1/#0/#2/#1/#0/#0/#0/#2/#1/#1', text: '₹4.1L' },
+        // …and the average that year divides into, the way the other two cards already read
+        // (3,270 achieved over 272/mo). ₹21,000/mo was ₹2.5L a year against a ₹24L target.
+        { path: '#1/#1/#1/#0/#2/#1/#0/#0/#0/#4/#0/#1', text: '₹1.66L /mo' },
+      ],
+    },
+  ],
+
   'platform-recruitment-os-owner': [
     { file: 'ros-view-owner', path: '', label: 'The owner view: annual revenue targets tracked per recruiter' },
   ],
