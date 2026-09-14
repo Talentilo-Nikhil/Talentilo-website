@@ -91,6 +91,12 @@ export const STANDALONE_SOURCES = [
       { frame: '/platform/revenue-defense', slug: 'platform-revenue-defense-hero' },
     ],
   },
+  {
+    // One frame, straight on the canvas: the per-recruiter targets screen the home page's
+    // "Set the Targets. Watch Them Land." section is written around.
+    file: 'website-update-v3.fig',
+    frames: [{ frame: 'Recruiter-Target-1', slug: 'recruiter-performance' }],
+  },
 ];
 
 const guidKey = (g) => `${g.sessionID}:${g.localID}`;

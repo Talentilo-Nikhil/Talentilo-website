@@ -64,14 +64,6 @@
   "sections": 7
  },
  {
-  "frame": "/Pricing",
-  "slug": "pricing",
-  "route": "/pricing",
-  "width": 1440,
-  "height": 3804.32,
-  "sections": 6
- },
- {
   "frame": "Contact-us",
   "slug": "contact",
   "route": "/contact",
