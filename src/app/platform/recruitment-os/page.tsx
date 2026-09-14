@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { HERO_REVEAL, PageHero } from '@/components/sections/PageHero';
-import { TabbedViews, type ViewTab } from '@/components/sections/TabbedViews';
-import { Creative } from '@/components/ui/Creative';
+import { TabbedViews } from '@/components/sections/TabbedViews';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { views } from '@/data/views';
 import { serviceSchema } from '@/lib/json-ld';
 
 const PAGE_DESCRIPTION =
@@ -20,31 +20,6 @@ export const metadata: Metadata = {
   description: PAGE_DESCRIPTION,
   alternates: { canonical: PAGE_PATH },
 };
-
-/** Each tab shows the workspace as that role actually sees it, captured from the design file. */
-const TAB_SIZES = '(min-width: 1280px) 1216px, 100vw';
-
-const views: ViewTab[] = [
-  {
-    label: 'The Owner/VP',
-    title: 'The Owner/VP',
-    detail:
-      'Strategic visibility: real-time revenue forecasts, cash flow, and the global Agency Velocity Index.',
-    media: <Creative name="ros-view-owner" sizes={TAB_SIZES} />,
-  },
-  {
-    label: 'The Ops Manager',
-    title: 'The Ops Manager',
-    detail: 'One standard of working across every desk and geography, enforced rather than requested.',
-    media: <Creative name="ros-view-ops" sizes={TAB_SIZES} />,
-  },
-  {
-    label: 'The Recruiter',
-    title: 'The Recruiter',
-    detail: "Today's pipeline, today's follow-ups, and nothing else in the way.",
-    media: <Creative name="ros-view-recruiter" sizes={TAB_SIZES} />,
-  },
-];
 
 export default function RecruitmentOsPage() {
   return (

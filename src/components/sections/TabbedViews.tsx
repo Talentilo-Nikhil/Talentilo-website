@@ -1,20 +1,9 @@
 'use client';
 
-import { useId, useRef, useState, type ReactNode } from 'react';
+import { useId, useRef, useState } from 'react';
 
-import { Creative } from '@/components/ui/Creative';
-import type { CreativeName } from '@/data/creatives';
+import { ViewPanel, type ViewTab } from '@/components/sections/ViewPanel';
 import { cn } from '@/lib/cn';
-
-export type ViewTab = {
-  label: string;
-  title: string;
-  detail: string;
-  creative?: CreativeName;
-  creativeAlt?: string;
-  /** A hand-built panel in place of an exported creative. Takes precedence over `creative`. */
-  media?: ReactNode;
-};
 
 /**
  * The "Tailored Views" switcher: one pill group, one persona panel.
@@ -82,19 +71,7 @@ export function TabbedViews({ tabs }: { tabs: ViewTab[] }) {
           hidden={active !== index}
           className="flex w-full flex-col items-center gap-7"
         >
-          <div className="text-center">
-            <p className="font-sans text-[clamp(1.5rem,1.2rem+1.2vw,2.0625rem)] font-semibold text-ink">
-              {tab.title}
-            </p>
-            <p className="mt-1 text-body text-ink/80">{tab.detail}</p>
-          </div>
-          {tab.media ? (
-            <div className="w-full">{tab.media}</div>
-          ) : tab.creative ? (
-            <div className="w-full overflow-hidden rounded-card">
-              <Creative name={tab.creative} alt={tab.creativeAlt} sizes="(min-width: 1440px) 1312px, 100vw" />
-            </div>
-          ) : null}
+          <ViewPanel tab={tab} />
         </div>
       ))}
     </div>
