@@ -56,6 +56,8 @@ export default function AiPowersPage() {
         media={
           <CreativeGround tone="brand">
             <QueuePanel
+              dialled={{ value: '1,000', label: 'raw candidates dialled' }}
+              reached={{ value: '3', label: 'ready to close' }}
               handled={[
                 { name: 'Rohit M.', outcome: 'Voicemail — no callback' },
                 { name: 'Sneha K.', outcome: 'Not looking right now' },
@@ -68,7 +70,6 @@ export default function AiPowersPage() {
                 reason: 'Interested, available in 30 days, salary matched.',
                 to: 'Booked with Daniel — senior recruiter',
               }}
-              volume="1,000 raw candidates dialled · 3 ready to close"
             />
           </CreativeGround>
         }

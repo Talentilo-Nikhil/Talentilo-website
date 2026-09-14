@@ -31,6 +31,10 @@ const CARD_SHADOW = 'shadow-[0_10px_30px_rgb(12_10_16/0.06)]';
  * through to day one and flagged where a counter-offer or a silence has already shown up. The gap
  * between the outline and the solid fill is the thing the section is selling.
  *
+ * The split underneath is set at 33px rather than in the same 14px grey as its own footnotes:
+ * eight and two are what the section is for, and a panel where every line is the same weight
+ * gives the eye nowhere to land first.
+ *
  * The flagged cells are drawn hollow in amber rather than filled in `rose`: the ramp named rose
  * in this palette is the brand pink, which on the magenta ground this panel sits on reads as
  * decoration rather than as a warning — and hollow is the truer picture anyway, since a flagged
@@ -79,28 +83,21 @@ export function ForecastPanel({
         ))}
       </div>
 
-      <dl className="mt-5 flex flex-col gap-2.5">
-        <div className="flex items-baseline gap-3">
-          <dt className="flex shrink-0 items-center gap-2">
-            <span aria-hidden="true" className="size-2.5 rounded-[3px] bg-positive" />
-            <span className={cn('text-small font-semibold', panelText(tone))}>
-              {protectedCount} protected
-            </span>
-          </dt>
-          <dd className={cn('text-small', panelMuted(tone))}>{protectedNote}</dd>
-        </div>
-        <div className="flex items-baseline gap-3">
-          <dt className="flex shrink-0 items-center gap-2">
-            <span
-              aria-hidden="true"
-              className="size-2.5 rounded-[3px] border-2 border-amber-500 bg-amber-500/15"
-            />
-            <span className={cn('text-small font-semibold', panelText(tone))}>
-              {atRisk} at risk
-            </span>
-          </dt>
-          <dd className={cn('text-small', panelMuted(tone))}>{atRiskNote}</dd>
-        </div>
+      <dl className="mt-6 grid grid-cols-2 gap-6">
+        <Split
+          tone={tone}
+          value={protectedCount}
+          term="protected"
+          note={protectedNote}
+          valueClass="text-positive"
+        />
+        <Split
+          tone={tone}
+          value={atRisk}
+          term="at risk"
+          note={atRiskNote}
+          valueClass="text-amber-600"
+        />
       </dl>
 
       <p
@@ -111,6 +108,29 @@ export function ForecastPanel({
       >
         {footer}
       </p>
+    </div>
+  );
+}
+
+/** One half of the split — the number first, then what it means. */
+function Split({
+  tone,
+  value,
+  term,
+  note,
+  valueClass,
+}: {
+  tone: PanelTone;
+  value: number;
+  term: string;
+  note: string;
+  valueClass: string;
+}) {
+  return (
+    <div>
+      <p className={cn('font-figure text-h4 leading-none font-semibold', valueClass)}>{value}</p>
+      <dt className={cn('mt-1.5 text-small font-semibold', panelText(tone))}>{term}</dt>
+      <dd className={cn('mt-0.5 text-caption', panelMuted(tone))}>{note}</dd>
     </div>
   );
 }
