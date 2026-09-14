@@ -7,14 +7,18 @@ export type QueueCall = {
   outcome: string;
 };
 
+export type QueueCount = { value: string; label: string };
+
 type QueuePanelProps = {
   tone?: PanelTone;
+  /** What the agent worked through. The big quiet number. */
+  dialled: QueueCount;
+  /** What came out the other end. The big loud one. */
+  reached: QueueCount;
   /** Calls the agent finished on its own. Nobody on your team heard these. */
   handled: QueueCall[];
   /** The one it hands over: who, why it got through, and whose desk it lands on. */
   passed: { name: string; reason: string; to: string };
-  /** The day's dialling volume, as the copy states it. */
-  volume: string;
   className?: string;
 };
 
@@ -33,10 +37,22 @@ const CARD_SHADOW = 'shadow-[0_10px_30px_rgb(12_10_16/0.06)]';
  * at rest, and one lifted clear of the list onto its own raised card with a name on the other end
  * of it. The overlap is the point — the handover comes out of the pile rather than sitting beside
  * it. The only figures are the ones the copy already states.
+ *
+ * Three sizes carry the reading order, because the first version had none: the two counts at 32px
+ * are the claim, the name on the lifted card at 23px is what it produced, and the list underneath
+ * stays at 14 and 11 because being skimmed past is what that list is for. Colour is spent once —
+ * on the count that reaches a human, and on the card carrying them.
  */
-export function QueuePanel({ tone = 'light', handled, passed, volume, className }: QueuePanelProps) {
+export function QueuePanel({
+  tone = 'light',
+  dialled,
+  reached,
+  handled,
+  passed,
+  className,
+}: QueuePanelProps) {
   return (
-    <div className={cn('relative h-[420px] w-full', className)}>
+    <div className={cn('relative h-[430px] w-full', className)}>
       {/* The pile. */}
       <section
         className={cn(
@@ -45,7 +61,7 @@ export function QueuePanel({ tone = 'light', handled, passed, volume, className 
           CARD_SHADOW
         )}
       >
-        <div className="flex items-center justify-between gap-4 px-6 pt-5 pb-3">
+        <div className="flex items-center justify-between gap-4 px-6 pt-5">
           <p className={cn('text-caption font-semibold tracking-[0.1em] uppercase', panelMuted(tone))}>
             Call queue
           </p>
@@ -55,30 +71,27 @@ export function QueuePanel({ tone = 'light', handled, passed, volume, className 
           </p>
         </div>
 
-        <p
-          className={cn(
-            'px-6 py-2.5 text-caption',
-            tone === 'dark' ? 'bg-white/[0.06] text-white/70' : 'bg-surface-tint text-ink/70'
-          )}
-        >
-          {volume}
-        </p>
+        <div className="flex items-end gap-7 px-6 pt-3 pb-5">
+          <Count tone={tone} count={dialled} />
+          <Count tone={tone} count={reached} accent />
+        </div>
 
         <ul className="flex flex-col">
-          {handled.map((call, i) => (
+          {handled.map((call) => (
             <li
               key={call.name}
               className={cn(
-                'flex items-center justify-between gap-4 px-6 py-3',
-                i > 0 && (tone === 'dark' ? 'border-t border-white/8' : 'border-t border-ink/6')
+                'flex items-center justify-between gap-4 border-t px-6 py-3',
+                tone === 'dark' ? 'border-white/8' : 'border-ink/6'
               )}
             >
-              <span className={cn('text-small', panelMuted(tone))}>{call.name}</span>
+              <span className={cn('text-small', tone === 'dark' ? 'text-white/70' : 'text-ink/70')}>
+                {call.name}
+              </span>
               <span className={cn('text-caption', panelMuted(tone))}>{call.outcome}</span>
             </li>
           ))}
         </ul>
-
       </section>
 
       {/* The one that gets through, lifted out of it. */}
@@ -92,12 +105,31 @@ export function QueuePanel({ tone = 'light', handled, passed, volume, className 
         <p className="text-caption font-semibold tracking-[0.1em] text-crusta-600 uppercase">
           Passed to your team
         </p>
-        <p className={cn('mt-1.5 font-sans text-body font-semibold', panelText(tone))}>
+        <p className={cn('mt-2 font-sans text-lede leading-tight font-semibold', panelText(tone))}>
           {passed.name}
         </p>
-        <p className={cn('mt-1 text-small', panelMuted(tone))}>{passed.reason}</p>
+        <p className={cn('mt-2 text-small', tone === 'dark' ? 'text-white/70' : 'text-ink/70')}>
+          {passed.reason}
+        </p>
         <p className={cn('mt-3 text-caption', panelMuted(tone))}>{passed.to}</p>
       </section>
+    </div>
+  );
+}
+
+/** One of the two counts the section rests on. The accented one is what a person actually gets. */
+function Count({ tone, count, accent }: { tone: PanelTone; count: QueueCount; accent?: boolean }) {
+  return (
+    <div>
+      <p
+        className={cn(
+          'font-figure text-[32px] leading-none font-semibold',
+          accent ? 'text-crusta-500' : panelText(tone)
+        )}
+      >
+        {count.value}
+      </p>
+      <p className={cn('mt-1 max-w-[9rem] text-caption', panelMuted(tone))}>{count.label}</p>
     </div>
   );
 }

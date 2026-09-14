@@ -43,6 +43,10 @@ const CARD_SHADOW = 'shadow-[0_10px_30px_rgb(12_10_16/0.06)]';
  *
  * The ground shows through between the cards on purpose: it is what tells you these are two
  * separate documents rather than two halves of one panel.
+ *
+ * Four sizes, so the eye has an order to follow: the score at 44px, the role and the extracted
+ * values at 23 and 17, the requirement lines at 14, and the notes at 11. A panel set entirely in
+ * 14 and 11 has nothing to look at first.
  */
 export function IntakePanel({
   tone = 'light',
@@ -65,7 +69,9 @@ export function IntakePanel({
         <p className={cn('text-caption font-semibold tracking-[0.1em] uppercase', panelMuted(tone))}>
           Job description
         </p>
-        <h3 className={cn('mt-1 font-sans text-body font-semibold', panelText(tone))}>{role}</h3>
+        <h3 className={cn('mt-1.5 font-sans text-lede leading-tight font-semibold', panelText(tone))}>
+          {role}
+        </h3>
         <ul className="mt-3 flex flex-col gap-1.5">
           {requirements.map((line) => (
             <li
@@ -111,7 +117,7 @@ export function IntakePanel({
           {fields.map((field) => (
             <div key={field.label} className="flex items-baseline gap-2">
               <dt className={cn('w-20 shrink-0 text-caption', panelMuted(tone))}>{field.label}</dt>
-              <dd className={cn('text-small font-semibold', panelText(tone))}>{field.value}</dd>
+              <dd className={cn('text-body font-semibold', panelText(tone))}>{field.value}</dd>
             </div>
           ))}
         </dl>

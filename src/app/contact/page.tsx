@@ -25,8 +25,9 @@ const PANEL_IMAGE = '8b4fc046b6a14ec7293f0af2b03e2519cec94957' as const;
  *
  * The one thing that does not come back with them is "support available 24/7". It sat directly
  * beside this page's own "within one working day", and 24/7 is not a promise a shared inbox with
- * no phone number behind it can keep. The response time is stated once, under both desks, so the
- * two columns cannot drift apart on it again.
+ * no phone number behind it can keep. Neither desk states a response time now — the form's own
+ * confirmation is the only place the site commits to one, which keeps it to a single sentence in
+ * a single place.
  */
 const desks = [
   {
@@ -37,7 +38,7 @@ const desks = [
   {
     name: 'Sales',
     email: site.email.sales,
-    detail: 'Looking at Talentilo for your agency? Ask about pricing, migration or a demo.',
+    detail: 'Looking at Talentilo for your agency? Ask about pricing or book a demo.',
   },
 ];
 
@@ -83,9 +84,6 @@ export default function ContactPage() {
             </li>
           ))}
         </ul>
-        <p className="mx-auto mt-10 max-w-[843px] text-center text-body text-ink/80">
-          Both are answered weekdays, within one working day.
-        </p>
       </Section>
     </>
   );
