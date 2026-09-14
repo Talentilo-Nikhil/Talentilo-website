@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
 
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
@@ -18,6 +19,46 @@ export const metadata: Metadata = {
 };
 
 /**
+ * The pastel ground the Recruitment OS cuts have baked into them, rebuilt around a screen that
+ * does not.
+ *
+ * `Recruiter-Target-1` is the bare app frame — the v3 archive holds the screen and nothing else —
+ * where `ros-view-owner` and its siblings were exported with the ground already painted in. Every
+ * number here is that ground's, read off `design/spec/platform-recruitment-os-owner.json`: the
+ * #ffcea8 fill is crusta-200, the screen insets 165.79 of 1312 either side (12.636%) and 55 from
+ * the top (4.192% of the width, since CSS resolves vertical percentage padding against width), and
+ * it carries the same 12px corner as every other card on the site.
+ *
+ * The two white hairlines are the frame's own `Polygon 28` and `Ellipse 50`, at their own
+ * coordinates and their own 1.19 stroke, moved down by the 171px this panel gains over the 614 the
+ * file drew — which keeps them the same distance past the bottom edge, and so the same arc.
+ *
+ * The one thing not reproduced is the bleed. The file runs its screen off the bottom of the frame;
+ * this one gives the bottom the same 55px as the top, because the section's copy promises an
+ * average "beside the organisation's" and that comparison is the chart on the screen's last row.
+ * Cropping it to match the file would cut the sentence's evidence off.
+ */
+function PastelGround({ children }: { children: ReactNode }) {
+  return (
+    <div className="relative isolate overflow-hidden rounded-card bg-crusta-200 px-[12.636%] py-[4.192%]">
+      <svg
+        viewBox="0 0 1312 785"
+        preserveAspectRatio="xMidYMid slice"
+        className="pointer-events-none absolute inset-0 -z-10 h-full w-full"
+        fill="none"
+        stroke="#ffffff"
+        strokeWidth="1.19"
+        aria-hidden="true"
+      >
+        <path d="M295.053 0L590.107 516.344L0 516.344L295.053 0Z" transform="translate(522.69 479.66)" />
+        <circle cx="1112.79" cy="737.83" r="258.17" />
+      </svg>
+      {children}
+    </div>
+  );
+}
+
+/**
  * The screen this section shows, and the copy that goes with it.
  *
  * Cut from `Recruiter-Target-1` in website-update-v3.fig — the archive route, since figma.com
@@ -29,10 +70,15 @@ const performanceView: ViewTab = {
   title: 'Recruiter Performance',
   detail:
     "One recruiter's month: target against achieved, the gap on every metric, and their average beside the organisation's.",
-  // `creative` rather than `media`: this frame is the bare app screen, with none of the padded
-  // panel the Recruitment OS cuts have baked into them, so it takes the rounded card ViewPanel
-  // puts around an exported creative.
-  creative: 'home-recruiter-targets',
+  media: (
+    <PastelGround>
+      <Creative
+        name="home-recruiter-targets"
+        className="overflow-hidden rounded-card"
+        sizes="(min-width: 1440px) 981px, 75vw"
+      />
+    </PastelGround>
+  ),
 };
 
 export default function HomePage() {
