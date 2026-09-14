@@ -3,19 +3,40 @@ import type { Metadata } from 'next';
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { StatGrid } from '@/components/sections/StatGrid';
-import { ViewPanel } from '@/components/sections/ViewPanel';
+import { ViewPanel, type ViewTab } from '@/components/sections/ViewPanel';
 import { ButtonLink } from '@/components/ui/Button';
 import { Creative } from '@/components/ui/Creative';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { companyStats } from '@/data/stats';
-import { ownerView } from '@/data/views';
 
 export const metadata: Metadata = {
   title: 'Talentilo.ai — The Recruitment Operating System',
   description:
     "Recruitment isn't about admin; it's about connection. Talentilo automates your workflow, closes the Speed Gap, and handles the end-to-end recruitment lifecycle.",
   alternates: { canonical: '/' },
+};
+
+/**
+ * The screen this section shows, and the copy that goes with it.
+ *
+ * TODO — AWAITING ARTWORK. The creative below is still the Owner/VP targets table
+ * (`ros-view-owner`). It is standing in for the Recruiter Performance screen at node 2414:910 of
+ * the design file, which the copy here describes: one recruiter's month, target against achieved,
+ * the gap on each metric, and their average beside the organisation's. The two overlap enough to
+ * hold — the stand-in is the same targets data one level up — but they are not the same screen.
+ *
+ * Swapping it is a one-line change once the artwork exists: export the frame through
+ * `tools/figma/` (the `.fig` reader in tools/figma/fig.mjs takes the archive offline, which is the
+ * route here — figma.com itself is blocked by this session's egress policy), then name the new
+ * creative below. Nothing else on the page moves.
+ */
+const performanceView: ViewTab = {
+  label: 'Recruiter Performance',
+  title: 'Recruiter Performance',
+  detail:
+    "One recruiter's month: target against achieved, the gap on every metric, and their average beside the organisation's.",
+  media: <Creative name="ros-view-owner" sizes="(min-width: 1280px) 1216px, 100vw" />,
 };
 
 export default function HomePage() {
@@ -126,18 +147,14 @@ export default function HomePage() {
         mediaSide="left"
       />
 
-      {/*
-        The Tailored Views section from /platform/recruitment-os, showing the Owner/VP view alone.
-        A single view needs no switcher, so the panel renders without the tab group around it, and
-        the copy for the view is shared with that page rather than restated here.
-      */}
+      {/* One screen, so the panel renders without a tab group around it. */}
       <Section>
         <SectionHeading
-          title="One Brain. Tailored Views."
-          lede="Recruitment operations requires different lenses for different leaders. The Command Center adapts the data instantly to fit your style."
+          title={'Set the Targets.\nWatch Them Land.'}
+          lede="Revenue, interviews, submissions and shortlist ratio — set for each recruiter, tracked against what they actually did, and measured against the organisation average. No spreadsheet, no month-end scramble."
         />
         <div className="mt-10 flex flex-col items-center gap-7">
-          <ViewPanel tab={ownerView} />
+          <ViewPanel tab={performanceView} />
         </div>
       </Section>
 
