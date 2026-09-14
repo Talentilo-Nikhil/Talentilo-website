@@ -82,7 +82,14 @@ export function BatchPanel({
         <p className={cn('font-figure text-[44px] leading-none font-semibold', panelText(tone))}>
           {duration}
         </p>
-        <p className={cn('max-w-[15rem] text-right text-small', panelMuted(tone))}>{caption}</p>
+        <p
+          className={cn(
+            'max-w-[15rem] text-right text-small',
+            tone === 'dark' ? 'text-white/75' : 'text-ink/75'
+          )}
+        >
+          {caption}
+        </p>
       </div>
 
       <p
