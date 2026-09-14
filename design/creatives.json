@@ -143,6 +143,15 @@
   "designHeight": 536,
   "alt": "Operational guardrail alerts for SLA breaches, offers, AI matches and daily digests"
  },
+ "home-recruiter-targets": {
+  "src": "/figma/creatives/home-recruiter-targets.webp",
+  "fallback": "/figma/creatives/home-recruiter-targets.png",
+  "width": 2880,
+  "height": 1983,
+  "designWidth": 1440,
+  "designHeight": 991.27,
+  "alt": "One recruiter's targets for the month, with revenue, interviews and submissions tracked against them"
+ },
  "ros-view-owner": {
   "src": "/figma/creatives/ros-view-owner.webp",
   "fallback": "/figma/creatives/ros-view-owner.png",
