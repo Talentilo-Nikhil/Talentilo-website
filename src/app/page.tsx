@@ -3,11 +3,13 @@ import type { Metadata } from 'next';
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { StatGrid } from '@/components/sections/StatGrid';
+import { ViewPanel } from '@/components/sections/ViewPanel';
 import { ButtonLink } from '@/components/ui/Button';
 import { Creative } from '@/components/ui/Creative';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { companyStats } from '@/data/stats';
+import { ownerView } from '@/data/views';
 
 export const metadata: Metadata = {
   title: 'Talentilo.ai — The Recruitment Operating System',
@@ -123,6 +125,21 @@ export default function HomePage() {
         creative="velocity-index"
         mediaSide="left"
       />
+
+      {/*
+        The Tailored Views section from /platform/recruitment-os, showing the Owner/VP view alone.
+        A single view needs no switcher, so the panel renders without the tab group around it, and
+        the copy for the view is shared with that page rather than restated here.
+      */}
+      <Section>
+        <SectionHeading
+          title="One Brain. Tailored Views."
+          lede="Recruitment operations requires different lenses for different leaders. The Command Center adapts the data instantly to fit your style."
+        />
+        <div className="mt-10 flex flex-col items-center gap-7">
+          <ViewPanel tab={ownerView} />
+        </div>
+      </Section>
 
       <CtaBanner
         title={'Ready to\nBuild with Talentilo?'}
