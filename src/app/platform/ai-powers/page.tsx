@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { CallPanel } from '@/components/panels/CallPanel';
 import { ComparePanel } from '@/components/panels/ComparePanel';
 import { CreativeGround } from '@/components/panels/CreativeGround';
-import { FlowPanel } from '@/components/panels/FlowPanel';
+import { IntakePanel } from '@/components/panels/IntakePanel';
 import { LiveDot, Panel } from '@/components/panels/Panel';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
@@ -140,33 +140,24 @@ export default function AiPowersPage() {
         }
         media={
           <CreativeGround tone="warm">
-            <Panel title="Role Intake" meta="Senior React Developer">
-              <div className="p-5 @sm:p-6">
-                <FlowPanel
-                  steps={[
-                    {
-                      label: 'Job description drafted',
-                      meta: '38 sec',
-                      detail: 'Written from a two-line brief — title, seniority, must-have skills.',
-                      state: 'done',
-                    },
-                    {
-                      label: 'Resumes parsed',
-                      meta: '412 files',
-                      detail: 'Every format read into one structured profile you can edit.',
-                      state: 'done',
-                    },
-                    {
-                      label: 'Candidates scored',
-                      meta: 'Top match 94%',
-                      detail: 'Ranked 0–100 on skills density, career trajectory and role fit.',
-                      state: 'active',
-                    },
-                  ]}
-                  connectors={['Approved by you', 'Matched against the JD']}
-                />
-              </div>
-            </Panel>
+            <IntakePanel
+              role="Senior React Developer"
+              requirements={[
+                '5+ years building production React applications',
+                'TypeScript, state management, component testing',
+                'Comfortable owning a release end to end',
+              ]}
+              drafted="Drafted in 38 sec from a two-line brief — approved by you"
+              parsed="412 resumes parsed"
+              formats={['PDF', 'DOCX', 'Scan']}
+              fields={[
+                { label: 'Skills', value: 'React · TypeScript · Node' },
+                { label: 'Experience', value: '7 yrs, 2 as tech lead' },
+                { label: 'Notice', value: '30 days' },
+              ]}
+              score={94}
+              scoreCaption="Fit score · ranked 1 of 412"
+            />
           </CreativeGround>
         }
       />
