@@ -2,10 +2,9 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import { ChecklistPanel } from '@/components/panels/ChecklistPanel';
-import { ComparePanel } from '@/components/panels/ComparePanel';
 import { CreativeGround } from '@/components/panels/CreativeGround';
+import { ForecastPanel } from '@/components/panels/ForecastPanel';
 import { MeterPanel } from '@/components/panels/MeterPanel';
-import { LiveDot, Panel } from '@/components/panels/Panel';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
@@ -141,22 +140,13 @@ export default function RevenueDefensePage() {
         mediaSide="left"
         media={
           <CreativeGround tone="magenta">
-            <Panel title="Placement Forecast" meta={<LiveDot label="Board-ready" />}>
-              <div className="p-6 @sm:p-7">
-                <ComparePanel
-                  before={{
-                    label: 'Standard CRM forecast',
-                    value: '10',
-                    caption: 'Projected hires — assumes 0% drop-off',
-                  }}
-                  after={{
-                    label: 'Risk-adjusted (Talentilo)',
-                    value: '8 + 2',
-                    caption: '8 solid / protected · 2 at-risk / flagged',
-                  }}
-                />
-              </div>
-            </Panel>
+            <ForecastPanel
+              projected={10}
+              protectedCount={8}
+              protectedNote="Monitored through to day one"
+              atRiskNote="Counter-offer and silence signals already showing"
+              footer="Risk-adjusted: 8 + 2, not 10 — a number the board can hold you to"
+            />
           </CreativeGround>
         }
       />
