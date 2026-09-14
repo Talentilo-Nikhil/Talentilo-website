@@ -15,7 +15,7 @@ const escapeHtml = (value: string) =>
  */
 export async function deliverContactMessage(input: ContactInput): Promise<DeliveryResult> {
   const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_TO_EMAIL ?? site.email.support;
+  const to = process.env.CONTACT_TO_EMAIL ?? site.email.enquiries;
   const from = process.env.CONTACT_FROM_EMAIL ?? 'Talentilo Website <onboarding@resend.dev>';
 
   if (!apiKey) {
