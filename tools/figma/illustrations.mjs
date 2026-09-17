@@ -461,6 +461,31 @@ const EXPORTS = {
       path: '',
       label:
         "One recruiter's targets for the month, with revenue, interviews and submissions tracked against them",
+      /*
+       * The "What's New" pill carries `--gradient-brand` unwindowed, so its 0% stop — the near-white
+       * #fdfcff — lands on the right half of a 117px pill and takes the white label with it. The
+       * header's "Request Demo" pill has the same fill and does not have the problem, because it
+       * windows the wash: 180% wide, held at `0% 50%`, which shows only the saturated 55.6%. Sampled
+       * off the rendered header at 1440 (Albert Sans, 187x43): #4ea8fd at the left edge to #b1a4ff at
+       * the right, with no white anywhere. Those two are the stops here, which is the same wash the
+       * button shows, stated as the two colours it actually resolves to rather than as a crop.
+       */
+      patch: [
+        {
+          path: '#1/#0/#1/#0/#0',
+          fills: [
+            {
+              kind: 'gradient',
+              gradientType: 'GRADIENT_LINEAR',
+              stops: [
+                { color: 'rgba(177, 164, 255, 1)', position: 0 },
+                { color: 'rgba(77, 168, 253, 1)', position: 1 },
+              ],
+              css: 'linear-gradient(270deg, rgba(177, 164, 255, 1) 0%, rgba(77, 168, 253, 1) 100%)',
+            },
+          ],
+        },
+      ],
       retext: [
         // The What's New card, matching the line the other exported creatives carry.
         { path: '#0/#2/#0/#2', text: 'AI Calling is live. Screen in half the time.' },
