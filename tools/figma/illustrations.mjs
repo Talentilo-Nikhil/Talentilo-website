@@ -62,6 +62,32 @@ const BUTTON_LABEL = {
   autoResize: 'WIDTH_AND_HEIGHT',
 };
 
+/**
+ * The brand wash with its pale tail cropped off.
+ *
+ * Every app-chrome "What's New" pill in the design file is filled with `--gradient-brand` whole —
+ * `#fdfcff` at 0%, `#b1a4ff` at 45.68%, `#4da8fd` at 100%, run at 270deg so the near-white end
+ * lands on the right. That is fine across a page-width band and wrong on a pill: at 64-117px the
+ * white stop covers the right half and takes the white label sitting on it.
+ *
+ * The site's own "Request Demo" pill carries the same fill without the problem, because it windows
+ * the wash rather than fitting all of it — 180% wide, held at `0% 50%`, so only the saturated
+ * 55.6% is ever visible (see VARIANT.gradient in src/components/ui/Button.tsx). Sampled off the
+ * rendered header at a 1440 viewport, that window resolves to #4ea8fd at the left edge and #b1a4ff
+ * at the right, with no white between. Those are the two stops here: the same wash the button
+ * shows, stated as the colours it comes out as rather than as a crop of a three-stop ramp. Being a
+ * plain two-stop fill, it holds at any pill width, which a fixed crop would not.
+ */
+const brandWash = () => ({
+  kind: 'gradient',
+  gradientType: 'GRADIENT_LINEAR',
+  stops: [
+    { color: 'rgba(177, 164, 255, 1)', position: 0 },
+    { color: 'rgba(77, 168, 253, 1)', position: 1 },
+  ],
+  css: 'linear-gradient(270deg, rgba(177, 164, 255, 1) 0%, rgba(77, 168, 253, 1) 100%)',
+});
+
 const readSpec = (slug) => JSON.parse(readFileSync(resolve(ROOT, `design/spec/${slug}.json`), 'utf8'));
 
 /**
@@ -324,6 +350,8 @@ const EXPORTS = {
       file: 'hero-command-center',
       path: '#1/Visual-1',
       label: 'Talentilo command centre dashboard',
+      // The "What's New" pill — see brandWash.
+      patch: [{ path: '#4/#1/#0/#1/#0/#0', fills: [brandWash()] }],
       // The file's demo data names real companies — Oracle, Tata Motors, Bajaj Inc, Microsoft —
       // and HDFC Bank as the employers behind these jobs. Shipping that on marketing artwork
       // reads as a customer
@@ -422,6 +450,13 @@ const EXPORTS = {
       file: 'ros-command-center',
       path: '#1/Frame 2085665231/Manager Review',
       label: 'The Talentilo command centre showing a job pipeline across every hiring stage',
+      // The "What's New" pill, plus the icon-only chip of the same component further down the
+      // rail — see brandWash. The chip's confetti icon is dark-outlined so it stays legible either
+      // way, but half a 22px circle going white next to seven solid pills reads as a render fault.
+      patch: [
+        { path: '#1/#0/#1/#0/#0', fills: [brandWash()] },
+        { path: '#0/#2', fills: [brandWash()] },
+      ],
     },
     // `ros-pending-review` now comes from the revision export — see `upd-pending-review` below.
     {
@@ -461,31 +496,8 @@ const EXPORTS = {
       path: '',
       label:
         "One recruiter's targets for the month, with revenue, interviews and submissions tracked against them",
-      /*
-       * The "What's New" pill carries `--gradient-brand` unwindowed, so its 0% stop — the near-white
-       * #fdfcff — lands on the right half of a 117px pill and takes the white label with it. The
-       * header's "Request Demo" pill has the same fill and does not have the problem, because it
-       * windows the wash: 180% wide, held at `0% 50%`, which shows only the saturated 55.6%. Sampled
-       * off the rendered header at 1440 (Albert Sans, 187x43): #4ea8fd at the left edge to #b1a4ff at
-       * the right, with no white anywhere. Those two are the stops here, which is the same wash the
-       * button shows, stated as the two colours it actually resolves to rather than as a crop.
-       */
-      patch: [
-        {
-          path: '#1/#0/#1/#0/#0',
-          fills: [
-            {
-              kind: 'gradient',
-              gradientType: 'GRADIENT_LINEAR',
-              stops: [
-                { color: 'rgba(177, 164, 255, 1)', position: 0 },
-                { color: 'rgba(77, 168, 253, 1)', position: 1 },
-              ],
-              css: 'linear-gradient(270deg, rgba(177, 164, 255, 1) 0%, rgba(77, 168, 253, 1) 100%)',
-            },
-          ],
-        },
-      ],
+      // The "What's New" pill — see brandWash.
+      patch: [{ path: '#1/#0/#1/#0/#0', fills: [brandWash()] }],
       retext: [
         // The What's New card, matching the line the other exported creatives carry.
         { path: '#0/#2/#0/#2', text: 'AI Calling is live. Screen in half the time.' },
@@ -520,13 +532,21 @@ const EXPORTS = {
   ],
 
   'platform-recruitment-os-owner': [
-    { file: 'ros-view-owner', path: '', label: 'The owner view: annual revenue targets tracked per recruiter' },
+    {
+      file: 'ros-view-owner',
+      path: '',
+      label: 'The owner view: annual revenue targets tracked per recruiter',
+      // The "What's New" pill — see brandWash.
+      patch: [{ path: '#3/#1/#0/#1/#0/#0', fills: [brandWash()] }],
+    },
   ],
   'platform-recruitment-os-ops': [
     {
       file: 'ros-view-ops',
       path: '',
       label: 'The operations view: floor alerts, held-up CVs and offer accept rate',
+      // The "What's New" pill — see brandWash.
+      patch: [{ path: '#3/#1/#0/#1/#0/#0', fills: [brandWash()] }],
       // The file's demo data names real companies — Oracle, Tata Motors, Bajaj Inc, Microsoft —
       // and HDFC Bank as the employers behind these jobs. Shipping that on marketing artwork
       // reads as a customer
@@ -544,7 +564,13 @@ const EXPORTS = {
   'platform-recruitment-os-recruiter': [
     // The three "Tata Motors" fields this frame also carries sit at y=814 in a frame 614 tall,
     // so the export clips them away — nothing to swap here.
-    { file: 'ros-view-recruiter', path: '', label: 'The recruiter view: a single candidate record with contact details and history' },
+    {
+      file: 'ros-view-recruiter',
+      path: '',
+      label: 'The recruiter view: a single candidate record with contact details and history',
+      // The "What's New" pill — see brandWash.
+      patch: [{ path: '#3/#1/#0/#1/#0/#0', fills: [brandWash()] }],
+    },
   ],
 
   'platform-talent-intelligence': [
@@ -553,6 +579,8 @@ const EXPORTS = {
       file: 'ti-hero-database',
       path: '#1/Frame 2085665231/#1',
       label: 'The Talentilo candidate database listing every profile with education, experience and skills',
+      // The "What's New" pill — see brandWash.
+      patch: [{ path: '#1/#0/#1/#0/#0', fills: [brandWash()] }],
       /*
        * The file's demo rows were unfinished: four cells held a bare "-", two degrees were
        * sentence-cased ("Mba", "Pgdm"), one address was title-cased mid-string, every candidate
@@ -759,6 +787,8 @@ const EXPORTS = {
         { path: '#1/#1/#1/#0/#1/#2/#6/#1/#0', text: 'Vero Auto' },
       ],
       patch: [
+        // The "What's New" pill — see brandWash.
+        { path: '#1/#0/#1/#0/#0', fills: [brandWash()] },
         // The signed-in user in the top-right chip was the file's own placeholder, "John Doe".
         // Its frame is an auto-layout row (avatar, name+role, chevron) that Figma would reflow on
         // its own; the export just draws the resolved absolute boxes, so a longer name needs its
