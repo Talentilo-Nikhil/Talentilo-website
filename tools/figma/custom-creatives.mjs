@@ -735,10 +735,10 @@ function aoMargins() {
 
   return {
     file: 'ao-margins',
-    label: 'Revenue per seat driving margin',
+    label: 'Revenue per recruiter driving margin',
     designWidth: W,
     designHeight: H,
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="Revenue per seat driving margin">
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-label="Revenue per recruiter driving margin">
       <defs>${bg.defs}${mainCard.defs}${alert.defs}</defs>
       ${bg.rect}
 
@@ -747,7 +747,7 @@ function aoMargins() {
       ${mainCard.surfaceRect}
       <g clip-path="url(#${mainCard.clipId})">
         <rect x="40" y="84" width="508" height="${headerH}" fill="${INK}" />
-        ${text(64, 84 + headerH / 2 + 6, 'Revenue per Seat', { size: 17, weight: 600, fill: 'white' })}
+        ${text(64, 84 + headerH / 2 + 6, 'Revenue per Recruiter', { size: 17, weight: 600, fill: 'white' })}
         <line x1="64" y1="${baseline}" x2="484" y2="${baseline}" stroke="#e5e7eb" stroke-width="1.5" />
         ${barsMarkup}
       </g>

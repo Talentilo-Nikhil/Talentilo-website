@@ -22,7 +22,7 @@ const stats: Stat[] = [
   {
     figure: 'Up to 30%',
     headline: 'Profit Margins',
-    detail: 'Automating the admin and defence layers lifts revenue per seat',
+    detail: 'Automating the admin and defence layers lifts revenue per recruiter',
   },
   {
     figure: '3x',
@@ -54,7 +54,7 @@ export default function AgencyOwnerPage() {
 
       <FeatureSplit
         title={'Increase Profit Margins\nUp to 30%'}
-        body="Most agencies run at 10-15% margins. A Profitable Staffing Model requires leverage. By automating the admin and defense layers, Talentilo increases your 'Revenue per Seat' efficiency, driving your bottom line straight up"
+        body="Most agencies run at 10-15% margins. A Profitable Staffing Model requires leverage. By automating the admin and defense layers, Talentilo increases your 'Revenue per Recruiter' efficiency, driving your bottom line straight up"
         points={[]}
         creative="ao-margins"
         mediaSide="left"
