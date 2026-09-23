@@ -161,7 +161,7 @@ export default function AiPowersPage() {
 
       <FeatureSplit
         eyebrow="Infinite Speed"
-        title={'Screen 500 Candidates\nBefore Lunch.'}
+        title={'Screen 500 Candidates\nin 30 min.'}
         body="Capacity planning used to mean hiring more staff. Now it happens instantly. Need to vet a massive inbound funnel for a generic role? Talentilo scales its calling capacity automatically, vetting thousands of applicants in parallel."
         points={[]}
         aside={
@@ -182,8 +182,13 @@ export default function AiPowersPage() {
             <BatchPanel
               total={500}
               screened={498}
-              duration="1 hr"
-              caption="498 of 500 screened — the other two never picked up"
+              duration="30 min"
+              stages={[
+                { value: '500', label: 'dialled' },
+                { value: '498', label: 'picked up' },
+                { value: '498', label: 'screened on fit and salary' },
+              ]}
+              caption="The other two never picked up"
               manual="The same list by hand: 40 hrs across a recruiter team"
             />
           </CreativeGround>
