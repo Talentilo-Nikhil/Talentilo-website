@@ -47,7 +47,6 @@ export default function TalentIntelligencePage() {
         lede="Your ATS is likely a graveyard where great talent goes to be forgotten. Talentilo reads your job descriptions like a human and helps you find the best matches from your existing database — before you spend a rupee on new job ads or portals."
         cta={{ label: 'Rank Your Existing Candidates', href: '/contact' }}
         ctaPlacement="overlay"
-        note="Powered by Contextual Semantic Scoring"
         wash="brand"
         creative="ti-hero-database"
         reveal={HERO_REVEAL}

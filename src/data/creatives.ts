@@ -340,7 +340,7 @@ export const creatives = {
     "height": 1072,
     "designWidth": 588,
     "designHeight": 536,
-    "alt": "Revenue per seat driving margin"
+    "alt": "Revenue per recruiter driving margin"
   },
   "ti-ranking": {
     "src": "/figma/creatives/ti-ranking.webp",
