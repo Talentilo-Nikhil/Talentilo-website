@@ -343,6 +343,18 @@ const EXPORTS = {
     },
     { file: 'logo-mono-black', path: 'Logo-black,bg-white/Frame 4374', label: 'Talentilo.ai', scale: 1 },
     { file: 'logo-mono-white', path: 'Logo-white,bg-black/Frame 4374', label: 'Talentilo.ai', scale: 1 },
+    /*
+     * The mark on its own, without the wordmark beside it.
+     *
+     * A WhatsApp Business avatar is a 28px circle, which the full lockup cannot survive — at that
+     * size its wordmark is four illegible pixels tall. `Icon` is the lockup's own first child, so
+     * this is the same artwork the other four carry, cropped to the part that reads small.
+     *
+     * It belongs in this table rather than beside the component that uses it: the export step
+     * deletes everything in public/figma/creatives that the manifest does not list, so a mark
+     * hand-placed there survives exactly until the next `npm run figma:creatives`.
+     */
+    { file: 'mark-color', path: 'Logo-color,bg-white/Frame 4374/Icon', label: 'Talentilo', scale: 4 },
   ],
 
   homepage: [
