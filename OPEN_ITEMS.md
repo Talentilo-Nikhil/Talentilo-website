@@ -1,7 +1,7 @@
 # Open items
 
 Everything still outstanding on the Talentilo.ai site, in plain language.
-Last updated against commit `1d72dda`.
+Last updated against commit `f304d8b`.
 
 ## Where to see the site
 
@@ -129,21 +129,13 @@ Then redeploy. Both the Support and Sales cards on the page send to **marketing@
 
 *No key is stored in this repository. `.env.example` documents the variable and nothing else.*
 
-### A pull request, if one is wanted
+### Nothing else
 
-There is no pull request for this work, because the repository has only one branch —
-`claude/figma-production-website-thucpj` — which became the default when the empty repository
-received its first push. A pull request needs a second branch to merge into.
-
-This has no effect on the website. It only matters if a reviewable code diff is wanted. To create
-one:
-
-```
-git push origin 9b910dce6ca27e344633c7f147017ca1a78ae41f:refs/heads/main
-```
-
-That points a `main` branch at the initial scaffold commit, after which a pull request can be
-opened against it.
+Email delivery is the only piece of setup still outstanding. The branch and pull-request questions
+this section used to raise are settled: `main` exists, every change goes through a pull request into
+it, and a second pull request promotes `main` to the production branch. See
+[**How a change reaches the live site**](./README.md#how-a-change-reaches-the-live-site) in the
+README.
 
 ---
 
@@ -175,3 +167,59 @@ the copy (`support@artifact.com` and similar) were treated as placeholders, not 
   file's one 86px outlier was normalised to match the other thirteen rather than reproduced.
 
 All of these are covered by regression checks in `npm run qa:interactions`.
+
+---
+
+## 7. Open from the page-by-page review
+
+The review that ran from the migration heading through to the screening funnel — every fix in it is
+live. What it left open is below, in the order it is likely to matter.
+
+### Two links still point at the contact form
+
+Both need to point at a real destination and neither has been changed, because an automated guard on
+this session blocks edits that re-point outbound links. They are one line each:
+
+| What | Where | Points at now | Should point at |
+|---|---|---|---|
+| **Request Demo** (every call to action on the site) | `src/config/navigation.ts`, `DEMO_URL` | `/contact` | the Outlook booking page |
+| **Sign In** (header) | `src/config/navigation.ts`, `headerActions.signIn` | `/contact` | `https://portal.talentilo.ai/login` |
+
+The booking link is the one already published on the live privacy page:
+`https://outlook.office.com/book/TalentiloIntelligence@NETORG19154905.onmicrosoft.com/?ismsaljsauthenabled`.
+Either edit the two lines directly, or say the word in a session that is allowed to make them.
+
+### The Recruiter tab describes the wrong screen
+
+On `/platform/recruitment-os` the Recruiter tab reads *"Today's pipeline, today's follow-ups, and
+nothing else in the way"* (`src/data/views.tsx`), but the artwork beside it is a single candidate
+record. One of the two has to move. The CV-upload / auto-generated-tracker artwork mentioned during
+the review would settle it — send it and the copy can be written to match.
+
+### Two numbers on the screening funnel are now published claims
+
+The funnel on `/platform/ai-powers` reads 500 dialled → 300 received → 60 shortlisted, which states
+a **60% answer rate** and a **1-in-5 shortlist rate**. They are live. If either is not a number
+Talentilo wants to stand behind in public, the panel takes any three figures —
+`src/app/platform/ai-powers/page.tsx`.
+
+### Smaller things noticed while reading the artwork
+
+None of these is visible damage; they are places where the artwork and the world disagree.
+
+- **The AI-calling video slot** on `/for/recruitment-operations` is still a placeholder sized for the
+  clip that was promised (`aspect-[588/536]`).
+- **Contact form delivery** goes to `marketing@talentilo.ai`; the site's own copy offers a `sales@`
+  address for sales enquiries (`src/lib/mailer.ts`, `site.email.enquiries`).
+- **Names and places inside the exported screens** are the Figma file's, and some contradict the copy
+  around them: "Set metrics for Rajkumar. S" under a *Rohan Sharma / Manager* header on the Owner
+  view, and "Sayali Mahale, Mumbai, India" on a record whose note says *located in New Delhi*.
+- **Two ratios baked into the artwork** do not divide out: 45% against 951/1,070, and 29% against
+  3,270/3,350.
+- **A sentence is cut off** mid-clause in one screen: "The candidate's skills show a weak".
+- **A phone number is baked into a hover state** in the v5 artwork (+91 9945623125).
+- **The gauge arc** on the velocity dashboard is a flat `#60a5fa`, which is not one of the site's own
+  six ramps.
+
+Fixing any of these means re-exporting the creative it lives in, which is a pipeline change rather
+than a copy change — cheap, but not instant.

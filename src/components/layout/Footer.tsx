@@ -95,22 +95,16 @@ export function Footer() {
 
         <hr className="mt-16 border-0 border-t border-divider/60 lg:mt-30" />
 
-        {/*
-          Stacked and centred at every width, rather than a row pushed to both ends. The row held
-          four things when it was split across the full width; with two social accounts and two
-          legal links gone it held two, marooned at opposite edges of a very wide bar. What is
-          left — the mark, the copyright, and the one legal link beside the one account — reads
-          down the middle instead.
-        */}
-        <div className="mt-8 flex flex-col items-center gap-6">
-          <div className="flex flex-col items-center gap-4">
+        {/* Socials sit with the legal row rather than floating under the nav columns above. */}
+        <div className="mt-8 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
             <Logo tone="light" />
             <p className="text-small text-footer-text">
               &copy; {new Date().getFullYear()} {site.name}. All rights reserved.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
             <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
               {legalNav.map((item) => (
                 <li key={item.href}>
