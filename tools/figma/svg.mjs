@@ -39,6 +39,28 @@ function roundedRectPath(w, h, radius) {
   );
 }
 
+/**
+ * Split a `box-shadow` back into its layers.
+ *
+ * `effectsToCss` writes them in one strict shape — `[inset ]Xpx Ypx Rpx Spx rgba(...)`, joined by
+ * commas — so this only has to be as forgiving as that, and the comma split only has to skip the
+ * ones inside `rgba()`.
+ */
+function parseShadows(css) {
+  if (!css) return [];
+  return css
+    .split(/,(?![^()]*\))/)
+    .map((layer) => {
+      const inset = /\binset\b/.test(layer);
+      const lengths = layer.match(/-?[\d.]+px/g) ?? [];
+      const color = /(rgba?\([^)]*\)|#[0-9a-f]{3,8})/i.exec(layer)?.[1];
+      if (lengths.length < 2 || !color) return null;
+      const [dx, dy, blur = '0', spread = '0'] = lengths;
+      return { inset, dx: parseFloat(dx), dy: parseFloat(dy), blur: parseFloat(blur), spread: parseFloat(spread), color };
+    })
+    .filter(Boolean);
+}
+
 /** Gilroy is commercial and cannot ship. Talentilo has chosen Albert Sans in its place. */
 const FONT_SUBSTITUTIONS = {
   Gilroy: 'Albert Sans',
@@ -259,6 +281,38 @@ class SvgWriter {
       }
     } else if (box.w > 0 && box.h > 0 && (fills.length || node.strokes?.length)) {
       const hasRadius = radius && (radius.topLeft || radius.topRight || radius.bottomRight || radius.bottomLeft);
+
+      /*
+       * Drop shadows, drawn as blurred copies of the node's own shape behind it.
+       *
+       * `feDropShadow` would be the obvious tool and cannot be used: it has no spread, and every
+       * shadow in this file carries one. A copy of the shape, grown by the spread and offset by
+       * the shadow, gets both right — and for a rounded card the growth has to reach the corner
+       * radii too, or a negative spread leaves the shadow's corners squarer than the card's.
+       *
+       * Inner shadows would need the shape as a mask and a hole punched through it; nothing in
+       * the file uses one, so they are skipped rather than approximated.
+       */
+      for (const shadow of parseShadows(node.boxShadow)) {
+        if (shadow.inset) continue;
+        const w = box.w + shadow.spread * 2;
+        const h = box.h + shadow.spread * 2;
+        if (w <= 0 || h <= 0) continue;
+        const grow = (r) => Math.max(0, (r ?? 0) + shadow.spread);
+        const filter = shadow.blur ? ` filter="url(#${this.blurFilter(shadow.blur)})"` : '';
+        const place = `translate(${num(shadow.dx - shadow.spread)} ${num(shadow.dy - shadow.spread)})`;
+        parts.push(
+          hasRadius
+            ? `<path d="${roundedRectPath(w, h, {
+                topLeft: grow(radius.topLeft),
+                topRight: grow(radius.topRight),
+                bottomRight: grow(radius.bottomRight),
+                bottomLeft: grow(radius.bottomLeft),
+              })}" transform="${place}" fill="${shadow.color}"${filter}/>`
+            : `<rect width="${num(w)}" height="${num(h)}" transform="${place}" fill="${shadow.color}"${filter}/>`
+        );
+      }
+
       for (const fill of fills) {
         parts.push(
           hasRadius
