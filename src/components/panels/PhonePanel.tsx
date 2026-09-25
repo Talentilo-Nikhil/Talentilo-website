@@ -108,13 +108,11 @@ function Ticks() {
 export function PhonePanel({
   name,
   status = 'online',
-  initials,
   messages,
   className,
 }: {
   name: string;
   status?: string;
-  initials: string;
   messages: ChatMessage[];
   className?: string;
 }) {
@@ -146,9 +144,16 @@ export function PhonePanel({
                 strokeLinejoin="round"
               />
             </svg>
-            <span className="grid size-7 shrink-0 place-items-center rounded-full bg-white/25 text-[10px] font-semibold text-white">
-              {initials}
-            </span>
+            {/* A WhatsApp Business account shows the linked brand's own icon, not initials — the
+                mark on white, since a business avatar is a logo, not a monogram. */}
+            <picture className="block size-7 shrink-0 overflow-hidden rounded-full bg-white">
+              <source srcSet="/figma/creatives/mark-color.webp" type="image/webp" />
+              <img
+                src="/figma/creatives/mark-color.png"
+                alt=""
+                className="size-full object-contain p-[3px]"
+              />
+            </picture>
             <span className="min-w-0 flex-1">
               <span className="block truncate text-[13px] leading-tight font-semibold text-white">
                 {name}
