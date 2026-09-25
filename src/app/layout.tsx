@@ -53,7 +53,7 @@ const organizationJsonLd = {
   url: site.url,
   logo: `${site.url}/figma/creatives/logo-color.png`,
   description: site.description,
-  sameAs: [site.social.linkedin, site.social.x, site.social.instagram],
+  sameAs: [site.social.linkedin],
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'sales',
