@@ -237,10 +237,10 @@ export const creatives = {
   "rd-hero-offers": {
     "src": "/figma/creatives/rd-hero-offers.webp",
     "fallback": "/figma/creatives/rd-hero-offers.png",
-    "width": 2148,
-    "height": 1188,
-    "designWidth": 1074.13,
-    "designHeight": 593.9,
+    "width": 3674,
+    "height": 1592,
+    "designWidth": 1837.15,
+    "designHeight": 796,
     "alt": "The offer-reminders workspace tracking every signed candidate through their notice period"
   },
   "hv-always-on": {

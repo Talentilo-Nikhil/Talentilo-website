@@ -35,9 +35,12 @@ export default function RevenueDefensePage() {
 
       {/* The other two /platform pages open on the brand wash with their artwork sitting in it —
           see faster-operations. This page opened on an ink field instead. The hero art had no
-          Figma source until website-update-v2.fig; it ran on a stand-in FlowPanel. Now it's the
-          real offers-workspace frame, bleeding off the band the way Recruitment OS's command
-          centre does — 561 of its 593.9px show, so the cut lands 37px above the CTA's foot. */}
+          Figma source until website-update-v2.fig; it ran on a stand-in FlowPanel, then on that
+          file's six-column table. website-update-v5.fig redraws it thirteen columns wide, which
+          is a much wider frame than the one it replaces — 1837x796 against 1074x594 — so the
+          reveal is re-derived rather than carried over. The cut now falls just under the last
+          table row, leaving the pagination bar below the band's edge, which is the same idea the
+          old 561/593.9 expressed on the old frame. */}
       <PageHero
         title={"The Deal Isn't Closed\nUntil They Show Up."}
         lede="Recruitment teams lose 20% of secured talent after the offer is signed. Our Revenue Defense protocol monitors the danger zone — the silence between signature and start date — predicting ghosting risk and counter-offers before they force you to restart the search."
@@ -46,7 +49,7 @@ export default function RevenueDefensePage() {
         note="Stops fall-offs. Protects forecasts."
         wash="brand"
         creative="rd-hero-offers"
-        reveal={561 / 593.9}
+        reveal={710 / 796}
       />
 
       <FeatureSplit
