@@ -2,7 +2,7 @@ export const site = {
   name: 'Talentilo.ai',
   tagline: 'The Recruitment Operating System',
   description:
-    'Talentilo is the intelligent Operating System for recruitment agencies — semantic matching, offer risk alerts and the Agency Velocity Index in one place.',
+    'Talentilo is the intelligent Operating System for recruitment agencies — semantic matching, offer risk alerts and live recruiter targets in one place.',
   url: 'https://talentilo.ai',
   email: {
     support: 'support@talentilo.ai',

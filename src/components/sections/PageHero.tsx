@@ -29,7 +29,7 @@ type PageHeroProps = {
    * over the artwork's bottom edge, the way the Recruitment OS hero draws it.
    */
   ctaPlacement?: 'above' | 'overlay';
-  /** The small line under the fold, e.g. "Powered by the Agency Velocity Index (AVI)". */
+  /** The small line under the fold, e.g. "Stops fall-offs. Protects forecasts.". */
   note?: string;
   creative?: CreativeName;
   creativeAlt?: string;
