@@ -35,6 +35,15 @@
   "designHeight": 178.78,
   "alt": "Talentilo.ai"
  },
+ "mark-color": {
+  "src": "/figma/creatives/mark-color.webp",
+  "fallback": "/figma/creatives/mark-color.png",
+  "width": 720,
+  "height": 715,
+  "designWidth": 180.12,
+  "designHeight": 178.78,
+  "alt": "Talentilo"
+ },
  "hero-command-center": {
   "src": "/figma/creatives/hero-command-center.webp",
   "fallback": "/figma/creatives/hero-command-center.png",
