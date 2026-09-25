@@ -183,9 +183,9 @@ export default function AiPowersPage() {
             <BatchPanel
               duration="30 min"
               stages={[
-                { value: '500', label: 'dialled' },
-                { value: '300', label: 'received', note: '60% of dials' },
-                { value: '60', label: 'shortlisted on fit and salary', note: '1 in 5 of those' },
+                { value: '500', label: 'Dialled' },
+                { value: '300', label: 'Received', note: '60% of dials' },
+                { value: '60', label: 'Shortlisted on fit and salary', note: '1 in 5 of those' },
               ]}
               caption="First dial to ranked shortlist"
               manual="The same list by hand: 40 hrs across a recruiter team"
