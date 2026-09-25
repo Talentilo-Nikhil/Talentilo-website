@@ -28,24 +28,24 @@ export const metadata: Metadata = {
  * where `ros-view-owner` and its siblings were exported with the ground already painted in. Every
  * number here is that ground's, read off `design/spec/platform-recruitment-os-owner.json`: a
  * 1312-wide frame filled #ffcea8, which is crusta-200; the screen inset 165.79 either side
- * (12.636% of the width) and 55 from the top; and the same 12px corner every card on the site
- * carries.
+ * (12.636% of the width); and the same 12px corner every card on the site carries.
  *
- * The frame is 712 tall rather than the file's 614, and so are the three exports on
+ * The frame is 687 tall rather than the file's 614, and so are the three exports on
  * /platform/recruitment-os — see `tallerGround` in tools/figma/illustrations.mjs. At 614 the cut
- * landed across the middle of the screen's bottom row of cards. The screen still runs off the
- * bottom: it is 675 tall at this width against the 657 the frame leaves below the inset, so 97%
- * of it shows — enough for every card to be whole, and still the file's own device for saying
- * there is more screen than the picture.
+ * landed across the middle of the screen's bottom row of cards. The cap above the screen is 30
+ * rather than the file's 55, which is what keeps the taller frame from reading as a taller
+ * section. The screen still runs off the bottom: it is 675 tall at this width against the 657
+ * the frame leaves below the cap, so 97% of it shows — enough for every card to be whole, and
+ * still the file's own device for saying there is more screen than the picture.
  *
  * The two white hairlines are the frame's own `Polygon 28` and `Ellipse 50`, at their own
  * coordinates and their own 1.19 stroke, both starting halfway down and running out of the frame.
  */
 function PastelGround({ children }: { children: ReactNode }) {
   return (
-    <div className="relative isolate aspect-[1312/712] overflow-hidden rounded-card bg-crusta-200">
+    <div className="relative isolate aspect-[1312/687] overflow-hidden rounded-card bg-crusta-200">
       <svg
-        viewBox="0 0 1312 712"
+        viewBox="0 25 1312 687"
         preserveAspectRatio="xMidYMid slice"
         className="pointer-events-none absolute inset-0 -z-10 h-full w-full"
         fill="none"
@@ -58,7 +58,7 @@ function PastelGround({ children }: { children: ReactNode }) {
       </svg>
       {/* Positioned rather than padded: the frame's height is fixed by the design, so the screen
           hangs from the inset and the frame decides where it stops. */}
-      <div className="absolute top-[7.725%] left-[12.636%] w-[74.727%]">{children}</div>
+      <div className="absolute top-[4.367%] left-[12.636%] w-[74.727%]">{children}</div>
     </div>
   );
 }

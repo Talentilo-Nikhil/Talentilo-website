@@ -452,18 +452,32 @@ function recruiterViewTypos() {
  * the annual-target gauge and the monthly-performance chart) was severed across the middle, and
  * the ops view's scoring modal lost the last line of its AI summary.
  *
- * At 712 the owner's content ends at 705.4 with room to spare while its screen still runs off by
- * 20.65px, so the device survives; the ops modal, which floats rather than bleeds, clears its own
- * bottom edge at 661 and sits on the ground whole. The recruiter view still bleeds, and its three
- * "Tata Motors" fields stay clipped — they sit at y=814, well past the new edge.
+ * The frame now runs from y=25 to y=712. The owner's content ends at 705.4 with room to spare
+ * while its screen still runs off the bottom by 20.65px, so the device survives; the ops modal,
+ * which floats rather than bleeds, clears its own bottom edge at 661 and sits on the ground
+ * whole. The recruiter view still bleeds, and its three "Tata Motors" fields stay clipped — they
+ * sit at y=814, well past the bottom edge.
  *
  * Nothing inside the screens moves. The ground's fill and the two white hairlines belong to the
  * root frame, which is what grows, so the extra height comes back as ground and revealed screen
  * rather than as empty space.
  */
-const GROUND_HEIGHT = 712;
+const GROUND_BOTTOM = 712;
 
-const tallerGround = () => [{ path: '', box: { x: 0, y: 0, w: 1312, h: GROUND_HEIGHT } }];
+/*
+ * The ground's own cap is trimmed as well: the file leaves 55px of it above the screen, which
+ * read as dead weight once the frame grew to hold the screen's bottom row. 30 still reads as
+ * ground rather than as a hairline, and takes 25px off a section that is tall either way.
+ *
+ * Trimming from the top rather than moving the screen keeps the whole subtree where it is: the
+ * export takes its origin from the root's box, so raising `y` crops the cap and leaves every
+ * child's own coordinates — and the screen's bleed past the bottom edge — exactly as they were.
+ */
+const GROUND_TOP_TRIM = 25;
+
+const tallerGround = () => [
+  { path: '', box: { x: 0, y: GROUND_TOP_TRIM, w: 1312, h: GROUND_BOTTOM - GROUND_TOP_TRIM } },
+];
 
 /*
  * A gutter down both sides of the offer table.
