@@ -123,10 +123,32 @@ function noticeBadge(label, { right = 548, y = 28, h = 36, size = 13, dot = '#21
   );
 }
 
-function pill(x, y, w, h, { fill, text: label, textFill, size = 13, weight = 600 }) {
+/** The downward chevron a control carries when it opens a list rather than acting on a click. */
+function caretIcon(cx, cy, w, color) {
+  const h = w * 0.5;
+  return (
+    `<path d="M${cx - w / 2},${cy - h / 2} L${cx},${cy + h / 2} L${cx + w / 2},${cy - h / 2}" ` +
+    `fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />`
+  );
+}
+
+/** The room a caret takes out of a pill: the glyph itself, plus the gap back to the label. */
+const CARET_W = 9;
+const CARET_GAP = 9;
+
+function pill(x, y, w, h, { fill, text: label, textFill, size = 13, weight = 600, caret = false }) {
+  // The caret sits in the pill's right-hand padding and the label centres in what is left, so a
+  // dropdown keeps the same air around its label as the plain pills beside it.
+  const room = caret ? CARET_W + CARET_GAP : 0;
   return (
     `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="${fill}" />` +
-    text(x + w / 2, y + h / 2 + size * 0.35, label, { size, weight, fill: textFill, anchor: 'middle' })
+    text(x + (w - room) / 2, y + h / 2 + size * 0.35, label, {
+      size,
+      weight,
+      fill: textFill,
+      anchor: 'middle',
+    }) +
+    (caret ? caretIcon(x + w - CONTROL_PAD_X / 2 - CARET_W / 2, y + h / 2, CARET_W, textFill) : '')
   );
 }
 
@@ -1844,7 +1866,7 @@ function hvBroadcast() {
     })
     .join('');
 
-  const templateW = controlW('Select Template', 12);
+  const templateW = controlW('Select Template', 12) + CARET_W + CARET_GAP;
   const send = panelButton(right, 494, 36, 'Send', { dark: true });
   const cancel = panelButton(right - send.width - 12, 494, 36, 'Cancel', { dark: false });
 
@@ -1881,7 +1903,7 @@ function hvBroadcast() {
         ${text(left + 40, 328, '1 selected candidate has no valid mobile number and will be skipped automatically.', { size: 12, fill: HV.warnInk })}
 
         ${text(left, 376, 'Message Preview', { size: 14, weight: 600 })}
-        ${pill(right - templateW, 362, templateW, 26, { fill: HV.field, text: 'Select Template', textFill: INK, size: 12 })}
+        ${pill(right - templateW, 362, templateW, 26, { fill: HV.field, text: 'Select Template', textFill: INK, size: 12, caret: true })}
 
         <rect x="${left}" y="402" width="${inner}" height="76" rx="10" fill="${HV.field}"/>
         ${mergedLine(left + 18, 430, [
