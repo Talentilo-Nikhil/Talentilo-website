@@ -89,7 +89,7 @@ export default function FasterOperationsPage() {
               messages={[
                 {
                   from: 'them',
-                  text: "Hi Sarah, this is Priya calling from HR India Solutions. We have a Sr. React role ($140k) in Bangalore — interested?",
+                  text: "Hi I am Sarah calling from HR India Solutions. We have a Sr. React role ($140k) in Bangalore — are you interested?",
                   time: '10:02',
                 },
                 { from: 'us', text: 'That sounds perfect. Can we chat?', time: '10:03' },
