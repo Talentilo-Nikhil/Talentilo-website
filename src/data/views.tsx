@@ -15,14 +15,21 @@ export const views: ViewTab[] = [
   {
     label: 'The Owner/VP',
     title: 'The Owner/VP',
+    // The screen behind this tab was an annual target table until website-update-v4.fig replaced
+    // it with one recruiter's month against target. The detail follows it: what it promised —
+    // revenue forecasts, cash flow, a global index — is not on the screen, and the screen is
+    // about one person rather than the agency.
     detail:
-      'Strategic visibility: real-time revenue forecasts, cash flow, and the global Agency Velocity Index.',
+      "Every recruiter's month against target: revenue, interviews, submissions and shortlist ratio, set and tracked in one place.",
     media: <Creative name="ros-view-owner" sizes={VIEW_SIZES} />,
   },
   {
     label: 'The Ops Manager',
     title: 'The Ops Manager',
-    detail: 'One standard of working across every desk and geography, enforced rather than requested.',
+    // Likewise: the floor workspace here became a candidate scoring breakdown, so the standard-of-
+    // working line it carried describes nothing on the screen.
+    detail:
+      'Why a candidate scores what they score: location, experience, skills and education, with the gaps named.',
     media: <Creative name="ros-view-ops" sizes={VIEW_SIZES} />,
   },
   {
