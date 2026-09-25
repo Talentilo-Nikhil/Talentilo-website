@@ -181,15 +181,13 @@ export default function AiPowersPage() {
         media={
           <CreativeGround tone="magenta">
             <BatchPanel
-              total={500}
-              screened={498}
               duration="30 min"
               stages={[
                 { value: '500', label: 'dialled' },
-                { value: '498', label: 'picked up' },
-                { value: '498', label: 'screened on fit and salary' },
+                { value: '300', label: 'picked up', note: '60% answered' },
+                { value: '60', label: 'shortlisted on fit and salary', note: '1 in 5 of those' },
               ]}
-              caption="The other two never picked up"
+              caption="First dial to ranked shortlist"
               manual="The same list by hand: 40 hrs across a recruiter team"
             />
           </CreativeGround>
