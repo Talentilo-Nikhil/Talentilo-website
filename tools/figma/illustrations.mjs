@@ -400,29 +400,9 @@ const EXPORTS = {
   ],
 
   homepage: [
-    {
-      file: 'hero-command-center',
-      path: '#1/Visual-1',
-      label: 'Talentilo command centre dashboard',
-      // The "What's New" pill — see brandWash.
-      patch: [{ path: '#4/#1/#0/#1/#0/#0', fills: [brandWash()] }],
-      // The file's demo data names real companies — Oracle, Tata Motors, Bajaj Inc, Microsoft —
-      // and HDFC Bank as the employers behind these jobs. Shipping that on marketing artwork
-      // reads as a customer
-      // list. Swapped for invented ones, each measured to sit inside the string it replaces so
-      // no cell re-flows: Arden, Vero Auto, Lyra Inc, Halden, Nord Bank.
-      retext: [
-        { path: '#4/#1/#1/#1/#0/#0/#0/#1/#2/#0/#1/#1', text: 'Sara K. has a final round interview with Halden.' },
-        { path: '#4/#1/#1/#1/#0/#0/#0/#1/#2/#0/#1/#0/#0', text: 'Manoj Trivedi joins Nord Bank (Fee: ₹2.0L).' },
-        { path: '#4/#1/#1/#1/#1/#1/#1/#1/#1/#0/#0/#0/#1/#0/#1/#0', text: 'Data scientist | Arden' },
-        { path: '#4/#1/#1/#1/#1/#1/#1/#1/#1/#1/#0/#0/#0/#1/#1/#0', text: 'Full stack developer | Arden' },
-        { path: '#4/#1/#1/#1/#1/#1/#1/#1/#1/#2/#0/#0/#0/#1/#1/#0', text: 'UI/UX Designer | Arden' },
-      ],
-    },
-    // The five client logos the "Trusted by industry leaders" strip used are not exported any
-    // more: the strip is gone from all three pages that carried it, because none of these
-    // companies is a Talentilo customer. Nothing else referenced them, and they are third-party
-    // trademarks — no reason to keep shipping them in public/.
+    // `hero-command-center` now comes from the revision export — see `upd-home-command-center`
+    // below. This frame's copy is the same, but its team chart carries a paler duplicate behind
+    // every bar, so the artwork here is the superseded one.
     {
       file: 'semantic-matching',
       path: '#4/Semantic Matching Engine',
@@ -671,6 +651,37 @@ const EXPORTS = {
    * chart gains a value axis and a period selector, and the ground carries the ray pattern. So
    * this supersedes `homepage`'s `#6/Visual-3` rather than patching it.
    */
+  /*
+   * The home page's hero dashboard, redrawn.
+   *
+   * The copy is unchanged — this is not a relabel. What moved is the "How's My Team Doing?"
+   * chart: in the original every `Bar` holds a second, paler `Graph Bar` behind it, drawn to a
+   * different height, so ten ghost bars stand behind the ten real ones and the chart reads as a
+   * render fault. The redraw has one bar per bar.
+   *
+   * The pill patch and the company-name swaps below are the same ones this creative has always
+   * carried; every path resolves unchanged, because the difference is confined to the chart.
+   */
+  'upd-home-command-center': [
+    {
+      file: 'hero-command-center',
+      path: '',
+      label: 'Talentilo command centre dashboard',
+      // The "What's New" pill — see brandWash.
+      patch: [{ path: '#4/#1/#0/#1/#0/#0', fills: [brandWash()] }],
+      // The file's demo data names real companies — Oracle, Tata Motors, Bajaj Inc, Microsoft —
+      // and HDFC Bank as the employers behind these jobs. Shipping that on marketing artwork
+      // reads as a customer list. Swapped for invented ones, each measured to sit inside the
+      // string it replaces so no cell re-flows: Arden, Vero Auto, Lyra Inc, Halden, Nord Bank.
+      retext: [
+        { path: '#4/#1/#1/#1/#0/#0/#0/#1/#2/#0/#1/#1', text: 'Sara K. has a final round interview with Halden.' },
+        { path: '#4/#1/#1/#1/#0/#0/#0/#1/#2/#0/#1/#0/#0', text: 'Manoj Trivedi joins Nord Bank (Fee: ₹2.0L).' },
+        { path: '#4/#1/#1/#1/#1/#1/#1/#1/#1/#0/#0/#0/#1/#0/#1/#0', text: 'Data scientist | Arden' },
+        { path: '#4/#1/#1/#1/#1/#1/#1/#1/#1/#1/#0/#0/#0/#1/#1/#0', text: 'Full stack developer | Arden' },
+        { path: '#4/#1/#1/#1/#1/#1/#1/#1/#1/#2/#0/#0/#0/#1/#1/#0', text: 'UI/UX Designer | Arden' },
+      ],
+    },
+  ],
   'upd-velocity-index': [
     {
       file: 'velocity-index',
