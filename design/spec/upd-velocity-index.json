@@ -1,0 +1,3240 @@
+{
+ "section": "Homepage",
+ "frame": "Homepage-creative-2",
+ "slug": "upd-velocity-index",
+ "tree": {
+  "id": "17:18",
+  "type": "FRAME",
+  "name": "Homepage-creative-2",
+  "box": {
+   "x": 0,
+   "y": 0,
+   "w": 1440,
+   "h": 696
+  },
+  "offset": {
+   "x": 1693,
+   "y": 705
+  },
+  "clipsContent": true,
+  "layout": {
+   "direction": "row",
+   "gap": 8,
+   "padding": {
+    "top": 80,
+    "right": 64,
+    "bottom": 80,
+    "left": 64
+   },
+   "justifyContent": "space-between",
+   "alignItems": "center",
+   "wrap": false,
+   "primarySizing": "FIXED",
+   "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+  },
+  "fills": [
+   {
+    "kind": "solid",
+    "color": "rgba(255, 255, 255, 1)",
+    "hex": "#ffffff"
+   }
+  ],
+  "children": [
+   {
+    "id": "17:19",
+    "type": "FRAME",
+    "name": "Visual-3",
+    "box": {
+     "x": 64,
+     "y": 80,
+     "w": 588,
+     "h": 536
+    },
+    "offset": {
+     "x": 64,
+     "y": 80
+    },
+    "clipsContent": true,
+    "fills": [
+     {
+      "kind": "gradient",
+      "gradientType": "GRADIENT_LINEAR",
+      "stops": [
+       {
+        "color": "rgba(253, 252, 255, 1)",
+        "position": 0
+       },
+       {
+        "color": "rgba(218, 141, 255, 1)",
+        "position": 0.4568
+       },
+       {
+        "color": "rgba(255, 58, 175, 1)",
+        "position": 1
+       }
+      ],
+      "css": "linear-gradient(90deg, rgba(253, 252, 255, 1) 0%, rgba(218, 141, 255, 1) 45.68%, rgba(255, 58, 175, 1) 100%)"
+     }
+    ],
+    "radius": {
+     "topLeft": 12,
+     "topRight": 12,
+     "bottomRight": 12,
+     "bottomLeft": 12
+    },
+    "children": [
+     {
+      "id": "17:20",
+      "type": "FRAME",
+      "name": "Group 1597881548",
+      "box": {
+       "x": 235.08,
+       "y": 446.48,
+       "w": 416.92,
+       "h": 416.92
+      },
+      "offset": {
+       "x": 171.08,
+       "y": 783.41
+      },
+      "matrix": [
+       1,
+       0,
+       0,
+       -1,
+       235.0752,
+       863.40918
+      ],
+      "flipY": true,
+      "isGroup": true,
+      "children": [
+       {
+        "id": "17:21",
+        "type": "ROUNDED_RECTANGLE",
+        "name": "Rectangle 68",
+        "box": {
+         "x": 235.08,
+         "y": 446.48,
+         "w": 416.92,
+         "h": 416.92
+        },
+        "offset": {
+         "x": 0,
+         "y": 0
+        },
+        "matrix": [
+         1,
+         0,
+         0,
+         -1,
+         235.0752,
+         863.40918
+        ],
+        "flipY": true,
+        "strokes": [
+         {
+          "kind": "solid",
+          "color": "rgba(255, 255, 255, 1)",
+          "hex": "#ffffff"
+         }
+        ],
+        "strokeWeight": 1.2000000476837158,
+        "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER"
+       },
+       {
+        "id": "17:22",
+        "type": "VECTOR",
+        "name": "Rectangle 69",
+        "box": {
+         "x": 235.08,
+         "y": 446.48,
+         "w": 416.92,
+         "h": 416.92
+        },
+        "offset": {
+         "x": 0,
+         "y": 0
+        },
+        "matrix": [
+         1,
+         0,
+         0,
+         -1,
+         235.0752,
+         863.40918
+        ],
+        "flipY": true,
+        "strokes": [
+         {
+          "kind": "solid",
+          "color": "rgba(255, 255, 255, 1)",
+          "hex": "#ffffff"
+         }
+        ],
+        "strokeWeight": 1.2000000476837158,
+        "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
+        "paths": [
+         {
+          "kind": "fill",
+          "d": "M0 0L383.571 33.354L416.925 416.925L33.354 383.571L0 0Z",
+          "windingRule": "NONZERO"
+         },
+         {
+          "kind": "stroke",
+          "d": "M0 0L0.104 -1.195L-1.319 -1.319L-1.195 0.104L0 0ZM383.571 33.354L384.766 33.25L384.679 32.246L383.675 32.158L383.571 33.354ZM416.925 416.925L416.821 418.12L418.244 418.244L418.12 416.821L416.925 416.925ZM33.354 383.571L32.158 383.675L32.246 384.679L33.25 384.766L33.354 383.571ZM0 0L-0.104 1.195L383.467 34.549L383.571 33.354L383.675 32.158L0.104 -1.195L0 0ZM383.571 33.354L382.375 33.458L415.729 417.029L416.925 416.925L418.12 416.821L384.766 33.25L383.571 33.354ZM416.925 416.925L417.029 415.729L33.458 382.375L33.354 383.571L33.25 384.766L416.821 418.12L416.925 416.925ZM33.354 383.571L34.549 383.467L1.195 -0.104L0 0L-1.195 0.104L32.158 383.675L33.354 383.571Z",
+          "windingRule": "NONZERO"
+         }
+        ]
+       },
+       {
+        "id": "17:23",
+        "type": "VECTOR",
+        "name": "Rectangle 70",
+        "box": {
+         "x": 235.08,
+         "y": 446.48,
+         "w": 416.92,
+         "h": 416.92
+        },
+        "offset": {
+         "x": 0,
+         "y": 0
+        },
+        "matrix": [
+         1,
+         0,
+         0,
+         -1,
+         235.0752,
+         863.40918
+        ],
+        "flipY": true,
+        "strokes": [
+         {
+          "kind": "solid",
+          "color": "rgba(255, 255, 255, 1)",
+          "hex": "#ffffff"
+         }
+        ],
+        "strokeWeight": 1.2000000476837158,
+        "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
+        "paths": [
+         {
+          "kind": "fill",
+          "d": "M0 0L316.863 100.062L416.925 416.925L100.062 316.863L0 0Z",
+          "windingRule": "NONZERO"
+         },
+         {
+          "kind": "stroke",
+          "d": "M0 0L0.361 -1.144L-1.839 -1.839L-1.144 0.361L0 0ZM316.863 100.062L318.007 99.701L317.819 99.106L317.224 98.918L316.863 100.062ZM416.925 416.925L416.563 418.069L418.764 418.764L418.069 416.563L416.925 416.925ZM100.062 316.863L98.918 317.224L99.106 317.819L99.701 318.007L100.062 316.863ZM0 0L-0.361 1.144L316.501 101.206L316.863 100.062L317.224 98.918L0.361 -1.144L0 0ZM316.863 100.062L315.719 100.423L415.781 417.286L416.925 416.925L418.069 416.563L318.007 99.701L316.863 100.062ZM416.925 416.925L417.286 415.781L100.423 315.719L100.062 316.863L99.701 318.007L416.563 418.069L416.925 416.925ZM100.062 316.863L101.206 316.501L1.144 -0.361L0 0L-1.144 0.361L98.918 317.224L100.062 316.863Z",
+          "windingRule": "NONZERO"
+         }
+        ]
+       },
+       {
+        "id": "17:24",
+        "type": "VECTOR",
+        "name": "Rectangle 71",
+        "box": {
+         "x": 235.08,
+         "y": 446.48,
+         "w": 416.92,
+         "h": 416.92
+        },
+        "offset": {
+         "x": 0,
+         "y": 0
+        },
+        "matrix": [
+         1,
+         0,
+         0,
+         -1,
+         235.0752,
+         863.40918
+        ],
+        "flipY": true,
+        "strokes": [
+         {
+          "kind": "solid",
+          "color": "rgba(255, 255, 255, 1)",
+          "hex": "#ffffff"
+         }
+        ],
+        "strokeWeight": 1.2000000476837158,
+        "strokeAlign": "INSIDE",
+        "strokeJoin": "MITER",
+        "paths": [
+         {
+          "kind": "fill",
+          "d": "M0 0L250.155 166.77L416.925 416.925L166.77 250.155L0 0Z",
+          "windingRule": "NONZERO"
+         },
+         {
+          "kind": "stroke",
+          "d": "M0 0L0.666 -0.998L-0.998 0.666L0 0ZM250.155 166.77L251.153 166.104L251.02 165.905L250.821 165.771L250.155 166.77ZM416.925 416.925L416.259 417.923L417.923 416.259L416.925 416.925ZM166.77 250.155L165.771 250.821L165.905 251.02L166.104 251.153L166.77 250.155ZM0 0L-0.666 0.998L249.489 167.768L250.155 166.77L250.821 165.771L0.666 -0.998L0 0ZM250.155 166.77L249.156 167.436L415.926 417.59L416.925 416.925L417.923 416.259L251.153 166.104L250.155 166.77ZM416.925 416.925L417.59 415.926L167.436 249.156L166.77 250.155L166.104 251.153L416.259 417.923L416.925 416.925ZM166.77 250.155L167.768 249.489L0.998 -0.666L0 0L-0.998 0.666L165.771 250.821L166.77 250.155Z",
+          "windingRule": "NONZERO"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": "17:25",
+      "type": "FRAME",
+      "name": "Frame 2085665722",
+      "box": {
+       "x": 112.98,
+       "y": 120.86,
+       "w": 249,
+       "h": 233.27
+      },
+      "offset": {
+       "x": 48.98,
+       "y": 40.86
+      },
+      "layout": {
+       "direction": "column",
+       "gap": 13.509400367736816,
+       "padding": {
+        "top": 13.509400367736816,
+        "right": 13.509400367736816,
+        "bottom": 13.509400367736816,
+        "left": 13.509400367736816
+       },
+       "justifyContent": "flex-start",
+       "alignItems": "center",
+       "wrap": false,
+       "primarySizing": null,
+       "counterSizing": null
+      },
+      "fills": [
+       {
+        "kind": "solid",
+        "color": "rgba(255, 255, 255, 1)",
+        "hex": "#ffffff"
+       }
+      ],
+      "strokes": [
+       {
+        "kind": "solid",
+        "color": "rgba(232, 236, 239, 1)",
+        "hex": "#e8ecef"
+       }
+      ],
+      "strokeWeight": 0.844337522983551,
+      "strokeAlign": "INSIDE",
+      "strokeJoin": "MITER",
+      "radius": {
+       "topLeft": 13.509400367736816,
+       "topRight": 13.509400367736816,
+       "bottomRight": 13.509400367736816,
+       "bottomLeft": 13.509400367736816
+      },
+      "children": [
+       {
+        "id": "17:26",
+        "type": "FRAME",
+        "name": "Frame 2085665716",
+        "box": {
+         "x": 181.48,
+         "y": 134.37,
+         "w": 112,
+         "h": 22
+        },
+        "offset": {
+         "x": 68.5,
+         "y": 13.51
+        },
+        "layout": {
+         "direction": "column",
+         "gap": 0,
+         "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+         },
+         "justifyContent": "flex-start",
+         "alignItems": "flex-start",
+         "wrap": false,
+         "primarySizing": null,
+         "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+        },
+        "children": [
+         {
+          "id": "17:27",
+          "type": "TEXT",
+          "name": "CV Shortlist Rate",
+          "box": {
+           "x": 181.48,
+           "y": 134.37,
+           "w": 112,
+           "h": 22
+          },
+          "offset": {
+           "x": 0,
+           "y": 0
+          },
+          "fills": [
+           {
+            "kind": "solid",
+            "color": "rgba(12, 10, 16, 1)",
+            "hex": "#0c0a10"
+           }
+          ],
+          "text": "CV Shortlist Rate",
+          "textStyle": {
+           "family": "Albert Sans",
+           "style": "SemiBold",
+           "size": 14,
+           "lineHeight": 1.6,
+           "letterSpacing": null,
+           "align": "LEFT",
+           "verticalAlign": "TOP",
+           "case": null,
+           "decoration": null,
+           "autoResize": "WIDTH_AND_HEIGHT"
+          },
+          "lines": [
+           {
+            "text": "CV Shortlist Rate",
+            "x": 0,
+            "y": 15.9,
+            "w": 111.25
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "17:28",
+        "type": "FRAME",
+        "name": "Info cell",
+        "box": {
+         "x": 161.49,
+         "y": 169.88,
+         "w": 151.98,
+         "h": 76.22
+        },
+        "offset": {
+         "x": 48.51,
+         "y": 49.02
+        },
+        "layout": {
+         "direction": "column",
+         "gap": 13.312372207641602,
+         "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+         },
+         "justifyContent": "center",
+         "alignItems": "flex-start",
+         "wrap": false,
+         "primarySizing": null,
+         "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+        },
+        "children": [
+         {
+          "id": "17:29",
+          "type": "FRAME",
+          "name": "Frame 150",
+          "box": {
+           "x": 161.49,
+           "y": 169.88,
+           "w": 151.98,
+           "h": 76.22
+          },
+          "offset": {
+           "x": 0,
+           "y": 0
+          },
+          "layout": {
+           "direction": "row",
+           "gap": 13.312372207641602,
+           "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+           },
+           "justifyContent": "flex-start",
+           "alignItems": "center",
+           "wrap": false,
+           "primarySizing": "FIXED",
+           "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+          },
+          "alignSelf": "STRETCH",
+          "children": [
+           {
+            "id": "17:30",
+            "type": "FRAME",
+            "name": "Group 314",
+            "box": {
+             "x": 161.49,
+             "y": 169.88,
+             "w": 151.98,
+             "h": 76.22
+            },
+            "offset": {
+             "x": 0,
+             "y": 0
+            },
+            "isGroup": true,
+            "children": [
+             {
+              "id": "17:31",
+              "type": "VECTOR",
+              "name": "Vector",
+              "box": {
+               "x": 161.49,
+               "y": 169.88,
+               "w": 151.98,
+               "h": 76.22
+              },
+              "offset": {
+               "x": 0,
+               "y": 0
+              },
+              "fills": [
+               {
+                "kind": "solid",
+                "color": "rgba(96, 165, 250, 1)",
+                "hex": "#60a5fa"
+               }
+              ],
+              "paths": [
+               {
+                "kind": "fill",
+                "d": "M151.981 75.99C151.981 55.836 143.975 36.508 129.724 22.257C115.473 8.006 96.144 0 75.99 0C55.836 0 36.508 8.006 22.257 22.257C8.006 36.508 0 55.836 0 75.99L18.998 75.99C18.998 60.875 25.002 46.379 35.69 35.69C46.379 25.002 60.875 18.998 75.99 18.998C91.106 18.998 105.602 25.002 116.29 35.69C126.979 46.379 132.983 60.875 132.983 75.99L151.981 75.99Z",
+                "windingRule": "NONZERO"
+               },
+               {
+                "kind": "fill",
+                "d": "M39.187 9.507C27.28 16.098 17.361 25.767 10.468 37.502C3.575 49.237 -0.04 62.608 0 76.217L18.998 76.161C18.967 65.953 21.679 55.925 26.849 47.124C32.019 38.323 39.457 31.071 48.388 26.128L39.187 9.507Z",
+                "windingRule": "NONZERO"
+               },
+               {
+                "kind": "fill",
+                "d": "M113.986 10.181C102.462 3.528 89.394 0.017 76.088 0C62.783 -0.017 49.705 3.46 38.165 10.083L47.621 26.56C56.277 21.592 66.085 18.985 76.064 18.998C86.043 19.011 95.844 21.643 104.487 26.633L113.986 10.181Z",
+                "windingRule": "NONZERO"
+               }
+              ]
+             },
+             {
+              "id": "17:32",
+              "type": "VECTOR",
+              "name": "Vector",
+              "box": {
+               "x": 233.48,
+               "y": 207.06,
+               "w": 8.44,
+               "h": 66.7
+              },
+              "offset": {
+               "x": 130.73,
+               "y": 37.18
+              },
+              "matrix": [
+               0.47375,
+               0.88066,
+               -0.88066,
+               0.47375,
+               292.22575,
+               207.06346
+              ],
+              "rotation": 61.722,
+              "fills": [
+               {
+                "kind": "solid",
+                "color": "rgba(39, 37, 37, 1)",
+                "hex": "#272525"
+               }
+              ],
+              "paths": [
+               {
+                "kind": "fill",
+                "d": "M4.222 0L8.106 63.888L0.337 63.888L4.222 0Z",
+                "windingRule": "NONZERO"
+               },
+               {
+                "kind": "fill",
+                "d": "M8.443 62.481C8.443 64.813 6.553 66.703 4.222 66.703C1.89 66.703 0 64.813 0 62.481C0 60.149 1.89 58.259 4.222 58.259C6.553 58.259 8.443 60.149 8.443 62.481Z",
+                "windingRule": "NONZERO"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "17:33",
+        "type": "TEXT",
+        "name": "Number",
+        "box": {
+         "x": 214.98,
+         "y": 259.61,
+         "w": 45,
+         "h": 32
+        },
+        "offset": {
+         "x": 102,
+         "y": 138.75
+        },
+        "fills": [
+         {
+          "kind": "solid",
+          "color": "rgba(0, 106, 208, 1)",
+          "hex": "#006ad0"
+         }
+        ],
+        "text": "87/100",
+        "textStyle": {
+         "family": "Albert Sans",
+         "style": "SemiBold",
+         "size": 14,
+         "lineHeight": 1.6,
+         "letterSpacing": null,
+         "align": "LEFT",
+         "verticalAlign": "TOP",
+         "case": null,
+         "decoration": null,
+         "autoResize": "WIDTH_AND_HEIGHT"
+        },
+        "lines": [
+         {
+          "text": "87/100",
+          "x": 0,
+          "y": 23,
+          "w": 44.76
+         }
+        ],
+        "runs": [
+         {
+          "start": 0,
+          "end": 2,
+          "style": "SemiBold"
+         },
+         {
+          "start": 2,
+          "end": 6,
+          "fill": "rgba(12, 10, 16, 1)"
+         }
+        ]
+       },
+       {
+        "id": "17:34",
+        "type": "VECTOR",
+        "name": "Vector 3",
+        "box": {
+         "x": 126.49,
+         "y": 305.12,
+         "w": 221.98,
+         "h": 0
+        },
+        "offset": {
+         "x": 13.51,
+         "y": 184.26
+        },
+        "alignSelf": "STRETCH",
+        "strokes": [
+         {
+          "kind": "solid",
+          "color": "rgba(232, 236, 239, 1)",
+          "hex": "#e8ecef"
+         }
+        ],
+        "strokeWeight": 0.844337522983551,
+        "strokeAlign": "CENTER",
+        "strokeJoin": "MITER",
+        "paths": [
+         {
+          "kind": "stroke",
+          "d": "M0 0L0 0.422L221.981 0.422L221.981 0L221.981 -0.422L0 -0.422L0 0Z",
+          "windingRule": "NONZERO"
+         }
+        ]
+       },
+       {
+        "id": "17:35",
+        "type": "FRAME",
+        "name": "Frame 2085665728",
+        "box": {
+         "x": 175.48,
+         "y": 318.63,
+         "w": 124,
+         "h": 22
+        },
+        "offset": {
+         "x": 62.5,
+         "y": 197.76
+        },
+        "layout": {
+         "direction": "row",
+         "gap": 6.754700183868408,
+         "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+         },
+         "justifyContent": "flex-start",
+         "alignItems": "flex-start",
+         "wrap": false,
+         "primarySizing": null,
+         "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+        },
+        "children": [
+         {
+          "id": "17:36",
+          "type": "TEXT",
+          "name": "Text",
+          "box": {
+           "x": 175.48,
+           "y": 318.63,
+           "w": 124,
+           "h": 22
+          },
+          "offset": {
+           "x": 0,
+           "y": 0
+          },
+          "fills": [
+           {
+            "kind": "solid",
+            "color": "rgba(26, 133, 45, 1)",
+            "hex": "#1a852d"
+           }
+          ],
+          "text": "+12% vs last month",
+          "textStyle": {
+           "family": "Albert Sans",
+           "style": "SemiBold",
+           "size": 14,
+           "lineHeight": 1.6,
+           "letterSpacing": null,
+           "align": "LEFT",
+           "verticalAlign": "TOP",
+           "case": null,
+           "decoration": null,
+           "autoResize": "WIDTH_AND_HEIGHT"
+          },
+          "lines": [
+           {
+            "text": "+12% vs last month",
+            "x": 0,
+            "y": 15.9,
+            "w": 123.1
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": "17:37",
+      "type": "FRAME",
+      "name": "Frame 2085665723",
+      "box": {
+       "x": 377.98,
+       "y": 171.36,
+       "w": 224,
+       "h": 153
+      },
+      "offset": {
+       "x": 313.98,
+       "y": 91.36
+      },
+      "layout": {
+       "direction": "column",
+       "gap": 16,
+       "padding": {
+        "top": 16,
+        "right": 16,
+        "bottom": 16,
+        "left": 16
+       },
+       "justifyContent": "flex-start",
+       "alignItems": "flex-start",
+       "wrap": false,
+       "primarySizing": null,
+       "counterSizing": null
+      },
+      "grow": 1,
+      "fills": [
+       {
+        "kind": "solid",
+        "color": "rgba(255, 255, 255, 1)",
+        "hex": "#ffffff"
+       }
+      ],
+      "strokes": [
+       {
+        "kind": "solid",
+        "color": "rgba(232, 236, 239, 1)",
+        "hex": "#e8ecef"
+       }
+      ],
+      "strokeWeight": 1,
+      "strokeAlign": "INSIDE",
+      "strokeJoin": "MITER",
+      "radius": {
+       "topLeft": 16,
+       "topRight": 16,
+       "bottomRight": 16,
+       "bottomLeft": 16
+      },
+      "children": [
+       {
+        "id": "17:38",
+        "type": "FRAME",
+        "name": "Frame 2085665716",
+        "box": {
+         "x": 393.98,
+         "y": 187.36,
+         "w": 192,
+         "h": 44
+        },
+        "offset": {
+         "x": 16,
+         "y": 16
+        },
+        "layout": {
+         "direction": "column",
+         "gap": 0,
+         "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+         },
+         "justifyContent": "flex-start",
+         "alignItems": "flex-start",
+         "wrap": false,
+         "primarySizing": null,
+         "counterSizing": null
+        },
+        "alignSelf": "STRETCH",
+        "children": [
+         {
+          "id": "17:39",
+          "type": "TEXT",
+          "name": "Q3 Fulfillment Goal",
+          "box": {
+           "x": 393.98,
+           "y": 187.36,
+           "w": 125,
+           "h": 22
+          },
+          "offset": {
+           "x": 0,
+           "y": 0
+          },
+          "fills": [
+           {
+            "kind": "solid",
+            "color": "rgba(12, 10, 16, 1)",
+            "hex": "#0c0a10"
+           }
+          ],
+          "text": "Q3 Fulfillment Goal",
+          "textStyle": {
+           "family": "Albert Sans",
+           "style": "SemiBold",
+           "size": 14,
+           "lineHeight": 1.6,
+           "letterSpacing": null,
+           "align": "LEFT",
+           "verticalAlign": "TOP",
+           "case": null,
+           "decoration": null,
+           "autoResize": "WIDTH_AND_HEIGHT"
+          },
+          "lines": [
+           {
+            "text": "Q3 Fulfillment Goal",
+            "x": 0,
+            "y": 15.9,
+            "w": 124.28
+           }
+          ]
+         },
+         {
+          "id": "17:40",
+          "type": "FRAME",
+          "name": "Frame 2085665728",
+          "box": {
+           "x": 393.98,
+           "y": 209.36,
+           "w": 131,
+           "h": 22
+          },
+          "offset": {
+           "x": 0,
+           "y": 22
+          },
+          "layout": {
+           "direction": "row",
+           "gap": 4,
+           "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+           },
+           "justifyContent": "flex-start",
+           "alignItems": "flex-start",
+           "wrap": false,
+           "primarySizing": null,
+           "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+          },
+          "children": [
+           {
+            "id": "17:41",
+            "type": "TEXT",
+            "name": "Text",
+            "box": {
+             "x": 393.98,
+             "y": 209.36,
+             "w": 92,
+             "h": 22
+            },
+            "offset": {
+             "x": 0,
+             "y": 0
+            },
+            "fills": [
+             {
+              "kind": "solid",
+              "color": "rgba(99, 112, 122, 1)",
+              "hex": "#63707a"
+             }
+            ],
+            "text": "Annual Target: ",
+            "textStyle": {
+             "family": "Albert Sans",
+             "style": "Regular",
+             "size": 14,
+             "lineHeight": 1.6,
+             "letterSpacing": null,
+             "align": "LEFT",
+             "verticalAlign": "TOP",
+             "case": null,
+             "decoration": null,
+             "autoResize": "WIDTH_AND_HEIGHT"
+            },
+            "lines": [
+             {
+              "text": "Annual Target: ",
+              "x": 0,
+              "y": 15.9,
+              "w": 95.43
+             }
+            ]
+           },
+           {
+            "id": "17:42",
+            "type": "TEXT",
+            "name": "Text",
+            "box": {
+             "x": 489.98,
+             "y": 209.36,
+             "w": 35,
+             "h": 22
+            },
+            "offset": {
+             "x": 96,
+             "y": 0
+            },
+            "fills": [
+             {
+              "kind": "solid",
+              "color": "rgba(12, 10, 16, 1)",
+              "hex": "#0c0a10"
+             }
+            ],
+            "text": "1,070",
+            "textStyle": {
+             "family": "Albert Sans",
+             "style": "SemiBold",
+             "size": 14,
+             "lineHeight": 1.6,
+             "letterSpacing": null,
+             "align": "LEFT",
+             "verticalAlign": "TOP",
+             "case": null,
+             "decoration": null,
+             "autoResize": "WIDTH_AND_HEIGHT"
+            },
+            "lines": [
+             {
+              "text": "1,070",
+              "x": 0,
+              "y": 15.9,
+              "w": 34.23
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "17:43",
+        "type": "FRAME",
+        "name": "Progress Bar",
+        "box": {
+         "x": 393.98,
+         "y": 247.36,
+         "w": 192,
+         "h": 61
+        },
+        "offset": {
+         "x": 16,
+         "y": 76
+        },
+        "layout": {
+         "direction": "column",
+         "gap": 8,
+         "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+         },
+         "justifyContent": "center",
+         "alignItems": "flex-start",
+         "wrap": false,
+         "primarySizing": null,
+         "counterSizing": null
+        },
+        "alignSelf": "STRETCH",
+        "children": [
+         {
+          "id": "17:44",
+          "type": "FRAME",
+          "name": "Frame 2085665729",
+          "box": {
+           "x": 393.98,
+           "y": 247.36,
+           "w": 56,
+           "h": 37
+          },
+          "offset": {
+           "x": 0,
+           "y": 0
+          },
+          "layout": {
+           "direction": "row",
+           "gap": 4,
+           "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+           },
+           "justifyContent": "center",
+           "alignItems": "center",
+           "wrap": false,
+           "primarySizing": null,
+           "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+          },
+          "children": [
+           {
+            "id": "17:45",
+            "type": "TEXT",
+            "name": "Number",
+            "box": {
+             "x": 393.98,
+             "y": 247.36,
+             "w": 29,
+             "h": 37
+            },
+            "offset": {
+             "x": 0,
+             "y": 0
+            },
+            "fills": [
+             {
+              "kind": "solid",
+              "color": "rgba(168, 89, 19, 1)",
+              "hex": "#a85913"
+             }
+            ],
+            "text": "42",
+            "textStyle": {
+             "family": "Albert Sans",
+             "style": "SemiBold",
+             "size": 23,
+             "lineHeight": 1.6,
+             "letterSpacing": null,
+             "align": "LEFT",
+             "verticalAlign": "TOP",
+             "case": null,
+             "decoration": null,
+             "autoResize": "WIDTH_AND_HEIGHT"
+            },
+            "lines": [
+             {
+              "text": "42",
+              "x": 0,
+              "y": 26.55,
+              "w": 28.71
+             }
+            ]
+           },
+           {
+            "id": "17:46",
+            "type": "TEXT",
+            "name": "Text",
+            "box": {
+             "x": 426.98,
+             "y": 254.86,
+             "w": 23,
+             "h": 22
+            },
+            "offset": {
+             "x": 33,
+             "y": 7.5
+            },
+            "fills": [
+             {
+              "kind": "solid",
+              "color": "rgba(12, 10, 16, 1)",
+              "hex": "#0c0a10"
+             }
+            ],
+            "text": "/50",
+            "textStyle": {
+             "family": "Albert Sans",
+             "style": "Medium",
+             "size": 14,
+             "lineHeight": 1.6,
+             "letterSpacing": null,
+             "align": "LEFT",
+             "verticalAlign": "TOP",
+             "case": null,
+             "decoration": null,
+             "autoResize": "WIDTH_AND_HEIGHT"
+            },
+            "lines": [
+             {
+              "text": "/50",
+              "x": 0,
+              "y": 15.9,
+              "w": 22.35
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "id": "17:47",
+          "type": "FRAME",
+          "name": "Indicator Bar",
+          "box": {
+           "x": 393.98,
+           "y": 292.36,
+           "w": 192,
+           "h": 16
+          },
+          "offset": {
+           "x": 0,
+           "y": 45
+          },
+          "clipsContent": true,
+          "alignSelf": "STRETCH",
+          "fills": [
+           {
+            "kind": "solid",
+            "color": "rgba(247, 245, 250, 1)",
+            "hex": "#f7f5fa"
+           }
+          ],
+          "radius": {
+           "topLeft": 12,
+           "topRight": 12,
+           "bottomRight": 12,
+           "bottomLeft": 12
+          },
+          "children": [
+           {
+            "id": "17:48",
+            "type": "FRAME",
+            "name": "Frame 33",
+            "box": {
+             "x": 393.98,
+             "y": 292.36,
+             "w": 141,
+             "h": 16
+            },
+            "offset": {
+             "x": 0,
+             "y": 0
+            },
+            "clipsContent": true,
+            "fills": [
+             {
+              "kind": "gradient",
+              "gradientType": "GRADIENT_LINEAR",
+              "stops": [
+               {
+                "color": "rgba(239, 64, 7, 1)",
+                "position": 0
+               },
+               {
+                "color": "rgba(255, 172, 113, 1)",
+                "position": 0.5432
+               }
+              ],
+              "css": "linear-gradient(90deg, rgba(239, 64, 7, 1) 0%, rgba(255, 172, 113, 1) 54.32%)"
+             }
+            ],
+            "radius": {
+             "topLeft": 12,
+             "topRight": 12,
+             "bottomRight": 12,
+             "bottomLeft": 12
+            }
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": "17:49",
+      "type": "FRAME",
+      "name": "Widget",
+      "box": {
+       "x": 113.02,
+       "y": 370.14,
+       "w": 490,
+       "h": 205
+      },
+      "offset": {
+       "x": 49.02,
+       "y": 290.14
+      },
+      "clipsContent": true,
+      "layout": {
+       "direction": "column",
+       "gap": 19.23476791381836,
+       "padding": {
+        "top": 12.8231782913208,
+        "right": 19.23476791381836,
+        "bottom": 12.8231782913208,
+        "left": 19.23476791381836
+       },
+       "justifyContent": "flex-start",
+       "alignItems": "flex-start",
+       "wrap": false,
+       "primarySizing": "FIXED",
+       "counterSizing": null
+      },
+      "alignSelf": "STRETCH",
+      "fills": [
+       {
+        "kind": "solid",
+        "color": "rgba(255, 255, 255, 1)",
+        "hex": "#ffffff"
+       }
+      ],
+      "radius": {
+       "topLeft": 12.8231782913208,
+       "topRight": 12.8231782913208,
+       "bottomRight": 12.8231782913208,
+       "bottomLeft": 12.8231782913208
+      },
+      "children": [
+       {
+        "id": "17:50",
+        "type": "FRAME",
+        "name": "Frame 2085665342",
+        "box": {
+         "x": 132.25,
+         "y": 382.96,
+         "w": 451.53,
+         "h": 30.82
+        },
+        "offset": {
+         "x": 19.23,
+         "y": 12.82
+        },
+        "layout": {
+         "direction": "row",
+         "gap": 19.23476791381836,
+         "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+         },
+         "justifyContent": "space-between",
+         "alignItems": "center",
+         "wrap": false,
+         "primarySizing": "FIXED",
+         "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+        },
+        "alignSelf": "STRETCH",
+        "children": [
+         {
+          "id": "17:51",
+          "type": "TEXT",
+          "name": "CV Submissions",
+          "box": {
+           "x": 132.25,
+           "y": 387.37,
+           "w": 103,
+           "h": 22
+          },
+          "offset": {
+           "x": 0,
+           "y": 4.41
+          },
+          "fills": [
+           {
+            "kind": "solid",
+            "color": "rgba(12, 10, 16, 1)",
+            "hex": "#0c0a10"
+           }
+          ],
+          "text": "CV Submissions",
+          "textStyle": {
+           "family": "Albert Sans",
+           "style": "SemiBold",
+           "size": 13.624626159667969,
+           "lineHeight": 1.6,
+           "letterSpacing": null,
+           "align": "LEFT",
+           "verticalAlign": "TOP",
+           "case": null,
+           "decoration": null,
+           "autoResize": "WIDTH_AND_HEIGHT"
+          },
+          "lines": [
+           {
+            "text": "CV Submissions",
+            "x": 0,
+            "y": 15.77,
+            "w": 102.38
+           }
+          ]
+         },
+         {
+          "id": "17:52",
+          "type": "FRAME",
+          "name": "button",
+          "box": {
+           "x": 476.69,
+           "y": 382.96,
+           "w": 107.09,
+           "h": 30.82
+          },
+          "offset": {
+           "x": 344.44,
+           "y": 0
+          },
+          "layout": {
+           "direction": "row",
+           "gap": 6.4115891456604,
+           "padding": {
+            "top": 6.4115891456604,
+            "right": 12.8231782913208,
+            "bottom": 6.4115891456604,
+            "left": 12.8231782913208
+           },
+           "justifyContent": "center",
+           "alignItems": "center",
+           "wrap": false,
+           "primarySizing": null,
+           "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+          },
+          "fills": [
+           {
+            "kind": "solid",
+            "color": "rgba(255, 255, 255, 1)",
+            "hex": "#ffffff"
+           }
+          ],
+          "strokes": [
+           {
+            "kind": "solid",
+            "color": "rgba(232, 236, 239, 1)",
+            "hex": "#e8ecef"
+           }
+          ],
+          "strokeWeight": 0.80144864320755,
+          "strokeAlign": "INSIDE",
+          "strokeJoin": "MITER",
+          "radius": {
+           "topLeft": 40.07243347167969,
+           "topRight": 40.07243347167969,
+           "bottomRight": 40.07243347167969,
+           "bottomLeft": 40.07243347167969
+          },
+          "children": [
+           {
+            "id": "17:53",
+            "type": "TEXT",
+            "name": "This month",
+            "box": {
+             "x": 489.52,
+             "y": 389.37,
+             "w": 59,
+             "h": 18
+            },
+            "offset": {
+             "x": 12.82,
+             "y": 6.41
+            },
+            "fills": [
+             {
+              "kind": "solid",
+              "color": "rgba(12, 10, 16, 1)",
+              "hex": "#0c0a10"
+             }
+            ],
+            "text": "This month",
+            "textStyle": {
+             "family": "Albert Sans",
+             "style": "Medium",
+             "size": 11.220280647277832,
+             "lineHeight": 1.6,
+             "letterSpacing": null,
+             "align": "LEFT",
+             "verticalAlign": "CENTER",
+             "case": null,
+             "decoration": null,
+             "autoResize": "WIDTH_AND_HEIGHT"
+            },
+            "lines": [
+             {
+              "text": "This month",
+              "x": 0,
+              "y": 12.93,
+              "w": 58.03
+             }
+            ]
+           },
+           {
+            "id": "17:54",
+            "type": "FRAME",
+            "name": "ChevronDown",
+            "box": {
+             "x": 554.93,
+             "y": 390.36,
+             "w": 16.03,
+             "h": 16.03
+            },
+            "offset": {
+             "x": 78.23,
+             "y": 7.4
+            },
+            "children": [
+             {
+              "id": "17:55",
+              "type": "VECTOR",
+              "name": "Icon",
+              "box": {
+               "x": 559.33,
+               "y": 396.97,
+               "w": 7.61,
+               "h": 4.41
+              },
+              "offset": {
+               "x": 4.41,
+               "y": 6.61
+              },
+              "fills": [
+               {
+                "kind": "solid",
+                "color": "rgba(12, 10, 16, 1)",
+                "hex": "#0c0a10"
+               }
+              ],
+              "paths": [
+               {
+                "kind": "fill",
+                "d": "M0.176 0.176C0.411 -0.059 0.791 -0.059 1.026 0.176L3.807 2.957L6.588 0.176C6.822 -0.059 7.203 -0.059 7.438 0.176C7.672 0.411 7.672 0.791 7.438 1.026L4.232 4.232C3.997 4.467 3.617 4.467 3.382 4.232L0.176 1.026C-0.059 0.791 -0.059 0.411 0.176 0.176Z",
+                "windingRule": "ODD"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "17:56",
+        "type": "FRAME",
+        "name": "Chart",
+        "box": {
+         "x": 132.25,
+         "y": 433.02,
+         "w": 452,
+         "h": 128.23
+        },
+        "offset": {
+         "x": 19.23,
+         "y": 62.88
+        },
+        "layout": {
+         "direction": "row",
+         "gap": 12.8231782913208,
+         "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+         },
+         "justifyContent": "flex-start",
+         "alignItems": "flex-start",
+         "wrap": false,
+         "primarySizing": "FIXED",
+         "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+        },
+        "children": [
+         {
+          "id": "17:57",
+          "type": "FRAME",
+          "name": "Mask group",
+          "box": {
+           "x": 185.15,
+           "y": 433.19,
+           "w": 399.1,
+           "h": 103.52
+          },
+          "offset": {
+           "x": 52.9,
+           "y": 0.18
+          },
+          "isGroup": true,
+          "absolute": true,
+          "children": [
+           {
+            "id": "17:58",
+            "type": "ROUNDED_RECTANGLE",
+            "name": "Rectangle 2",
+            "box": {
+             "x": 185.15,
+             "y": 433.19,
+             "w": 399.1,
+             "h": 103.52
+            },
+            "offset": {
+             "x": 0,
+             "y": 0
+            },
+            "isMask": true,
+            "absolute": true,
+            "fills": [
+             {
+              "kind": "solid",
+              "color": "rgba(217, 217, 217, 1)",
+              "hex": "#d9d9d9"
+             }
+            ]
+           },
+           {
+            "id": "17:59",
+            "type": "VECTOR",
+            "name": "Vector 1",
+            "box": {
+             "x": 185.15,
+             "y": 433.19,
+             "w": 399.1,
+             "h": 104.48
+            },
+            "offset": {
+             "x": 0,
+             "y": 0
+            },
+            "absolute": true,
+            "fills": [
+             {
+              "kind": "gradient",
+              "gradientType": "GRADIENT_LINEAR",
+              "stops": [
+               {
+                "color": "rgba(37, 205, 37, 0.4)",
+                "position": 0
+               },
+               {
+                "color": "rgba(37, 205, 37, 0)",
+                "position": 1
+               }
+              ],
+              "css": "linear-gradient(180deg, rgba(37, 205, 37, 0.4) 0%, rgba(37, 205, 37, 0) 100%)"
+             }
+            ],
+            "strokes": [
+             {
+              "kind": "solid",
+              "color": "rgba(37, 205, 37, 1)",
+              "hex": "#25cd25"
+             }
+            ],
+            "strokeWeight": 0.80144864320755,
+            "strokeAlign": "CENTER",
+            "strokeJoin": "MITER",
+            "paths": [
+             {
+              "kind": "fill",
+              "d": "M113.616 38.132L56.56 77.595L0 86.702L0 104.482L399.102 104.482L399.102 0C376.239 8.468 367.68 11.884 344.817 20.352L286.769 66.761L228.721 83.673L171.168 20.352L113.616 38.132Z",
+              "windingRule": "NONZERO"
+             },
+             {
+              "kind": "stroke",
+              "d": "M56.56 77.595L56.624 77.991L56.713 77.976L56.788 77.925L56.56 77.595ZM113.616 38.132L113.498 37.749L113.439 37.767L113.388 37.802L113.616 38.132ZM171.168 20.352L171.465 20.082L171.293 19.894L171.05 19.969L171.168 20.352ZM228.721 83.673L228.424 83.943L228.592 84.128L228.833 84.058L228.721 83.673ZM286.769 66.761L286.881 67.145L286.957 67.123L287.019 67.074L286.769 66.761ZM344.817 20.352L344.678 19.976L344.617 19.999L344.567 20.039L344.817 20.352ZM399.102 0L399.502 0L399.502 -0.576L398.962 -0.376L399.102 0ZM399.102 104.482L399.102 104.883L399.502 104.883L399.502 104.482L399.102 104.482ZM0 104.482L-0.401 104.482L-0.401 104.883L0 104.883L0 104.482ZM0 86.702L-0.064 86.306L-0.401 86.36L-0.401 86.702L0 86.702ZM56.56 77.595L56.496 77.199L55.711 77.326L55.774 77.721L55.838 78.117L56.624 77.991L56.56 77.595ZM54.203 77.974L54.14 77.579L52.568 77.832L52.632 78.227L52.696 78.623L54.267 78.37L54.203 77.974ZM51.061 78.48L50.997 78.085L49.426 78.338L49.49 78.733L49.554 79.129L51.125 78.876L51.061 78.48ZM47.919 78.986L47.855 78.591L46.284 78.844L46.348 79.239L46.411 79.635L47.983 79.382L47.919 78.986ZM44.777 79.492L44.713 79.097L43.142 79.35L43.206 79.745L43.269 80.141L44.84 79.888L44.777 79.492ZM41.634 79.998L41.571 79.603L40 79.855L40.063 80.251L40.127 80.647L41.698 80.394L41.634 79.998ZM38.492 80.504L38.428 80.108L36.857 80.361L36.921 80.757L36.985 81.153L38.556 80.9L38.492 80.504ZM35.35 81.01L35.286 80.614L33.715 80.867L33.779 81.263L33.843 81.659L35.414 81.406L35.35 81.01ZM32.208 81.516L32.144 81.12L30.573 81.373L30.637 81.769L30.7 82.165L32.271 81.912L32.208 81.516ZM29.066 82.022L29.002 81.626L27.431 81.879L27.494 82.275L27.558 82.67L29.129 82.418L29.066 82.022ZM25.923 82.528L25.86 82.132L24.288 82.385L24.352 82.781L24.416 83.176L25.987 82.923L25.923 82.528ZM22.781 83.034L22.717 82.638L21.146 82.891L21.21 83.287L21.274 83.682L22.845 83.429L22.781 83.034ZM19.639 83.54L19.575 83.144L18.004 83.397L18.068 83.793L18.131 84.188L19.703 83.935L19.639 83.54ZM16.497 84.046L16.433 83.65L14.862 83.903L14.926 84.299L14.989 84.694L16.56 84.441L16.497 84.046ZM13.354 84.552L13.291 84.156L11.72 84.409L11.783 84.805L11.847 85.2L13.418 84.947L13.354 84.552ZM10.212 85.057L10.148 84.662L8.577 84.915L8.641 85.31L8.705 85.706L10.276 85.453L10.212 85.057ZM7.07 85.563L7.006 85.168L5.435 85.421L5.499 85.816L5.563 86.212L7.134 85.959L7.07 85.563ZM3.928 86.069L3.864 85.674L2.293 85.927L2.357 86.322L2.42 86.718L3.991 86.465L3.928 86.069ZM0.786 86.575L0.722 86.18L-0.064 86.306L0 86.702L0.064 87.097L0.849 86.971L0.786 86.575ZM0 86.702L-0.401 86.702L-0.401 87.443L0 87.443L0.401 87.443L0.401 86.702L0 86.702ZM0 88.924L-0.401 88.924L-0.401 90.406L0 90.406L0.401 90.406L0.401 88.924L0 88.924ZM0 91.888L-0.401 91.888L-0.401 93.369L0 93.369L0.401 93.369L0.401 91.888L0 91.888ZM0 94.851L-0.401 94.851L-0.401 96.333L0 96.333L0.401 96.333L0.401 94.851L0 94.851ZM0 97.814L-0.401 97.814L-0.401 99.296L0 99.296L0.401 99.296L0.401 97.814L0 97.814ZM0 100.778L-0.401 100.778L-0.401 102.259L0 102.259L0.401 102.259L0.401 100.778L0 100.778ZM0 103.741L-0.401 103.741L-0.401 104.482L0 104.482L0.401 104.482L0.401 103.741L0 103.741ZM0 104.482L0 104.883L0.805 104.883L0.805 104.482L0.805 104.081L0 104.081L0 104.482ZM2.414 104.482L2.414 104.883L4.023 104.883L4.023 104.482L4.023 104.081L2.414 104.081L2.414 104.482ZM5.632 104.482L5.632 104.883L7.242 104.883L7.242 104.482L7.242 104.081L5.632 104.081L5.632 104.482ZM8.851 104.482L8.851 104.883L10.46 104.883L10.46 104.482L10.46 104.081L8.851 104.081L8.851 104.482ZM12.07 104.482L12.07 104.883L13.679 104.883L13.679 104.482L13.679 104.081L12.07 104.081L12.07 104.482ZM15.288 104.482L15.288 104.883L16.897 104.883L16.897 104.482L16.897 104.081L15.288 104.081L15.288 104.482ZM18.507 104.482L18.507 104.883L20.116 104.883L20.116 104.482L20.116 104.081L18.507 104.081L18.507 104.482ZM21.725 104.482L21.725 104.883L23.335 104.883L23.335 104.482L23.335 104.081L21.725 104.081L21.725 104.482ZM24.944 104.482L24.944 104.883L26.553 104.883L26.553 104.482L26.553 104.081L24.944 104.081L24.944 104.482ZM28.162 104.482L28.162 104.883L29.772 104.883L29.772 104.482L29.772 104.081L28.162 104.081L28.162 104.482ZM31.381 104.482L31.381 104.883L32.99 104.883L32.99 104.482L32.99 104.081L31.381 104.081L31.381 104.482ZM34.6 104.482L34.6 104.883L36.209 104.883L36.209 104.482L36.209 104.081L34.6 104.081L34.6 104.482ZM37.818 104.482L37.818 104.883L39.427 104.883L39.427 104.482L39.427 104.081L37.818 104.081L37.818 104.482ZM41.037 104.482L41.037 104.883L42.646 104.883L42.646 104.482L42.646 104.081L41.037 104.081L41.037 104.482ZM44.255 104.482L44.255 104.883L45.864 104.883L45.864 104.482L45.864 104.081L44.255 104.081L44.255 104.482ZM47.474 104.482L47.474 104.883L49.083 104.883L49.083 104.482L49.083 104.081L47.474 104.081L47.474 104.482ZM50.692 104.482L50.692 104.883L52.302 104.883L52.302 104.482L52.302 104.081L50.692 104.081L50.692 104.482ZM53.911 104.482L53.911 104.883L55.52 104.883L55.52 104.482L55.52 104.081L53.911 104.081L53.911 104.482ZM57.129 104.482L57.129 104.883L58.739 104.883L58.739 104.482L58.739 104.081L57.129 104.081L57.129 104.482ZM60.348 104.482L60.348 104.883L61.957 104.883L61.957 104.482L61.957 104.081L60.348 104.081L60.348 104.482ZM63.567 104.482L63.567 104.883L65.176 104.883L65.176 104.482L65.176 104.081L63.567 104.081L63.567 104.482ZM66.785 104.482L66.785 104.883L68.394 104.883L68.394 104.482L68.394 104.081L66.785 104.081L66.785 104.482ZM70.004 104.482L70.004 104.883L71.613 104.883L71.613 104.482L71.613 104.081L70.004 104.081L70.004 104.482ZM73.222 104.482L73.222 104.883L74.832 104.883L74.832 104.482L74.832 104.081L73.222 104.081L73.222 104.482ZM76.441 104.482L76.441 104.883L78.05 104.883L78.05 104.482L78.05 104.081L76.441 104.081L76.441 104.482ZM79.659 104.482L79.659 104.883L81.269 104.883L81.269 104.482L81.269 104.081L79.659 104.081L79.659 104.482ZM82.878 104.482L82.878 104.883L84.487 104.883L84.487 104.482L84.487 104.081L82.878 104.081L82.878 104.482ZM86.097 104.482L86.097 104.883L87.706 104.883L87.706 104.482L87.706 104.081L86.097 104.081L86.097 104.482ZM89.315 104.482L89.315 104.883L90.924 104.883L90.924 104.482L90.924 104.081L89.315 104.081L89.315 104.482ZM92.534 104.482L92.534 104.883L94.143 104.883L94.143 104.482L94.143 104.081L92.534 104.081L92.534 104.482ZM95.752 104.482L95.752 104.883L97.362 104.883L97.362 104.482L97.362 104.081L95.752 104.081L95.752 104.482ZM98.971 104.482L98.971 104.883L100.58 104.883L100.58 104.482L100.58 104.081L98.971 104.081L98.971 104.482ZM102.189 104.482L102.189 104.883L103.799 104.883L103.799 104.482L103.799 104.081L102.189 104.081L102.189 104.482ZM105.408 104.482L105.408 104.883L107.017 104.883L107.017 104.482L107.017 104.081L105.408 104.081L105.408 104.482ZM108.626 104.482L108.626 104.883L110.236 104.883L110.236 104.482L110.236 104.081L108.626 104.081L108.626 104.482ZM111.845 104.482L111.845 104.883L113.454 104.883L113.454 104.482L113.454 104.081L111.845 104.081L111.845 104.482ZM115.064 104.482L115.064 104.883L116.673 104.883L116.673 104.482L116.673 104.081L115.064 104.081L115.064 104.482ZM118.282 104.482L118.282 104.883L119.891 104.883L119.891 104.482L119.891 104.081L118.282 104.081L118.282 104.482ZM121.501 104.482L121.501 104.883L123.11 104.883L123.11 104.482L123.11 104.081L121.501 104.081L121.501 104.482ZM124.719 104.482L124.719 104.883L126.329 104.883L126.329 104.482L126.329 104.081L124.719 104.081L124.719 104.482ZM127.938 104.482L127.938 104.883L129.547 104.883L129.547 104.482L129.547 104.081L127.938 104.081L127.938 104.482ZM131.156 104.482L131.156 104.883L132.766 104.883L132.766 104.482L132.766 104.081L131.156 104.081L131.156 104.482ZM134.375 104.482L134.375 104.883L135.984 104.883L135.984 104.482L135.984 104.081L134.375 104.081L134.375 104.482ZM137.594 104.482L137.594 104.883L139.203 104.883L139.203 104.482L139.203 104.081L137.594 104.081L137.594 104.482ZM140.812 104.482L140.812 104.883L142.421 104.883L142.421 104.482L142.421 104.081L140.812 104.081L140.812 104.482ZM144.031 104.482L144.031 104.883L145.64 104.883L145.64 104.482L145.64 104.081L144.031 104.081L144.031 104.482ZM147.249 104.482L147.249 104.883L148.859 104.883L148.859 104.482L148.859 104.081L147.249 104.081L147.249 104.482ZM150.468 104.482L150.468 104.883L152.077 104.883L152.077 104.482L152.077 104.081L150.468 104.081L150.468 104.482ZM153.686 104.482L153.686 104.883L155.296 104.883L155.296 104.482L155.296 104.081L153.686 104.081L153.686 104.482ZM156.905 104.482L156.905 104.883L158.514 104.883L158.514 104.482L158.514 104.081L156.905 104.081L156.905 104.482ZM160.124 104.482L160.124 104.883L161.733 104.883L161.733 104.482L161.733 104.081L160.124 104.081L160.124 104.482ZM163.342 104.482L163.342 104.883L164.951 104.883L164.951 104.482L164.951 104.081L163.342 104.081L163.342 104.482ZM166.561 104.482L166.561 104.883L168.17 104.883L168.17 104.482L168.17 104.081L166.561 104.081L166.561 104.482ZM169.779 104.482L169.779 104.883L171.389 104.883L171.389 104.482L171.389 104.081L169.779 104.081L169.779 104.482ZM172.998 104.482L172.998 104.883L174.607 104.883L174.607 104.482L174.607 104.081L172.998 104.081L172.998 104.482ZM176.216 104.482L176.216 104.883L177.826 104.883L177.826 104.482L177.826 104.081L176.216 104.081L176.216 104.482ZM179.435 104.482L179.435 104.883L181.044 104.883L181.044 104.482L181.044 104.081L179.435 104.081L179.435 104.482ZM182.654 104.482L182.654 104.883L184.263 104.883L184.263 104.482L184.263 104.081L182.654 104.081L182.654 104.482ZM185.872 104.482L185.872 104.883L187.481 104.883L187.481 104.482L187.481 104.081L185.872 104.081L185.872 104.482ZM189.091 104.482L189.091 104.883L190.7 104.883L190.7 104.482L190.7 104.081L189.091 104.081L189.091 104.482ZM192.309 104.482L192.309 104.883L193.919 104.883L193.919 104.482L193.919 104.081L192.309 104.081L192.309 104.482ZM195.528 104.482L195.528 104.883L197.137 104.883L197.137 104.482L197.137 104.081L195.528 104.081L195.528 104.482ZM198.746 104.482L198.746 104.883L200.356 104.883L200.356 104.482L200.356 104.081L198.746 104.081L198.746 104.482ZM201.965 104.482L201.965 104.883L203.574 104.883L203.574 104.482L203.574 104.081L201.965 104.081L201.965 104.482ZM205.184 104.482L205.184 104.883L206.793 104.883L206.793 104.482L206.793 104.081L205.184 104.081L205.184 104.482ZM208.402 104.482L208.402 104.883L210.011 104.883L210.011 104.482L210.011 104.081L208.402 104.081L208.402 104.482ZM211.621 104.482L211.621 104.883L213.23 104.883L213.23 104.482L213.23 104.081L211.621 104.081L211.621 104.482ZM214.839 104.482L214.839 104.883L216.448 104.883L216.448 104.482L216.448 104.081L214.839 104.081L214.839 104.482ZM218.058 104.482L218.058 104.883L219.667 104.883L219.667 104.482L219.667 104.081L218.058 104.081L218.058 104.482ZM221.276 104.482L221.276 104.883L222.886 104.883L222.886 104.482L222.886 104.081L221.276 104.081L221.276 104.482ZM224.495 104.482L224.495 104.883L226.104 104.883L226.104 104.482L226.104 104.081L224.495 104.081L224.495 104.482ZM227.713 104.482L227.713 104.883L229.323 104.883L229.323 104.482L229.323 104.081L227.713 104.081L227.713 104.482ZM230.932 104.482L230.932 104.883L232.541 104.883L232.541 104.482L232.541 104.081L230.932 104.081L230.932 104.482ZM234.151 104.482L234.151 104.883L235.76 104.883L235.76 104.482L235.76 104.081L234.151 104.081L234.151 104.482ZM237.369 104.482L237.369 104.883L238.978 104.883L238.978 104.482L238.978 104.081L237.369 104.081L237.369 104.482ZM240.588 104.482L240.588 104.883L242.197 104.883L242.197 104.482L242.197 104.081L240.588 104.081L240.588 104.482ZM243.806 104.482L243.806 104.883L245.416 104.883L245.416 104.482L245.416 104.081L243.806 104.081L243.806 104.482ZM247.025 104.482L247.025 104.883L248.634 104.883L248.634 104.482L248.634 104.081L247.025 104.081L247.025 104.482ZM250.243 104.482L250.243 104.883L251.853 104.883L251.853 104.482L251.853 104.081L250.243 104.081L250.243 104.482ZM253.462 104.482L253.462 104.883L255.071 104.883L255.071 104.482L255.071 104.081L253.462 104.081L253.462 104.482ZM256.681 104.482L256.681 104.883L258.29 104.883L258.29 104.482L258.29 104.081L256.681 104.081L256.681 104.482ZM259.899 104.482L259.899 104.883L261.508 104.883L261.508 104.482L261.508 104.081L259.899 104.081L259.899 104.482ZM263.118 104.482L263.118 104.883L264.727 104.883L264.727 104.482L264.727 104.081L263.118 104.081L263.118 104.482ZM266.336 104.482L266.336 104.883L267.946 104.883L267.946 104.482L267.946 104.081L266.336 104.081L266.336 104.482ZM269.555 104.482L269.555 104.883L271.164 104.883L271.164 104.482L271.164 104.081L269.555 104.081L269.555 104.482ZM272.773 104.482L272.773 104.883L274.383 104.883L274.383 104.482L274.383 104.081L272.773 104.081L272.773 104.482ZM275.992 104.482L275.992 104.883L277.601 104.883L277.601 104.482L277.601 104.081L275.992 104.081L275.992 104.482ZM279.211 104.482L279.211 104.883L280.82 104.883L280.82 104.482L280.82 104.081L279.211 104.081L279.211 104.482ZM282.429 104.482L282.429 104.883L284.038 104.883L284.038 104.482L284.038 104.081L282.429 104.081L282.429 104.482ZM285.648 104.482L285.648 104.883L287.257 104.883L287.257 104.482L287.257 104.081L285.648 104.081L285.648 104.482ZM288.866 104.482L288.866 104.883L290.475 104.883L290.475 104.482L290.475 104.081L288.866 104.081L288.866 104.482ZM292.085 104.482L292.085 104.883L293.694 104.883L293.694 104.482L293.694 104.081L292.085 104.081L292.085 104.482ZM295.303 104.482L295.303 104.883L296.913 104.883L296.913 104.482L296.913 104.081L295.303 104.081L295.303 104.482ZM298.522 104.482L298.522 104.883L300.131 104.883L300.131 104.482L300.131 104.081L298.522 104.081L298.522 104.482ZM301.74 104.482L301.74 104.883L303.35 104.883L303.35 104.482L303.35 104.081L301.74 104.081L301.74 104.482ZM304.959 104.482L304.959 104.883L306.568 104.883L306.568 104.482L306.568 104.081L304.959 104.081L304.959 104.482ZM308.178 104.482L308.178 104.883L309.787 104.883L309.787 104.482L309.787 104.081L308.178 104.081L308.178 104.482ZM311.396 104.482L311.396 104.883L313.005 104.883L313.005 104.482L313.005 104.081L311.396 104.081L311.396 104.482ZM314.615 104.482L314.615 104.883L316.224 104.883L316.224 104.482L316.224 104.081L314.615 104.081L314.615 104.482ZM317.833 104.482L317.833 104.883L319.443 104.883L319.443 104.482L319.443 104.081L317.833 104.081L317.833 104.482ZM321.052 104.482L321.052 104.883L322.661 104.883L322.661 104.482L322.661 104.081L321.052 104.081L321.052 104.482ZM324.27 104.482L324.27 104.883L325.88 104.883L325.88 104.482L325.88 104.081L324.27 104.081L324.27 104.482ZM327.489 104.482L327.489 104.883L329.098 104.883L329.098 104.482L329.098 104.081L327.489 104.081L327.489 104.482ZM330.708 104.482L330.708 104.883L332.317 104.883L332.317 104.482L332.317 104.081L330.708 104.081L330.708 104.482ZM333.926 104.482L333.926 104.883L335.535 104.883L335.535 104.482L335.535 104.081L333.926 104.081L333.926 104.482ZM337.145 104.482L337.145 104.883L338.754 104.883L338.754 104.482L338.754 104.081L337.145 104.081L337.145 104.482ZM340.363 104.482L340.363 104.883L341.973 104.883L341.973 104.482L341.973 104.081L340.363 104.081L340.363 104.482ZM343.582 104.482L343.582 104.883L345.191 104.883L345.191 104.482L345.191 104.081L343.582 104.081L343.582 104.482ZM346.8 104.482L346.8 104.883L348.41 104.883L348.41 104.482L348.41 104.081L346.8 104.081L346.8 104.482ZM350.019 104.482L350.019 104.883L351.628 104.883L351.628 104.482L351.628 104.081L350.019 104.081L350.019 104.482ZM353.238 104.482L353.238 104.883L354.847 104.883L354.847 104.482L354.847 104.081L353.238 104.081L353.238 104.482ZM356.456 104.482L356.456 104.883L358.065 104.883L358.065 104.482L358.065 104.081L356.456 104.081L356.456 104.482ZM359.675 104.482L359.675 104.883L361.284 104.883L361.284 104.482L361.284 104.081L359.675 104.081L359.675 104.482ZM362.893 104.482L362.893 104.883L364.503 104.883L364.503 104.482L364.503 104.081L362.893 104.081L362.893 104.482ZM366.112 104.482L366.112 104.883L367.721 104.883L367.721 104.482L367.721 104.081L366.112 104.081L366.112 104.482ZM369.33 104.482L369.33 104.883L370.94 104.883L370.94 104.482L370.94 104.081L369.33 104.081L369.33 104.482ZM372.549 104.482L372.549 104.883L374.158 104.883L374.158 104.482L374.158 104.081L372.549 104.081L372.549 104.482ZM375.768 104.482L375.768 104.883L377.377 104.883L377.377 104.482L377.377 104.081L375.768 104.081L375.768 104.482ZM378.986 104.482L378.986 104.883L380.595 104.883L380.595 104.482L380.595 104.081L378.986 104.081L378.986 104.482ZM382.205 104.482L382.205 104.883L383.814 104.883L383.814 104.482L383.814 104.081L382.205 104.081L382.205 104.482ZM385.423 104.482L385.423 104.883L387.033 104.883L387.033 104.482L387.033 104.081L385.423 104.081L385.423 104.482ZM388.642 104.482L388.642 104.883L390.251 104.883L390.251 104.482L390.251 104.081L388.642 104.081L388.642 104.482ZM391.86 104.482L391.86 104.883L393.47 104.883L393.47 104.482L393.47 104.081L391.86 104.081L391.86 104.482ZM395.079 104.482L395.079 104.883L396.688 104.883L396.688 104.482L396.688 104.081L395.079 104.081L395.079 104.482ZM398.297 104.482L398.297 104.883L399.102 104.883L399.102 104.482L399.102 104.081L398.297 104.081L398.297 104.482ZM399.102 104.482L399.502 104.482L399.502 103.69L399.102 103.69L398.701 103.69L398.701 104.482L399.102 104.482ZM399.102 102.107L399.502 102.107L399.502 100.524L399.102 100.524L398.701 100.524L398.701 102.107L399.102 102.107ZM399.102 98.941L399.502 98.941L399.502 97.358L399.102 97.358L398.701 97.358L398.701 98.941L399.102 98.941ZM399.102 95.775L399.502 95.775L399.502 94.192L399.102 94.192L398.701 94.192L398.701 95.775L399.102 95.775ZM399.102 92.609L399.502 92.609L399.502 91.026L399.102 91.026L398.701 91.026L398.701 92.609L399.102 92.609ZM399.102 89.443L399.502 89.443L399.502 87.86L399.102 87.86L398.701 87.86L398.701 89.443L399.102 89.443ZM399.102 86.277L399.502 86.277L399.502 84.694L399.102 84.694L398.701 84.694L398.701 86.277L399.102 86.277ZM399.102 83.111L399.502 83.111L399.502 81.527L399.102 81.527L398.701 81.527L398.701 83.111L399.102 83.111ZM399.102 79.944L399.502 79.944L399.502 78.361L399.102 78.361L398.701 78.361L398.701 79.944L399.102 79.944ZM399.102 76.778L399.502 76.778L399.502 75.195L399.102 75.195L398.701 75.195L398.701 76.778L399.102 76.778ZM399.102 73.612L399.502 73.612L399.502 72.029L399.102 72.029L398.701 72.029L398.701 73.612L399.102 73.612ZM399.102 70.446L399.502 70.446L399.502 68.863L399.102 68.863L398.701 68.863L398.701 70.446L399.102 70.446ZM399.102 67.28L399.502 67.28L399.502 65.697L399.102 65.697L398.701 65.697L398.701 67.28L399.102 67.28ZM399.102 64.114L399.502 64.114L399.502 62.531L399.102 62.531L398.701 62.531L398.701 64.114L399.102 64.114ZM399.102 60.948L399.502 60.948L399.502 59.365L399.102 59.365L398.701 59.365L398.701 60.948L399.102 60.948ZM399.102 57.782L399.502 57.782L399.502 56.199L399.102 56.199L398.701 56.199L398.701 57.782L399.102 57.782ZM399.102 54.616L399.502 54.616L399.502 53.032L399.102 53.032L398.701 53.032L398.701 54.616L399.102 54.616ZM399.102 51.449L399.502 51.449L399.502 49.866L399.102 49.866L398.701 49.866L398.701 51.449L399.102 51.449ZM399.102 48.283L399.502 48.283L399.502 46.7L399.102 46.7L398.701 46.7L398.701 48.283L399.102 48.283ZM399.102 45.117L399.502 45.117L399.502 43.534L399.102 43.534L398.701 43.534L398.701 45.117L399.102 45.117ZM399.102 41.951L399.502 41.951L399.502 40.368L399.102 40.368L398.701 40.368L398.701 41.951L399.102 41.951ZM399.102 38.785L399.502 38.785L399.502 37.202L399.102 37.202L398.701 37.202L398.701 38.785L399.102 38.785ZM399.102 35.619L399.502 35.619L399.502 34.036L399.102 34.036L398.701 34.036L398.701 35.619L399.102 35.619ZM399.102 32.453L399.502 32.453L399.502 30.87L399.102 30.87L398.701 30.87L398.701 32.453L399.102 32.453ZM399.102 29.287L399.502 29.287L399.502 27.704L399.102 27.704L398.701 27.704L398.701 29.287L399.102 29.287ZM399.102 26.12L399.502 26.12L399.502 24.537L399.102 24.537L398.701 24.537L398.701 26.12L399.102 26.12ZM399.102 22.954L399.502 22.954L399.502 21.371L399.102 21.371L398.701 21.371L398.701 22.954L399.102 22.954ZM399.102 19.788L399.502 19.788L399.502 18.205L399.102 18.205L398.701 18.205L398.701 19.788L399.102 19.788ZM399.102 16.622L399.502 16.622L399.502 15.039L399.102 15.039L398.701 15.039L398.701 16.622L399.102 16.622ZM399.102 13.456L399.502 13.456L399.502 11.873L399.102 11.873L398.701 11.873L398.701 13.456L399.102 13.456ZM399.102 10.29L399.502 10.29L399.502 8.707L399.102 8.707L398.701 8.707L398.701 10.29L399.102 10.29ZM399.102 7.124L399.502 7.124L399.502 5.541L399.102 5.541L398.701 5.541L398.701 7.124L399.102 7.124ZM399.102 3.958L399.502 3.958L399.502 2.375L399.102 2.375L398.701 2.375L398.701 3.958L399.102 3.958ZM399.102 0.791L399.502 0.791L399.502 0L399.102 0L398.701 0L398.701 0.791L399.102 0.791ZM399.102 0L398.962 -0.376C398.706 -0.281 398.451 -0.186 398.198 -0.093L398.337 0.283L398.476 0.659C398.729 0.565 398.984 0.471 399.241 0.376L399.102 0ZM396.834 0.841L396.694 0.465C396.183 0.655 395.679 0.842 395.182 1.027L395.322 1.402L395.461 1.778C395.958 1.593 396.462 1.406 396.973 1.216L396.834 0.841ZM393.809 1.965L393.669 1.589C393.159 1.779 392.657 1.966 392.161 2.151L392.301 2.526L392.441 2.902C392.936 2.717 393.439 2.53 393.949 2.34L393.809 1.965ZM390.795 3.088L390.655 2.713C390.146 2.902 389.645 3.09 389.15 3.275L389.29 3.65L389.431 4.025C389.925 3.84 390.427 3.653 390.935 3.464L390.795 3.088ZM387.78 4.215L387.639 3.84C387.129 4.031 386.626 4.219 386.129 4.405L386.27 4.781L386.411 5.156C386.907 4.97 387.41 4.781 387.92 4.59L387.78 4.215ZM384.762 5.347L384.621 4.971C384.113 5.162 383.61 5.351 383.114 5.538L383.255 5.913L383.396 6.288C383.892 6.101 384.394 5.913 384.903 5.722L384.762 5.347ZM381.748 6.48L381.607 6.105C381.1 6.296 380.598 6.485 380.1 6.672L380.241 7.047L380.383 7.422C380.88 7.235 381.382 7.046 381.889 6.855L381.748 6.48ZM378.735 7.615L378.594 7.24C378.088 7.431 377.586 7.621 377.088 7.809L377.229 8.184L377.371 8.559C377.87 8.37 378.371 8.181 378.877 7.99L378.735 7.615ZM375.724 8.753L375.582 8.378C375.078 8.568 374.576 8.758 374.076 8.947L374.218 9.322L374.36 9.697C374.86 9.508 375.361 9.318 375.865 9.127L375.724 8.753ZM372.712 9.891L372.57 9.516C372.319 9.611 372.069 9.706 371.818 9.801C371.567 9.896 371.316 9.991 371.065 10.086L371.207 10.461L371.348 10.835C371.599 10.741 371.85 10.646 372.101 10.551C372.352 10.456 372.603 10.361 372.854 10.266L372.712 9.891ZM369.701 11.03L369.559 10.655C369.059 10.844 368.557 11.034 368.054 11.224L368.195 11.599L368.337 11.974C368.841 11.784 369.342 11.594 369.843 11.405L369.701 11.03ZM366.689 12.168L366.548 11.793C366.049 11.982 365.548 12.171 365.042 12.362L365.183 12.737L365.325 13.112C365.831 12.921 366.332 12.731 366.831 12.543L366.689 12.168ZM363.677 13.305L363.536 12.93C363.039 13.117 362.537 13.306 362.03 13.497L362.171 13.872L362.312 14.247C362.819 14.056 363.321 13.867 363.819 13.68L363.677 13.305ZM360.664 14.439L360.523 14.064C360.027 14.251 359.524 14.439 359.016 14.63L359.157 15.005L359.298 15.38C359.806 15.19 360.309 15.001 360.805 14.814L360.664 14.439ZM357.649 15.571L357.508 15.196C357.011 15.382 356.508 15.571 355.999 15.761L356.139 16.137L356.28 16.512C356.79 16.321 357.293 16.133 357.789 15.946L357.649 15.571ZM354.628 16.702L354.488 16.326C353.993 16.511 353.492 16.699 352.984 16.888L353.124 17.264L353.264 17.639C353.772 17.449 354.274 17.262 354.769 17.077L354.628 16.702ZM351.618 17.825L351.478 17.45C350.982 17.635 350.48 17.822 349.97 18.012L350.11 18.387L350.249 18.763C350.759 18.573 351.262 18.386 351.758 18.201L351.618 17.825ZM348.597 18.95L348.458 18.574C347.961 18.759 347.457 18.946 346.946 19.135L347.085 19.511L347.224 19.887C347.736 19.697 348.24 19.51 348.737 19.325L348.597 18.95ZM345.582 20.069L345.442 19.693C345.189 19.787 344.935 19.881 344.678 19.976L344.817 20.352L344.956 20.728C345.213 20.633 345.468 20.538 345.721 20.444L345.582 20.069ZM344.817 20.352L344.567 20.039L343.936 20.543L344.186 20.856L344.436 21.169L345.067 20.665L344.817 20.352ZM342.924 21.865L342.674 21.552L341.412 22.561L341.662 22.874L341.913 23.187L343.175 22.178L342.924 21.865ZM340.401 23.883L340.15 23.57L338.888 24.579L339.139 24.892L339.389 25.205L340.651 24.196L340.401 23.883ZM337.877 25.901L337.626 25.588L336.365 26.597L336.615 26.91L336.865 27.223L338.127 26.214L337.877 25.901ZM335.353 27.919L335.103 27.606L333.841 28.614L334.091 28.927L334.341 29.24L335.603 28.232L335.353 27.919ZM332.829 29.936L332.579 29.623L331.317 30.632L331.567 30.945L331.817 31.258L333.079 30.249L332.829 29.936ZM330.305 31.954L330.055 31.641L328.793 32.65L329.043 32.963L329.293 33.276L330.555 32.267L330.305 31.954ZM327.781 33.972L327.531 33.659L326.269 34.668L326.519 34.981L326.77 35.294L328.032 34.285L327.781 33.972ZM325.257 35.99L325.007 35.677L323.745 36.686L323.996 36.999L324.246 37.312L325.508 36.303L325.257 35.99ZM322.734 38.007L322.483 37.694L321.221 38.703L321.472 39.016L321.722 39.329L322.984 38.32L322.734 38.007ZM320.21 40.025L319.96 39.712L318.698 40.721L318.948 41.034L319.198 41.347L320.46 40.338L320.21 40.025ZM317.686 42.043L317.436 41.73L316.174 42.739L316.424 43.052L316.674 43.365L317.936 42.356L317.686 42.043ZM315.162 44.061L314.912 43.748L313.65 44.757L313.9 45.07L314.15 45.383L315.412 44.374L315.162 44.061ZM312.638 46.079L312.388 45.766L311.126 46.774L311.376 47.087L311.627 47.4L312.888 46.392L312.638 46.079ZM310.114 48.096L309.864 47.783L308.602 48.792L308.853 49.105L309.103 49.418L310.365 48.409L310.114 48.096ZM307.591 50.114L307.34 49.801L306.078 50.81L306.329 51.123L306.579 51.436L307.841 50.427L307.591 50.114ZM305.067 52.132L304.816 51.819L303.555 52.828L303.805 53.141L304.055 53.454L305.317 52.445L305.067 52.132ZM302.543 54.15L302.293 53.837L301.031 54.846L301.281 55.159L301.531 55.471L302.793 54.463L302.543 54.15ZM300.019 56.167L299.769 55.854L298.507 56.863L298.757 57.176L299.007 57.489L300.269 56.48L300.019 56.167ZM297.495 58.185L297.245 57.872L295.983 58.881L296.233 59.194L296.484 59.507L297.745 58.498L297.495 58.185ZM294.971 60.203L294.721 59.89L293.459 60.899L293.709 61.212L293.96 61.525L295.222 60.516L294.971 60.203ZM292.448 62.221L292.197 61.908L290.935 62.917L291.186 63.23L291.436 63.543L292.698 62.534L292.448 62.221ZM289.924 64.238L289.673 63.925L288.412 64.934L288.662 65.247L288.912 65.56L290.174 64.551L289.924 64.238ZM287.4 66.256L287.15 65.943L286.519 66.448L286.769 66.761L287.019 67.074L287.65 66.569L287.4 66.256ZM286.769 66.761L286.657 66.376L285.893 66.599L286.005 66.983L286.117 67.368L286.881 67.145L286.769 66.761ZM284.478 67.428L284.365 67.044L282.838 67.489L282.95 67.873L283.062 68.258L284.59 67.813L284.478 67.428ZM281.422 68.318L281.31 67.934L279.783 68.379L279.895 68.764L280.007 69.148L281.534 68.703L281.422 68.318ZM278.367 69.209L278.255 68.824L276.727 69.269L276.84 69.654L276.952 70.038L278.479 69.593L278.367 69.209ZM275.312 70.099L275.2 69.714L273.672 70.159L273.784 70.544L273.896 70.929L275.424 70.483L275.312 70.099ZM272.257 70.989L272.145 70.604L270.617 71.049L270.729 71.434L270.841 71.819L272.369 71.374L272.257 70.989ZM269.202 71.879L269.09 71.494L267.562 71.939L267.674 72.324L267.786 72.709L269.314 72.264L269.202 71.879ZM266.146 72.769L266.034 72.384L264.507 72.83L264.619 73.214L264.731 73.599L266.259 73.154L266.146 72.769ZM263.091 73.659L262.979 73.275L261.452 73.72L261.564 74.104L261.676 74.489L263.203 74.044L263.091 73.659ZM260.036 74.549L259.924 74.165L258.396 74.61L258.508 74.995L258.621 75.379L260.148 74.934L260.036 74.549ZM256.981 75.44L256.869 75.055L255.341 75.5L255.453 75.885L255.565 76.269L257.093 75.824L256.981 75.44ZM253.926 76.33L253.814 75.945L252.286 76.39L252.398 76.775L252.51 77.16L254.038 76.714L253.926 76.33ZM250.871 77.22L250.758 76.835L249.231 77.28L249.343 77.665L249.455 78.05L250.983 77.605L250.871 77.22ZM247.815 78.11L247.703 77.725L246.176 78.17L246.288 78.555L246.4 78.94L247.927 78.495L247.815 78.11ZM244.76 79L244.648 78.615L243.12 79.061L243.233 79.445L243.345 79.83L244.872 79.385L244.76 79ZM241.705 79.89L241.593 79.506L240.065 79.951L240.177 80.335L240.29 80.72L241.817 80.275L241.705 79.89ZM238.65 80.78L238.538 80.396L237.01 80.841L237.122 81.226L237.234 81.61L238.762 81.165L238.65 80.78ZM235.595 81.671L235.483 81.286L233.955 81.731L234.067 82.116L234.179 82.5L235.707 82.055L235.595 81.671ZM232.539 82.561L232.427 82.176L230.9 82.621L231.012 83.006L231.124 83.391L232.652 82.945L232.539 82.561ZM229.484 83.451L229.372 83.066L228.608 83.289L228.721 83.673L228.833 84.058L229.596 83.836L229.484 83.451ZM228.721 83.673L229.017 83.404L228.484 82.818L228.188 83.087L227.891 83.357L228.424 83.943L228.721 83.673ZM227.122 81.914L227.418 81.645L226.353 80.472L226.056 80.742L225.76 81.011L226.825 82.184L227.122 81.914ZM224.99 79.569L225.287 79.3L224.221 78.127L223.924 78.397L223.628 78.666L224.694 79.839L224.99 79.569ZM222.859 77.224L223.155 76.954L222.089 75.782L221.793 76.051L221.496 76.321L222.562 77.494L222.859 77.224ZM220.727 74.879L221.024 74.609L219.958 73.437L219.661 73.706L219.365 73.976L220.431 75.148L220.727 74.879ZM218.596 72.534L218.892 72.264L217.826 71.091L217.53 71.361L217.233 71.63L218.299 72.803L218.596 72.534ZM216.464 70.188L216.761 69.919L215.695 68.746L215.398 69.016L215.102 69.285L216.167 70.458L216.464 70.188ZM214.332 67.843L214.629 67.574L213.563 66.401L213.267 66.67L212.97 66.94L214.036 68.113L214.332 67.843ZM212.201 65.498L212.497 65.228L211.432 64.056L211.135 64.325L210.839 64.595L211.904 65.767L212.201 65.498ZM210.069 63.153L210.366 62.883L209.3 61.71L209.004 61.98L208.707 62.249L209.773 63.422L210.069 63.153ZM207.938 60.807L208.234 60.538L207.169 59.365L206.872 59.635L206.575 59.904L207.641 61.077L207.938 60.807ZM205.806 58.462L206.103 58.193L205.037 57.02L204.74 57.289L204.444 57.559L205.51 58.732L205.806 58.462ZM203.675 56.117L203.971 55.847L202.905 54.675L202.609 54.944L202.312 55.214L203.378 56.386L203.675 56.117ZM201.543 53.772L201.84 53.502L200.774 52.329L200.477 52.599L200.181 52.868L201.247 54.041L201.543 53.772ZM199.411 51.426L199.708 51.157L198.642 49.984L198.346 50.254L198.049 50.523L199.115 51.696L199.411 51.426ZM197.28 49.081L197.576 48.812L196.511 47.639L196.214 47.908L195.918 48.178L196.983 49.351L197.28 49.081ZM195.148 46.736L195.445 46.466L194.379 45.294L194.083 45.563L193.786 45.833L194.852 47.005L195.148 46.736ZM193.017 44.391L193.313 44.121L192.248 42.948L191.951 43.218L191.654 43.488L192.72 44.66L193.017 44.391ZM190.885 42.045L191.182 41.776L190.116 40.603L189.819 40.873L189.523 41.142L190.589 42.315L190.885 42.045ZM188.754 39.7L189.05 39.431L187.984 38.258L187.688 38.528L187.391 38.797L188.457 39.97L188.754 39.7ZM186.622 37.355L186.919 37.085L185.853 35.913L185.556 36.182L185.26 36.452L186.326 37.624L186.622 37.355ZM184.491 35.01L184.787 34.74L183.721 33.568L183.425 33.837L183.128 34.107L184.194 35.279L184.491 35.01ZM182.359 32.664L182.656 32.395L181.59 31.222L181.293 31.492L180.997 31.761L182.062 32.934L182.359 32.664ZM180.227 30.319L180.524 30.05L179.458 28.877L179.162 29.147L178.865 29.416L179.931 30.589L180.227 30.319ZM178.096 27.974L178.392 27.704L177.327 26.532L177.03 26.801L176.734 27.071L177.799 28.243L178.096 27.974ZM175.964 25.629L176.261 25.359L175.195 24.187L174.898 24.456L174.602 24.726L175.668 25.898L175.964 25.629ZM173.833 23.283L174.129 23.014L173.063 21.841L172.767 22.111L172.47 22.38L173.536 23.553L173.833 23.283ZM171.701 20.938L171.998 20.669L171.465 20.082L171.168 20.352L170.872 20.621L171.405 21.208L171.701 20.938ZM171.168 20.352L171.05 19.969L170.293 20.203L170.411 20.586L170.529 20.969L171.287 20.735L171.168 20.352ZM168.896 21.054L168.778 20.671L167.264 21.139L167.382 21.522L167.5 21.904L169.015 21.437L168.896 21.054ZM165.867 21.99L165.749 21.607L164.235 22.075L164.353 22.457L164.471 22.84L165.986 22.372L165.867 21.99ZM162.838 22.925L162.72 22.542L161.206 23.01L161.324 23.393L161.442 23.776L162.957 23.308L162.838 22.925ZM159.809 23.861L159.691 23.478L158.176 23.946L158.295 24.329L158.413 24.712L159.928 24.244L159.809 23.861ZM156.78 24.797L156.662 24.414L155.147 24.882L155.266 25.265L155.384 25.648L156.898 25.18L156.78 24.797ZM153.751 25.733L153.633 25.35L152.118 25.818L152.237 26.201L152.355 26.583L153.869 26.116L153.751 25.733ZM150.722 26.668L150.604 26.286L149.089 26.753L149.208 27.136L149.326 27.519L150.84 27.051L150.722 26.668ZM147.693 27.604L147.575 27.221L146.06 27.689L146.178 28.072L146.297 28.455L147.811 27.987L147.693 27.604ZM144.664 28.54L144.546 28.157L143.031 28.625L143.149 29.008L143.268 29.391L144.782 28.923L144.664 28.54ZM141.635 29.476L141.517 29.093L140.002 29.561L140.12 29.944L140.239 30.327L141.753 29.859L141.635 29.476ZM138.606 30.412L138.488 30.029L136.973 30.497L137.091 30.88L137.21 31.262L138.724 30.795L138.606 30.412ZM135.577 31.347L135.458 30.965L133.944 31.432L134.062 31.815L134.18 32.198L135.695 31.73L135.577 31.347ZM132.548 32.283L132.429 31.9L130.915 32.368L131.033 32.751L131.151 33.134L132.666 32.666L132.548 32.283ZM129.519 33.219L129.4 32.836L127.886 33.304L128.004 33.687L128.122 34.07L129.637 33.602L129.519 33.219ZM126.49 34.155L126.371 33.772L124.857 34.24L124.975 34.623L125.093 35.006L126.608 34.538L126.49 34.155ZM123.461 35.091L123.342 34.708L121.828 35.176L121.946 35.558L122.064 35.941L123.579 35.473L123.461 35.091ZM120.431 36.026L120.313 35.644L118.799 36.111L118.917 36.494L119.035 36.877L120.55 36.409L120.431 36.026ZM117.402 36.962L117.284 36.579L115.77 37.047L115.888 37.43L116.006 37.813L117.521 37.345L117.402 36.962ZM114.373 37.898L114.255 37.515L113.498 37.749L113.616 38.132L113.734 38.515L114.492 38.281L114.373 37.898ZM113.616 38.132L113.388 37.802L112.74 38.251L112.968 38.58L113.196 38.91L113.844 38.461L113.616 38.132ZM111.671 39.477L111.443 39.148L110.146 40.045L110.374 40.374L110.602 40.704L111.899 39.807L111.671 39.477ZM109.077 41.271L108.85 40.941L107.553 41.838L107.781 42.168L108.009 42.497L109.305 41.601L109.077 41.271ZM106.484 43.065L106.256 42.735L104.959 43.632L105.187 43.962L105.415 44.291L106.712 43.394L106.484 43.065ZM103.891 44.859L103.663 44.529L102.366 45.426L102.594 45.755L102.822 46.085L104.119 45.188L103.891 44.859ZM101.297 46.652L101.069 46.323L99.772 47.22L100 47.549L100.228 47.879L101.525 46.982L101.297 46.652ZM98.704 48.446L98.476 48.117L97.179 49.013L97.407 49.343L97.635 49.673L98.932 48.776L98.704 48.446ZM96.11 50.24L95.882 49.91L94.586 50.807L94.813 51.137L95.041 51.466L96.338 50.569L96.11 50.24ZM93.517 52.034L93.289 51.704L91.992 52.601L92.22 52.931L92.448 53.26L93.745 52.363L93.517 52.034ZM90.923 53.827L90.695 53.498L89.399 54.395L89.627 54.724L89.854 55.054L91.151 54.157L90.923 53.827ZM88.33 55.621L88.102 55.292L86.805 56.189L87.033 56.518L87.261 56.848L88.558 55.951L88.33 55.621ZM85.736 57.415L85.508 57.085L84.212 57.982L84.44 58.312L84.668 58.641L85.964 57.745L85.736 57.415ZM83.143 59.209L82.915 58.879L81.618 59.776L81.846 60.106L82.074 60.435L83.371 59.538L83.143 59.209ZM80.549 61.003L80.321 60.673L79.025 61.57L79.253 61.899L79.481 62.229L80.777 61.332L80.549 61.003ZM77.956 62.796L77.728 62.467L76.431 63.364L76.659 63.693L76.887 64.023L78.184 63.126L77.956 62.796ZM75.363 64.59L75.135 64.261L73.838 65.157L74.066 65.487L74.294 65.817L75.59 64.92L75.363 64.59ZM72.769 66.384L72.541 66.054L71.244 66.951L71.472 67.281L71.7 67.61L72.997 66.713L72.769 66.384ZM70.176 68.178L69.948 67.848L68.651 68.745L68.879 69.075L69.107 69.404L70.404 68.507L70.176 68.178ZM67.582 69.971L67.354 69.642L66.057 70.539L66.285 70.868L66.513 71.198L67.81 70.301L67.582 69.971ZM64.989 71.765L64.761 71.436L63.464 72.332L63.692 72.662L63.92 72.992L65.217 72.095L64.989 71.765ZM62.395 73.559L62.167 73.229L60.871 74.126L61.098 74.456L61.326 74.785L62.623 73.889L62.395 73.559ZM59.802 75.353L59.574 75.023L58.277 75.92L58.505 76.25L58.733 76.579L60.03 75.682L59.802 75.353ZM57.208 77.147L56.98 76.817L56.332 77.265L56.56 77.595L56.788 77.925L57.436 77.476L57.208 77.147Z",
+              "windingRule": "NONZERO"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "id": "17:60",
+          "type": "FRAME",
+          "name": "Numbers",
+          "box": {
+           "x": 132.25,
+           "y": 433.02,
+           "w": 21.64,
+           "h": 109.8
+          },
+          "offset": {
+           "x": 0,
+           "y": 0
+          },
+          "layout": {
+           "direction": "column",
+           "gap": 12.8231782913208,
+           "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+           },
+           "justifyContent": "space-between",
+           "alignItems": "center",
+           "wrap": false,
+           "primarySizing": "FIXED",
+           "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+          },
+          "children": [
+           {
+            "id": "17:61",
+            "type": "FRAME",
+            "name": "Frame 25",
+            "box": {
+             "x": 132.25,
+             "y": 433.02,
+             "w": 21.64,
+             "h": 12.02
+            },
+            "offset": {
+             "x": 0,
+             "y": 0
+            },
+            "layout": {
+             "direction": "row",
+             "gap": 6.4115891456604,
+             "padding": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+             },
+             "justifyContent": "space-between",
+             "alignItems": "center",
+             "wrap": false,
+             "primarySizing": "FIXED",
+             "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+            },
+            "alignSelf": "STRETCH",
+            "children": [
+             {
+              "id": "17:62",
+              "type": "TEXT",
+              "name": "300",
+              "box": {
+               "x": 132.25,
+               "y": 433.02,
+               "w": 21.64,
+               "h": 12.02
+              },
+              "offset": {
+               "x": 0,
+               "y": 0
+              },
+              "fills": [
+               {
+                "kind": "solid",
+                "color": "rgba(99, 112, 122, 1)",
+                "hex": "#63707a"
+               }
+              ],
+              "text": "300",
+              "textStyle": {
+               "family": "Albert Sans",
+               "style": "SemiBold",
+               "size": 8.815935134887695,
+               "lineHeight": 1.6,
+               "letterSpacing": null,
+               "align": "LEFT",
+               "verticalAlign": "TOP",
+               "case": null,
+               "decoration": null,
+               "autoResize": null
+              },
+              "lines": [
+               {
+                "text": "300",
+                "x": 0,
+                "y": 10.09,
+                "w": 16.55
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "id": "17:63",
+            "type": "FRAME",
+            "name": "Frame 1",
+            "box": {
+             "x": 132.25,
+             "y": 457.46,
+             "w": 21.64,
+             "h": 12.02
+            },
+            "offset": {
+             "x": 0,
+             "y": 24.44
+            },
+            "layout": {
+             "direction": "row",
+             "gap": 6.4115891456604,
+             "padding": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+             },
+             "justifyContent": "space-between",
+             "alignItems": "center",
+             "wrap": false,
+             "primarySizing": "FIXED",
+             "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+            },
+            "alignSelf": "STRETCH",
+            "children": [
+             {
+              "id": "17:64",
+              "type": "TEXT",
+              "name": "250",
+              "box": {
+               "x": 132.25,
+               "y": 457.46,
+               "w": 21.64,
+               "h": 12.02
+              },
+              "offset": {
+               "x": 0,
+               "y": 0
+              },
+              "grow": 1,
+              "fills": [
+               {
+                "kind": "solid",
+                "color": "rgba(99, 112, 122, 1)",
+                "hex": "#63707a"
+               }
+              ],
+              "text": "250",
+              "textStyle": {
+               "family": "Albert Sans",
+               "style": "SemiBold",
+               "size": 8.815935134887695,
+               "lineHeight": 1.6,
+               "letterSpacing": null,
+               "align": "LEFT",
+               "verticalAlign": "TOP",
+               "case": null,
+               "decoration": null,
+               "autoResize": null
+              },
+              "lines": [
+               {
+                "text": "250",
+                "x": 0,
+                "y": 10.09,
+                "w": 16.36
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "id": "17:65",
+            "type": "FRAME",
+            "name": "Frame 1",
+            "box": {
+             "x": 132.25,
+             "y": 481.91,
+             "w": 21.64,
+             "h": 12.02
+            },
+            "offset": {
+             "x": 0,
+             "y": 48.89
+            },
+            "layout": {
+             "direction": "row",
+             "gap": 6.4115891456604,
+             "padding": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+             },
+             "justifyContent": "space-between",
+             "alignItems": "center",
+             "wrap": false,
+             "primarySizing": "FIXED",
+             "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+            },
+            "alignSelf": "STRETCH",
+            "children": [
+             {
+              "id": "17:66",
+              "type": "TEXT",
+              "name": "200",
+              "box": {
+               "x": 132.25,
+               "y": 481.91,
+               "w": 21.64,
+               "h": 12.02
+              },
+              "offset": {
+               "x": 0,
+               "y": 0
+              },
+              "grow": 1,
+              "fills": [
+               {
+                "kind": "solid",
+                "color": "rgba(99, 112, 122, 1)",
+                "hex": "#63707a"
+               }
+              ],
+              "text": "200",
+              "textStyle": {
+               "family": "Albert Sans",
+               "style": "SemiBold",
+               "size": 8.815935134887695,
+               "lineHeight": 1.6,
+               "letterSpacing": null,
+               "align": "LEFT",
+               "verticalAlign": "TOP",
+               "case": null,
+               "decoration": null,
+               "autoResize": null
+              },
+              "lines": [
+               {
+                "text": "200",
+                "x": 0,
+                "y": 10.09,
+                "w": 16.53
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "id": "17:67",
+            "type": "FRAME",
+            "name": "Frame 1",
+            "box": {
+             "x": 132.25,
+             "y": 506.35,
+             "w": 21.64,
+             "h": 12.02
+            },
+            "offset": {
+             "x": 0,
+             "y": 73.33
+            },
+            "layout": {
+             "direction": "row",
+             "gap": 6.4115891456604,
+             "padding": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+             },
+             "justifyContent": "space-between",
+             "alignItems": "center",
+             "wrap": false,
+             "primarySizing": "FIXED",
+             "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+            },
+            "alignSelf": "STRETCH",
+            "children": [
+             {
+              "id": "17:68",
+              "type": "TEXT",
+              "name": "100",
+              "box": {
+               "x": 132.25,
+               "y": 506.35,
+               "w": 21.64,
+               "h": 12.02
+              },
+              "offset": {
+               "x": 0,
+               "y": 0
+              },
+              "grow": 1,
+              "fills": [
+               {
+                "kind": "solid",
+                "color": "rgba(99, 112, 122, 1)",
+                "hex": "#63707a"
+               }
+              ],
+              "text": "100",
+              "textStyle": {
+               "family": "Albert Sans",
+               "style": "SemiBold",
+               "size": 8.815935134887695,
+               "lineHeight": 1.6,
+               "letterSpacing": null,
+               "align": "LEFT",
+               "verticalAlign": "TOP",
+               "case": null,
+               "decoration": null,
+               "autoResize": null
+              },
+              "lines": [
+               {
+                "text": "100",
+                "x": 0,
+                "y": 10.09,
+                "w": 14.15
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "id": "17:69",
+            "type": "FRAME",
+            "name": "Frame 1",
+            "box": {
+             "x": 132.25,
+             "y": 530.79,
+             "w": 21.64,
+             "h": 12.02
+            },
+            "offset": {
+             "x": 0,
+             "y": 97.78
+            },
+            "layout": {
+             "direction": "row",
+             "gap": 6.4115891456604,
+             "padding": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+             },
+             "justifyContent": "space-between",
+             "alignItems": "center",
+             "wrap": false,
+             "primarySizing": "FIXED",
+             "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+            },
+            "alignSelf": "STRETCH",
+            "children": [
+             {
+              "id": "17:70",
+              "type": "TEXT",
+              "name": "0",
+              "box": {
+               "x": 132.25,
+               "y": 530.79,
+               "w": 21.64,
+               "h": 12.02
+              },
+              "offset": {
+               "x": 0,
+               "y": 0
+              },
+              "grow": 1,
+              "fills": [
+               {
+                "kind": "solid",
+                "color": "rgba(99, 112, 122, 1)",
+                "hex": "#63707a"
+               }
+              ],
+              "text": "0",
+              "textStyle": {
+               "family": "Albert Sans",
+               "style": "SemiBold",
+               "size": 8.815935134887695,
+               "lineHeight": 1.6,
+               "letterSpacing": null,
+               "align": "LEFT",
+               "verticalAlign": "TOP",
+               "case": null,
+               "decoration": null,
+               "autoResize": null
+              },
+              "lines": [
+               {
+                "text": "0",
+                "x": 0,
+                "y": 10.09,
+                "w": 5.65
+               }
+              ]
+             },
+             {
+              "id": "17:71",
+              "type": "FRAME",
+              "name": "Group 1597881551",
+              "box": {
+               "x": 166.71,
+               "y": 433.2,
+               "w": 373.08,
+               "h": 103.52
+              },
+              "offset": {
+               "x": 34.46,
+               "y": -97.59
+              },
+              "isGroup": true,
+              "absolute": true,
+              "children": [
+               {
+                "id": "17:72",
+                "type": "VECTOR",
+                "name": "Line 3",
+                "box": {
+                 "x": 166.71,
+                 "y": 433.2,
+                 "w": 372.52,
+                 "h": 0
+                },
+                "offset": {
+                 "x": 0,
+                 "y": 0
+                },
+                "strokes": [
+                 {
+                  "kind": "solid",
+                  "color": "rgba(242, 239, 252, 1)",
+                  "hex": "#f2effc"
+                 }
+                ],
+                "strokeWeight": 0.80144864320755,
+                "strokeAlign": "CENTER",
+                "strokeJoin": "MITER",
+                "paths": [
+                 {
+                  "kind": "stroke",
+                  "d": "M0 0L0 0.401L372.523 0.401L372.523 0L372.523 -0.401L0 -0.401L0 0Z",
+                  "windingRule": "NONZERO"
+                 }
+                ]
+               },
+               {
+                "id": "17:73",
+                "type": "VECTOR",
+                "name": "Line 3",
+                "box": {
+                 "x": 166.71,
+                 "y": 458.87,
+                 "w": 372.52,
+                 "h": 0
+                },
+                "offset": {
+                 "x": 0,
+                 "y": 25.67
+                },
+                "strokes": [
+                 {
+                  "kind": "solid",
+                  "color": "rgba(242, 239, 252, 1)",
+                  "hex": "#f2effc"
+                 }
+                ],
+                "strokeWeight": 0.80144864320755,
+                "strokeAlign": "CENTER",
+                "strokeJoin": "MITER",
+                "paths": [
+                 {
+                  "kind": "stroke",
+                  "d": "M0 0L0 0.401L372.523 0.401L372.523 0L372.523 -0.401L0 -0.401L0 0Z",
+                  "windingRule": "NONZERO"
+                 }
+                ]
+               },
+               {
+                "id": "17:74",
+                "type": "VECTOR",
+                "name": "Line 3",
+                "box": {
+                 "x": 166.71,
+                 "y": 485.38,
+                 "w": 372.52,
+                 "h": 0
+                },
+                "offset": {
+                 "x": 0,
+                 "y": 52.18
+                },
+                "strokes": [
+                 {
+                  "kind": "solid",
+                  "color": "rgba(242, 239, 252, 1)",
+                  "hex": "#f2effc"
+                 }
+                ],
+                "strokeWeight": 0.80144864320755,
+                "strokeAlign": "CENTER",
+                "strokeJoin": "MITER",
+                "paths": [
+                 {
+                  "kind": "stroke",
+                  "d": "M0 0L0 0.401L372.523 0.401L372.523 0L372.523 -0.401L0 -0.401L0 0Z",
+                  "windingRule": "NONZERO"
+                 }
+                ]
+               },
+               {
+                "id": "17:75",
+                "type": "VECTOR",
+                "name": "Line 3",
+                "box": {
+                 "x": 166.71,
+                 "y": 511.05,
+                 "w": 372.52,
+                 "h": 0
+                },
+                "offset": {
+                 "x": 0,
+                 "y": 77.85
+                },
+                "strokes": [
+                 {
+                  "kind": "solid",
+                  "color": "rgba(242, 239, 252, 1)",
+                  "hex": "#f2effc"
+                 }
+                ],
+                "strokeWeight": 0.80144864320755,
+                "strokeAlign": "CENTER",
+                "strokeJoin": "MITER",
+                "paths": [
+                 {
+                  "kind": "stroke",
+                  "d": "M0 0L0 0.401L372.523 0.401L372.523 0L372.523 -0.401L0 -0.401L0 0Z",
+                  "windingRule": "NONZERO"
+                 }
+                ]
+               },
+               {
+                "id": "17:76",
+                "type": "VECTOR",
+                "name": "Line 3",
+                "box": {
+                 "x": 166.71,
+                 "y": 536.72,
+                 "w": 373.08,
+                 "h": 0
+                },
+                "offset": {
+                 "x": 0,
+                 "y": 103.52
+                },
+                "strokes": [
+                 {
+                  "kind": "solid",
+                  "color": "rgba(242, 239, 252, 1)",
+                  "hex": "#f2effc"
+                 }
+                ],
+                "strokeWeight": 0.80144864320755,
+                "strokeAlign": "CENTER",
+                "strokeJoin": "MITER",
+                "paths": [
+                 {
+                  "kind": "stroke",
+                  "d": "M0 0L0 0.401L373.083 0.401L373.083 0L373.083 -0.401L0 -0.401L0 0Z",
+                  "windingRule": "NONZERO"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "id": "17:77",
+          "type": "FRAME",
+          "name": "Years",
+          "box": {
+           "x": 166.71,
+           "y": 433.02,
+           "w": 372.67,
+           "h": 128.23
+          },
+          "offset": {
+           "x": 34.46,
+           "y": 0
+          },
+          "layout": {
+           "direction": "row",
+           "gap": 24.043458938598633,
+           "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+           },
+           "justifyContent": "space-between",
+           "alignItems": "flex-start",
+           "wrap": false,
+           "primarySizing": "FIXED",
+           "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+          },
+          "children": [
+           {
+            "id": "17:78",
+            "type": "FRAME",
+            "name": "Frame 24",
+            "box": {
+             "x": 166.71,
+             "y": 433.02,
+             "w": 37,
+             "h": 128.23
+            },
+            "offset": {
+             "x": 0,
+             "y": 0
+            },
+            "layout": {
+             "direction": "column",
+             "gap": 12.8231782913208,
+             "padding": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+             },
+             "justifyContent": "flex-start",
+             "alignItems": "center",
+             "wrap": false,
+             "primarySizing": "FIXED",
+             "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+            },
+            "children": [
+             {
+              "id": "17:79",
+              "type": "LINE",
+              "name": "Line 3",
+              "box": {
+               "x": 185.21,
+               "y": 433.02,
+               "w": 97.41,
+               "h": 0
+              },
+              "offset": {
+               "x": 18.5,
+               "y": 97.41
+              },
+              "matrix": [
+               0,
+               -1,
+               1,
+               0,
+               185.21269,
+               530.42644
+              ],
+              "rotation": -90,
+              "flipX": true,
+              "flipY": true,
+              "grow": 1,
+              "strokes": [
+               {
+                "kind": "solid",
+                "color": "rgba(242, 239, 252, 1)",
+                "hex": "#f2effc"
+               }
+              ],
+              "strokeWeight": 0.80144864320755,
+              "strokeAlign": "CENTER",
+              "strokeJoin": "MITER",
+              "paths": [
+               {
+                "kind": "stroke",
+                "d": "M0 -0.401L0 0L97.409 0L97.409 -0.401L97.409 -0.801L0 -0.801L0 -0.401Z",
+                "windingRule": "NONZERO"
+               }
+              ]
+             },
+             {
+              "id": "17:80",
+              "type": "TEXT",
+              "name": "Week 1",
+              "box": {
+               "x": 166.71,
+               "y": 543.25,
+               "w": 37,
+               "h": 18
+              },
+              "offset": {
+               "x": 0,
+               "y": 110.23
+              },
+              "fills": [
+               {
+                "kind": "solid",
+                "color": "rgba(99, 112, 122, 1)",
+                "hex": "#63707a"
+               }
+              ],
+              "text": "Week 1",
+              "textStyle": {
+               "family": "Albert Sans",
+               "style": "Medium",
+               "size": 11.220280647277832,
+               "lineHeight": 1.6,
+               "letterSpacing": null,
+               "align": "CENTER",
+               "verticalAlign": "CENTER",
+               "case": null,
+               "decoration": null,
+               "autoResize": "WIDTH_AND_HEIGHT"
+              },
+              "lines": [
+               {
+                "text": "Week 1",
+                "x": 0.45,
+                "y": 12.93,
+                "w": 36.1
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "id": "17:81",
+            "type": "FRAME",
+            "name": "Frame 17",
+            "box": {
+             "x": 275.6,
+             "y": 433.02,
+             "w": 40,
+             "h": 128.23
+            },
+            "offset": {
+             "x": 108.89,
+             "y": 0
+            },
+            "layout": {
+             "direction": "column",
+             "gap": 12.8231782913208,
+             "padding": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+             },
+             "justifyContent": "flex-start",
+             "alignItems": "center",
+             "wrap": false,
+             "primarySizing": "FIXED",
+             "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+            },
+            "children": [
+             {
+              "id": "17:82",
+              "type": "LINE",
+              "name": "Line 3",
+              "box": {
+               "x": 295.6,
+               "y": 433.02,
+               "w": 97.41,
+               "h": 0
+              },
+              "offset": {
+               "x": 20,
+               "y": 97.41
+              },
+              "matrix": [
+               0,
+               -1,
+               1,
+               0,
+               295.60387,
+               530.42644
+              ],
+              "rotation": -90,
+              "flipX": true,
+              "flipY": true,
+              "grow": 1,
+              "strokes": [
+               {
+                "kind": "solid",
+                "color": "rgba(242, 239, 252, 1)",
+                "hex": "#f2effc"
+               }
+              ],
+              "strokeWeight": 0.80144864320755,
+              "strokeAlign": "CENTER",
+              "strokeJoin": "MITER",
+              "paths": [
+               {
+                "kind": "stroke",
+                "d": "M0 -0.401L0 0L97.409 0L97.409 -0.401L97.409 -0.801L0 -0.801L0 -0.401Z",
+                "windingRule": "NONZERO"
+               }
+              ]
+             },
+             {
+              "id": "17:83",
+              "type": "TEXT",
+              "name": "Week 2",
+              "box": {
+               "x": 275.6,
+               "y": 543.25,
+               "w": 40,
+               "h": 18
+              },
+              "offset": {
+               "x": 0,
+               "y": 110.23
+              },
+              "fills": [
+               {
+                "kind": "solid",
+                "color": "rgba(99, 112, 122, 1)",
+                "hex": "#63707a"
+               }
+              ],
+              "text": "Week 2",
+              "textStyle": {
+               "family": "Albert Sans",
+               "style": "Medium",
+               "size": 11.220280647277832,
+               "lineHeight": 1.6,
+               "letterSpacing": null,
+               "align": "CENTER",
+               "verticalAlign": "CENTER",
+               "case": null,
+               "decoration": null,
+               "autoResize": "WIDTH_AND_HEIGHT"
+              },
+              "lines": [
+               {
+                "text": "Week 2",
+                "x": 0.36,
+                "y": 12.93,
+                "w": 39.28
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "id": "17:84",
+            "type": "FRAME",
+            "name": "Frame 18",
+            "box": {
+             "x": 387.5,
+             "y": 433.02,
+             "w": 40,
+             "h": 128.23
+            },
+            "offset": {
+             "x": 220.78,
+             "y": 0
+            },
+            "layout": {
+             "direction": "column",
+             "gap": 12.8231782913208,
+             "padding": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+             },
+             "justifyContent": "flex-start",
+             "alignItems": "center",
+             "wrap": false,
+             "primarySizing": "FIXED",
+             "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+            },
+            "children": [
+             {
+              "id": "17:85",
+              "type": "LINE",
+              "name": "Line 3",
+              "box": {
+               "x": 407.5,
+               "y": 433.02,
+               "w": 97.41,
+               "h": 0
+              },
+              "offset": {
+               "x": 20,
+               "y": 97.41
+              },
+              "matrix": [
+               0,
+               -1,
+               1,
+               0,
+               407.49505,
+               530.42644
+              ],
+              "rotation": -90,
+              "flipX": true,
+              "flipY": true,
+              "grow": 1,
+              "strokes": [
+               {
+                "kind": "solid",
+                "color": "rgba(242, 239, 252, 1)",
+                "hex": "#f2effc"
+               }
+              ],
+              "strokeWeight": 0.80144864320755,
+              "strokeAlign": "CENTER",
+              "strokeJoin": "MITER",
+              "paths": [
+               {
+                "kind": "stroke",
+                "d": "M0 -0.401L0 0L97.409 0L97.409 -0.401L97.409 -0.801L0 -0.801L0 -0.401Z",
+                "windingRule": "NONZERO"
+               }
+              ]
+             },
+             {
+              "id": "17:86",
+              "type": "TEXT",
+              "name": "Week 3",
+              "box": {
+               "x": 387.5,
+               "y": 543.25,
+               "w": 40,
+               "h": 18
+              },
+              "offset": {
+               "x": 0,
+               "y": 110.23
+              },
+              "fills": [
+               {
+                "kind": "solid",
+                "color": "rgba(99, 112, 122, 1)",
+                "hex": "#63707a"
+               }
+              ],
+              "text": "Week 3",
+              "textStyle": {
+               "family": "Albert Sans",
+               "style": "Medium",
+               "size": 11.220280647277832,
+               "lineHeight": 1.6,
+               "letterSpacing": null,
+               "align": "CENTER",
+               "verticalAlign": "CENTER",
+               "case": null,
+               "decoration": null,
+               "autoResize": "WIDTH_AND_HEIGHT"
+              },
+              "lines": [
+               {
+                "text": "Week 3",
+                "x": 0.36,
+                "y": 12.93,
+                "w": 39.27
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "id": "17:87",
+            "type": "FRAME",
+            "name": "Frame 19",
+            "box": {
+             "x": 499.39,
+             "y": 433.02,
+             "w": 40,
+             "h": 128.23
+            },
+            "offset": {
+             "x": 332.67,
+             "y": 0
+            },
+            "layout": {
+             "direction": "column",
+             "gap": 12.8231782913208,
+             "padding": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+             },
+             "justifyContent": "flex-start",
+             "alignItems": "center",
+             "wrap": false,
+             "primarySizing": "FIXED",
+             "counterSizing": "RESIZE_TO_FIT_WITH_IMPLICIT_SIZE"
+            },
+            "children": [
+             {
+              "id": "17:88",
+              "type": "LINE",
+              "name": "Line 3",
+              "box": {
+               "x": 519.39,
+               "y": 433.02,
+               "w": 97.41,
+               "h": 0
+              },
+              "offset": {
+               "x": 20,
+               "y": 97.41
+              },
+              "matrix": [
+               0,
+               -1,
+               1,
+               0,
+               519.38624,
+               530.42644
+              ],
+              "rotation": -90,
+              "flipX": true,
+              "flipY": true,
+              "grow": 1,
+              "strokes": [
+               {
+                "kind": "solid",
+                "color": "rgba(242, 239, 252, 1)",
+                "hex": "#f2effc"
+               }
+              ],
+              "strokeWeight": 0.80144864320755,
+              "strokeAlign": "CENTER",
+              "strokeJoin": "MITER",
+              "paths": [
+               {
+                "kind": "stroke",
+                "d": "M0 -0.401L0 0L97.409 0L97.409 -0.401L97.409 -0.801L0 -0.801L0 -0.401Z",
+                "windingRule": "NONZERO"
+               }
+              ]
+             },
+             {
+              "id": "17:89",
+              "type": "TEXT",
+              "name": "Week 4",
+              "box": {
+               "x": 499.39,
+               "y": 543.25,
+               "w": 40,
+               "h": 18
+              },
+              "offset": {
+               "x": 0,
+               "y": 110.23
+              },
+              "fills": [
+               {
+                "kind": "solid",
+                "color": "rgba(99, 112, 122, 1)",
+                "hex": "#63707a"
+               }
+              ],
+              "text": "Week 4",
+              "textStyle": {
+               "family": "Albert Sans",
+               "style": "Medium",
+               "size": 11.220280647277832,
+               "lineHeight": 1.6,
+               "letterSpacing": null,
+               "align": "CENTER",
+               "verticalAlign": "CENTER",
+               "case": null,
+               "decoration": null,
+               "autoResize": "WIDTH_AND_HEIGHT"
+              },
+              "lines": [
+               {
+                "text": "Week 4",
+                "x": 0.04,
+                "y": 12.93,
+                "w": 39.92
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "17:90",
+    "type": "FRAME",
+    "name": "Frame 2085665224",
+    "box": {
+     "x": 784,
+     "y": 197.5,
+     "w": 592,
+     "h": 301
+    },
+    "offset": {
+     "x": 784,
+     "y": 197.5
+    },
+    "layout": {
+     "direction": "column",
+     "gap": 24,
+     "padding": {
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+     },
+     "justifyContent": "flex-start",
+     "alignItems": "flex-start",
+     "wrap": false,
+     "primarySizing": null,
+     "counterSizing": null
+    },
+    "children": [
+     {
+      "id": "17:91",
+      "type": "TEXT",
+      "name": "The Truth About Your Operations.",
+      "box": {
+       "x": 784,
+       "y": 197.5,
+       "w": 594.56,
+       "h": 124
+      },
+      "offset": {
+       "x": 0,
+       "y": 0
+      },
+      "fills": [
+       {
+        "kind": "solid",
+        "color": "rgba(12, 10, 16, 1)",
+        "hex": "#0c0a10"
+       }
+      ],
+      "text": "The Truth About Your Operations.",
+      "textStyle": {
+       "family": "EB Garamond",
+       "style": "Regular",
+       "size": 52,
+       "lineHeight": 1.2,
+       "letterSpacing": null,
+       "align": "LEFT",
+       "verticalAlign": "CENTER",
+       "case": null,
+       "decoration": null,
+       "autoResize": "HEIGHT"
+      },
+      "lines": [
+       {
+        "text": "The Truth About Your ",
+        "x": 0,
+        "y": 49.59,
+        "w": 459.67
+       },
+       {
+        "text": "Operations.",
+        "x": 0,
+        "y": 111.59,
+        "w": 235.98
+       }
+      ]
+     },
+     {
+      "id": "17:92",
+      "type": "TEXT",
+      "name": "Most agencies scale blindly. Talentilo replaces gut feeling with a live CV Shortlist Rate and CV Submissions tracker—a single dashboard that measures speed, bottlenecks, and true pipeline health.",
+      "box": {
+       "x": 784,
+       "y": 345.5,
+       "w": 569.78,
+       "h": 81
+      },
+      "offset": {
+       "x": 0,
+       "y": 148
+      },
+      "fills": [
+       {
+        "kind": "solid",
+        "color": "rgba(12, 10, 16, 1)",
+        "hex": "#0c0a10"
+       }
+      ],
+      "text": "Most agencies scale blindly. Talentilo replaces gut feeling with a live CV Shortlist Rate and CV Submissions tracker—a single dashboard that measures speed, bottlenecks, and true pipeline health.",
+      "textStyle": {
+       "family": "Albert Sans",
+       "style": "Regular",
+       "size": 17,
+       "lineHeight": 1.6,
+       "letterSpacing": null,
+       "align": "LEFT",
+       "verticalAlign": "TOP",
+       "case": null,
+       "decoration": null,
+       "autoResize": "HEIGHT"
+      },
+      "lines": [
+       {
+        "text": "Most agencies scale blindly. Talentilo replaces gut feeling with a live CV ",
+        "x": 0,
+        "y": 19.45,
+        "w": 562.73
+       },
+       {
+        "text": "Shortlist Rate and CV Submissions tracker—a single dashboard that ",
+        "x": 0,
+        "y": 46.45,
+        "w": 533.03
+       },
+       {
+        "text": "measures speed, bottlenecks, and true pipeline health.",
+        "x": 0,
+        "y": 73.45,
+        "w": 425.25
+       }
+      ],
+      "runs": [
+       {
+        "start": 0,
+        "end": 72
+       },
+       {
+        "start": 72,
+        "end": 116,
+        "style": "SemiBold"
+       },
+       {
+        "start": 116,
+        "end": 195
+       }
+      ]
+     },
+     {
+      "id": "17:93",
+      "type": "FRAME",
+      "name": "Common buttons",
+      "box": {
+       "x": 784,
+       "y": 450.5,
+       "w": 197,
+       "h": 48
+      },
+      "offset": {
+       "x": 0,
+       "y": 253
+      },
+      "layout": {
+       "direction": "row",
+       "gap": 16,
+       "padding": {
+        "top": 12,
+        "right": 24,
+        "bottom": 12,
+        "left": 24
+       },
+       "justifyContent": "center",
+       "alignItems": "center",
+       "wrap": false,
+       "primarySizing": null,
+       "counterSizing": null
+      },
+      "fills": [
+       {
+        "kind": "solid",
+        "color": "rgba(12, 10, 16, 1)",
+        "hex": "#0c0a10"
+       }
+      ],
+      "radius": {
+       "topLeft": 50,
+       "topRight": 50,
+       "bottomRight": 50,
+       "bottomLeft": 50
+      },
+      "children": [
+       {
+        "id": "17:94",
+        "type": "INSTANCE",
+        "name": "arrrow-left",
+        "box": {
+         "x": 808,
+         "y": 462.5,
+         "w": 24,
+         "h": 24
+        },
+        "offset": {
+         "x": 24,
+         "y": 12
+        },
+        "hidden": true,
+        "clipsContent": true,
+        "component": "arrrow-left",
+        "children": [
+         {
+          "id": "1:422",
+          "type": "VECTOR",
+          "name": "Vector",
+          "box": {
+           "x": 808,
+           "y": 462.5,
+           "w": 24,
+           "h": 24
+          },
+          "offset": {
+           "x": 0,
+           "y": 0
+          },
+          "paths": [
+           {
+            "kind": "outline",
+            "d": "M0 0L24 0L24 24L0 24L0 0Z",
+            "windingRule": "NONZERO"
+           }
+          ]
+         },
+         {
+          "id": "1:423",
+          "type": "VECTOR",
+          "name": "Vector",
+          "box": {
+           "x": 813,
+           "y": 474.5,
+           "w": 14,
+           "h": 0
+          },
+          "offset": {
+           "x": 5,
+           "y": 12
+          },
+          "strokes": [
+           {
+            "kind": "solid",
+            "color": "rgba(0, 0, 0, 1)",
+            "hex": "#000000"
+           }
+          ],
+          "strokeWeight": 1.5,
+          "strokeAlign": "CENTER",
+          "strokeCap": "ROUND",
+          "strokeJoin": "ROUND",
+          "paths": [
+           {
+            "kind": "outline",
+            "d": "M0 0L14 0",
+            "windingRule": "NONZERO"
+           }
+          ]
+         },
+         {
+          "id": "1:424",
+          "type": "VECTOR",
+          "name": "Vector",
+          "box": {
+           "x": 813,
+           "y": 474.5,
+           "w": 4,
+           "h": 4
+          },
+          "offset": {
+           "x": 5,
+           "y": 12
+          },
+          "strokes": [
+           {
+            "kind": "solid",
+            "color": "rgba(0, 0, 0, 1)",
+            "hex": "#000000"
+           }
+          ],
+          "strokeWeight": 1.5,
+          "strokeAlign": "CENTER",
+          "strokeCap": "ROUND",
+          "strokeJoin": "ROUND",
+          "paths": [
+           {
+            "kind": "outline",
+            "d": "M0 0L4 4",
+            "windingRule": "NONZERO"
+           }
+          ]
+         },
+         {
+          "id": "1:425",
+          "type": "VECTOR",
+          "name": "Vector",
+          "box": {
+           "x": 813,
+           "y": 470.5,
+           "w": 4,
+           "h": 4
+          },
+          "offset": {
+           "x": 5,
+           "y": 8
+          },
+          "strokes": [
+           {
+            "kind": "solid",
+            "color": "rgba(0, 0, 0, 1)",
+            "hex": "#000000"
+           }
+          ],
+          "strokeWeight": 1.5,
+          "strokeAlign": "CENTER",
+          "strokeCap": "ROUND",
+          "strokeJoin": "ROUND",
+          "paths": [
+           {
+            "kind": "outline",
+            "d": "M0 4L4 0",
+            "windingRule": "NONZERO"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "17:95",
+        "type": "TEXT",
+        "name": "See the Dashboard",
+        "box": {
+         "x": 808,
+         "y": 461,
+         "w": 149,
+         "h": 27
+        },
+        "offset": {
+         "x": 24,
+         "y": 10.5
+        },
+        "fills": [
+         {
+          "kind": "solid",
+          "color": "rgba(255, 255, 255, 1)",
+          "hex": "#ffffff"
+         }
+        ],
+        "text": "See the Dashboard ",
+        "textStyle": {
+         "family": "Albert Sans",
+         "style": "Medium",
+         "size": 17,
+         "lineHeight": 1.6,
+         "letterSpacing": null,
+         "align": "LEFT",
+         "verticalAlign": "CENTER",
+         "case": null,
+         "decoration": null,
+         "autoResize": "WIDTH_AND_HEIGHT"
+        },
+        "lines": [
+         {
+          "text": "See the Dashboard ",
+          "x": 0,
+          "y": 19.45,
+          "w": 153.12
+         }
+        ]
+       },
+       {
+        "id": "17:96",
+        "type": "INSTANCE",
+        "name": "arrow-right",
+        "box": {
+         "x": 917,
+         "y": 462.5,
+         "w": 24,
+         "h": 24
+        },
+        "offset": {
+         "x": 133,
+         "y": 12
+        },
+        "hidden": true,
+        "clipsContent": true,
+        "component": "arrow-right",
+        "children": [
+         {
+          "id": "1:428",
+          "type": "VECTOR",
+          "name": "Vector",
+          "box": {
+           "x": 917,
+           "y": 462.5,
+           "w": 24,
+           "h": 24
+          },
+          "offset": {
+           "x": 0,
+           "y": 0
+          },
+          "paths": [
+           {
+            "kind": "outline",
+            "d": "M0 0L24 0L24 24L0 24L0 0Z",
+            "windingRule": "NONZERO"
+           }
+          ]
+         },
+         {
+          "id": "1:429",
+          "type": "VECTOR",
+          "name": "Vector",
+          "box": {
+           "x": 922,
+           "y": 474.5,
+           "w": 14,
+           "h": 0
+          },
+          "offset": {
+           "x": 5,
+           "y": 12
+          },
+          "strokes": [
+           {
+            "kind": "solid",
+            "color": "rgba(0, 0, 0, 1)",
+            "hex": "#000000"
+           }
+          ],
+          "strokeWeight": 1.5,
+          "strokeAlign": "CENTER",
+          "strokeCap": "ROUND",
+          "strokeJoin": "ROUND",
+          "paths": [
+           {
+            "kind": "outline",
+            "d": "M0 0L14 0",
+            "windingRule": "NONZERO"
+           }
+          ]
+         },
+         {
+          "id": "1:430",
+          "type": "VECTOR",
+          "name": "Vector",
+          "box": {
+           "x": 932,
+           "y": 474.5,
+           "w": 4,
+           "h": 4
+          },
+          "offset": {
+           "x": 15,
+           "y": 12
+          },
+          "strokes": [
+           {
+            "kind": "solid",
+            "color": "rgba(0, 0, 0, 1)",
+            "hex": "#000000"
+           }
+          ],
+          "strokeWeight": 1.5,
+          "strokeAlign": "CENTER",
+          "strokeCap": "ROUND",
+          "strokeJoin": "ROUND",
+          "paths": [
+           {
+            "kind": "outline",
+            "d": "M0 4L4 0",
+            "windingRule": "NONZERO"
+           }
+          ]
+         },
+         {
+          "id": "1:431",
+          "type": "VECTOR",
+          "name": "Vector",
+          "box": {
+           "x": 932,
+           "y": 470.5,
+           "w": 4,
+           "h": 4
+          },
+          "offset": {
+           "x": 15,
+           "y": 8
+          },
+          "strokes": [
+           {
+            "kind": "solid",
+            "color": "rgba(0, 0, 0, 1)",
+            "hex": "#000000"
+           }
+          ],
+          "strokeWeight": 1.5,
+          "strokeAlign": "CENTER",
+          "strokeCap": "ROUND",
+          "strokeJoin": "ROUND",
+          "paths": [
+           {
+            "kind": "outline",
+            "d": "M0 0L4 4",
+            "windingRule": "NONZERO"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

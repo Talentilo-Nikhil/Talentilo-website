@@ -62,15 +62,6 @@
   "designHeight": 416.81,
   "alt": "Semantic matching engine ranking 500+ profiles down to 3 perfect matches"
  },
- "velocity-index": {
-  "src": "/figma/creatives/velocity-index.webp",
-  "fallback": "/figma/creatives/velocity-index.png",
-  "width": 1176,
-  "height": 1072,
-  "designWidth": 588,
-  "designHeight": 536,
-  "alt": "Agency Velocity Index dashboard"
- },
  "ao-testimonial": {
   "src": "/figma/creatives/ao-testimonial.webp",
   "fallback": "/figma/creatives/ao-testimonial.png",
@@ -205,6 +196,15 @@
   "designWidth": 1312,
   "designHeight": 518,
   "alt": "External search cost compared with Active Recall"
+ },
+ "velocity-index": {
+  "src": "/figma/creatives/velocity-index.webp",
+  "fallback": "/figma/creatives/velocity-index.png",
+  "width": 1176,
+  "height": 1072,
+  "designWidth": 588,
+  "designHeight": 536,
+  "alt": "A live CV shortlist rate, quarterly fulfilment goal and CV submissions trend"
  },
  "offer-risk-alerts": {
   "src": "/figma/creatives/offer-risk-alerts.webp",
