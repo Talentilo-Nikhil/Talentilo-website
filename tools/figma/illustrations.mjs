@@ -386,8 +386,9 @@ const EXPORTS = {
       path: '#4/Semantic Matching Engine',
       label: 'Semantic matching engine ranking 500+ profiles down to 3 perfect matches',
     },
-    // `offer-risk-alerts` now comes from the revision export — see `upd-offer-risk` below.
-    { file: 'velocity-index', path: '#6/Visual-3', label: 'Agency Velocity Index dashboard' },
+    // `offer-risk-alerts` now comes from the revision export — see `upd-offer-risk` below, and
+    // `velocity-index` likewise from `upd-velocity-index`: the dashboard was redrawn after this
+    // file was cut, so `#6/Visual-3` here is the superseded artwork.
   ],
 
   /**
@@ -649,6 +650,22 @@ const EXPORTS = {
   ],
 
   // Single frames lifted out of the revision export, which carries only what it revises.
+  /*
+   * The home page's operations dashboard, redrawn.
+   *
+   * The original in Talentilowebsite.fig labelled the gauge "Agency Velocity Index" and the chart
+   * "Recruitment Velocity". Talentilo renamed both — CV Shortlist Rate and CV Submissions — and
+   * the redraw is not only a relabel: the three cards overlap rather than sitting in a grid, the
+   * chart gains a value axis and a period selector, and the ground carries the ray pattern. So
+   * this supersedes `homepage`'s `#6/Visual-3` rather than patching it.
+   */
+  'upd-velocity-index': [
+    {
+      file: 'velocity-index',
+      path: 'Visual-3',
+      label: 'A live CV shortlist rate, quarterly fulfilment goal and CV submissions trend',
+    },
+  ],
   'upd-offer-risk': [
     { file: 'offer-risk-alerts', path: '', label: 'Offer management system flagging at-risk deals' },
   ],
