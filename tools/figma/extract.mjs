@@ -97,6 +97,16 @@ export const STANDALONE_SOURCES = [
     file: 'website-update-v3.fig',
     frames: [{ frame: 'Recruiter-Target-1', slug: 'recruiter-performance' }],
   },
+  {
+    // A redraw of the home page's operations dashboard. The metrics on it are renamed — the
+    // gauge now reads CV Shortlist Rate and the chart CV Submissions, where the original said
+    // Agency Velocity Index and Recruitment Velocity — and the layout differs too: the cards
+    // overlap rather than sitting in a grid, the chart gains an axis and a period selector, and
+    // the ground carries the ray pattern. Cut here so `velocity-index` exports from the current
+    // artwork instead of the original file's.
+    file: 'website-update-v4.fig',
+    frames: [{ section: 'Homepage', frame: 'Homepage-creative-2', slug: 'upd-velocity-index' }],
+  },
 ];
 
 const guidKey = (g) => `${g.sessionID}:${g.localID}`;
