@@ -10,10 +10,11 @@ import { Creative } from '@/components/ui/Creative';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { DEMO_URL } from '@/config/navigation';
+import { site } from '@/config/site';
 import { companyStats } from '@/data/stats';
 
 export const metadata: Metadata = {
-  title: 'Talentilo.ai — The Recruitment Operating System',
+  title: `${site.titleBrand} | ${site.tagline}`,
   description:
     "Recruitment isn't about admin; it's about connection. Talentilo automates your workflow, closes the Speed Gap, and handles the end-to-end recruitment lifecycle.",
   alternates: { canonical: '/' },

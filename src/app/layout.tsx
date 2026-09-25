@@ -25,14 +25,14 @@ const ebGaramond = EB_Garamond({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — ${site.tagline}`,
-    template: `%s — ${site.name}`,
+    default: `${site.titleBrand} | ${site.tagline}`,
+    template: `%s | ${site.titleBrand}`,
   },
   description: site.description,
   openGraph: {
     type: 'website',
     siteName: site.name,
-    title: `${site.name} — ${site.tagline}`,
+    title: `${site.titleBrand} | ${site.tagline}`,
     description: site.description,
     url: site.url,
   },

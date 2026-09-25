@@ -149,11 +149,7 @@ export const footerColumns: FooterColumn[] = [
   },
 ];
 
-export const legalNav: NavLink[] = [
-  { label: 'Privacy Policy', href: '/privacy' },
-  { label: 'Terms and Conditions', href: '/terms' },
-  { label: 'Trust Center', href: '/trust' },
-];
+export const legalNav: NavLink[] = [{ label: 'Privacy Policy', href: '/privacy' }];
 
 /** Every route the site serves, used by the QA link checker. */
 export const allRoutes = [
@@ -170,6 +166,4 @@ export const allRoutes = [
   '/migration',
   '/contact',
   '/privacy',
-  '/terms',
-  '/trust',
 ] as const;

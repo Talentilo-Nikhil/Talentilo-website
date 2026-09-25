@@ -1,5 +1,12 @@
 export const site = {
   name: 'Talentilo.ai',
+  /**
+   * How the brand reads in a browser tab, where it is prose rather than an address.
+   *
+   * `name` stays the domain because that is what the copyright line, the structured data and the
+   * logo's label are naming; a tab is read, not typed, so the dot goes.
+   */
+  titleBrand: 'Talentilo AI',
   tagline: 'The Recruitment Operating System',
   description:
     'Talentilo is the intelligent Operating System for recruitment agencies — semantic matching, offer risk alerts and live recruiter targets in one place.',

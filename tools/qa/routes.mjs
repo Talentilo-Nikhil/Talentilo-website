@@ -13,8 +13,6 @@ export const ROUTES = [
   '/migration',
   '/contact',
   '/privacy',
-  '/terms',
-  '/trust',
 ];
 
 export const MISSING_ROUTE = '/this-route-does-not-exist';
