@@ -7,6 +7,7 @@ import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { HERO_REVEAL, PageHero } from '@/components/sections/PageHero';
 import { Creative } from '@/components/ui/Creative';
 import { JsonLd } from '@/components/ui/JsonLd';
+import { DEMO_URL } from '@/config/navigation';
 import { serviceSchema } from '@/lib/json-ld';
 
 const PAGE_DESCRIPTION =
@@ -45,7 +46,7 @@ export default function TalentIntelligencePage() {
       <PageHero
         title={'Your Next Hire is NOT\na Search Away.'}
         lede="Your ATS is likely a graveyard where great talent goes to be forgotten. Talentilo reads your job descriptions like a human and helps you find the best matches from your existing database — before you spend a rupee on new job ads or portals."
-        cta={{ label: 'Rank Your Existing Candidates', href: '/contact' }}
+        cta={{ label: 'Rank Your Existing Candidates', href: DEMO_URL }}
         ctaPlacement="overlay"
         wash="brand"
         creative="ti-hero-database"
@@ -56,7 +57,7 @@ export default function TalentIntelligencePage() {
         eyebrow="The Problem"
         title={'Why Boolean Logic Fails\nModern Recruitment.'}
         lede="Humans don't speak in rigid keywords, and neither should your software. Talentilo understands that a resume is a career story, not a word cloud. Our engine reads between the lines to connect the dots that exact-match software blindly misses."
-        cta={{ label: 'Rank Your Existing Candidates', href: '/contact' }}
+        cta={{ label: 'Rank Your Existing Candidates', href: DEMO_URL }}
         media={
           <div className="grid gap-10 md:grid-cols-2">
             <Creative
@@ -79,7 +80,7 @@ export default function TalentIntelligencePage() {
         body="Bad ATS algorithms simply count how many times a keyword appears. Talentilo scientifically scores each candidate from 0–100% on skills density, career trajectory and role relevance."
         points={[]}
         pullQuote="Don't read 50 resumes. Read the top 5."
-        cta={{ label: 'See It In Action', href: '/contact' }}
+        cta={{ label: 'See It In Action', href: DEMO_URL }}
         aside={
           <p className="text-small text-ink/80">
             Hiring engineers? See how the same scoring handles{' '}
@@ -141,7 +142,7 @@ export default function TalentIntelligencePage() {
       <CtaCentered
         title="Reveal the Hidden Value in Your Pipeline."
         lede="See how many placements are hiding in your database right now."
-        cta={{ label: 'Get Talentilo', href: '/contact' }}
+        cta={{ label: 'Get Talentilo', href: DEMO_URL }}
       />
     </>
   );

@@ -8,6 +8,7 @@ import { TabbedViews } from '@/components/sections/TabbedViews';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { DEMO_URL } from '@/config/navigation';
 import { views } from '@/data/views';
 import { serviceSchema } from '@/lib/json-ld';
 
@@ -36,7 +37,7 @@ export default function RecruitmentOsPage() {
       <PageHero
         title={'Your Entire Recruitment\nOperations. One View.'}
         lede="Stop managing disjointed spreadsheets. Talentilo unifies your pipelines, jobs and forecasting into a single source of truth. Get the precision instruments you need to spot bottlenecks and manage revenue risk instantly."
-        cta={{ label: 'See the Dashboard Live', href: '/contact' }}
+        cta={{ label: 'See the Dashboard Live', href: DEMO_URL }}
         ctaPlacement="overlay"
         note="Every job, every stage, one board"
         wash="brand"
@@ -99,7 +100,7 @@ export default function RecruitmentOsPage() {
       <CtaCentered
         title="Let No Detail Get Past You."
         lede="Stop guessing and start operating with precision."
-        cta={{ label: 'See how it works', href: '/contact' }}
+        cta={{ label: 'See how it works', href: DEMO_URL }}
       />
     </>
   );

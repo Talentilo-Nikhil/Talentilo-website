@@ -9,6 +9,7 @@ import { ButtonLink } from '@/components/ui/Button';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { DEMO_URL } from '@/config/navigation';
 import { companyStats } from '@/data/stats';
 import { serviceSchema } from '@/lib/json-ld';
 
@@ -37,14 +38,14 @@ export default function TechRecruitmentPage() {
       <PageHero
         title="Tech Recruitment Software That Speaks the Language of Engineering"
         lede="Great developers don't fit into keyword boxes. Most IT staffing software relies on rigid Boolean strings that miss top engineering talent. Talentilo decodes the actual tech stack, matching candidates based on architectural fit, coding capability, and experience density."
-        cta={{ label: 'Start Semantic Search', href: '/contact' }}
+        cta={{ label: 'Start Semantic Search', href: DEMO_URL }}
       />
 
       <FeatureSplit
         title={'Stop Matching "Java" to "JavaScript"'}
         body="Generic recruitment tools look for exact word matches. They flood your pipeline with false positives—candidates who mentioned a skill once in 2015. Talentilo’s Semantic Brain understands the relationship between technologies. It knows that 'React' implies 'Frontend' and 'Docker' implies 'DevOps,' filtering for genuine competency, not just buzzwords"
         points={[]}
-        cta={{ label: 'Get Started', href: '/contact' }}
+        cta={{ label: 'Get Started', href: DEMO_URL }}
         aside={
           <p className="text-small text-ink/80">
             The same engine powers{' '}
@@ -65,7 +66,7 @@ export default function TechRecruitmentPage() {
         title="Verify the Code. Before the Call"
         body="A resume claims expertise. A challenge proves it. Talentilo offers a Developer Assessment. Auto-rank candidates based on their actual pass rate"
         points={[]}
-        cta={{ label: 'Get Started', href: '/contact' }}
+        cta={{ label: 'Get Started', href: DEMO_URL }}
         creative="tr-verify"
         mediaSide="left"
       />
@@ -79,7 +80,7 @@ export default function TechRecruitmentPage() {
           <StatGrid stats={companyStats} />
         </div>
         <div className="mt-10 flex flex-col items-center gap-4">
-          <ButtonLink href="/contact" variant="dark">
+          <ButtonLink href={DEMO_URL} variant="dark">
             See the Dashboard Live
           </ButtonLink>
           <p className="text-small text-ink/80">
@@ -94,7 +95,7 @@ export default function TechRecruitmentPage() {
 
       <CtaBanner
         title="Build Your Technical Bench"
-        cta={{ label: 'Run a Technical Pipeline Audit', href: '/contact' }}
+        cta={{ label: 'Run a Technical Pipeline Audit', href: DEMO_URL }}
         imageHash="6c652468288e770c845ef5aa877e4ead5e6b85db"
       />
     </>

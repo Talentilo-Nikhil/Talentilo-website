@@ -10,6 +10,7 @@ import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
 import { JsonLd } from '@/components/ui/JsonLd';
+import { DEMO_URL } from '@/config/navigation';
 import { serviceSchema } from '@/lib/json-ld';
 
 const PAGE_DESCRIPTION =
@@ -41,7 +42,7 @@ export default function AiPowersPage() {
       <PageHero
         title={'Scale Your Output.\nNot Just Your Headcount.'}
         lede="Screening with Talentilo takes seconds. It's the AI-native platform that handles the top-of-funnel grind — screening, verifying and scheduling — so your team can focus on closing."
-        cta={{ label: 'Deploy AI Screening', href: '/contact' }}
+        cta={{ label: 'Deploy AI Screening', href: DEMO_URL }}
         ctaPlacement="overlay"
         wash="brand"
         creative="ap-hero-screening"
@@ -198,7 +199,7 @@ export default function AiPowersPage() {
       <CtaCentered
         title="Ready to Multiply Your Force?"
         lede="Switch to the AI-native Recruitment OS today."
-        cta={{ label: "Let's Talk Capacity", href: '/contact' }}
+        cta={{ label: "Let's Talk Capacity", href: DEMO_URL }}
       />
     </>
   );

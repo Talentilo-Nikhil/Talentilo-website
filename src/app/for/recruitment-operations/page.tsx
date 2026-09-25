@@ -5,6 +5,7 @@ import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
 import { StatGrid } from '@/components/sections/StatGrid';
 import { Section } from '@/components/ui/Section';
+import { DEMO_URL } from '@/config/navigation';
 import { companyStats } from '@/data/stats';
 
 export const metadata: Metadata = {
@@ -20,7 +21,7 @@ export default function RecruitmentOperationsPage() {
       <PageHero
         title="Create Order Without Killing Speed"
         lede="Most enterprise tools feel like handcuffs—they slow recruiters down in the name of process. Talentilo is different. We built an Enterprise Talent Acquisition Platform that enforces excellence while accelerating the workflow. Give your global team a standard of working that actually helps them hire"
-        cta={{ label: 'Orchestrate Your Operations', href: '/contact' }}
+        cta={{ label: 'Orchestrate Your Operations', href: DEMO_URL }}
       />
 
       {/*
@@ -63,7 +64,7 @@ export default function RecruitmentOperationsPage() {
 
       <CtaBanner
         title="Build a Recruitment Engine That Lasts"
-        cta={{ label: 'Take the Demo', href: '/contact' }}
+        cta={{ label: 'Take the Demo', href: DEMO_URL }}
       />
     </>
   );
