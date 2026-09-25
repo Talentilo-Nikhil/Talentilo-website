@@ -41,6 +41,30 @@ npm run figma:all        # spec + images + icons + creatives
 Everything under `design/spec/`, `src/data/`, `src/components/icons/` and `public/figma/` is
 generated. Edit the pipeline, not the output.
 
+## How a change reaches the live site
+
+The repository carries three kinds of branch, and the live site is not the one git calls default
+in the usual sense — it is the one Vercel builds:
+
+| Branch | What it is |
+|---|---|
+| `claude/figma-production-website-thucpj` | **Production.** Vercel builds this branch, and it is also the repository's default branch. A push here is a deployment. |
+| `main` | The integration branch. Work lands here first and is reviewed here. Merging to `main` does **not** deploy. |
+| `claude/<name>-bNN` | One short-lived branch per change, opened off `main`. |
+
+So a change ships in two merges:
+
+```bash
+git checkout -b claude/<name>-b44 origin/main    # one branch per change
+# ... work, then open a pull request into main and merge it
+# ... then open a second pull request, main -> claude/figma-production-website-thucpj, and merge that
+git fetch origin main claude/figma-production-website-thucpj
+git rev-list --count origin/claude/figma-production-website-thucpj..origin/main   # 0 when production is current
+```
+
+That last count is the check worth doing: if it is not `0`, something is sitting on `main` that the
+live site does not have yet.
+
 ## QA
 
 With the site running on `:3000`:
