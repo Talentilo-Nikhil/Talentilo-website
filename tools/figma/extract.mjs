@@ -105,7 +105,16 @@ export const STANDALONE_SOURCES = [
     // the ground carries the ray pattern. Cut here so `velocity-index` exports from the current
     // artwork instead of the original file's.
     file: 'website-update-v4.fig',
-    frames: [{ section: 'Homepage', frame: 'Homepage-creative-2', slug: 'upd-velocity-index' }],
+    frames: [
+      { section: 'Homepage', frame: 'Homepage-creative-2', slug: 'upd-velocity-index' },
+      // Both role views re-cut. The wrapper is unchanged from v1 — the same backdrop shapes and
+      // the screen at `#3` — but the screen inside each one is new: the Owner/VP now shows
+      // Recruiter Performance where it showed an annual target table, and the Ops Manager a
+      // candidate scoring breakdown where it showed the floor workspace. The Recruiter view is
+      // not in this archive and still comes from v1.
+      { section: '/platform/recruitment-os', frame: 'The Owner/VP', slug: 'platform-recruitment-os-owner' },
+      { section: '/platform/recruitment-os', frame: 'The Ops Manager', slug: 'platform-recruitment-os-ops' },
+    ],
   },
 ];
 

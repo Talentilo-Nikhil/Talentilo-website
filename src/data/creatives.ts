@@ -160,7 +160,7 @@ export const creatives = {
     "height": 1228,
     "designWidth": 1312,
     "designHeight": 614,
-    "alt": "The owner view: annual revenue targets tracked per recruiter"
+    "alt": "The owner view: one recruiter's month against target, with revenue, interviews, submissions and shortlist ratio"
   },
   "ros-view-ops": {
     "src": "/figma/creatives/ros-view-ops.webp",
@@ -169,7 +169,7 @@ export const creatives = {
     "height": 1228,
     "designWidth": 1312,
     "designHeight": 614,
-    "alt": "The operations view: floor alerts, held-up CVs and offer accept rate"
+    "alt": "The operations view: a candidate scored on location, experience, skills and education, with matched and missing skills named"
   },
   "ros-view-recruiter": {
     "src": "/figma/creatives/ros-view-recruiter.webp",
