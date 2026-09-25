@@ -148,27 +148,27 @@ export const creatives = {
     "src": "/figma/creatives/ros-view-owner.webp",
     "fallback": "/figma/creatives/ros-view-owner.png",
     "width": 2624,
-    "height": 1228,
+    "height": 1424,
     "designWidth": 1312,
-    "designHeight": 614,
+    "designHeight": 712,
     "alt": "The owner view: one recruiter's month against target, with revenue, interviews, submissions and shortlist ratio"
   },
   "ros-view-ops": {
     "src": "/figma/creatives/ros-view-ops.webp",
     "fallback": "/figma/creatives/ros-view-ops.png",
     "width": 2624,
-    "height": 1228,
+    "height": 1424,
     "designWidth": 1312,
-    "designHeight": 614,
+    "designHeight": 712,
     "alt": "The operations view: a candidate scored on location, experience, skills and education, with matched and missing skills named"
   },
   "ros-view-recruiter": {
     "src": "/figma/creatives/ros-view-recruiter.webp",
     "fallback": "/figma/creatives/ros-view-recruiter.png",
     "width": 2624,
-    "height": 1228,
+    "height": 1424,
     "designWidth": 1312,
-    "designHeight": 614,
+    "designHeight": 712,
     "alt": "The recruiter view: a single candidate record with contact details and history"
   },
   "ti-hero-database": {

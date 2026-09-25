@@ -414,6 +414,58 @@ function ingestPacket(id, [ax, ay], [bx, by], t = 0.42) {
 }
 
 /*
+ * Two misspellings on the recruiter view's form, which the taller ground puts in plain sight.
+ *
+ * "Availabilty" sat at y=631.85 and was clipped away at 614; it is on screen now. "Canel" was
+ * always half-visible on the Cancel button and is fully legible now. Both are the file's, not the
+ * site's, and neither is worth shipping on marketing artwork.
+ *
+ * Each label is auto-width and left-aligned, so retext measures the longer string against the
+ * width of the old one and refuses it. `lines` is seeded with a budget that clears the new string
+ * — the writer draws from it and retext recomputes the rest — and the button's label is nudged
+ * left by half the growth so it stays centred in a pill that is not re-laid out.
+ */
+function recruiterViewTypos() {
+  const cancel = '#3/#1/#1/#1/#2/#0/#0/#1/#0/#1/#0/#0';
+  const notice = '#3/#1/#1/#1/#2/#0/#1/#1/#2/#0/#0';
+  return {
+    patch: [
+      { path: cancel, box: { x: 629.06, y: 581.06, w: 20, h: 12 }, lines: [{ text: 'Canel', x: 0, y: 8.62, w: 26 }] },
+      {
+        path: notice,
+        lines: [{ text: 'Notice Period/ Availabilty to join', x: 0, y: 10.84, w: 150 }],
+      },
+    ],
+    retext: [
+      { path: cancel, text: 'Cancel' },
+      { path: notice, text: 'Notice Period/ Availability to join' },
+    ],
+  };
+}
+
+/*
+ * The pastel ground the three /platform/recruitment-os views sit on, cut taller.
+ *
+ * The ground is 1312x614 and the screen inside it is 677.65 tall from a 55px inset, so the frame
+ * cut the screen at 82.5% — which is the file's own device, "there is more screen than the
+ * picture". It cut too deep: the owner view's bottom row of cards (the shortlist-ratio setter,
+ * the annual-target gauge and the monthly-performance chart) was severed across the middle, and
+ * the ops view's scoring modal lost the last line of its AI summary.
+ *
+ * At 712 the owner's content ends at 705.4 with room to spare while its screen still runs off by
+ * 20.65px, so the device survives; the ops modal, which floats rather than bleeds, clears its own
+ * bottom edge at 661 and sits on the ground whole. The recruiter view still bleeds, and its three
+ * "Tata Motors" fields stay clipped — they sit at y=814, well past the new edge.
+ *
+ * Nothing inside the screens moves. The ground's fill and the two white hairlines belong to the
+ * root frame, which is what grows, so the extra height comes back as ground and revealed screen
+ * rather than as empty space.
+ */
+const GROUND_HEIGHT = 712;
+
+const tallerGround = () => [{ path: '', box: { x: 0, y: 0, w: 1312, h: GROUND_HEIGHT } }];
+
+/*
  * A gutter down both sides of the offer table.
  *
  * The table tiled the card exactly — six columns from its left edge to its right — with 8.18px of
@@ -698,7 +750,7 @@ const EXPORTS = {
       label:
         "The owner view: one recruiter's month against target, with revenue, interviews, submissions and shortlist ratio",
       // The "What's New" pill — see brandWash.
-      patch: [{ path: '#3/#1/#0/#1/#0/#0', fills: [brandWash()] }],
+      patch: [{ path: '#3/#1/#0/#1/#0/#0', fills: [brandWash()] }, ...tallerGround()],
       retext: recruiterTargetFixes('#3/'),
     },
   ],
@@ -710,6 +762,7 @@ const EXPORTS = {
         'The operations view: a candidate scored on location, experience, skills and education, with matched and missing skills named',
       // No pill and no company names to swap on this one: the floor workspace that carried both
       // has been replaced by a scoring panel, which has neither.
+      patch: tallerGround(),
     },
   ],
   'platform-recruitment-os-recruiter': [
@@ -720,7 +773,12 @@ const EXPORTS = {
       path: '',
       label: 'The recruiter view: a single candidate record with contact details and history',
       // The "What's New" pill — see brandWash.
-      patch: [{ path: '#3/#1/#0/#1/#0/#0', fills: [brandWash()] }],
+      patch: [
+        { path: '#3/#1/#0/#1/#0/#0', fills: [brandWash()] },
+        ...tallerGround(),
+        ...recruiterViewTypos().patch,
+      ],
+      retext: recruiterViewTypos().retext,
     },
   ],
 
