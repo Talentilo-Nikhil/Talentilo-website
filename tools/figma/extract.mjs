@@ -121,6 +121,11 @@ export const STANDALONE_SOURCES = [
       { section: '/platform/recruitment-os', frame: 'The Ops Manager', slug: 'platform-recruitment-os-ops' },
     ],
   },
+  {
+    // A redraw of the offer-reminders workspace behind the /platform/revenue-defense hero.
+    file: 'website-update-v5.fig',
+    frames: [{ section: 'Section 1', frame: 'Offer Reminders', slug: 'upd-offer-reminders' }],
+  },
 ];
 
 const guidKey = (g) => `${g.sessionID}:${g.localID}`;
