@@ -54,6 +54,7 @@ export function BatchPanel({
   className,
 }: BatchPanelProps) {
   const cells = Array.from({ length: total }, (_, i) => i < screened);
+  const base = Number(String(stages[0]?.value ?? total).replace(/,/g, '')) || total;
 
   return (
     <div className={cn('w-full rounded-card p-7', panelSurface(tone), CARD_SHADOW, className)}>
@@ -67,18 +68,41 @@ export function BatchPanel({
         </p>
       </div>
 
-      <ol className="mt-5 flex flex-wrap items-baseline gap-x-2 gap-y-1">
-        {stages.map((stage, i) => (
-          <li key={stage.label} className="flex items-baseline gap-2">
-            {i > 0 ? (
-              <span aria-hidden="true" className={cn('text-caption', panelMuted(tone))}>
-                &rarr;
-              </span>
-            ) : null}
-            <span className={cn('text-small font-semibold', panelText(tone))}>{stage.value}</span>
-            <span className={cn('text-caption', panelMuted(tone))}>{stage.label}</span>
-          </li>
-        ))}
+      {/*
+        A funnel, not an inline sentence: each stage is a node sized to its own share of the
+        first stage's count, joined by a connecting line, so a reader sees where volume is lost
+        without doing the subtraction themselves. The first node is always full width — every
+        later one is drawn against it.
+      */}
+      <ol className="mt-5 flex items-stretch gap-0">
+        {stages.map((stage, i) => {
+          const share = Math.round((Number(String(stage.value).replace(/,/g, '')) / base) * 100) || 100;
+          return (
+            <li key={stage.label} className="flex flex-1 items-center">
+              {i > 0 ? (
+                <span
+                  aria-hidden="true"
+                  className={cn('h-px w-3 shrink-0 sm:w-5', tone === 'dark' ? 'bg-white/25' : 'bg-ink/15')}
+                />
+              ) : null}
+              <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+                <div
+                  aria-hidden="true"
+                  className={cn('h-1.5 rounded-pill', tone === 'dark' ? 'bg-white/15' : 'bg-ink/10')}
+                >
+                  <div
+                    className="h-full rounded-pill bg-crusta-400"
+                    style={{ width: `${Math.max(share, 8)}%` }}
+                  />
+                </div>
+                <p className={cn('font-figure text-lede leading-none font-semibold', panelText(tone))}>
+                  {stage.value}
+                </p>
+                <p className={cn('text-caption', panelMuted(tone))}>{stage.label}</p>
+              </div>
+            </li>
+          );
+        })}
       </ol>
 
       <div
