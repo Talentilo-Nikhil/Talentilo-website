@@ -11,11 +11,11 @@ type LegalPageProps = {
 };
 
 /**
- * Placeholder shell for the three documents the footer links to.
+ * Placeholder shell for the privacy policy.
  *
- * The Figma file links to Privacy Policy, Terms and Trust Center but contains no page for any of
- * them, and legal copy is not something to invent — so each route resolves to a real page that
- * says where the document stands and how to ask for it.
+ * The Figma file links to the document but contains no page for it, and legal copy is not
+ * something to invent — so the route resolves to a real page that says where the document stands
+ * and how to ask for it. It comes out once the published policy lands here.
  */
 export function LegalPage({ title, summary, covers }: LegalPageProps) {
   return (
