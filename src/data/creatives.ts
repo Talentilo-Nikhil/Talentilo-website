@@ -45,15 +45,6 @@ export const creatives = {
     "designHeight": 178.78,
     "alt": "Talentilo"
   },
-  "hero-command-center": {
-    "src": "/figma/creatives/hero-command-center.webp",
-    "fallback": "/figma/creatives/hero-command-center.png",
-    "width": 2624,
-    "height": 1300,
-    "designWidth": 1312,
-    "designHeight": 650,
-    "alt": "Talentilo command centre dashboard"
-  },
   "semantic-matching": {
     "src": "/figma/creatives/semantic-matching.webp",
     "fallback": "/figma/creatives/semantic-matching.png",
@@ -197,6 +188,15 @@ export const creatives = {
     "designWidth": 1312,
     "designHeight": 518,
     "alt": "External search cost compared with Active Recall"
+  },
+  "hero-command-center": {
+    "src": "/figma/creatives/hero-command-center.webp",
+    "fallback": "/figma/creatives/hero-command-center.png",
+    "width": 2624,
+    "height": 1300,
+    "designWidth": 1312,
+    "designHeight": 650,
+    "alt": "Talentilo command centre dashboard"
   },
   "velocity-index": {
     "src": "/figma/creatives/velocity-index.webp",

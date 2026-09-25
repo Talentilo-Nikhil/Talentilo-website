@@ -107,6 +107,11 @@ export const STANDALONE_SOURCES = [
     file: 'website-update-v4.fig',
     frames: [
       { section: 'Homepage', frame: 'Homepage-creative-2', slug: 'upd-velocity-index' },
+      // The hero dashboard. Its copy is unchanged, but the "How's My Team Doing?" chart is
+      // redrawn: every bar in the original carries a second, paler "Graph Bar" behind it, sitting
+      // at a different height, so the chart renders as ten stray ghosts behind the ten real bars.
+      // This cut drops them.
+      { section: 'Homepage', frame: 'Homepage-creative-1', slug: 'upd-home-command-center' },
       // Both role views re-cut. The wrapper is unchanged from v1 — the same backdrop shapes and
       // the screen at `#3` — but the screen inside each one is new: the Owner/VP now shows
       // Recruiter Performance where it showed an annual target table, and the Ops Manager a
