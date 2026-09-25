@@ -96,12 +96,14 @@ export function Footer() {
         <hr className="mt-16 border-0 border-t border-divider/60 lg:mt-30" />
 
         {/*
-          Centred rather than pushed to both ends. The row held four things when it was split
-          across the full width; with two social accounts and two legal links gone it held two,
-          marooned at opposite edges of a very wide bar.
+          Stacked and centred at every width, rather than a row pushed to both ends. The row held
+          four things when it was split across the full width; with two social accounts and two
+          legal links gone it held two, marooned at opposite edges of a very wide bar. What is
+          left — the mark, the copyright, and the one legal link beside the one account — reads
+          down the middle instead.
         */}
-        <div className="mt-8 flex flex-col items-center gap-6 md:flex-row md:justify-center md:gap-10">
-          <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
+        <div className="mt-8 flex flex-col items-center gap-6">
+          <div className="flex flex-col items-center gap-4">
             <Logo tone="light" />
             <p className="text-small text-footer-text">
               &copy; {new Date().getFullYear()} {site.name}. All rights reserved.
