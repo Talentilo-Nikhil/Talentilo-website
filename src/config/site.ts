@@ -23,10 +23,13 @@ export const site = {
      */
     enquiries: 'marketing@talentilo.ai',
   },
+  /**
+   * LinkedIn is the only account Talentilo runs. The X and Instagram handles that sat here were
+   * never claimed, so the footer linked to pages that do not exist and the organisation's
+   * structured data claimed two profiles it does not own.
+   */
   social: {
-    linkedin: 'https://www.linkedin.com/company/talentilo',
-    x: 'https://x.com/talentilo',
-    instagram: 'https://www.instagram.com/talentilo',
+    linkedin: 'https://www.linkedin.com/company/talentilo-ai/',
   },
 } as const;
 
