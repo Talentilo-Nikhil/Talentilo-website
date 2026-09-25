@@ -90,7 +90,9 @@ export default function MigrationPage() {
       </Section>
 
       <Section>
-        <div className="flex flex-col gap-12">
+        {/* On desktop the creative is what sits under the heading, so the gap opens up there;
+            stacked, the text block takes that place and does not need the extra room. */}
+        <div className="flex flex-col gap-12 lg:gap-20">
           <SectionHeading align="left" title="We Speak Your Data's Language." />
 
           <div className="grid items-center gap-12 lg:grid-cols-[456px_1fr] lg:gap-15">
