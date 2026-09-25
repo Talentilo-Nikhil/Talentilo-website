@@ -2,6 +2,14 @@
 
 A practical, beginner-friendly checklist for optimizing pages for traditional Google search **and** AI-powered search (Google AI Overviews, ChatGPT, Perplexity, Gemini, and similar). This is a **basic/standard** guide — not an enterprise SEO program, not a link-building strategy, and it doesn't require paid tools.
 
+This is the single reference for the Talentilo.ai SEO work. It contains three things:
+
+1. **[Status: what has already been done](#status-what-has-already-been-done)** — everything shipped so far, with before/after numbers.
+2. **[What's remaining](#whats-remaining)** — one defect to fix, post-deploy tasks, pages not yet covered, and what was deliberately left alone.
+3. **The guide itself** — the reusable checklist, from [Must Do](#must-do) onward. Hand this part to a writer, an SEO person, or a developer and they can work through it page by page.
+
+*Last updated: 9 September 2026.*
+
 > **Terms used in this guide**
 > - **SEO** — Search Engine Optimization: making pages easier for search engines to find, understand and rank.
 > - **GEO / AEO** — Generative/Answer Engine Optimization: making content easier for AI systems to read, quote and cite in AI-generated answers. This field is newer and less proven than traditional SEO — treat GEO advice as *reasonable practice*, not guaranteed results.
@@ -18,6 +26,77 @@ The core insight is that these two goals mostly overlap. Writing a clear direct 
 Work is split into three tiers so it doesn't become overwhelming: **Must Do** (roughly 14 items, apply to every important page), **Recommended** (depends on the page type and business), and **Optional/Advanced** (safely ignore at this level). If you only ever do the Must Do tier, you will have covered the majority of the available benefit.
 
 Two honest caveats. First, no tactic here — or anywhere — guarantees a Google ranking position or a citation in an AI answer; AI systems do not publish their selection criteria. Second, the AI-search (GEO) field is young, so this guide deliberately marks which advice comes from Google's own documentation, which is established SEO practice, and which is reasonable-but-unproven, rather than presenting it all with equal confidence.
+
+---
+
+## Status: what has already been done
+
+Everything in this section is live on `main` (merged 9 Sep 2026, PR #131, merge commit `b79f2ed`).
+
+### Site-wide infrastructure
+
+| What | Where | Note |
+| --- | --- | --- |
+| `robots.txt` | `src/app/robots.ts` | **The site had none.** Allow-all plus a sitemap reference. |
+| XML sitemap | `src/app/sitemap.ts` | **The site had none.** Generated from the existing `allRoutes` list in `src/config/navigation.ts`, so it can't drift as routes are added. 16 URLs. |
+| Organization schema | `src/app/layout.tsx` | **The site had no structured data at all.** One sitewide node: name, URL, logo, description, social profiles, sales contact. |
+| Stable entity id | `src/config/site.ts` (`ORGANIZATION_ID`) | Lets page schema reference the company by `@id` instead of redefining it, so no page carries two competing Organization nodes. |
+| Schema helpers | `src/lib/json-ld.ts`, `src/components/ui/JsonLd.tsx` | `serviceSchema()` + a render component, shared by all 7 product pages. |
+
+### Per-page on-page SEO
+
+All seven solution and platform pages received: a rewritten title tag, a rewritten meta description, `Service` structured data, and 2–3 in-body internal links. Before this work, **every in-page CTA pointed at `/contact` and the pages never linked to each other.**
+
+Title and description lengths, before → after (limits: title ~60 incl. the ` — Talentilo.ai` suffix, description ~155):
+
+| Page | Title | Description |
+| --- | --- | --- |
+| `/solution/tech-recruitment` | 33 → 54 | 152 → 147 |
+| `/solution/high-volume` | 33 → 42 | 130 → 151 |
+| `/platform/recruitment-os` | **63** → 41 | **210** → 154 |
+| `/platform/talent-intelligence` | **62** → 45 | **198** → 145 |
+| `/platform/faster-operations` | **67** → 44 | **192** → 140 |
+| `/platform/ai-powers` | **70** → 46 | **186** → 151 |
+| `/platform/revenue-defense` | **62** → 57 | **195** → 147 |
+
+Bold = was being truncated in search results. Every platform page was over on both counts.
+
+Also changed: the `/solution/tech-recruitment` H1 was rewritten from a bare tagline to a descriptive headline, and verified in Chromium at 1440px and 390px.
+
+Checked and found already correct — no change needed: image alt text (sourced from `src/data/creatives.ts`), heading hierarchy on all pages (single H1 → H2s, no skipped levels), canonical URLs, HTTPS.
+
+---
+
+## What's remaining
+
+### 1. One defect to fix first
+
+**The sitemap lists three `noindex` pages.** `/privacy`, `/terms` and `/trust` all set `robots: { index: false }`, but `src/app/sitemap.ts` builds from `allRoutes`, which includes them. Google Search Console will report these as *"Submitted URL marked 'noindex'"*. Fix by filtering those three routes out of the sitemap. **Priority: High** — small fix, but it produces recurring errors in Search Console until done.
+
+### 2. Blocked until the deploy is confirmed live
+
+- [ ] **Confirm production deployed.** The merge is on `main` and Vercel built the same code successfully as a preview, but production could not be verified from the build environment (network policy blocks `talentilo.ai`). Check the Vercel dashboard, or load `https://talentilo.ai/robots.txt` — it did not exist before this work, so any valid response confirms it.
+- [ ] **Validate the structured data.** Run the homepage and `/solution/tech-recruitment` through Google's Rich Results Test (free). The shape is verified locally; only Google's parser confirms how it reads it.
+- [ ] **Submit the sitemap** at `https://talentilo.ai/sitemap.xml` in Google Search Console.
+
+### 3. Pages that have not had the SEO pass
+
+The work so far covered only the seven solution and platform pages. These remain:
+
+| Page | Issue found | Priority |
+| --- | --- | --- |
+| `/` (homepage) | Description is 160 chars — over the ~155 limit, will truncate | High |
+| `/pricing` | Title is just `Pricing`; no schema. Commercially important page | High |
+| `/migration` | Title is just `Migration`; a real search term ("ATS migration") is being left on the table | Medium |
+| `/contact` | Title is just `Contact`; description at exactly 155 | Low |
+| `/for/agency-owner` | Metadata is fine; no `Service` schema, no in-body internal links | Medium |
+| `/for/recruitment-operations` | Metadata is fine; no `Service` schema, no in-body internal links | Medium |
+| `/privacy`, `/terms`, `/trust` | Intentionally `noindex` — no SEO work needed, but see the sitemap defect above | — |
+
+### 4. Deferred by choice
+
+- **Hero H1 copy on four platform pages.** `/platform/faster-operations`, `/platform/ai-powers`, `/platform/revenue-defense` and `/platform/talent-intelligence` open with taglines rather than topic statements (e.g. *"Speed is the Only Competitive Advantage Left."*). The guide rates a descriptive H1 as High priority, but these are Figma-sourced with hand-placed line breaks, and the rewritten title tags now carry the keyword clarity. **This is a copy and design decision, not a technical one** — left as-is deliberately.
+- **FAQ sections and author/expertise signals.** Genuinely useful, but there is no blog or guide content on the site yet for them to apply to.
 
 ---
 
