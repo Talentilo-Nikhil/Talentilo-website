@@ -413,6 +413,52 @@ function ingestPacket(id, [ax, ay], [bx, by], t = 0.42) {
   );
 }
 
+/*
+ * The team chart's Offered bars, re-cut so the funnel runs one way.
+ *
+ * Each recruiter shows three bars — submitted, shortlisted, offered — and the file has two of the
+ * four offering more candidates than they shortlisted, which cannot happen: an offer goes to
+ * someone who was shortlisted first. A third has the two exactly level, which is the same claim in
+ * a politer form, a 100% offer rate.
+ *
+ * Only the green bar moves, and only its height. Daniel Reyes is the one column the file already
+ * has the right way round, so his 39% of shortlisted sets the rate the other three are cut to
+ * rather than a figure invented here; they land at 39, 42 and 38%, close enough to read as one
+ * team and far enough apart not to look stamped. Nothing else about the chart changes — same
+ * widths, same x positions, same gradients, same baseline.
+ *
+ *   recruiter        submitted  shortlisted  offered (was)  offered (now)
+ *   Daniel Reyes           176          106             41             41
+ *   Alicia Moretti         126           57             57             22
+ *   Amit Patel             204          126            150             53
+ *   Dan hintz              204          126            150             48
+ *
+ * The axis runs 26.51px per 50 candidates, so a height in pixels is `units * 0.5302`, and the
+ * bars hang from a fixed baseline: `y` moves with the height to keep the foot where it was.
+ */
+const TEAM_CHART = '#4/#1/#1/#1/#1/#0/#0/#1/#0/#1';
+const PX_PER_CANDIDATE = 26.51 / 50;
+
+function teamChartFunnel() {
+  // group path under the chart, the bar's foot, and what the Offered bar should now say.
+  const cuts = [
+    { group: '#2', bottom: -45.63, offered: 22 },
+    { group: '#3', bottom: -45.62, offered: 53 },
+    { group: '#4', bottom: -45.62, offered: 48 },
+  ];
+
+  return cuts.map(({ group, bottom, offered }) => {
+    const h = +(offered * PX_PER_CANDIDATE).toFixed(2);
+    return {
+      path: `${TEAM_CHART}/${group}/#2/#0`,
+      box: { x: BAR_X[group], y: +(bottom - h).toFixed(2), w: 20.01, h },
+    };
+  });
+}
+
+/** Each Offered bar keeps the x the file gave it; only its height is in question. */
+const BAR_X = { '#2': 587.94, '#3': 700.53, '#4': 813.11 };
+
 /** page slug → [{ file, path, label, scale?, graft?, hide?, overlay? }] */
 const EXPORTS = {
   // The four approved lockups, taken from the Design system canvas rather than lifted off a page.
@@ -715,7 +761,7 @@ const EXPORTS = {
       path: '',
       label: 'Talentilo command centre dashboard',
       // The "What's New" pill — see brandWash.
-      patch: [{ path: '#4/#1/#0/#1/#0/#0', fills: [brandWash()] }],
+      patch: [{ path: '#4/#1/#0/#1/#0/#0', fills: [brandWash()] }, ...teamChartFunnel()],
       // The file's demo data names real companies — Oracle, Tata Motors, Bajaj Inc, Microsoft —
       // and HDFC Bank as the employers behind these jobs. Shipping that on marketing artwork
       // reads as a customer list. Swapped for invented ones, each measured to sit inside the
