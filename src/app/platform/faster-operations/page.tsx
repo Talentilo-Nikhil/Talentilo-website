@@ -12,6 +12,7 @@ import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
 import { JsonLd } from '@/components/ui/JsonLd';
+import { DEMO_URL } from '@/config/navigation';
 import { serviceSchema } from '@/lib/json-ld';
 
 const PAGE_DESCRIPTION =
@@ -42,7 +43,7 @@ export default function FasterOperationsPage() {
       <PageHero
         title={'Speed is the Only\nCompetitive Advantage Left.'}
         lede="Top talent goes to the agency that connects first. The Operations Engine shifts your workflow from 'Administrative Latency' to 'Real-Time Velocity', eliminating the gap between Sourced and Interviewed."
-        cta={{ label: 'Accelerate Your Workflow', href: '/contact' }}
+        cta={{ label: 'Accelerate Your Workflow', href: DEMO_URL }}
         note="WhatsApp-First Architecture"
         wash="brand"
         media={
@@ -216,7 +217,7 @@ export default function FasterOperationsPage() {
       <CtaCentered
         title="Recruit at the Speed of Chat."
         lede="Is your ops stack fast enough for 2026?"
-        cta={{ label: 'Sync Your Channels', href: '/contact' }}
+        cta={{ label: 'Sync Your Channels', href: DEMO_URL }}
       />
     </>
   );

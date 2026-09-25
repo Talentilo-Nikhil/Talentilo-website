@@ -6,6 +6,7 @@ import { ButtonLink } from '@/components/ui/Button';
 import { Creative } from '@/components/ui/Creative';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { DEMO_URL } from '@/config/navigation';
 
 export const metadata: Metadata = {
   title: 'Migration',
@@ -37,7 +38,7 @@ export default function MigrationPage() {
       <PageHero
         title="Move Without The Data Headache"
         lede="Fear of data loss shouldn't keep you held hostage by legacy software. We guarantee 100% fidelity. Your relationships move with you, with Zero Downtime for your team."
-        cta={{ label: 'Plan Your Switch', href: '/contact' }}
+        cta={{ label: 'Plan Your Switch', href: DEMO_URL }}
         note="100% Data Integrity Guarantee"
         creative="mg-transfer"
       />
@@ -67,7 +68,7 @@ export default function MigrationPage() {
                   <strong className="font-semibold">Benefit:</strong> {path.benefit}
                 </p>
                 <div className="mt-auto pt-2">
-                  <ButtonLink href="/contact" variant="outline">
+                  <ButtonLink href={DEMO_URL} variant="outline">
                     {path.cta}
                   </ButtonLink>
                 </div>
@@ -82,7 +83,7 @@ export default function MigrationPage() {
           <h2 className="max-w-[701px] font-sans text-[clamp(1.75rem,1.3rem+1.8vw,2.75rem)] font-medium text-white">
             Your Workflow Survives The Move.
           </h2>
-          <ButtonLink href="/contact" variant="light" className="self-start lg:self-auto">
+          <ButtonLink href={DEMO_URL} variant="light" className="self-start lg:self-auto">
             Get started
           </ButtonLink>
         </div>
@@ -111,7 +112,7 @@ export default function MigrationPage() {
               {/* The action closes the two points rather than opening them, so it is read after
                   the case for switching has been made. */}
               <div className="self-start">
-                <ButtonLink href="/contact" variant="dark">
+                <ButtonLink href={DEMO_URL} variant="dark">
                   Plan Your Safe Switch
                 </ButtonLink>
               </div>
@@ -127,7 +128,7 @@ export default function MigrationPage() {
       <CtaPhoto
         title={'Don’t Let Fear of Switching\nStall Your Growth.'}
         lede="Get a free Data Migration Assessment before you commit."
-        cta={{ label: "Let's Talk Integration", href: '/contact' }}
+        cta={{ label: "Let's Talk Integration", href: DEMO_URL }}
         note="Zero downtime. Zero data loss."
         imageHash="314902fc64e8d97d98ed5a69c66ff248b822ec2e"
       />

@@ -9,6 +9,7 @@ import { ButtonLink } from '@/components/ui/Button';
 import { Creative } from '@/components/ui/Creative';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { DEMO_URL } from '@/config/navigation';
 import { companyStats } from '@/data/stats';
 
 export const metadata: Metadata = {
@@ -115,7 +116,7 @@ export default function HomePage() {
               <ButtonLink href="/platform/recruitment-os" variant="dark">
                 See the OS in Action
               </ButtonLink>
-              <ButtonLink href="/contact" variant="ghost">
+              <ButtonLink href={DEMO_URL} variant="ghost">
                 Request Demo
               </ButtonLink>
             </div>
@@ -202,7 +203,7 @@ export default function HomePage() {
 
       <CtaBanner
         title={'Ready to\nBuild with Talentilo?'}
-        cta={{ label: 'Get Started', href: '/contact' }}
+        cta={{ label: 'Get Started', href: DEMO_URL }}
       />
 
       {/* Migration teaser */}

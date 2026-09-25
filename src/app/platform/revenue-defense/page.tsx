@@ -9,6 +9,7 @@ import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
 import { JsonLd } from '@/components/ui/JsonLd';
+import { DEMO_URL } from '@/config/navigation';
 import { serviceSchema } from '@/lib/json-ld';
 
 const PAGE_DESCRIPTION =
@@ -41,7 +42,7 @@ export default function RevenueDefensePage() {
       <PageHero
         title={"The Deal Isn't Closed\nUntil They Show Up."}
         lede="Recruitment teams lose 20% of secured talent after the offer is signed. Our Revenue Defense protocol monitors the danger zone — the silence between signature and start date — predicting ghosting risk and counter-offers before they force you to restart the search."
-        cta={{ label: 'Secure Your Next Hire', href: '/contact' }}
+        cta={{ label: 'Secure Your Next Hire', href: DEMO_URL }}
         ctaPlacement="overlay"
         note="Stops fall-offs. Protects forecasts."
         wash="brand"
@@ -154,7 +155,7 @@ export default function RevenueDefensePage() {
       <CtaCentered
         title="Don't Leave the Last Step to Chance."
         lede="Create a bulletproof hiring pipeline."
-        cta={{ label: 'Secure Your Next Hire', href: '/contact' }}
+        cta={{ label: 'Secure Your Next Hire', href: DEMO_URL }}
       />
     </>
   );
