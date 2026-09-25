@@ -10,6 +10,7 @@ import { Creative } from '@/components/ui/Creative';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { DEMO_URL } from '@/config/navigation';
 import { companyStats } from '@/data/stats';
 import { serviceSchema } from '@/lib/json-ld';
 
@@ -38,14 +39,14 @@ export default function HighVolumePage() {
       <PageHero
         title="Hire at Scale Without Losing the Human Touch"
         lede="Usually, when volume goes up, candidate experience goes down. Talentilo breaks that trade-off. Our Mass Hiring Software allows you to engage, screen, and qualify thousands of applicants simultaneously—giving every single candidate a responsive, human-grade experience, no matter the volume."
-        cta={{ label: 'Scale Without Chaos', href: '/contact' }}
+        cta={{ label: 'Scale Without Chaos', href: DEMO_URL }}
       />
 
       <FeatureSplit
         title="Filter Less, Engage More"
         body="High-volume recruitment usually means high-volume rejection. Great talent is lost in the pile. Talentilo changes the logic. We use AI Voice Agents to actually talk to candidates at scale, verifying interest and fit in real-time. Don't just fill seats; fill them with the right people."
         points={[]}
-        cta={{ label: 'Get Started', href: '/contact' }}
+        cta={{ label: 'Get Started', href: DEMO_URL }}
         creative="hv-engaging"
         mediaSide="left"
       />
@@ -54,7 +55,7 @@ export default function HighVolumePage() {
         title="The Always-On Recruiting Team"
         body="When a campaign launches, 500 applications might hit your inbox overnight. Humans can't handle that spike. Your AI Multiple can. It instantly greets and engages every applicant, answering questions and building rapport while your competitors are sleeping."
         points={[]}
-        cta={{ label: 'Get Started', href: '/contact' }}
+        cta={{ label: 'Get Started', href: DEMO_URL }}
         aside={
           <p className="text-small text-ink/80">
             The same voice and messaging automation drives{' '}
@@ -87,7 +88,7 @@ export default function HighVolumePage() {
           <StatGrid stats={companyStats} />
         </div>
         <div className="mt-10 flex flex-col items-center gap-4">
-          <ButtonLink href="/contact" variant="dark">
+          <ButtonLink href={DEMO_URL} variant="dark">
             See the Dashboard Live
           </ButtonLink>
           <p className="text-small text-ink/80">
@@ -105,7 +106,7 @@ export default function HighVolumePage() {
 
       <CtaBanner
         title="Fill Seats with People Who Want to Stay"
-        cta={{ label: 'See the Difference', href: '/contact' }}
+        cta={{ label: 'See the Difference', href: DEMO_URL }}
         imageHash="6c652468288e770c845ef5aa877e4ead5e6b85db"
       />
     </>

@@ -5,6 +5,7 @@ import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
 import { StatGrid, type Stat } from '@/components/sections/StatGrid';
 import { Section } from '@/components/ui/Section';
+import { DEMO_URL } from '@/config/navigation';
 
 export const metadata: Metadata = {
   title: 'For Agency Owners',
@@ -42,7 +43,7 @@ export default function AgencyOwnerPage() {
       <PageHero
         title="Scale Revenue. Not Just The Headcount"
         lede="The 'Headcount Trap' kills agency margins. You hire more recruiters to get more billings, but your profits stay flat. Talentilo is the Agency Management Software that breaks the cycle—using AI Leverage to help your existing team bill 3x more"
-        cta={{ label: 'Request Demo', href: '/contact' }}
+        cta={{ label: 'Request Demo', href: DEMO_URL }}
       />
 
       <FeatureSplit
@@ -66,7 +67,7 @@ export default function AgencyOwnerPage() {
 
       <CtaBanner
         title="Build a Recruitment Engine That Lasts"
-        cta={{ label: 'Take the Demo', href: '/contact' }}
+        cta={{ label: 'Take the Demo', href: DEMO_URL }}
       />
     </>
   );
