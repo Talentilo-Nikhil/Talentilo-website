@@ -414,6 +414,59 @@ function ingestPacket(id, [ax, ay], [bx, by], t = 0.42) {
 }
 
 /*
+ * A gutter down both sides of the offer table.
+ *
+ * The table tiled the card exactly — six columns from its left edge to its right — with 8.18px of
+ * cell padding and nothing else, so "Job" and the health scores sat against the border, inside the
+ * 16px corner radius. The card's own title keeps 16.36px, which is the rhythm the table should
+ * have kept too.
+ *
+ * The columns cannot simply move inward: each is sized to its content plus that 8.18px either
+ * side, and the six of them add to 530.96 against a 530px card. There is no slack to take, so
+ * insetting the table would run one column's text into the next. The card grows instead, 8px each
+ * way, which buys the same gutter and moves no text at all.
+ *
+ * The header bar and the banded rows have to grow with it or they stop short of the new edge and
+ * leave white slivers where the grey and pink rows meet the card's sides. Only the first and last
+ * columns' rows are banded to the edge; the four between them are untouched.
+ */
+const OFFER_TABLE = '#1';
+const GUTTER = 8;
+
+function offerTableGutter() {
+  const card = { x: 30, w: 530 };
+  const widened = { x: card.x - GUTTER, w: card.w + GUTTER * 2 };
+
+  // The white card and the dark title bar, both spanning its full width.
+  const patches = [
+    { path: OFFER_TABLE, box: { x: widened.x, y: 81.73, w: widened.w, h: 252.45 } },
+    { path: `${OFFER_TABLE}/#0`, box: { x: widened.x, y: 81.73, w: widened.w, h: 42.45 } },
+    { path: `${OFFER_TABLE}/#1`, box: { x: widened.x, y: 124.18, w: widened.w, h: 210 } },
+  ];
+
+  // Row heights, in order: the header, then the three candidates.
+  const rows = [
+    { y: 124.18, h: 30.04 },
+    { y: 154.23, h: 60.33 },
+    { y: 214.55, h: 60.33 },
+    { y: 274.88, h: 59.31 },
+  ];
+
+  // `#0` is the Job column, which reaches the card's left edge; `#5` is Health Score, its right.
+  for (const [column, x, w] of [
+    ['#0', 30 - GUTTER, 92.36 + GUTTER],
+    ['#5', 485, 75 + GUTTER],
+  ]) {
+    rows.forEach((row, i) => {
+      patches.push({ path: `${OFFER_TABLE}/#1/${column}/#${i}`, box: { x, y: row.y, w, h: row.h } });
+    });
+    patches.push({ path: `${OFFER_TABLE}/#1/${column}`, box: { x, y: 124.18, w, h: 210 } });
+  }
+
+  return patches;
+}
+
+/*
  * The team chart's Offered bars, re-cut so the funnel runs one way.
  *
  * Each recruiter shows three bars — submitted, shortlisted, offered — and the file has two of the
@@ -783,7 +836,12 @@ const EXPORTS = {
     },
   ],
   'upd-offer-risk': [
-    { file: 'offer-risk-alerts', path: '', label: 'Offer management system flagging at-risk deals' },
+    {
+      file: 'offer-risk-alerts',
+      path: '',
+      label: 'Offer management system flagging at-risk deals',
+      patch: offerTableGutter(),
+    },
   ],
   'upd-pending-review': [
     {
