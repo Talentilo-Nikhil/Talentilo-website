@@ -98,6 +98,53 @@ const brandWash = () => ({
  *
  * `prefix` is '' when the screen is the export root, and '#3/' when it is the role view's child.
  */
+/**
+ * Every date the offers table shows, re-seated into the redrawn table's columns.
+ *
+ * The redraw reads "13 Mar 2026" in all twenty-four date cells — one placeholder repeated — and
+ * reorders the last two columns, so Last Working now precedes Last Contact. These are the dates
+ * the creative already carried, mapped across: Offer Date is `#4`, Joining `#5`, Last Working
+ * `#6`, Last Contact `#7`, and the row is the index after that.
+ *
+ * Only cells that actually differ are listed. The "+Add Date" gaps already fall in the right
+ * three places, and the cells whose value genuinely is 13 Mar 2026 are left as the file has them.
+ */
+const OFFER_DATES = [
+  ['#1/#1/#1/#0/#1/#5/#1/#1', '05 Jun 2026'],
+  ['#1/#1/#1/#0/#1/#6/#1/#1', '3 Jun 2026'],
+  ['#1/#1/#1/#0/#1/#7/#1/#1', '20 Mar 2026'],
+
+  ['#1/#1/#1/#0/#1/#4/#2/#0', '02 Mar 2026'],
+  ['#1/#1/#1/#0/#1/#5/#2/#0', '13 May 2026'],
+  ['#1/#1/#1/#0/#1/#6/#2/#0', '12 May 2026'],
+  // Row two's Last Contact is the red "overdue" pill rather than a plain cell, so it sits one
+  // level deeper. Its pill is 112px against the plain cells' 114, which DATE_BUDGET clears.
+  ['#1/#1/#1/#0/#1/#7/#2/#1/#0', '08 Mar 2026'],
+
+  ['#1/#1/#1/#0/#1/#4/#3/#0', '12 Mar 2026'],
+  ['#1/#1/#1/#0/#1/#5/#3/#0', '16 Mar 2026'],
+
+  ['#1/#1/#1/#0/#1/#4/#4/#0', '05 Mar 2026'],
+  ['#1/#1/#1/#0/#1/#7/#4/#0', '10 Mar 2026'],
+
+  ['#1/#1/#1/#0/#1/#4/#5/#0', '21 Mar 2026'],
+  ['#1/#1/#1/#0/#1/#5/#5/#0', '01 Apr 2026'],
+  ['#1/#1/#1/#0/#1/#7/#5/#0', '25 Mar 2026'],
+
+  ['#1/#1/#1/#0/#1/#6/#6/#0', '02 Apr 2026'],
+];
+
+/**
+ * What a date cell is allowed to measure, in px.
+ *
+ * The cells are 114px wide and inset 16px, and `applyRetext` mirrors that inset on the right, so
+ * it budgets 82px — under even the file's own "13 Mar 2026" at 79.8px once a wider month lands.
+ * Eight of the dates above need more than that; the widest, "08 Mar 2026", wants 84.63px. 86px
+ * clears them all and still leaves 12px inside a plain cell and 10px inside row two's pill, so no
+ * date reaches the column beside it.
+ */
+const DATE_BUDGET = 86;
+
 const recruiterTargetFixes = (prefix = '') => [
   // The What's New card, matching the line the other exported creatives carry. The file has
   // "Lorem Ipsum is simply dummy text of the printing" here.
@@ -825,66 +872,42 @@ const EXPORTS = {
       ],
     },
   ],
-  'platform-revenue-defense-hero': [
+  // `rd-hero-offers` now comes from the revision export — see `upd-offer-reminders` below. The
+  // frame here is the narrow six-column table it supersedes.
+  'upd-offer-reminders': [
     {
       file: 'rd-hero-offers',
-      path: 'Frame 2085665236/Frame 2085665231/Offer Reminders',
+      path: '',
       label: 'The offer-reminders workspace tracking every signed candidate through their notice period',
-      // Same real-company demo data as the Recruitment OS artwork — see the note there.
+      patch: [
+        // The "What's New" pill — see brandWash.
+        { path: '#1/#0/#1/#0/#0', fills: [brandWash()] },
+        // Then the measuring budget on every date cell being rewritten — see OFFER_DATES.
+        ...OFFER_DATES.map(([path]) => ({
+          lines: [{ text: '13 Mar 2026', x: 0, y: 15.9, w: DATE_BUDGET }],
+          path,
+        })),
+      ],
+      /*
+       * The redraw widens the table from six columns to thirteen — CTC, candidate status, the
+       * three offer/resignation flags and a contact action join the dates — and reorders the last
+       * two date columns, putting Last Working before Last Contact.
+       *
+       * Two things do not come with it. The client column is the file's own demo data again,
+       * naming Oracle, Bajaj Inc and Tata Motors; those are swapped for the invented names this
+       * creative has always shipped, and UnMoat in row four is already invented, so it stays.
+       *
+       * The signed-in chip needs nothing here: it reads "Rohan Sharma / Manager" in the file, so
+       * the hand re-layout the old cut carried for the placeholder "John Doe" retires with it.
+       */
       retext: [
+        // Client column, rows 1-6 (row 4 is already invented).
         { path: '#1/#1/#1/#0/#1/#2/#1/#1/#0', text: 'Arden' },
         { path: '#1/#1/#1/#0/#1/#2/#2/#1/#0', text: 'Arden' },
         { path: '#1/#1/#1/#0/#1/#2/#3/#1/#0', text: 'Lyra Inc' },
         { path: '#1/#1/#1/#0/#1/#2/#5/#1/#0', text: 'Vero Auto' },
         { path: '#1/#1/#1/#0/#1/#2/#6/#1/#0', text: 'Vero Auto' },
-      ],
-      patch: [
-        // The "What's New" pill — see brandWash.
-        { path: '#1/#0/#1/#0/#0', fills: [brandWash()] },
-        // The signed-in user in the top-right chip was the file's own placeholder, "John Doe".
-        // Its frame is an auto-layout row (avatar, name+role, chevron) that Figma would reflow on
-        // its own; the export just draws the resolved absolute boxes, so a longer name needs its
-        // neighbours re-laid-out by hand. "Rohan Sharma" measures 69.08px at this chip's own size
-        // (10.44px, Albert Sans SemiBold — the ADVANCE table's calibration weight) against "John
-        // Doe"'s 46px, a 23.08px gap the chip has nowhere to absorb on its own: expanding it
-        // rightward alone runs the chevron 8.17px past the creative's own right edge, and pinning
-        // the chevron and expanding leftward alone runs the avatar into the icon left of it. Split
-        // 13px left, 10.08px right instead, which lands both sides with a buffer still in hand —
-        // 7.89px between the avatar and that icon, 4.83px between the chevron and the canvas edge.
-        {
-          path: 'Body/Frame 2085665351/Frame 2085665376/Frame 2085665372/Frame 2085665373',
-          box: { x: 1117.51, y: 518.93, w: 137.7, h: 29.84 },
-        },
-        {
-          path: 'Body/Frame 2085665351/Frame 2085665376/Frame 2085665372/Frame 2085665373/29 9',
-          box: { x: 1120.49, y: 518.93, w: 29.84, h: 29.84 },
-        },
-        {
-          path: 'Body/Frame 2085665351/Frame 2085665376/Frame 2085665372/Frame 2085665373/_Avatar online indicator',
-          box: { x: 1142.12, y: 540.57, w: 7.46, h: 7.46 },
-        },
-        {
-          path: 'Body/Frame 2085665351/Frame 2085665376/Frame 2085665372/Frame 2085665373/Frame 2085665374',
-          box: { x: 1159.28, y: 520.35, w: 69.08, h: 27.02 },
-        },
-        {
-          path: 'Body/Frame 2085665351/Frame 2085665376/Frame 2085665372/Frame 2085665373/Frame 2085665374/John Doe',
-          box: { x: 1159.28, y: 520.35, w: 69.08, h: 17 },
-          text: 'Rohan Sharma',
-          lines: [{ text: 'Rohan Sharma', x: 0, y: 12.16, w: 69.08 }],
-        },
-        {
-          path: 'Body/Frame 2085665351/Frame 2085665376/Frame 2085665372/Frame 2085665373/Frame 2085665374/Manager',
-          box: { x: 1159.28, y: 534.36, w: 33, h: 13 },
-        },
-        {
-          path: 'Body/Frame 2085665351/Frame 2085665376/Frame 2085665372/Frame 2085665373/ChevronDown',
-          box: { x: 1237.31, y: 526.39, w: 14.92, h: 14.92 },
-        },
-        {
-          path: 'Body/Frame 2085665351/Frame 2085665376/Frame 2085665372/Frame 2085665373/ChevronDown/Icon',
-          box: { x: 1241.41, y: 532.55, w: 7.09, h: 4.1 },
-        },
+        ...OFFER_DATES.map(([path, text]) => ({ path, text })),
       ],
     },
   ],
