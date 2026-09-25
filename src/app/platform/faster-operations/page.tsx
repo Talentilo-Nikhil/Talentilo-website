@@ -85,10 +85,13 @@ export default function FasterOperationsPage() {
           <CreativeGround tone="brand">
             <PhonePanel
               name="Talentilo"
-              initials="T"
               status="Business account"
               messages={[
-                { from: 'them', text: 'Hi Sarah! I have a Sr. React role ($140k). Interested?', time: '10:02' },
+                {
+                  from: 'them',
+                  text: "Hi Sarah, this is Priya calling from HR India Solutions. We have a Sr. React role ($140k) in Bangalore — interested?",
+                  time: '10:02',
+                },
                 { from: 'us', text: 'That sounds perfect. Can we chat?', time: '10:03' },
                 { from: 'them', text: 'Pick a slot that suits you:', action: 'View Calendar', time: '10:04' },
               ]}

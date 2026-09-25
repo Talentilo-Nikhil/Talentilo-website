@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
+import { CreativeGround } from '@/components/panels/CreativeGround';
+import { DashboardPanel } from '@/components/panels/DashboardPanel';
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { StatGrid } from '@/components/sections/StatGrid';
@@ -182,11 +184,27 @@ export default function HomePage() {
 
       <FeatureSplit
         title="The Truth About Your Operations."
-        body="Most agencies scale blindly. Talentilo replaces gut feeling with the Agency Velocity Index (AVI)—a single dashboard that measures speed, bottlenecks, and true pipeline health."
+        body="Most agencies scale blindly. Talentilo replaces gut feeling with a live CV Shortlist Rate and CV Submissions tracker—a single dashboard that measures speed, bottlenecks, and true pipeline health."
         points={[]}
         cta={{ label: 'See the Dashboard', href: '/for/agency-owner' }}
-        creative="velocity-index"
         mediaSide="left"
+        media={
+          <CreativeGround tone="magenta">
+            <DashboardPanel
+              gaugeLabel="CV Shortlist Rate"
+              gaugeValue={87}
+              gaugeTrend="+12% vs last month"
+              goalLabel="Q3 Fulfillment Goal"
+              goalTarget="Annual Target: 1,070"
+              goalDone={42}
+              goalOf={50}
+              chartLabel="CV Submissions"
+              chartPeriod="This month"
+              chartValues={[60, 250, 130, 300]}
+              chartWeekLabels={['Week 1', 'Week 2', 'Week 3', 'Week 4']}
+            />
+          </CreativeGround>
+        }
       />
 
       {/* One screen, so the panel renders without a tab group around it. */}
