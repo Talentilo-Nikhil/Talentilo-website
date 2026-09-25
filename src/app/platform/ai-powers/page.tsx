@@ -184,7 +184,7 @@ export default function AiPowersPage() {
               duration="30 min"
               stages={[
                 { value: '500', label: 'dialled' },
-                { value: '300', label: 'picked up', note: '60% answered' },
+                { value: '300', label: 'received', note: '60% of dials' },
                 { value: '60', label: 'shortlisted on fit and salary', note: '1 in 5 of those' },
               ]}
               caption="First dial to ranked shortlist"

@@ -25,17 +25,27 @@ type BatchPanelProps = {
 const CARD_SHADOW = 'shadow-[0_10px_30px_rgb(12_10_16/0.06)]';
 
 /**
- * An ordinal ramp: crusta-400 / 600 / 700 on white, and the same hue run the other way on ink,
- * because a step has to lighten as the ground darkens to stay visible against it.
+ * A hue per stage, cool to warm, ending on the page's own accent.
  *
- * A funnel is an ordered category, so a ramp encodes the sequence rather than double-encoding bar
- * length the way a ramp on nominal categories would. Both runs clear the checks a ramp has to
- * pass — one hue, lightness monotone, adjacent steps far enough apart to read as steps, and a
- * light end that still clears its surface — measured, not eyeballed.
+ * This ran one hue darkening down the funnel, which put the narrowest bar — the shortlist, the
+ * one stage that is unambiguously good news — in a deep brick that reads as red. Red is a status
+ * colour and it means something: failed, critical, stop. Spending it on the outcome inverts the
+ * panel's argument at a glance, whatever the label underneath says.
+ *
+ * So the stages take three hues instead, running lavender to azure to crusta. The warmth arrives
+ * as the list narrows, and the people worth a recruiter's afternoon land in the accent the rest
+ * of the page uses for what matters. No stage borrows a status colour: nothing here is good or
+ * bad, it is just further along.
+ *
+ * Both sets were measured against the surface they sit on rather than eyeballed — inside the
+ * lightness band, above the chroma floor, and far enough apart that the adjacent pair survives
+ * red-green and blue-yellow colour blindness. Each bar also carries its stage in text beside it,
+ * so identity never rests on hue alone and the sub-3:1 marks have the visible label their
+ * contrast reading asks for.
  */
-const RAMP = {
-  light: ['bg-crusta-400', 'bg-crusta-600', 'bg-crusta-700'],
-  dark: ['bg-crusta-700', 'bg-crusta-500', 'bg-crusta-300'],
+const STAGE_HUE = {
+  light: ['bg-lavender-600', 'bg-azure-400', 'bg-crusta-500'],
+  dark: ['bg-lavender-600', 'bg-azure-500', 'bg-crusta-600'],
 } as const;
 
 const count = (value: string) => Number(String(value).replace(/,/g, '')) || 0;
@@ -66,7 +76,7 @@ export function BatchPanel({
   className,
 }: BatchPanelProps) {
   const base = count(stages[0]?.value ?? '') || 1;
-  const ramp = RAMP[tone];
+  const hue = STAGE_HUE[tone];
 
   return (
     <div className={cn('w-full rounded-card p-7', panelSurface(tone), CARD_SHADOW, className)}>
@@ -103,7 +113,7 @@ export function BatchPanel({
             */}
             <div aria-hidden="true" className="mt-2 h-2.5">
               <div
-                className={cn('h-full rounded-r-[4px]', ramp[Math.min(i, ramp.length - 1)])}
+                className={cn('h-full rounded-r-[4px]', hue[Math.min(i, hue.length - 1)])}
                 style={{ width: `${Math.max((count(stage.value) / base) * 100, 1.5)}%` }}
               />
             </div>
