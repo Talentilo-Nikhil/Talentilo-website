@@ -38,7 +38,7 @@ export default function RecruitmentOsPage() {
         lede="Stop managing disjointed spreadsheets. Talentilo unifies your pipelines, jobs and forecasting into a single source of truth. Get the precision instruments you need to spot bottlenecks and manage revenue risk instantly."
         cta={{ label: 'See the Dashboard Live', href: '/contact' }}
         ctaPlacement="overlay"
-        note="Powered by the Agency Velocity Index (AVI)"
+        note="Every job, every stage, one board"
         wash="brand"
         creative="ros-command-center"
         reveal={HERO_REVEAL}
