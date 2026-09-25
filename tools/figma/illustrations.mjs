@@ -88,6 +88,48 @@ const brandWash = () => ({
   css: 'linear-gradient(270deg, rgba(177, 164, 255, 1) 0%, rgba(77, 168, 253, 1) 100%)',
 });
 
+/**
+ * The corrections the Recruiter Performance screen needs, wherever it is exported from.
+ *
+ * Two frames carry this same screen: `Recruiter-Target-1` on its own, which the home page shows,
+ * and the Owner/VP view on /platform/recruitment-os, which shows it inside the role-view backdrop
+ * at `#3`. The file's mistakes come with it both times, so the fixes are stated once and the
+ * caller says where the screen sits.
+ *
+ * `prefix` is '' when the screen is the export root, and '#3/' when it is the role view's child.
+ */
+const recruiterTargetFixes = (prefix = '') => [
+  // The What's New card, matching the line the other exported creatives carry. The file has
+  // "Lorem Ipsum is simply dummy text of the printing" here.
+  { path: `${prefix}#0/#2/#0/#2`, text: 'AI Calling is live. Screen in half the time.' },
+
+  // "Achived". Spelling it correctly needs 101.5px where the label has 92.46 before it runs
+  // into the figure beside it, so the label drops "YTD" — which the "85% Achieved YTD" line
+  // directly above already establishes — and pairs with the "Remaining:" under it.
+  { path: `${prefix}#1/#1/#1/#0/#2/#1/#0/#0/#0/#2/#0/#0/#0`, text: 'Achieved:' },
+  { path: `${prefix}#1/#1/#1/#0/#2/#1/#0/#0/#1/#2/#0/#0/#0`, text: 'Achieved:' },
+  { path: `${prefix}#1/#1/#1/#0/#2/#1/#0/#0/#2/#2/#0/#0/#0`, text: 'Achieved:' },
+
+  /*
+   * Revenue, in the lakh form the frame already uses on this tile ("₹0.5L") and under the
+   * chart ("₹ 19.9L / ₹24L"). Two things settle it: "₹ 24,0,000" is not a number in any
+   * grouping, and the corrected grouping does not fit — ₹24,00,000 wants 77.84px where the
+   * cell has 73.94 before it reaches the figure beside it. The lakh form fixes both, and the
+   * chart underneath has been stating the year this way all along.
+   *
+   * The values are the card's own 85% against its own ₹24L target, which is the ₹19.9L the
+   * chart plots. It read ₹23,0,000 achieved with ₹4,0,000 remaining — a pair that agrees
+   * with neither the bar above it nor the chart below it, and does not sum to the target.
+   */
+  { path: `${prefix}#1/#1/#1/#0/#0/#0/#2/#0/#1/#1`, text: 'Target: ₹24L' },
+  { path: `${prefix}#1/#1/#1/#0/#2/#1/#0/#0/#0/#0/#1/#1`, text: '₹24L' },
+  { path: `${prefix}#1/#1/#1/#0/#2/#1/#0/#0/#0/#2/#0/#0/#1`, text: '₹19.9L' },
+  { path: `${prefix}#1/#1/#1/#0/#2/#1/#0/#0/#0/#2/#1/#1`, text: '₹4.1L' },
+  // …and the average that year divides into, the way the other two cards already read
+  // (3,270 achieved over 272/mo). ₹21,000/mo was ₹2.5L a year against a ₹24L target.
+  { path: `${prefix}#1/#1/#1/#0/#2/#1/#0/#0/#0/#4/#0/#1`, text: '₹1.66L /mo' },
+];
+
 const readSpec = (slug) => JSON.parse(readFileSync(resolve(ROOT, `design/spec/${slug}.json`), 'utf8'));
 
 /**
@@ -511,67 +553,37 @@ const EXPORTS = {
         "One recruiter's targets for the month, with revenue, interviews and submissions tracked against them",
       // The "What's New" pill — see brandWash.
       patch: [{ path: '#1/#0/#1/#0/#0', fills: [brandWash()] }],
-      retext: [
-        // The What's New card, matching the line the other exported creatives carry.
-        { path: '#0/#2/#0/#2', text: 'AI Calling is live. Screen in half the time.' },
-
-        // "Achived". Spelling it correctly needs 101.5px where the label has 92.46 before it runs
-        // into the figure beside it, so the label drops "YTD" — which the "85% Achieved YTD" line
-        // directly above already establishes — and pairs with the "Remaining:" under it.
-        { path: '#1/#1/#1/#0/#2/#1/#0/#0/#0/#2/#0/#0/#0', text: 'Achieved:' },
-        { path: '#1/#1/#1/#0/#2/#1/#0/#0/#1/#2/#0/#0/#0', text: 'Achieved:' },
-        { path: '#1/#1/#1/#0/#2/#1/#0/#0/#2/#2/#0/#0/#0', text: 'Achieved:' },
-
-        /*
-         * Revenue, in the lakh form the frame already uses on this tile ("₹0.5L") and under the
-         * chart ("₹ 19.9L / ₹24L"). Two things settle it: "₹ 24,0,000" is not a number in any
-         * grouping, and the corrected grouping does not fit — ₹24,00,000 wants 77.84px where the
-         * cell has 73.94 before it reaches the figure beside it. The lakh form fixes both, and the
-         * chart underneath has been stating the year this way all along.
-         *
-         * The values are the card's own 85% against its own ₹24L target, which is the ₹19.9L the
-         * chart plots. It read ₹23,0,000 achieved with ₹4,0,000 remaining — a pair that agrees
-         * with neither the bar above it nor the chart below it, and does not sum to the target.
-         */
-        { path: '#1/#1/#1/#0/#0/#0/#2/#0/#1/#1', text: 'Target: ₹24L' },
-        { path: '#1/#1/#1/#0/#2/#1/#0/#0/#0/#0/#1/#1', text: '₹24L' },
-        { path: '#1/#1/#1/#0/#2/#1/#0/#0/#0/#2/#0/#0/#1', text: '₹19.9L' },
-        { path: '#1/#1/#1/#0/#2/#1/#0/#0/#0/#2/#1/#1', text: '₹4.1L' },
-        // …and the average that year divides into, the way the other two cards already read
-        // (3,270 achieved over 272/mo). ₹21,000/mo was ₹2.5L a year against a ₹24L target.
-        { path: '#1/#1/#1/#0/#2/#1/#0/#0/#0/#4/#0/#1', text: '₹1.66L /mo' },
-      ],
+      retext: recruiterTargetFixes(),
     },
   ],
 
+  /*
+   * Both role views were re-cut from website-update-v4.fig, which redraws the screen inside each
+   * one. The backdrop is unchanged — the same two shapes and the ground image, with the screen at
+   * `#3` — so only the subtree the paths below reach into is different.
+   */
   'platform-recruitment-os-owner': [
     {
       file: 'ros-view-owner',
+      // The annual target table this view used to show is gone; it now shows the same Recruiter
+      // Performance screen the home page does, and so needs the same corrections — see
+      // recruiterTargetFixes.
       path: '',
-      label: 'The owner view: annual revenue targets tracked per recruiter',
+      label:
+        "The owner view: one recruiter's month against target, with revenue, interviews, submissions and shortlist ratio",
       // The "What's New" pill — see brandWash.
       patch: [{ path: '#3/#1/#0/#1/#0/#0', fills: [brandWash()] }],
+      retext: recruiterTargetFixes('#3/'),
     },
   ],
   'platform-recruitment-os-ops': [
     {
       file: 'ros-view-ops',
       path: '',
-      label: 'The operations view: floor alerts, held-up CVs and offer accept rate',
-      // The "What's New" pill — see brandWash.
-      patch: [{ path: '#3/#1/#0/#1/#0/#0', fills: [brandWash()] }],
-      // The file's demo data names real companies — Oracle, Tata Motors, Bajaj Inc, Microsoft —
-      // and HDFC Bank as the employers behind these jobs. Shipping that on marketing artwork
-      // reads as a customer
-      // list. Swapped for invented ones, each measured to sit inside the string it replaces so
-      // no cell re-flows: Arden, Vero Auto, Lyra Inc, Halden, Nord Bank.
-      retext: [
-        { path: '#3/#1/#1/#1/#0/#0/#0/#1/#2/#0/#1/#1', text: 'Sara K. has a final round interview with Halden.' },
-        { path: '#3/#1/#1/#1/#0/#0/#0/#1/#2/#0/#1/#0/#0', text: 'Rohan Sharma joins Nord Bank (Fee: ₹2.0L).' },
-        { path: '#3/#1/#1/#1/#1/#1/#1/#1/#1/#0/#0/#0/#1/#0/#1/#0', text: 'Data scientist | Arden' },
-        { path: '#3/#1/#1/#1/#1/#1/#1/#1/#1/#1/#0/#0/#0/#1/#1/#0', text: 'Full stack developer | Arden' },
-        { path: '#3/#1/#1/#1/#1/#1/#1/#1/#1/#2/#0/#0/#0/#1/#1/#0', text: 'UI/UX Designer | Arden' },
-      ],
+      label:
+        'The operations view: a candidate scored on location, experience, skills and education, with matched and missing skills named',
+      // No pill and no company names to swap on this one: the floor workspace that carried both
+      // has been replaced by a scoring panel, which has neither.
     },
   ],
   'platform-recruitment-os-recruiter': [
