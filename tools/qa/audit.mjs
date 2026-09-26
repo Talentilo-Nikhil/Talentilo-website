@@ -30,7 +30,16 @@ async function main() {
       page.on('console', (message) => {
         if (message.type() === 'error') consoleErrors.push(message.text());
       });
-      page.on('requestfailed', (request) => failedRequests.push(request.url()));
+      page.on('requestfailed', (request) => {
+        // A media element told to preload only its metadata opens a range request, reads the
+        // header it needs and cancels the rest — the server answers 206 and the browser reports
+        // net::ERR_ABORTED. That is the feature working, not a request that failed, so it is the
+        // one abort worth ignoring. Every other failure, and an abort of anything but media,
+        // still counts.
+        const aborted = request.failure()?.errorText === 'net::ERR_ABORTED';
+        if (aborted && request.resourceType() === 'media') return;
+        failedRequests.push(request.url());
+      });
 
       const response = await page.goto(`${BASE}${route}`, { waitUntil: 'networkidle', timeout: 60_000 });
       const where = `${route} @${viewport.name}`;

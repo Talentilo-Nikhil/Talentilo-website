@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { CallScreenPanel } from '@/components/panels/CallScreenPanel';
+import { AiCallingPanel } from '@/components/panels/AiCallingPanel';
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
@@ -30,12 +30,11 @@ export default function RecruitmentOperationsPage() {
         wash stays — it was never a separate background, it was painted into `ro-governance.png`
         along with the compliance-rules card, so dropping that creative took it with it and left
         the column empty. `--gradient-brand` is the same one the file used, sampled off the old
-        export: #4da8fd through #b1a4ff to #fdfcff.
+        export: #4da8fd through #b1a4ff to #fdfcff, and the 588x536 ratio is the one every
+        exported creative is drawn at, so the column is the height it has always been.
 
-        What fills it is the product's own Candidate Call screen, built as markup — see
-        CallScreenPanel. The 588x536 ratio the slot used to hold goes with the placeholder: the
-        panel is text and a control, and a box that keeps a screenshot's proportions at every width
-        would either crop it or shrink it past reading.
+        What fills it argues the section's own sentence rather than showing the screen behind it —
+        see AiCallingPanel.
       */}
       <FeatureSplit
         eyebrow="AI Calling"
@@ -44,26 +43,21 @@ export default function RecruitmentOperationsPage() {
         points={[]}
         cta={{ label: 'Explore AI Powers', href: '/platform/ai-powers' }}
         media={
-          <CallScreenPanel
-            name="Rahul Menon"
-            role="Python Developer · inbound"
-            duration="04:12"
-            questions={[
-              {
-                question: 'What is your experience with Python, and a project you worked on?',
-                looksFor: '1–5 years, and a project they can describe — Django, Flask, or ML work.',
-              },
-              {
-                question: 'How do you keep your code efficient, reusable and scalable?',
-                looksFor: 'DRY, design patterns, modular code, and the linters they keep it clean with.',
-              },
+          <AiCallingPanel
+            applicants="312"
+            called="312"
+            reach="applicants called. The whole inbound list, not the top of it."
+            asks={[
+              'Interest checked against the job description',
+              'Salary expectations, asked in their own words',
+              'A meeting dropped onto a recruiter’s calendar when they match',
             ]}
-            captured={[
-              { label: 'Open for relocation', value: 'Yes' },
-              { label: 'Reason for change', value: 'Growth' },
-              { label: 'Offered CTC', value: '8 LPA' },
-              { label: 'Any counter offer', value: 'No' },
-            ]}
+            outcome={{ count: '41', label: 'matched and booked, without a recruiter dialling once' }}
+            recording={{
+              src: '/audio/ai-call-screening.mp3',
+              label: 'the screening call',
+              date: '13 Mar 26',
+            }}
           />
         }
       />
