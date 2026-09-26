@@ -118,7 +118,7 @@ async function mobileDrawer(browser) {
 
 async function tabs(page) {
   await page.goto(`${BASE}/platform/recruitment-os`, { waitUntil: 'networkidle' });
-  const owner = page.getByRole('tab', { name: 'The Owner / VP' });
+  const owner = page.getByRole('tab', { name: 'The Owner/VP' });
   const recruiter = page.getByRole('tab', { name: 'The Recruiter' });
 
   check('tabs: first tab selected', (await owner.getAttribute('aria-selected')) === 'true');
@@ -126,9 +126,12 @@ async function tabs(page) {
   await page.keyboard.press('ArrowLeft');
   await page.waitForTimeout(150);
   check('tabs: arrow keys wrap around', (await recruiter.getAttribute('aria-selected')) === 'true');
+  // Asked structurally rather than by the panel's copy: the panel a tab controls is the one that
+  // stops being hidden. `useId` puts colons in the id, so it is matched as an attribute.
+  const panelId = await recruiter.getAttribute('aria-controls');
   check(
     'tabs: panel follows selection',
-    await page.getByText("Today's pipeline, today's follow-ups, and nothing else in the way.").isVisible()
+    await page.locator(`[id="${panelId}"]:not([hidden])`).isVisible()
   );
 }
 
