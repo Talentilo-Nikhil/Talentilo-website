@@ -14,7 +14,7 @@ import { cn } from '@/lib/cn';
  */
 const LEVELS = [
   22, 48, 76, 40, 62, 88, 34, 70, 52, 94, 30, 58, 82, 44, 66, 38, 90, 56, 28, 74, 46, 84, 36, 60,
-  50, 96, 32, 68, 42, 78, 54, 26, 72, 86, 40, 64, 48, 92, 34, 58,
+  50, 96, 32, 68, 42, 78, 54, 26, 72, 86, 40, 64, 48, 92, 34, 58, 44, 80, 30, 66,
 ];
 
 const clock = (seconds: number) => {
@@ -43,15 +43,15 @@ const clock = (seconds: number) => {
 export function CallRecording({
   src,
   label,
-  caption,
+  date,
   className,
 }: {
   /** Path to the audio file, e.g. `/audio/ai-call.mp3`. */
   src: string;
   /** What the recording is, for the button's accessible name. */
   label: string;
-  /** The line under the scrubber. */
-  caption?: string;
+  /** When the call happened, shown as a chip the way the product's own strip does. */
+  date?: string;
   className?: string;
 }) {
   const audio = useRef<HTMLAudioElement>(null);
@@ -119,11 +119,17 @@ export function CallRecording({
     <div className={cn('flex items-center gap-3', className)}>
       <audio ref={audio} src={src} preload="metadata" />
 
+      {date ? (
+        <span className="shrink-0 rounded-pill bg-surface px-2 py-1 text-caption font-medium text-muted">
+          {date}
+        </span>
+      ) : null}
+
       <button
         type="button"
         onClick={toggle}
         aria-label={playing ? `Pause ${label}` : `Play ${label}`}
-        className="grid size-10 shrink-0 place-items-center rounded-full bg-ink text-white
+        className="grid size-7 shrink-0 place-items-center rounded-full bg-ink text-white
                    transition-transform duration-200 ease-[var(--ease-out-soft)] hover:scale-105
                    focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
       >
@@ -131,14 +137,14 @@ export function CallRecording({
       </button>
 
       <div className="min-w-0 flex-1">
-        <div className="relative h-8">
+        <div className="relative h-5">
           {/* The drawing. The control that does the work is the range input over it. */}
           <div aria-hidden="true" className="flex h-full items-center gap-[3px]">
             {LEVELS.map((level, index) => (
               <span
                 key={index}
                 className={cn(
-                  'w-full rounded-pill transition-colors duration-150',
+                  'w-full rounded-[2px] transition-colors duration-150',
                   index / LEVELS.length <= played ? 'bg-ink' : 'bg-ink/20'
                 )}
                 style={{ height: `${level}%` }}
@@ -157,7 +163,6 @@ export function CallRecording({
             className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
           />
         </div>
-        {caption ? <p className="mt-1 text-caption text-muted">{caption}</p> : null}
       </div>
 
       <p className="shrink-0 font-figure text-caption text-muted tabular-nums">
@@ -169,7 +174,7 @@ export function CallRecording({
 
 function Play() {
   return (
-    <svg viewBox="0 0 16 16" className="size-4 translate-x-px" fill="currentColor" aria-hidden="true">
+    <svg viewBox="0 0 16 16" className="size-3 translate-x-px" fill="currentColor" aria-hidden="true">
       <path d="M4.5 2.9a.8.8 0 0 1 1.22-.68l7 5.1a.8.8 0 0 1 0 1.36l-7 5.1A.8.8 0 0 1 4.5 13.1V2.9Z" />
     </svg>
   );
@@ -177,7 +182,7 @@ function Play() {
 
 function Pause() {
   return (
-    <svg viewBox="0 0 16 16" className="size-4" fill="currentColor" aria-hidden="true">
+    <svg viewBox="0 0 16 16" className="size-3" fill="currentColor" aria-hidden="true">
       <rect x="4" y="3" width="3" height="10" rx="1" />
       <rect x="9" y="3" width="3" height="10" rx="1" />
     </svg>
