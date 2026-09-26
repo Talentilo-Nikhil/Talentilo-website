@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
+import { PastelGround } from '@/components/panels/PastelGround';
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { StatGrid } from '@/components/sections/StatGrid';
@@ -21,45 +22,28 @@ export const metadata: Metadata = {
 };
 
 /**
- * The pastel ground the Recruitment OS cuts have baked into them, rebuilt around a screen that
- * does not.
+ * The screen this section shows, on the ground the Recruitment OS cuts have baked into them.
  *
  * `Recruiter-Target-1` is the bare app frame — the v3 archive holds the screen and nothing else —
- * where `ros-view-owner` and its siblings were exported with the ground already painted in. Every
- * number here is that ground's, read off `design/spec/platform-recruitment-os-owner.json`: a
- * 1312-wide frame filled #ffcea8, which is crusta-200; the screen inset 165.79 either side
- * (12.636% of the width); and the same 12px corner every card on the site carries.
+ * where `ros-view-owner` and its siblings were exported with the ground already painted in, so
+ * the ground is rebuilt around it; see PastelGround for where its numbers come from.
  *
- * The frame is 687 tall rather than the file's 614, and so are the three exports on
- * /platform/recruitment-os — see `tallerGround` in tools/figma/illustrations.mjs. At 614 the cut
- * landed across the middle of the screen's bottom row of cards. The cap above the screen is 30
- * rather than the file's 55, which is what keeps the taller frame from reading as a taller
- * section. The screen still runs off the bottom: it is 675 tall at this width against the 657
- * the frame leaves below the cap, so 97% of it shows — enough for every card to be whole, and
- * still the file's own device for saying there is more screen than the picture.
+ * What belongs here rather than there is the screen's placement, read off
+ * `design/spec/platform-recruitment-os-owner.json`: inset 165.79 either side of a 1312-wide frame,
+ * which is 12.636% of the width, and hung from a cap of 30 rather than the file's 55 — 4.367% of
+ * the 687-tall frame. At the file's 55 the taller frame read as a taller section. The screen still
+ * runs off the bottom: it is 675 tall at this width against the 657 the frame leaves below the
+ * cap, so 97% of it shows — enough for every card to be whole, and still the file's own device for
+ * saying there is more screen than the picture.
  *
- * The two white hairlines are the frame's own `Polygon 28` and `Ellipse 50`, at their own
- * coordinates and their own 1.19 stroke, both starting halfway down and running out of the frame.
+ * Positioned rather than padded: the frame's height is fixed by the design, so the screen hangs
+ * from the inset and the frame decides where it stops.
  */
-function PastelGround({ children }: { children: ReactNode }) {
+function TargetsGround({ children }: { children: ReactNode }) {
   return (
-    <div className="relative isolate aspect-[1312/687] overflow-hidden rounded-card bg-crusta-200">
-      <svg
-        viewBox="0 25 1312 687"
-        preserveAspectRatio="xMidYMid slice"
-        className="pointer-events-none absolute inset-0 -z-10 h-full w-full"
-        fill="none"
-        stroke="#ffffff"
-        strokeWidth="1.19"
-        aria-hidden="true"
-      >
-        <path d="M295.053 0L590.107 516.344L0 516.344L295.053 0Z" transform="translate(522.69 308.66)" />
-        <circle cx="1112.79" cy="566.83" r="258.17" />
-      </svg>
-      {/* Positioned rather than padded: the frame's height is fixed by the design, so the screen
-          hangs from the inset and the frame decides where it stops. */}
+    <PastelGround className="aspect-[1312/687]">
       <div className="absolute top-[4.367%] left-[12.636%] w-[74.727%]">{children}</div>
-    </div>
+    </PastelGround>
   );
 }
 
@@ -76,13 +60,13 @@ const performanceView: ViewTab = {
   detail:
     "One recruiter's month: target against achieved, the gap on every metric, and their average beside the organisation's.",
   media: (
-    <PastelGround>
+    <TargetsGround>
       <Creative
         name="home-recruiter-targets"
         className="overflow-hidden rounded-card"
         sizes="(min-width: 1440px) 981px, 75vw"
       />
-    </PastelGround>
+    </TargetsGround>
   ),
 };
 
