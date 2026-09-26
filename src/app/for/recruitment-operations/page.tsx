@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import { CallScreenPanel } from '@/components/panels/CallScreenPanel';
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
@@ -25,15 +26,16 @@ export default function RecruitmentOperationsPage() {
       />
 
       {/*
-        TODO — AWAITING VIDEO. The panel below is the slot the AI-calling video drops into: replace
-        the div with the player and keep the wrapper's ratio and rounding.
+        The AI-calling slot, which held a bare wash and a TODO for a video that never arrived. The
+        wash stays — it was never a separate background, it was painted into `ro-governance.png`
+        along with the compliance-rules card, so dropping that creative took it with it and left
+        the column empty. `--gradient-brand` is the same one the file used, sampled off the old
+        export: #4da8fd through #b1a4ff to #fdfcff.
 
-        It holds the wash on its own because the gradient was never a separate background — it was
-        painted into `ro-governance.png` along with the compliance-rules card, so dropping that
-        creative took the wash with it and left the column empty. `--gradient-brand` is the same
-        wash the file used (sampled off the old export: #4da8fd through #b1a4ff to #fdfcff), and
-        the 588x536 ratio is the one every exported creative is drawn at, so the video lands in a
-        box the right shape and nothing on the page moves when it does.
+        What fills it is the product's own Candidate Call screen, built as markup — see
+        CallScreenPanel. The 588x536 ratio the slot used to hold goes with the placeholder: the
+        panel is text and a control, and a box that keeps a screenshot's proportions at every width
+        would either crop it or shrink it past reading.
       */}
       <FeatureSplit
         eyebrow="AI Calling"
@@ -42,10 +44,29 @@ export default function RecruitmentOperationsPage() {
         points={[]}
         cta={{ label: 'Explore AI Powers', href: '/platform/ai-powers' }}
         media={
-          <div
-            aria-hidden="true"
-            className="aspect-[588/536] w-full max-w-full rounded-card"
-            style={{ backgroundImage: 'var(--gradient-brand)' }}
+          <CallScreenPanel
+            name="Rahul Menon"
+            role="Python Developer · inbound"
+            duration="04:12"
+            questions={[
+              {
+                question:
+                  'What is your experience with Python, and can you give an example of a project you worked on?',
+                looksFor:
+                  '1–5 years in Python, and a project they can describe — a Django or Flask application, or data and machine-learning work.',
+              },
+              {
+                question: 'How do you make sure your code is efficient, reusable and scalable?',
+                looksFor:
+                  'DRY, design patterns and modular code, and the linters or formatters they keep it clean with.',
+              },
+            ]}
+            captured={[
+              { label: 'Open for relocation', value: 'Yes' },
+              { label: 'Offered CTC', value: '8 LPA' },
+              { label: 'Any counter offer', value: 'No' },
+              { label: 'Preferred location', value: 'Pune' },
+            ]}
           />
         }
       />
