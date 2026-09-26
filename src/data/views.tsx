@@ -53,8 +53,6 @@ export const views: ViewTab[] = [
           { label: '10th Marks %', source: 'From CV' },
           { label: '12th Marks %', source: 'From CV' },
           { label: 'Certificates', source: 'From CV' },
-          { label: '12th Subject', source: 'From CV' },
-          { label: 'Date of Birth', source: 'From CV' },
           { label: 'Date of Sending', source: 'Auto', auto: true },
         ]}
         intakeCount="128"
@@ -68,11 +66,8 @@ export const views: ViewTab[] = [
           { name: 'Sneha Kulkarni', cells: ['91.2', '88.8', 'CFA L1'] },
           { name: 'Imran Shaikh', cells: ['74.0', '81.5', '—'] },
           { name: 'Meera Nair', cells: ['86.0', '90.4', 'Six Sigma'] },
-          { name: 'Vikram Rao', cells: ['81.8', '85.6', '—'] },
-          { name: 'Priya Iyer', cells: ['93.0', '89.2', 'AWS SAA'] },
-          { name: 'Arjun Bhatt', cells: ['77.2', '80.0', '—'] },
         ]}
-        moreRows="+120 more rows"
+        moreRows="+123 more rows"
         sheetStatus="filled from 128 CVs"
         actions={['Download Tracker Data', 'Update & Send']}
       />
