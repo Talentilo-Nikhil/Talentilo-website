@@ -44,15 +44,11 @@ export default function RecruitmentOperationsPage() {
         cta={{ label: 'Explore AI Powers', href: '/platform/ai-powers' }}
         media={
           <AiCallingPanel
-            applicants="312"
-            called="312"
-            reach="applicants called. The whole inbound list, not the top of it."
-            asks={[
-              'Interest checked against the job description',
-              'Salary expectations, asked in their own words',
-              'A meeting dropped onto a recruiter’s calendar when they match',
-            ]}
-            outcome={{ count: '41', label: 'matched and booked, without a recruiter dialling once' }}
+            candidate={{ name: 'Rahul Menon', initials: 'RM' }}
+            applicants={312}
+            called={312}
+            booked={41}
+            asks={['Interest vs the JD', 'Salary expectations', 'Meeting booked']}
             recording={{
               src: '/audio/ai-call-screening.mp3',
               label: 'the screening call',
