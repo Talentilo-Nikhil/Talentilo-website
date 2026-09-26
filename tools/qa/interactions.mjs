@@ -345,30 +345,50 @@ async function contactForm(page) {
   await page.waitForTimeout(200);
   check('form: blocks an empty submit', await page.getByText('Please tell us your name.').isVisible());
 
+  check(
+    'form: names every required field on an empty submit',
+    await page.getByText('Please tell us which company you are with.').isVisible()
+  );
+
+  // The field labels are the form's own, not a paraphrase: "Company Email" and "Company Name"
+  // both start with the same word, so each is matched on the word that tells them apart.
   await page.getByLabel(/Your Name/).fill('Alex Recruiter');
-  await page.getByLabel(/Your Email/).fill('not-an-email');
+  await page.getByLabel(/Company Email/).fill('not-an-email');
+  await page.getByLabel(/Company Name/).fill('Northgate Talent');
   await page.getByLabel(/Message/).fill('Short');
   await page.getByRole('button', { name: /Send message/ }).click();
   await page.waitForTimeout(200);
-  check('form: rejects a malformed email', await page.getByText(/Enter an email address/).isVisible());
+  check(
+    'form: rejects a malformed email',
+    await page.getByText(/Enter a company email address/).isVisible()
+  );
   check('form: rejects a too-short message', await page.getByText(/A little more detail/).isVisible());
 
-  await page.getByLabel(/Your Email/).fill('alex@example.com');
+  await page.getByLabel(/Company Email/).fill('alex@example.com');
   await page.getByLabel(/Message/).fill('We run a 40-seat desk and would like to see the Command Center.');
   await page.getByRole('button', { name: /Send message/ }).click();
-  await page.waitForTimeout(1500);
-  check('form: submits successfully', await page.getByText(/your message is on its way/i).isVisible());
+  // Waited for rather than slept on: this is the first request that reaches /api/contact, so in
+  // dev it pays for the route's first compile, which a fixed pause loses a race with.
+  const sent = page.getByText(/your message is on its way/i);
+  await sent.waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
+  check('form: submits successfully', await sent.isVisible());
 
-  // And the server rejects what the client would have caught.
+  // And the server rejects what the client would have caught. Every key is present and only the
+  // values are bad, so this fails on the same three rules the client just enforced rather than on
+  // a missing field.
   const bad = await page.evaluate(async (base) => {
     const response = await fetch(`${base}/api/contact`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ name: 'x', email: 'nope', message: 'hi' }),
+      body: JSON.stringify({ name: 'x', email: 'nope', company: 'Northgate Talent', message: 'hi' }),
     });
     return { status: response.status, body: await response.json() };
   }, BASE);
-  check('api: validates server-side too', bad.status === 422 && Boolean(bad.body.fields));
+  check(
+    'api: validates server-side too',
+    bad.status === 422 && ['name', 'email', 'message'].every((f) => f in (bad.body.fields ?? {})),
+    JSON.stringify(bad.body.fields)
+  );
 }
 
 /**
