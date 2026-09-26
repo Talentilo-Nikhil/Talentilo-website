@@ -116,11 +116,17 @@ export function CallRecording({
   const played = duration > 0 ? elapsed / duration : 0;
 
   return (
-    <div className={cn('flex items-center gap-3', className)}>
+    /*
+      A container, because what has to give way is decided by the strip's own width and not the
+      viewport's: the same strip is ~460px wide in the desktop creative and ~276 on a phone, where
+      the date and a full count of bars leave the waveform about 60px to live in and it collapses
+      to a hairline. Narrow, the date goes and every second bar with it.
+    */
+    <div className={cn('@container flex items-center gap-3', className)}>
       <audio ref={audio} src={src} preload="metadata" />
 
       {date ? (
-        <span className="shrink-0 rounded-pill bg-surface px-2 py-1 text-caption font-medium text-muted">
+        <span className="hidden shrink-0 rounded-pill bg-surface px-2 py-1 text-caption font-medium text-muted @[22rem]:inline-block">
           {date}
         </span>
       ) : null}
@@ -145,6 +151,7 @@ export function CallRecording({
                 key={index}
                 className={cn(
                   'w-full rounded-[2px] transition-colors duration-150',
+                  index % 2 === 1 && 'hidden @[22rem]:block',
                   index / LEVELS.length <= played ? 'bg-ink' : 'bg-ink/20'
                 )}
                 style={{ height: `${level}%` }}

@@ -1,121 +1,198 @@
-import { Check } from '@/components/icons';
 import { CallRecording } from '@/components/ui/CallRecording';
 import { cn } from '@/lib/cn';
 
 type AiCallingPanelProps = {
+  /** The agent's side of the call, and the person on the other end. */
+  candidate: { name: string; initials: string };
   /** How many applicants the list held, and how many were called. The two are the argument. */
-  applicants: string;
-  called: string;
-  /** The line under the figure, saying what the equality means. */
-  reach: string;
-  /** What the agent asks every one of them, in the order it asks. */
+  applicants: number;
+  called: number;
+  /** How many came out the far end with a meeting in the diary. */
+  booked: number;
+  /** What the agent covers on every call, in the order the section names them. */
   asks: string[];
-  /** How many came out the far end, and what happened to them. */
-  outcome: { count: string; label: string };
   /** The recording, once there is one to play. Omitted, the strip is not drawn. */
   recording?: { src: string; label: string; date: string };
   className?: string;
 };
 
 /**
- * What the voice agent does to an inbound list, argued rather than screenshotted.
+ * What the voice agent does to an inbound list, drawn rather than described.
  *
- * This slot first held a bare `--gradient-brand` wash and a TODO, then a rebuild of the product's
- * Candidate Call modal. The modal was faithful and it was the wrong picture: a form with four
- * fields in it says a recruiter has a screen to fill, which is the opposite of the claim. The
- * section's own words are that no team can dial a whole inbound list, so most applicants are never
- * spoken to at all — and that this one calls the entire list, asks every person the same things,
- * and books the ones who match.
+ * This slot has had three occupants. A bare `--gradient-brand` wash and a TODO; then the product's
+ * Candidate Call modal rebuilt faithfully, which argued the opposite of the section it sits in,
+ * since a form with four fields says a recruiter has a screen to fill; then the section's own
+ * arithmetic set in type — a figure, a sentence, three bullets, a second figure. That one was
+ * right and it was flat: six blocks of text in a column is a paragraph with rules between it, and
+ * the page already has the paragraph, four inches to the left.
  *
- * So the picture is that sentence's own arithmetic. The hero is not a count of calls, it is an
- * equality: the number called set against the number who applied, the same number twice. A funnel
- * would say the opposite — funnels narrow at the top, and the whole point here is that nothing is
- * lost there. What narrows is the shortlist at the end, which is the only figure in an accent
- * colour, the way QueuePanel spends its orange on the three people worth an afternoon rather than
- * on the thousand dialled.
+ * So the argument is drawn now. It is three pictures, in the order the copy makes them:
  *
- * Between them sit the three things every call covers, in the order the copy names them. They are
- * a list of three ticks rather than a transcript, because the claim is sameness: what matters is
- * that the third applicant and the three-hundredth got the same three questions, not what any one
- * of them said.
+ * - A call, as the two ends of one. The agent and the candidate either side of a live waveform is
+ *   what this product does, and it is the one image the section has been missing while it showed
+ *   forms and figures. The waveform peaks toward the middle the way speech does.
+ * - The reach, as a bar that is entirely full. Every other funnel on this site narrows at the top;
+ *   this one cannot, because the claim is that nothing is lost there — so the bar runs the whole
+ *   width, and the only thing that narrows is the accent length inside it, drawn at the shortlist's
+ *   real share of the list rather than at whatever length looked right.
+ * - The three checks, as chips on one line rather than a stacked list, because they are a set and
+ *   not a sequence.
  *
- * Underneath, a call. A claim about how a conversation sounds is not settled by a picture of one,
- * so the recording plays here — see CallRecording. It carries no timestamps against it and nothing
- * is quoted from it, because what is said inside the file is not something this page knows.
+ * Underneath, a call you can play — see CallRecording. Nothing is quoted from the file and no
+ * timestamps are pinned to it, because what is said inside it is not something this page knows.
+ *
+ * The card is inset well clear of the ground's edges. It sat 16px off them, which reads as a
+ * screenshot that has been pasted onto a colour rather than a thing composed inside a frame; the
+ * gap is the reason the wash is there at all.
  */
 export function AiCallingPanel({
+  candidate,
   applicants,
   called,
-  reach,
+  booked,
   asks,
-  outcome,
   recording,
   className,
 }: AiCallingPanelProps) {
+  const reach = Math.min(called / applicants, 1) * 100;
+  const shortlisted = Math.min(booked / applicants, 1) * 100;
+
   return (
     <div
-      className={cn('flex items-center rounded-card p-3 sm:aspect-[588/536] sm:p-4', className)}
+      className={cn(
+        'flex items-center justify-center rounded-card p-5 sm:aspect-[588/536] sm:p-9',
+        className
+      )}
       style={{ backgroundImage: 'var(--gradient-brand)' }}
     >
-      <div className="w-full rounded-card bg-surface p-5 shadow-[0_18px_44px_rgb(12_10_16/0.14)] sm:p-6">
+      <div className="w-full rounded-card bg-surface p-5 shadow-[0_20px_50px_rgb(12_10_16/0.18)]">
         <div className="flex items-center justify-between gap-4">
           <p className="text-caption font-semibold tracking-[0.1em] text-muted uppercase">
             AI voice agent
           </p>
           <p className="flex shrink-0 items-center gap-2 text-caption text-muted">
             <span aria-hidden="true" className="size-1.5 rounded-full bg-emerald-400" />
-            Working the list
+            On a call
           </p>
         </div>
 
-        {/* The equality, which is the whole argument: everyone who applied was spoken to. */}
-        <p className="mt-4 flex items-baseline gap-2">
-          <span className="font-figure text-[52px] leading-none font-semibold text-ink">
-            {called}
+        {/* 1. The call itself: two ends and the speech between them. */}
+        <div aria-hidden="true" className="mt-4 flex items-center gap-3">
+          <Agent />
+          <Speech />
+          <span className="grid size-11 shrink-0 place-items-center rounded-full bg-azure-100 text-small font-semibold text-azure-800">
+            {candidate.initials}
           </span>
-          <span className="font-figure text-lede leading-none font-medium text-muted">
-            of {applicants}
-          </span>
-        </p>
-        <p className="mt-2 text-small text-ink/80">{reach}</p>
+        </div>
+        <div className="mt-2 flex items-center justify-between text-caption text-muted">
+          <span>Talentilo agent</span>
+          <span>{candidate.name}</span>
+        </div>
 
-        {/* The sameness: the same three things, in the order the section names them. */}
-        <ul className="mt-5 flex flex-col gap-2.5 border-t border-hairline pt-5">
-          {asks.map((ask) => (
-            <li key={ask} className="flex items-start gap-2.5">
-              <span
-                aria-hidden="true"
-                className="mt-0.5 grid size-4 shrink-0 place-items-center rounded-full bg-azure-50 text-[9px] text-azure-700"
-              >
-                <Check />
+        {/* 2. The reach: a bar with nothing missing from it. */}
+        <div className="mt-5">
+          <div className="flex items-baseline justify-between gap-3">
+            <p className="font-figure text-h5 leading-none font-semibold text-ink">
+              {called.toLocaleString()}
+              <span className="ml-1.5 text-body font-medium text-muted">
+                of {applicants.toLocaleString()} called
               </span>
-              <span className="text-small text-ink">{ask}</span>
+            </p>
+            {/*
+              crusta-700, not the 500 the bar is drawn in. The ramp's brand step reads 3.14:1 on
+              white and this is 17px text, which asks for 4.5; 700 is 5.58. The bar keeps the
+              brighter step because it is a shape with its count written beside it, and the
+              contrast rule is about text.
+            */}
+            <p className="font-figure text-body leading-none font-semibold text-crusta-700">
+              {booked} booked
+            </p>
+          </div>
+          {/* The whole width is the list. The accent is the shortlist's real share of it. */}
+          <div className="mt-2.5 h-2.5 overflow-hidden rounded-pill bg-ink/10">
+            <div className="relative h-full rounded-pill bg-ink" style={{ width: `${reach}%` }}>
+              <span
+                className="absolute inset-y-0 right-0 rounded-pill bg-crusta-500"
+                style={{ width: `${(shortlisted / reach) * 100}%` }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* 3. The three checks, as a set. */}
+        <ul className="mt-4 flex flex-wrap gap-1.5">
+          {asks.map((ask) => (
+            <li
+              key={ask}
+              className="rounded-pill bg-surface-tint px-2.5 py-1 text-caption font-medium text-ink/75"
+            >
+              {ask}
             </li>
           ))}
         </ul>
 
-        {/* What came out, in the accent the site keeps for the thing worth a recruiter's time. */}
-        <div className="mt-5 flex items-baseline gap-2.5 border-t border-hairline pt-4">
-          <span className="font-figure text-h5 leading-none font-semibold text-crusta-500">
-            {outcome.count}
-          </span>
-          <span className="text-small text-ink/80">{outcome.label}</span>
-        </div>
-
         {recording ? (
           <div className="mt-5 border-t border-hairline pt-4">
-            <p className="text-caption font-semibold tracking-[0.1em] text-muted uppercase">
-              Call recording
-            </p>
             <CallRecording
               src={recording.src}
               label={recording.label}
               date={recording.date}
-              className="mt-2 rounded-pill bg-surface-tint px-3 py-2"
+              className="rounded-pill bg-surface-tint px-3 py-2"
             />
           </div>
         ) : null}
       </div>
     </div>
+  );
+}
+
+/** The agent's end of the line: the brand wash, with a handset in it. */
+function Agent() {
+  return (
+    <span
+      className="grid size-11 shrink-0 place-items-center rounded-full text-white"
+      style={{ backgroundImage: 'var(--gradient-brand-deep, var(--gradient-brand))' }}
+    >
+      <svg
+        viewBox="0 0 16 16"
+        className="size-5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M5.2 2.2 6.5 5 5.2 6.4a8.2 8.2 0 0 0 4.4 4.4L11 9.5l2.8 1.3v2.1c0 .6-.5 1.1-1.1 1a11.6 11.6 0 0 1-10.6-10.6c0-.6.4-1.1 1-1.1h2.1Z" />
+      </svg>
+    </span>
+  );
+}
+
+/**
+ * The speech on the line, peaking toward the middle the way a sentence does.
+ *
+ * Two hues rather than one, alternating: the line carries two voices, and a single colour would
+ * draw one long noise instead of a conversation.
+ */
+function Speech() {
+  const bars = [
+    14, 26, 44, 22, 58, 36, 70, 48, 86, 60, 96, 74, 100, 66, 88, 52, 78, 40, 64, 30, 72, 46, 90,
+    56, 82, 38, 68, 28, 50, 20, 42, 24, 34, 16,
+  ];
+
+  return (
+    <span className="flex h-11 min-w-0 flex-1 items-center gap-[2px]">
+      {bars.map((height, index) => (
+        <span
+          key={index}
+          className={cn(
+            'w-full rounded-[2px]',
+            index % 2 === 0 ? 'bg-azure-400' : 'bg-lavender-300'
+          )}
+          style={{ height: `${height}%` }}
+        />
+      ))}
+    </span>
   );
 }
