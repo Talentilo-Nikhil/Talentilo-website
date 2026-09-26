@@ -48,7 +48,15 @@ type TrackerPanelProps = {
 const CARD = 'rounded-card bg-surface shadow-[0_18px_44px_rgb(12_10_16/0.12)]';
 /** Stacked, the cards keep a readable measure rather than spanning a tablet's full width. */
 const STACKED = 'w-full max-w-[560px] xl:max-w-none';
-const EYEBROW = 'text-caption font-semibold tracking-[0.1em] uppercase';
+/**
+ * The step titles.
+ *
+ * These were 11px in muted grey, which is what the panels next door set their eyebrows at — but
+ * those name one card each, sitting alone above a lot of white. Three cards in a row need a
+ * heading that survives being read across a gap, so this is a size up and in ink: the tracking
+ * and the caps stay, which is what makes it an eyebrow rather than a headline.
+ */
+const EYEBROW = 'text-small font-semibold tracking-[0.08em] uppercase';
 /**
  * The sheet's later columns, dropped where the card is too narrow to hold them.
  *
@@ -94,19 +102,18 @@ const columnHide = (index: number) =>
  *
  * It first drew all three as equal white cards in a row, which read as a wireframe beside the
  * panels it shares a site with. Those are built on three devices this now uses: a figure set far
- * larger than anything around it, one saturated element carrying the argument, and cards that run
- * off the ground's edge rather than sitting politely inside it — see QueuePanel, whose call list
- * bleeds left while the passed-on candidate breaks out over its corner, and BatchPanel, whose
- * "30 min" is set at 44px against 14px rows. Here the middle step is the ink card: it is the only
- * saturated thing in the frame, and it is the step where the work actually happens. The two
- * documents either side stay white.
+ * larger than anything around it, and one saturated element carrying the argument — see
+ * QueuePanel, whose call list bleeds left while the passed-on candidate breaks out over its
+ * corner, and BatchPanel, whose "30 min" is set at 44px against 14px rows. Here the middle step
+ * is the ink card: it is the only saturated thing in the frame, and it is the step where the work
+ * actually happens. The two documents either side stay white.
  *
- * It also held the siblings' 1312/687 and ran the two documents off the ground's edges. Both are
- * gone: at 687 the frame did not fit a laptop viewport under the section's own heading, and the
- * five rows a reader actually needs do not fill 687 without being stretched to it. The frame is
- * its content's height now, the row is centred, and the gutter either side is the same measure
- * the cards sit on — the three fixed widths add to less than the row, so the slack goes to the
- * outside rather than into one card.
+ * Those two also run off the ground's edge, and this one briefly did. It sits inside its frame
+ * instead, centred, with an even gutter: a bleed says the artefact continues past the crop, which
+ * is true of a screenshot and is the reason they use it, but here the crop is the frame the three
+ * steps are composed in, and a step that ran out of it read as a step that had been cut off. The
+ * three widths add to less than the row, so the slack goes to the outside rather than into one
+ * card.
  *
  * Laid out as a row where the row fits and stacked underneath. It cannot be scaled down to a
  * phone the way the exported creatives are, because an image shrinks as one piece and this is
@@ -130,183 +137,194 @@ export function TrackerPanel({
   return (
     <PastelGround
       className={cn(
-        'flex flex-col items-center gap-4 p-5 sm:p-7 xl:flex-row xl:items-stretch xl:justify-center xl:gap-5 xl:px-10 xl:py-9',
+        'flex items-center justify-center p-5 sm:p-7 xl:aspect-[1312/687] xl:px-10 xl:py-9',
         className
       )}
     >
-      {/* 1. The format the client wants. */}
-      <section
-        className={cn(CARD, STACKED, 'flex flex-col p-5 xl:w-[300px] xl:p-6')}
-      >
-        <p className={cn(EYEBROW, 'text-muted')}>1 &middot; The client&rsquo;s format</p>
-
-        <p className="mt-4 text-caption text-muted">Tracker name</p>
-        <p className="mt-0.5 font-sans text-lede leading-tight font-semibold text-ink">
-          {trackerName}
-        </p>
-        <p className="mt-2 text-caption text-muted">{trackerNote}</p>
-
-        {/* Takes the slack in the card, so the six rows space themselves rather than piling up
-            at the top of a stretched column. */}
-        <dl className="mt-5 flex flex-col border-t border-hairline xl:flex-1">
-          {columns.map((column) => (
-            <div
-              key={column.label}
-              className="flex items-center justify-between gap-3 border-b border-hairline py-2.5 xl:flex-1"
-            >
-              <dt className="text-small font-medium text-ink">{column.label}</dt>
-              <dd
-                className={cn(
-                  'shrink-0 rounded-pill px-2.5 py-1 text-caption font-semibold',
-                  column.auto ? 'bg-azure-50 text-azure-700' : 'bg-woodsmoke-100 text-muted'
-                )}
-              >
-                {column.source}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </section>
-
-      <Arrow />
-
       {/*
-        2. The step where the work happens, and the only saturated thing in the frame. Ink rather
-        than white because it is the machine between two documents, not a third document.
+        The ground keeps the 1312/687 its two sibling tabs have baked into their exports, so the
+        frame does not change height when the switcher moves between them. The illustration is its
+        own content's height inside it and is centred both ways, which is why the three steps sit
+        in a wrapper rather than being the ground's own flex children — stretched to 687 they
+        would spread five rows across a frame sized for a screenshot.
       */}
-      <section
-        className={cn(
-          STACKED,
-          'flex flex-col rounded-card bg-ink p-5 shadow-[0_18px_44px_rgb(12_10_16/0.28)] xl:w-[228px] xl:self-center xl:p-6'
-        )}
-      >
-        <p className={cn(EYEBROW, 'text-white/55')}>2 &middot; The CVs</p>
-
-        <CvStack />
-
-        <p className="mt-4 flex items-baseline gap-2">
-          <span className="font-figure text-[46px] leading-none font-semibold text-white">
-            {intakeCount}
-          </span>
-          <span className="text-body text-white/70">{intakeLabel}</span>
-        </p>
-
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          {formats.map((format) => (
-            <span
-              key={format}
-              className="rounded-pill bg-white/12 px-2.5 py-1 text-caption font-semibold text-white/80"
-            >
-              {format}
-            </span>
-          ))}
-        </div>
-
-        {/* Drawn as the control it is, but it is a picture of one — nothing here is clickable. */}
-        <p
-          aria-hidden="true"
-          className="mt-5 rounded-pill bg-surface px-4 py-3 text-center text-small font-semibold text-ink"
+      <div className="flex w-full flex-col items-center gap-4 xl:flex-row xl:items-stretch xl:justify-center xl:gap-5">
+        {/* 1. The format the client wants. */}
+        <section
+          className={cn(CARD, STACKED, 'flex flex-col p-5 xl:w-[300px] xl:p-6')}
         >
-          Generate Tracker
-        </p>
-        <p className="mt-3 text-caption text-white/60">{generateNote}</p>
-      </section>
+          <p className={cn(EYEBROW, 'text-ink')}>1 &middot; The client&rsquo;s format</p>
 
-      <Arrow />
-
-      {/* 3. The sheet, filled. */}
-      <section
-        className={cn(
-          CARD,
-          // Not STACKED: that resets the stacked cap with `xl:max-w-none`, and `cn` is a plain
-          // join with no conflict resolution, so the two max-widths would race in the stylesheet.
-          // This one keeps a cap at every width; only the number changes.
-          'w-full max-w-[560px] @container flex flex-col overflow-hidden border-l-4 border-crusta-400 xl:max-w-[492px] xl:flex-1'
-        )}
-      >
-        <div className="flex items-center justify-between gap-4 px-5 pt-5 xl:px-6">
-          <p className={cn(EYEBROW, 'text-muted')}>3 &middot; The tracker</p>
-          <p className="flex shrink-0 items-center gap-2 text-caption text-muted">
-            <span aria-hidden="true" className="size-1.5 rounded-full bg-emerald-400" />
-            {sheetStatus}
+          <p className="mt-4 text-caption text-muted">Tracker name</p>
+          <p className="mt-0.5 font-sans text-lede leading-tight font-semibold text-ink">
+            {trackerName}
           </p>
-        </div>
+          <p className="mt-2 text-caption text-muted">{trackerNote}</p>
 
-        {/* A table given a height distributes it across its rows, which is what lets the sheet
-            fill the card instead of leaving a band of white above the footer. */}
-        <div className="mt-4 overflow-x-auto xl:flex-1">
-          <table className="w-full border-collapse text-left xl:h-full">
-            <thead>
-              <tr className="bg-surface-tint">
-                <th
-                  scope="col"
-                  className="py-2.5 pr-2 pl-5 text-caption font-semibold tracking-[0.06em] text-muted uppercase xl:pl-6"
+          {/* Takes the slack in the card, so the six rows space themselves rather than piling up
+              at the top of a stretched column. */}
+          <dl className="mt-5 flex flex-col border-t border-hairline xl:flex-1">
+            {columns.map((column) => (
+              <div
+                key={column.label}
+                className="flex items-center justify-between gap-3 border-b border-hairline py-2.5 xl:flex-1"
+              >
+                <dt className="text-small font-medium text-ink">{column.label}</dt>
+                <dd
+                  className={cn(
+                    'shrink-0 rounded-pill px-2.5 py-1 text-caption font-semibold',
+                    column.auto ? 'bg-azure-50 text-azure-700' : 'bg-woodsmoke-100 text-muted'
+                  )}
                 >
-                  Sr.
-                </th>
-                <th
-                  scope="col"
-                  className="py-2.5 pr-3 text-caption font-semibold tracking-[0.06em] text-muted uppercase"
-                >
-                  Candidate Name
-                </th>
-                {headings.map((heading, index) => (
+                  {column.source}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <Arrow />
+
+        {/*
+          2. The step where the work happens, and the only saturated thing in the frame. Ink rather
+          than white because it is the machine between two documents, not a third document.
+        */}
+        <section
+          className={cn(
+            STACKED,
+            'flex flex-col rounded-card bg-ink p-5 shadow-[0_18px_44px_rgb(12_10_16/0.28)] xl:w-[228px] xl:self-center xl:p-6'
+          )}
+        >
+          <p className={cn(EYEBROW, 'text-white')}>2 &middot; The CVs</p>
+
+          <CvStack />
+
+          <p className="mt-4 flex items-baseline gap-2">
+            <span className="font-figure text-[46px] leading-none font-semibold text-white">
+              {intakeCount}
+            </span>
+            <span className="text-body text-white/70">{intakeLabel}</span>
+          </p>
+
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {formats.map((format) => (
+              <span
+                key={format}
+                className="rounded-pill bg-white/12 px-2.5 py-1 text-caption font-semibold text-white/80"
+              >
+                {format}
+              </span>
+            ))}
+          </div>
+
+          {/* Drawn as the control it is, but it is a picture of one — nothing here is clickable. */}
+          <p
+            aria-hidden="true"
+            className="mt-5 rounded-pill bg-surface px-4 py-3 text-center text-small font-semibold text-ink"
+          >
+            Generate Tracker
+          </p>
+          <p className="mt-3 text-caption text-white/60">{generateNote}</p>
+        </section>
+
+        <Arrow />
+
+        {/* 3. The sheet, filled. */}
+        <section
+          className={cn(
+            CARD,
+            // Not STACKED: that resets the stacked cap with `xl:max-w-none`, and `cn` is a plain
+            // join with no conflict resolution, so the two max-widths would race in the stylesheet.
+            // This one keeps a cap at every width; only the number changes.
+            'w-full max-w-[560px] @container flex flex-col overflow-hidden xl:max-w-[492px] xl:flex-1'
+          )}
+        >
+          {/* Wraps rather than breaks: on a phone the title and the status do not share a line,
+              and a title broken across two lines reads worse than a status dropped below it. */}
+          <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 px-5 pt-5 xl:px-6">
+            <p className={cn(EYEBROW, 'whitespace-nowrap text-ink')}>3 &middot; The tracker</p>
+            <p className="flex shrink-0 items-center gap-2 text-caption text-muted">
+              <span aria-hidden="true" className="size-1.5 rounded-full bg-emerald-400" />
+              {sheetStatus}
+            </p>
+          </div>
+
+          {/* A table given a height distributes it across its rows, which is what lets the sheet
+              fill the card instead of leaving a band of white above the footer. */}
+          <div className="mt-4 overflow-x-auto xl:flex-1">
+            <table className="w-full border-collapse text-left xl:h-full">
+              <thead>
+                <tr className="bg-surface-tint">
                   <th
-                    key={heading}
                     scope="col"
-                    className={cn(
-                      'py-2.5 pr-3 text-caption font-semibold tracking-[0.06em] text-muted uppercase last:pr-5 xl:last:pr-6',
-                      columnHide(index)
-                    )}
+                    className="py-2.5 pr-2 pl-5 text-caption font-semibold tracking-[0.06em] text-muted uppercase xl:pl-6"
                   >
-                    {heading}
+                    Sr.
                   </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row, index) => (
-                <tr key={row.name} className="border-b border-hairline/70">
-                  <td className="py-2.5 pr-2 pl-5 text-small text-muted tabular-nums xl:pl-6">
-                    {index + 1}
-                  </td>
-                  <td className="py-2.5 pr-3 text-small font-medium whitespace-nowrap text-ink">
-                    {row.name}
-                  </td>
-                  {row.cells.map((cell, cellIndex) => (
-                    <td
-                      key={headings[cellIndex] ?? cellIndex}
+                  <th
+                    scope="col"
+                    className="py-2.5 pr-3 text-caption font-semibold tracking-[0.06em] text-muted uppercase"
+                  >
+                    Candidate Name
+                  </th>
+                  {headings.map((heading, index) => (
+                    <th
+                      key={heading}
+                      scope="col"
                       className={cn(
-                        'py-2.5 pr-3 text-small text-ink/80 tabular-nums last:pr-5 xl:last:pr-6',
-                        columnHide(cellIndex)
+                        'py-2.5 pr-3 text-caption font-semibold tracking-[0.06em] text-muted uppercase last:pr-5 xl:last:pr-6',
+                        columnHide(index)
                       )}
                     >
-                      {cell}
-                    </td>
+                      {heading}
+                    </th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {rows.map((row, index) => (
+                  <tr key={row.name} className="border-b border-hairline/70">
+                    <td className="py-2.5 pr-2 pl-5 text-small text-muted tabular-nums xl:pl-6">
+                      {index + 1}
+                    </td>
+                    <td className="py-2.5 pr-3 text-small font-medium whitespace-nowrap text-ink">
+                      {row.name}
+                    </td>
+                    {row.cells.map((cell, cellIndex) => (
+                      <td
+                        key={headings[cellIndex] ?? cellIndex}
+                        className={cn(
+                          'py-2.5 pr-3 text-small text-ink/80 tabular-nums last:pr-5 xl:last:pr-6',
+                          columnHide(cellIndex)
+                        )}
+                      >
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-        <p className="px-5 pt-2.5 text-caption text-muted xl:px-6">{moreRows}</p>
+          <p className="px-5 pt-2.5 text-caption text-muted xl:px-6">{moreRows}</p>
 
-        <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-hairline px-5 py-3.5 xl:px-6">
-          {actions.map((action, index) => (
-            <span
-              key={action}
-              aria-hidden="true"
-              className={cn(
-                'rounded-pill px-3 py-1.5 text-caption font-semibold',
-                index === 0 ? 'bg-ink text-white' : 'border border-hairline bg-surface text-ink/75'
-              )}
-            >
-              {action}
-            </span>
-          ))}
-        </div>
-      </section>
+          <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-hairline px-5 py-3.5 xl:px-6">
+            {actions.map((action, index) => (
+              <span
+                key={action}
+                aria-hidden="true"
+                className={cn(
+                  'rounded-pill px-3 py-1.5 text-caption font-semibold',
+                  index === 0 ? 'bg-ink text-white' : 'border border-hairline bg-surface text-ink/75'
+                )}
+              >
+                {action}
+              </span>
+            ))}
+          </div>
+        </section>
+      </div>
     </PastelGround>
   );
 }
