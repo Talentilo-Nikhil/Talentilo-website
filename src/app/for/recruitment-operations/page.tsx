@@ -50,22 +50,19 @@ export default function RecruitmentOperationsPage() {
             duration="04:12"
             questions={[
               {
-                question:
-                  'What is your experience with Python, and can you give an example of a project you worked on?',
-                looksFor:
-                  '1–5 years in Python, and a project they can describe — a Django or Flask application, or data and machine-learning work.',
+                question: 'What is your experience with Python, and a project you worked on?',
+                looksFor: '1–5 years, and a project they can describe — Django, Flask, or ML work.',
               },
               {
-                question: 'How do you make sure your code is efficient, reusable and scalable?',
-                looksFor:
-                  'DRY, design patterns and modular code, and the linters or formatters they keep it clean with.',
+                question: 'How do you keep your code efficient, reusable and scalable?',
+                looksFor: 'DRY, design patterns, modular code, and the linters they keep it clean with.',
               },
             ]}
             captured={[
               { label: 'Open for relocation', value: 'Yes' },
+              { label: 'Reason for change', value: 'Growth' },
               { label: 'Offered CTC', value: '8 LPA' },
               { label: 'Any counter offer', value: 'No' },
-              { label: 'Preferred location', value: 'Pune' },
             ]}
           />
         }
