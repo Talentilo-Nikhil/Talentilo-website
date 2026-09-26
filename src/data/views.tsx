@@ -53,9 +53,12 @@ export const views: ViewTab[] = [
           { label: '10th Marks %', source: 'From CV' },
           { label: '12th Marks %', source: 'From CV' },
           { label: 'Certificates', source: 'From CV' },
+          { label: '12th Subject', source: 'From CV' },
+          { label: 'Date of Birth', source: 'From CV' },
           { label: 'Date of Sending', source: 'Auto', auto: true },
         ]}
-        intake="128 CVs"
+        intakeCount="128"
+        intakeLabel="CVs in"
         formats={['PDF', 'DOCX', 'Scan']}
         generateNote="Talentilo reads every file and writes the columns you set."
         headings={['10th %', '12th %', 'Certificates']}
@@ -70,7 +73,8 @@ export const views: ViewTab[] = [
           { name: 'Arjun Bhatt', cells: ['77.2', '80.0', '—'] },
         ]}
         moreRows="+120 more rows"
-        sheetFooter="128 rows, ready to download or send"
+        sheetStatus="filled from 128 CVs"
+        actions={['Download Tracker Data', 'Update & Send']}
       />
     ),
   },
