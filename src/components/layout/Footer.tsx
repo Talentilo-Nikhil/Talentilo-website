@@ -118,9 +118,16 @@ export function Footer() {
               ))}
             </ul>
 
+            {/*
+              The icon is a 16px square on a row of 14px text. Left to itself an inline-flex box
+              sits on the baseline, which puts the whole square above it and reads as lifted next
+              to the legal links. Making the item a flex container drops the line box, so the icon
+              is centred by the row's own `items-center` against the text instead of hanging off
+              its baseline.
+            */}
             <ul className="flex items-center gap-4">
               {socials.map(({ label, href, Icon }) => (
-                <li key={label}>
+                <li key={label} className="flex">
                   <a
                     href={href}
                     target="_blank"
