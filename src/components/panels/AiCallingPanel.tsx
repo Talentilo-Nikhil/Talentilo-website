@@ -146,13 +146,21 @@ export function AiCallingPanel({
   );
 }
 
-/** The agent's end of the line: the brand wash, with a handset in it. */
+/**
+ * The agent's end of the line.
+ *
+ * Ink, not the brand wash. Both wash tokens open on #fdfcff, and the buttons that use them window
+ * the gradient — 180% wide, held at its saturated end — precisely to keep that stop off the
+ * surface. Dropped unwindowed onto a 44px circle it lands square in the middle of it, and the
+ * avatar fades out at one edge.
+ *
+ * Solid also says the right thing. The candidate beside it is a pale azure disc with initials in
+ * it, which is how the site draws a person; the machine on the other end of the line should not
+ * be a lighter version of the same disc. Ink is what the site gives its own controls.
+ */
 function Agent() {
   return (
-    <span
-      className="grid size-11 shrink-0 place-items-center rounded-full text-white"
-      style={{ backgroundImage: 'var(--gradient-brand-deep, var(--gradient-brand))' }}
-    >
+    <span className="grid size-11 shrink-0 place-items-center rounded-full bg-ink text-white">
       <svg
         viewBox="0 0 16 16"
         className="size-5"
