@@ -51,7 +51,17 @@ type ClipSource = { src: string; poster?: string };
  * the stage once and stepping through never moves the copy underneath it.
  */
 export function ProductShowcase({ clips, className }: ProductShowcaseProps) {
-  const [active, setActive] = useState(0);
+  /*
+    Three things in one object because they change together and the transition needs all three in
+    the same render: which slide is showing, which one it is replacing, and which way it came from.
+    Held apart, a `setActive` could commit before the direction it should animate in did, and the
+    slide would arrive from the wrong side on its first frame.
+  */
+  const [{ active, leaving, forward }, setShown] = useState({
+    active: 0,
+    leaving: -1,
+    forward: true,
+  });
   const [paused, setPaused] = useState(false);
   const [still, setStill] = useState(false);
   const id = useId();
@@ -67,13 +77,25 @@ export function ProductShowcase({ clips, className }: ProductShowcaseProps) {
 
   useEffect(() => {
     if (paused || still) return;
-    const timer = setTimeout(() => setActive((current) => (current + 1) % slides.length), DWELL);
+    const timer = setTimeout(
+      () =>
+        setShown((current) => ({
+          active: (current.active + 1) % slides.length,
+          leaving: current.active,
+          forward: true,
+        })),
+      DWELL
+    );
     return () => clearTimeout(timer);
   }, [active, paused, still]);
 
+  /** Jump to a slide, remembering which way the picture should travel to get there. */
+  const show = (next: number, forwards = next > active) =>
+    setShown({ active: next, leaving: active, forward: forwards });
+
   const move = (delta: number) => {
     const next = (active + delta + slides.length) % slides.length;
-    setActive(next);
+    show(next, delta > 0);
     list.current?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[next]?.focus();
   };
 
@@ -111,23 +133,59 @@ export function ProductShowcase({ clips, className }: ProductShowcaseProps) {
           header at 390px, where a desktop panel's slack does not exist — and a label that covers
           the thing it labels is worse than one in a row of its own.
         */}
-        <p className="absolute top-0 left-0 rounded-pill bg-surface px-3.5 py-1.5 text-small font-semibold text-ink shadow-[0_2px_10px_rgb(12_10_16/0.06)]">
+        {/*
+          Keyed on the slide, so React replaces the element rather than editing its text and the
+          animation runs again each time. Editing it in place would play the rise once, on mount,
+          and then never — the text would swap under a finished animation.
+        */}
+        <p
+          key={active}
+          className="absolute top-0 left-0 animate-rise-in rounded-pill bg-surface px-3.5 py-1.5 text-small font-semibold text-ink shadow-[0_2px_10px_rgb(12_10_16/0.06)]"
+        >
           {slides[active].chip}
         </p>
-        {slides.map((slide, index) => (
+        {/*
+          Each picture travels: the one arriving slides in from the side the showcase is heading
+          towards, the one it replaces slides out the other way, and both cross-fade on the way.
+
+          The slides never leave the DOM, so `visibility` is what hides them — and it is worth the
+          awkwardness, because `visibility` transitions discretely with a rule that happens to be
+          exactly what a cross-fade wants: if either end of the transition is `visible` the value
+          stays `visible` for its whole duration. The slide on its way out is therefore still
+          painted while it fades, and only blinks off once it has finished. `opacity` alone would
+          leave three transparent slides sitting over the live one.
+
+          Nothing here needs a reduced-motion branch: globals.css cuts every transition on the site
+          to 0.01ms under the OS switch, which lands these on their final frame at once.
+        */}
+        {slides.map((slide, index) => {
+          const waiting = forward ? 'translate-x-8' : '-translate-x-8';
+          const gone = forward ? '-translate-x-8' : 'translate-x-8';
+
+          return (
           <div
             key={slide.title}
             aria-hidden={index === active ? undefined : true}
             className={cn(
-              'col-start-1 row-start-1 w-full max-w-[520px]',
-              index === active ? 'visible' : 'invisible'
+              'col-start-1 row-start-1 w-full max-w-[520px] transition-all ease-out-soft',
+              /*
+                The two halves are not the same length on purpose. Given equal durations the
+                outgoing card is still at half opacity while the incoming one is only at half its
+                own, and for a beat you read both through each other — two white cards of text
+                superimposed. Leaving in 220ms and arriving over 450 keeps that window short
+                enough that the eye follows one card.
+              */
+              index === active
+                ? 'visible translate-x-0 opacity-100 duration-[450ms]'
+                : cn('invisible opacity-0 duration-[220ms]', index === leaving ? gone : waiting)
             )}
           >
             <Stage clip={clips?.[index]} playing={index === active}>
               {slide.visual}
             </Stage>
           </div>
-        ))}
+          );
+        })}
       </div>
 
       {/*
@@ -159,7 +217,7 @@ export function ProductShowcase({ clips, className }: ProductShowcaseProps) {
             id={`${id}-d${index}`}
             aria-selected={active === index}
             tabIndex={active === index ? 0 : -1}
-            onClick={() => setActive(index)}
+            onClick={() => show(index)}
             className="group grid h-6 place-items-center px-0.5"
           >
             {/* The dot is the target's middle; the button around it is the 24px one a thumb needs. */}
@@ -187,7 +245,7 @@ export function ProductShowcase({ clips, className }: ProductShowcaseProps) {
         shape colour, and this is 23px text on the panel's tint, where 400 reads 1.9:1. The 700
         step is 5.53.
       */}
-      <div className="flex flex-col items-center gap-2 text-center">
+      <div key={active} className="flex animate-rise-in flex-col items-center gap-2 text-center">
         <p className="font-sans text-lede leading-snug font-semibold text-azure-700">
           {slides[active].title}
         </p>
@@ -443,6 +501,84 @@ function Screening() {
 }
 
 /**
+ * The pipeline as a board: every candidate in a column, and one of them on the move.
+ *
+ * `@container` rather than a viewport breakpoint, because what has to give is decided by the
+ * card's own width: the same board is ~490px wide in the desktop panel and ~270 on a phone, where
+ * four columns leave each one about 60px and the names inside them stop being names. Narrow, the
+ * last column goes and the board keeps three readable ones.
+ *
+ * One card is drawn tilted, lifted and held between two columns. A board of neat stacks is a
+ * table with gaps in it; the whole argument for this view is that a candidate moves, so one of
+ * them is caught mid-move.
+ */
+function Kanban() {
+  const columns = [
+    { stage: 'Screened', count: 6, names: ['Priya Nair', 'Dev Patel'], late: false },
+    { stage: 'Submitted', count: 5, names: ['Arjun Shah'], late: false },
+    { stage: 'Interview', count: 4, names: ['Meera Iyer', 'Sana Qureshi'], late: false },
+    { stage: 'Offer', count: 3, names: ['Rahul Menon'], late: true },
+  ];
+
+  return (
+    <div className={cn(CARD, '@container')}>
+      <div className="flex items-center justify-between gap-3">
+        <p className={HEAD}>Java Developer — Pune</p>
+        <p className="shrink-0 rounded-pill bg-surface-tint px-2 py-0.5 text-caption font-medium text-ink/75">
+          18 in play
+        </p>
+      </div>
+
+      <div className="mt-3 grid grid-cols-3 gap-2 @[20rem]:grid-cols-4">
+        {columns.map((column) => (
+          <div
+            key={column.stage}
+            className={cn(
+              'flex flex-col gap-1.5 rounded-lg bg-surface-tint p-2',
+              column.late && 'hidden @[20rem]:flex'
+            )}
+          >
+            <p className="flex items-baseline justify-between gap-1 text-caption font-semibold text-ink/75">
+              <span className="truncate">{column.stage}</span>
+              <span className="shrink-0 text-muted">{column.count}</span>
+            </p>
+            {column.names.map((name) => (
+              <p
+                key={name}
+                className="truncate rounded-md bg-surface px-1.5 py-1 text-caption text-ink shadow-[0_1px_3px_rgb(12_10_16/0.08)]"
+              >
+                {name}
+              </p>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      {/* The one in transit, lifted off the board and tipped the way a dragged card tips. */}
+      <div aria-hidden="true" className="mt-3 flex items-center gap-2 border-t border-hairline pt-3">
+        <span className="-rotate-3 rounded-md bg-surface px-2 py-1 text-caption font-medium text-ink shadow-[0_8px_20px_rgb(12_10_16/0.18)] ring-1 ring-azure-300">
+          Kavya Reddy
+        </span>
+        <svg
+          viewBox="0 0 24 8"
+          className="h-2 w-6 shrink-0 text-azure-400"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M0 4h20M17 1l3 3-3 3" />
+        </svg>
+        <span className="rounded-pill bg-crusta-100 px-2 py-0.5 text-caption font-medium text-crusta-800">
+          Interview
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/**
  * Peaks toward the middle, the way a sentence does.
  *
  * Long, because the count is what makes it read as speech. Eighteen bars across the stage's width
@@ -474,5 +610,12 @@ const slides: Slide[] = [
     detail:
       'The voice agent works the list, checks interest and salary against the role, and hands back a shortlist with the calls attached.',
     visual: <Screening />,
+  },
+  {
+    chip: 'Kanban board',
+    title: 'Move candidates, not spreadsheets',
+    detail:
+      "Every role's pipeline on one board — screened, submitted, interviewing, offered — and moving a candidate forward is one drag.",
+    visual: <Kanban />,
   },
 ];
