@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 
+import { site } from '@/config/site';
 import { cn } from '@/lib/cn';
 
 /** How long one slide holds before the showcase moves on. */
@@ -88,20 +89,31 @@ export function ProductShowcase({ clips, className }: ProductShowcaseProps) {
       onBlur={() => setPaused(false)}
     >
       {/*
-        The chip keeps a row of its own rather than floating over the stage's corner the way the
-        reference does. Floated, it reads well on a desktop panel with slack above the card and
-        lands squarely on the card's own header at 390px, where there is none — and a label that
-        covers the thing it labels on the width most visitors arrive at is not worth the corner.
+        The one line on this panel that never changes, the way the reference opens with the claim
+        its whole sign-in screen is making. It is the site's own tagline rather than a sentence
+        written for this slot, so the panel cannot drift into promising something no other page
+        does. Being fixed, it is safe as a real heading — the rotating line below is not.
       */}
-      <p className="self-start rounded-pill bg-surface px-3.5 py-1.5 text-small font-semibold text-ink shadow-[0_2px_10px_rgb(12_10_16/0.06)]">
-        {slides[active].chip}
-      </p>
+      <h2 className="text-center font-display text-h5 text-ink">{site.tagline}</h2>
 
       <div
         role="tabpanel"
         aria-labelledby={`${id}-d${active}`}
-        className="grid flex-1 place-items-center"
+        className="relative grid flex-1 place-items-center pt-11"
       >
+        {/*
+          The chip rides the stage's top-left corner, as it does in the reference, where it reads
+          as a label pinned to the picture rather than a stray line above it.
+
+          It gets there by reserving the room instead of taking it: the stage carries 44px of top
+          padding, which is the chip's own height and a little air, and the drawings centre in
+          what is left. Absolutely positioned without that padding it sat squarely on the card's
+          header at 390px, where a desktop panel's slack does not exist — and a label that covers
+          the thing it labels is worse than one in a row of its own.
+        */}
+        <p className="absolute top-0 left-0 rounded-pill bg-surface px-3.5 py-1.5 text-small font-semibold text-ink shadow-[0_2px_10px_rgb(12_10_16/0.06)]">
+          {slides[active].chip}
+        </p>
         {slides.map((slide, index) => (
           <div
             key={slide.title}
@@ -119,18 +131,11 @@ export function ProductShowcase({ clips, className }: ProductShowcaseProps) {
       </div>
 
       {/*
-        Styled like a heading, but not one. A real <h2> here would enter the page's outline and
-        then change every seven seconds, so anyone navigating this page by its headings would find
-        a different one each time they looked. The panel already has a name — the tab it is
-        labelled by carries the capability — so the outline loses nothing by leaving it out.
+        The dots come before the copy they step through, which is the order the reference uses and
+        the opposite of where a carousel usually parks them. It reads better than it sounds: the
+        picture and its caption stay together at the foot of the panel, and the control sits on
+        the seam between them rather than trailing off the bottom edge.
       */}
-      <div className="flex flex-col items-center gap-3 text-center">
-        <p className="font-sans text-h5 leading-tight font-semibold text-ink">
-          {slides[active].title}
-        </p>
-        <p className="max-w-[46ch] text-body text-ink/75">{slides[active].detail}</p>
-      </div>
-
       <div
         ref={list}
         role="tablist"
@@ -169,6 +174,24 @@ export function ProductShowcase({ clips, className }: ProductShowcaseProps) {
             <span className="sr-only">{slide.chip}</span>
           </button>
         ))}
+      </div>
+
+      {/*
+        Styled like a heading, but not one. A real heading here would enter the page's outline and
+        then change every seven seconds, so anyone navigating this page by its headings would find
+        a different one each time they looked. The fixed line at the top of the panel is the real
+        one; this rotates under it. The panel already has a name — the tab it is labelled by
+        carries the capability — so the outline loses nothing.
+
+        Azure-700 rather than the brand step the reference tints this line with: azure-400 is a
+        shape colour, and this is 23px text on the panel's tint, where 400 reads 1.9:1. The 700
+        step is 5.53.
+      */}
+      <div className="flex flex-col items-center gap-2 text-center">
+        <p className="font-sans text-lede leading-snug font-semibold text-azure-700">
+          {slides[active].title}
+        </p>
+        <p className="max-w-[46ch] text-body text-ink/75">{slides[active].detail}</p>
       </div>
     </div>
   );
