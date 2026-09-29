@@ -11,8 +11,13 @@ type AiCallingPanelProps = {
   booked: number;
   /** What the agent covers on every call, in the order the section names them. */
   asks: string[];
-  /** The recording, once there is one to play. Omitted, the strip is not drawn. */
-  recording?: { src: string; label: string; date: string };
+  /**
+   * The recording, once there is one to play. Omitted, the strip is not drawn.
+   *
+   * `date` is optional in its own right: a page with a recording but no record of when the call
+   * was made should print no date rather than a plausible one, and the chip is simply left off.
+   */
+  recording?: { src: string; label: string; date?: string };
   className?: string;
 };
 
