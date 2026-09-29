@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 import { ContactForm } from '@/components/sections/ContactForm';
-import { FigmaImage } from '@/components/ui/Creative';
+import { ProductShowcase } from '@/components/sections/ProductShowcase';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { site } from '@/config/site';
@@ -12,9 +12,6 @@ export const metadata: Metadata = {
     'Questions, support or a demo — the Talentilo team is here to help. Send a message, or write to support@talentilo.ai or sales@talentilo.ai. We reply weekdays, within one working day.',
   alternates: { canonical: '/contact' },
 };
-
-/** The photograph filling the panel beside the form, from the file's image fill. */
-const PANEL_IMAGE = '8b4fc046b6a14ec7293f0af2b03e2519cec94957' as const;
 
 /*
  * Two desks, two addresses, one promise.
@@ -54,11 +51,13 @@ export default function ContactPage() {
         />
 
         <div className="mt-10 grid gap-5 lg:grid-cols-[740px_552px] lg:justify-center">
-          <div className="relative isolate min-h-[420px] overflow-hidden rounded-card bg-ink">
-            <div className="absolute inset-0 -z-10 [&_img]:size-full [&_img]:object-cover [&_picture]:block [&_picture]:size-full">
-              <FigmaImage hash={PANEL_IMAGE} alt="" sizes="(min-width: 1024px) 740px, 100vw" />
-            </div>
-          </div>
+          {/*
+            A stock photograph of someone at a laptop stood here. It was decorative in the strict
+            sense — it carried no information, and the alt text was empty because there was none
+            to carry. The minutes a visitor spends filling in four fields are the longest run of
+            attention this site gets; showing them what the product does is worth more than a desk.
+          */}
+          <ProductShowcase />
 
           <div>
             <ContactForm />
