@@ -464,7 +464,7 @@ async function showcase(browser) {
   await page.mouse.move(1430, 20);
 
   const dots = page.getByRole('tablist', { name: 'Choose a capability' }).getByRole('tab');
-  check('showcase: one dot per capability', (await dots.count()) === 3);
+  check('showcase: one dot per capability', (await dots.count()) === 4);
 
   const first = await selected(page);
   await page.waitForTimeout(7800);
@@ -485,15 +485,26 @@ async function showcase(browser) {
     (await page.evaluate(() => document.activeElement?.getAttribute('aria-selected'))) === 'true'
   );
 
-  // Every slide draws into one grid cell, so the panel must not resize as it steps.
+  // Every slide draws into one grid cell, so the panel must not resize as it steps. The wait
+  // clears the 450ms arrival, so each height is measured on a settled slide rather than mid-travel.
   const panel = page.locator('[role="tabpanel"]').first();
   const heights = [];
-  for (let index = 0; index < 3; index++) {
+  for (let index = 0; index < 4; index++) {
     await dots.nth(index).click();
-    await page.waitForTimeout(400);
+    await page.waitForTimeout(700);
     heights.push((await panel.boundingBox()).height);
   }
   check('showcase: stepping never resizes the panel', new Set(heights).size === 1, heights.join(' / '));
+
+  // The board is the one slide that sheds content of its own, by its card's width rather than
+  // the window's — so it is checked on both sides of that width.
+  await dots.nth(3).click();
+  await page.waitForTimeout(700);
+  const wide = await page.getByText(/^Offer$/).isVisible();
+  await page.setViewportSize({ width: 390, height: 900 });
+  await page.waitForTimeout(400);
+  const narrow = await page.getByText(/^Offer$/).isVisible();
+  check('showcase: the board keeps four columns wide and drops one narrow', wide && !narrow);
 
   await context.close();
 

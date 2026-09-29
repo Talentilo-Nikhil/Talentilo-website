@@ -151,6 +151,27 @@
   --radius-pill: 50px;
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /*
+   * The lift a caption makes when the thing it captions has just changed underneath it.
+   *
+   * Used by the contact page's showcase, where the picture slides sideways and the chip and copy
+   * that name it would otherwise snap. Deliberately shorter and smaller than the picture's travel:
+   * the text is following the picture, not competing with it. The reduced-motion block at the foot
+   * of this file cuts it to its last frame like every other animation here.
+   */
+  --animate-rise-in: rise-in 400ms var(--ease-out-soft) both;
+
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
 }
 
 @theme inline {
