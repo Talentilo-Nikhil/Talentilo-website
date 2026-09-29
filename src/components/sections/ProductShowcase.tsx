@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 
+import { ScoreRing } from '@/components/ui/ScoreRing';
 import { site } from '@/config/site';
 import { cn } from '@/lib/cn';
 
@@ -387,7 +388,7 @@ function Scoring() {
       <ul className="mt-3 flex flex-col gap-3">
         {scored.map((cv) => (
           <li key={cv.name} className={ROW}>
-            <Ring value={cv.score} className={cv.ring} />
+            <ScoreRing value={cv.score} className={cn('size-10', cv.ring)} />
             <span className="min-w-0 flex-1">
               <span className="block truncate text-small font-medium text-ink">{cv.name}</span>
               <span className="block text-caption text-muted">
@@ -402,30 +403,6 @@ function Scoring() {
         …and 125 more, ranked in the same pass.
       </p>
     </div>
-  );
-}
-
-/** A score as a ring, so the figure is a shape before it is a number. */
-function Ring({ value, className }: { value: number; className: string }) {
-  const circumference = 2 * Math.PI * 14;
-
-  return (
-    <span className={cn('relative grid size-10 shrink-0 place-items-center', className)}>
-      <svg viewBox="0 0 32 32" className="absolute inset-0 size-full -rotate-90" aria-hidden="true">
-        <circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" strokeWidth="3" opacity="0.15" />
-        <circle
-          cx="16"
-          cy="16"
-          r="14"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeDasharray={`${(value / 100) * circumference} ${circumference}`}
-        />
-      </svg>
-      <span className="text-caption font-semibold text-ink">{value}</span>
-    </span>
   );
 }
 
