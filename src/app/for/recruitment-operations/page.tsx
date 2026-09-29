@@ -52,7 +52,11 @@ export default function RecruitmentOperationsPage() {
             recording={{
               src: '/audio/ai-call-screening.mp3',
               label: 'the screening call',
-              date: '13 Mar 26',
+              // No `date`. The chip read `13 Mar 26`, which was never this recording's date — it
+              // was the date printed on the reference screenshot the creative was drawn from, and
+              // it followed the layout across into the markup. A stamp on a recording is read as
+              // a fact about it, and this page does not know when the call was made. Pass `date`
+              // again the day someone does.
             }}
           />
         }
