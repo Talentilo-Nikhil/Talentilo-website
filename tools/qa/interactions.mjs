@@ -446,6 +446,67 @@ async function reducedMotion(browser) {
   await context.close();
 }
 
+/**
+ * The showcase beside the contact form: it must step, it must advance on its own, and it must
+ * stop the moment someone is reading it or has asked for no motion.
+ *
+ * The dwell is seven seconds, so each wait here is a little over one of them. The pointer is
+ * parked in a corner first — the showcase pauses under the cursor, and Playwright leaves it
+ * wherever the last click put it, which is inside the panel.
+ */
+async function showcase(browser) {
+  const selected = (page) =>
+    page.locator('[role="tab"][aria-selected="true"]').getAttribute('id');
+
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await context.newPage();
+  await page.goto(`${BASE}/contact`, { waitUntil: 'networkidle' });
+  await page.mouse.move(1430, 20);
+
+  const dots = page.getByRole('tablist', { name: 'Choose a capability' }).getByRole('tab');
+  check('showcase: one dot per capability', (await dots.count()) === 3);
+
+  const first = await selected(page);
+  await page.waitForTimeout(7800);
+  check('showcase: advances on its own', (await selected(page)) !== first);
+
+  await page.getByRole('tablist', { name: 'Choose a capability' }).hover();
+  const held = await selected(page);
+  await page.waitForTimeout(7800);
+  check('showcase: holds while hovered', (await selected(page)) === held);
+
+  await page.mouse.move(1430, 20);
+  await dots.first().focus();
+  const before = await selected(page);
+  await page.keyboard.press('ArrowRight');
+  check('showcase: arrow keys step through', (await selected(page)) !== before);
+  check(
+    'showcase: focus follows the selection',
+    (await page.evaluate(() => document.activeElement?.getAttribute('aria-selected'))) === 'true'
+  );
+
+  // Every slide draws into one grid cell, so the panel must not resize as it steps.
+  const panel = page.locator('[role="tabpanel"]').first();
+  const heights = [];
+  for (let index = 0; index < 3; index++) {
+    await dots.nth(index).click();
+    await page.waitForTimeout(400);
+    heights.push((await panel.boundingBox()).height);
+  }
+  check('showcase: stepping never resizes the panel', new Set(heights).size === 1, heights.join(' / '));
+
+  await context.close();
+
+  const still = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
+  const quiet = await still.newPage();
+  await quiet.goto(`${BASE}/contact`, { waitUntil: 'networkidle' });
+  await quiet.mouse.move(1430, 20);
+  const parked = await selected(quiet);
+  await quiet.waitForTimeout(8200);
+  check('showcase: never auto-advances under prefers-reduced-motion', (await selected(quiet)) === parked);
+  await still.close();
+}
+
 async function main() {
   const browser = await chromium.launch({ executablePath: CHROME });
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
@@ -466,6 +527,7 @@ async function main() {
   await landsAtTop(browser);
   console.log('contact');
   await contactForm(page);
+  await showcase(browser);
   console.log('load');
   await loadsWhole(browser);
   console.log('motion');
