@@ -518,6 +518,48 @@ async function showcase(browser) {
   await still.close();
 }
 
+/**
+ * The scorecard on Talent Intelligence, which is markup where its neighbours are exported images.
+ *
+ * The ratio assertion is the one that matters. A panel built from markup lays itself out against
+ * whatever width it is given, and would collapse to a different shape at every breakpoint while the
+ * exported creatives beside it held 588/536 exactly — CreativeGround exists to stop that, and this
+ * is the check that proves it still does.
+ */
+async function scorecard(browser) {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await context.newPage();
+  await page.goto(`${BASE}/platform/talent-intelligence`, { waitUntil: 'networkidle' });
+
+  const panel = page.getByText('Contextual Fit Score').locator('xpath=../..');
+  await panel.scrollIntoViewIfNeeded();
+
+  check('scorecard: the leader is opened up into four dimensions',
+    (await panel.getByText(/^(Location|Experience|Skills|Education)$/).count()) === 4);
+  check('scorecard: the ranking runs three deep',
+    (await panel.getByText(/\d+%/).count()) === 1 + 2,
+    'one overall plus two ranked scores');
+  check('scorecard: both sides of the skills ledger are named',
+    (await panel.getByText('Skills match').isVisible()) &&
+      (await panel.getByText('Missing').isVisible()));
+
+  // The leader must be the top of their own list, and their overall must be their own arithmetic.
+  const scores = (await panel.getByText(/\d+%/).allInnerTexts()).map((t) => parseInt(t, 10));
+  check('scorecard: the leader outscores everyone below', scores[0] === Math.max(...scores),
+    scores.join(' / '));
+
+  for (const width of [1440, 768, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.waitForTimeout(250);
+    const box = await panel.boundingBox();
+    const ratio = box.width / box.height;
+    check(`scorecard: holds the 588/536 slot at ${width}`, Math.abs(ratio - 588 / 536) < 0.01,
+      ratio.toFixed(4));
+  }
+
+  await context.close();
+}
+
 async function main() {
   const browser = await chromium.launch({ executablePath: CHROME });
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
@@ -539,6 +581,8 @@ async function main() {
   console.log('contact');
   await contactForm(page);
   await showcase(browser);
+  console.log('scorecard');
+  await scorecard(browser);
   console.log('load');
   await loadsWhole(browser);
   console.log('motion');

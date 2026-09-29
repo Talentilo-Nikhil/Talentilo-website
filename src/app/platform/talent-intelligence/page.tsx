@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
+import { ScorecardPanel } from '@/components/panels/ScorecardPanel';
 import { CenteredFeature } from '@/components/sections/CenteredFeature';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
@@ -77,7 +78,7 @@ export default function TalentIntelligencePage() {
       <FeatureSplit
         eyebrow="True Scoring"
         title={'Rank Candidates by Fit\nInstead of Frequency.'}
-        body="Bad ATS algorithms simply count how many times a keyword appears. Talentilo scientifically scores each candidate from 0–100% on skills density, career trajectory and role relevance."
+        body="Bad ATS algorithms simply count how many times a keyword appears. Talentilo scores each candidate from 0–100% on location, experience, skills and education — and names the skills they have alongside the ones they are missing."
         points={[]}
         pullQuote="Don't read 50 resumes. Read the top 5."
         cta={{ label: 'See It In Action', href: DEMO_URL }}
@@ -93,7 +94,30 @@ export default function TalentIntelligencePage() {
             .
           </p>
         }
-        creative="ti-ranking"
+        media={
+          <ScorecardPanel
+            leader={{
+              name: 'Sayali Mahale',
+              initials: 'SM',
+              role: 'Senior Python Developer',
+              score: 90,
+              // The four average to 90 exactly. A leader whose own working-out does not add up to
+              // the figure above it argues the opposite of the section it sits in.
+              dimensions: [
+                { label: 'Location', value: 100, note: 'In Pune, where the role is' },
+                { label: 'Experience', value: 94, note: '9 years, 6 of them in Python' },
+                { label: 'Skills', value: 78, note: 'Four of the six the role asks for' },
+                { label: 'Education', value: 88, note: 'B.E. Electronics and Communication' },
+              ],
+              matched: ['Python', 'Django', 'AWS', 'REST APIs'],
+              missing: ['Docker', 'Kubernetes'],
+            }}
+            rest={[
+              { name: 'Vikram Joshi', role: 'Backend Developer', score: 74 },
+              { name: 'Anita Kulkarni', role: 'Junior Developer', score: 42 },
+            ]}
+          />
+        }
         mediaSide="left"
       />
 

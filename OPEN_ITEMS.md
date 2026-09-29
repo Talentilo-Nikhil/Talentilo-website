@@ -213,10 +213,19 @@ None of these is visible damage; they are places where the artwork and the world
   address for sales enquiries (`src/lib/mailer.ts`, `site.email.enquiries`).
 - **Names and places inside the exported screens** are the Figma file's, and some contradict the copy
   around them: "Set metrics for Rajkumar. S" under a *Rohan Sharma / Manager* header on the Owner
-  view, and "Sayali Mahale, Mumbai, India" on a record whose note says *located in New Delhi*.
+  view, and "Sayali Mahale, Mumbai, India" on a record whose note says *located in New Delhi*. The
+  second of those now survives only in `ros-view-ops`, the Ops Manager tab on
+  `/platform/recruitment-os`. Talent Intelligence carried the same screen and no longer does — its
+  scoring creative is `ScorecardPanel`, which is markup, so its city agrees with itself.
 - **Two ratios baked into the artwork** do not divide out: 45% against 951/1,070, and 29% against
   3,270/3,350.
-- **A sentence is cut off** mid-clause in one screen: "The candidate's skills show a weak".
+- **A sentence is cut off** mid-clause in one screen: "The candidate's skills show a weak". Same
+  screen as above, so the same applies: it is `ros-view-ops` only now, and rebuilding that tab the
+  way Talent Intelligence's was would retire it.
+- **`ti-ranking` is no longer referenced by anything.** Talent Intelligence draws `ScorecardPanel`
+  in its place. The export and its entries in `src/data/creatives.ts` and `design/creatives.json`
+  are left alone deliberately — those files are generated, so pruning them is a pipeline change
+  rather than a copy one.
 - **A phone number is baked into a hover state** in the v5 artwork (+91 9945623125).
 - **The gauge arc** on the velocity dashboard is a flat `#60a5fa`, which is not one of the site's own
   six ramps.
