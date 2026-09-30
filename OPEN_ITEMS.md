@@ -194,11 +194,28 @@ this is fixed.
 
 `/demo` embeds Calendly's inline widget. Both `calendly.com` and `assets.calendly.com` are denied
 by the build environment's egress policy (403 on CONNECT), so everything around the embed has been
-tested — the route, the container and its dimensions at six viewport widths, the `data-url` with
-its three embed options, the script tag, the fallback link and all sixty-three CTAs that lead there
-— but the calendar itself has never painted here. What still needs a human on the live site: that
-the widget loads, that `primary_color=a2a5ff` actually tints it, that `hide_event_type_details` and
-`hide_gdpr_banner` take effect, and that a booking completes and lands in the calendar.
+tested — the route, the container width at nine viewport widths, the `data-url`, the script tag,
+the fallback link and all sixty-three CTAs that lead there — but the calendar itself has never
+painted here. That gap has already cost one release: the container shipped capped at 920px, which
+sits inside Calendly's middle layout band, so the widget rendered stacked on every desktop and
+nothing in the repository or the suite could see it.
+
+What still needs a human on the live site: that the widget loads at all, and that it renders
+side-by-side rather than stacked.
+
+**The layout bands, since they are not obvious and they decide what the page looks like.** Calendly
+reads the width of the element the widget is mounted in — 1100px and up gives the side-by-side
+view, 650 to 1099 a narrower one, under 650 it stacks. The page's gutters are 64px a side at `lg`,
+so the side-by-side view starts at about a **1230px viewport**; between roughly 1024 and 1230 there
+is not 1100px of content width to hand it, whatever the component says. Closing that band would
+mean breaking the site's 1312px measure on this one page, which is not worth it. `qa:interactions`
+now asserts the mounted width is at least 1100 at 1440, which is the check that was missing.
+
+**The URL carries no parameters**, deliberately — `hide_event_type_details=1` was removing the
+panel with the host, the meeting name, its length and its description, which is half of what the
+page is for. If Calendly's cookie banner turns out to be in the way for EU visitors,
+`?hide_gdpr_banner=1` brings back only that behaviour and does not affect the layout. The suite
+asserts the URL exactly, so any parameter added has to be added there too.
 
 ### The audit measures contrast with motion off
 

@@ -52,23 +52,31 @@ export function CalendlyInline({
   return (
     <div className={cn('flex flex-col items-center gap-4', className)}>
       {/*
-        `min-width: 320px` is Calendly's own floor, kept because a widget squeezed below the width
-        its author supports is a broken widget. It binds only under a 360px viewport — the page's
-        gutters leave 335 at 375 and exactly 320 at 360 — and below that `Section`'s `overflow-hidden`
-        clips the right edge rather than giving the whole page a horizontal scrollbar. Measured at
-        1440, 768, 390, 375, 360 and 320: no viewport scrolls sideways. The clip below 360 is the
-        accepted cost, on widths no device in the QA matrix has.
+        No maximum width, and that is the whole point of this element.
+        
+        Calendly chooses its layout from the width of the element the widget is mounted in, in
+        three bands: 1100px and up gets the side-by-side view, with the event's details beside the
+        calendar; 650 to 1099 gets a narrower one; under 650 it stacks. So a `max-w` here is not
+        styling, it decides what the booking page looks like. This carried `max-w-[920px]` for a
+        release — picked by eye, because a calendar running the full measure looked unlaid-out —
+        and 920 is in the middle band, so the widget rendered stacked on every desktop. Anything
+        added here has to clear 1100 or it changes the layout.
+
+        The page's own measure gives it 1312px at a 1440 viewport, comfortably over. The gutters
+        are 64px a side at `lg`, so the side-by-side view starts at roughly a 1230px viewport;
+        below that there is not 1100px of content width to hand it, whatever this element says.
+
+        `min-width: 320px` is Calendly's own floor for the small layout, kept because a widget
+        squeezed below the width its author supports is a broken widget. It binds only under a
+        360px viewport, and there `Section`'s `overflow-hidden` clips the right edge rather than
+        giving the whole page a horizontal scrollbar.
 
         The height is Calendly's 700px, which is what its month view needs; shorter and the widget
         scrolls inside its own iframe, which is a worse place to scroll than the page.
-
-        Capped at 920 rather than run to the page's full 1312px measure. A month grid and a column
-        of times stop gaining anything past about 900px and start looking like a booking system
-        someone forgot to lay out; centred at 920 it reads as a panel on the page.
       */}
       <div
         ref={host}
-        className="calendly-inline-widget h-[700px] w-full max-w-[920px] min-w-[320px]"
+        className="calendly-inline-widget h-[700px] w-full min-w-[320px]"
         data-url={url}
       />
 

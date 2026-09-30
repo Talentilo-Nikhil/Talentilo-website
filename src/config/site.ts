@@ -26,12 +26,18 @@ export const site = {
   /**
    * The sales calendar behind every "Request Demo" on the site, embedded on /demo.
    *
-   * The query string is part of the address, not decoration: `hide_event_type_details` drops the
-   * duplicate title Calendly would otherwise print above a page that already has a heading,
-   * `hide_gdpr_banner` drops its cookie notice, and `primary_color` is the brand lavender so the
-   * widget's buttons are not Calendly blue in the middle of a Talentilo page.
+   * The plain booking link, with no query string, and that is deliberate. It carried three of
+   * Calendly's embed options for a while — the first of them, `hide_event_type_details=1`, is what
+   * removes the panel with the logo, the host, the meeting name, its length and its description,
+   * and that panel is half of what the page is meant to show. `hide_gdpr_banner=1` and
+   * `primary_color` went with it, so the widget draws its own cookie notice where a region
+   * requires one and uses Calendly's blue rather than a brand tint.
+   *
+   * Any option added back here is a change to what visitors see, not a tidy-up: the parameters
+   * are the embed's settings. `qa:interactions` asserts this URL exactly, so one arriving by
+   * accident fails the suite rather than surprising someone on the live site.
    */
-  calendly: 'https://calendly.com/talentilo-marketing/30min?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=a2a5ff',
+  calendly: 'https://calendly.com/talentilo-marketing/30min',
 
   /**
    * LinkedIn is the only account Talentilo runs. The X and Instagram handles that sat here were
