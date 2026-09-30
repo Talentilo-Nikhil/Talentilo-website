@@ -175,19 +175,43 @@ All of these are covered by regression checks in `npm run qa:interactions`.
 The review that ran from the migration heading through to the screening funnel — every fix in it is
 live. What it left open is below, in the order it is likely to matter.
 
-### Two links still point at the contact form
+### Sign In still points at the contact form
 
-Both need to point at a real destination and neither has been changed, because an automated guard on
-this session blocks edits that re-point outbound links. They are one line each:
+`headerActions.signIn` in `src/config/navigation.ts` sends "Sign In" to `/contact`, which is the one
+link left that reaches the contact page from outside the footer. Everything else on the site books a
+call now.
 
-| What | Where | Points at now | Should point at |
-|---|---|---|---|
-| **Request Demo** (every call to action on the site) | `src/config/navigation.ts`, `DEMO_URL` | `/contact` | the Outlook booking page |
-| **Sign In** (header) | `src/config/navigation.ts`, `headerActions.signIn` | `/contact` | `https://portal.talentilo.ai/login` |
+This entry previously recorded the destination it is waiting for: **`https://portal.talentilo.ai/login`**.
+It was left as it is in this pass because that is what was asked for when the question came up, but
+the URL is on file and the change is one line. The same entry named an Outlook booking page for the
+demo links — that one is superseded: they go to `/demo` and the Calendly calendar now.
 
-The booking link is the one already published on the live privacy page:
-`https://outlook.office.com/book/TalentiloIntelligence@NETORG19154905.onmicrosoft.com/?ismsaljsauthenabled`.
-Either edit the two lines directly, or say the word in a session that is allowed to make them.
+The QA suite's `nothing outside the footer and Sign In still routes to the contact form` check is
+what holds the rest of the rule in place, and its `Sign In` exception is the line to delete when
+this is fixed.
+
+### The booking widget has never been seen rendering
+
+`/demo` embeds Calendly's inline widget. Both `calendly.com` and `assets.calendly.com` are denied
+by the build environment's egress policy (403 on CONNECT), so everything around the embed has been
+tested — the route, the container and its dimensions at six viewport widths, the `data-url` with
+its three embed options, the script tag, the fallback link and all sixty-three CTAs that lead there
+— but the calendar itself has never painted here. What still needs a human on the live site: that
+the widget loads, that `primary_color=a2a5ff` actually tints it, that `hide_event_type_details` and
+`hide_gdpr_banner` take effect, and that a booking completes and lands in the calendar.
+
+### The audit measures contrast with motion off
+
+`qa:audit` now emulates `prefers-reduced-motion` before running axe. It had to: axe computes a
+contrast ratio from composited colour, so an element part-way through a fade is measured at
+whatever opacity that frame held, and the contact showcase — which steps every 3.5 seconds and
+fades each part of a slide in — made the suite go red or green depending on when axe happened to
+look. A red that appears and disappears on its own is worse than no check at all.
+
+The cost is real and worth stating: the audit no longer sees contrast in mid-animation states. If
+something is only unreadable while it is arriving, this will not catch it. The functional half of
+each page's check still runs against the live, animating page — only the axe pass sees the settled
+one.
 
 ### The Recruiter tab describes the wrong screen
 

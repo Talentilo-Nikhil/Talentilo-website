@@ -1,6 +1,7 @@
 /** Every route the site serves, plus one that it deliberately does not (the 404 probe). */
 export const ROUTES = [
   '/',
+  '/demo',
   '/platform/recruitment-os',
   '/platform/talent-intelligence',
   '/platform/faster-operations',
