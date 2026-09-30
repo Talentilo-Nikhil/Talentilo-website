@@ -580,6 +580,45 @@ async function scorecard(browser) {
   await context.close();
 }
 
+/**
+ * The Talent Intelligence hero, whose artwork is a cut-out screen rather than a filled rectangle.
+ *
+ * Two things hold it together and neither is visible in the markup on its own. The export arrives
+ * transparent to its own edges, so the box around it must not round or clip anything — a radius
+ * there would bite into the screen's own corners, and by more and more as the artwork scales down.
+ * And the export is already cut at the frame's foot, so its bottom edge is meant to be the band's:
+ * a `reveal` or a scrap of bottom padding creeping back in would leave a strip of wash under it
+ * and turn the bleed into a float.
+ */
+async function heroScreen(browser) {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await context.newPage();
+  await page.goto(`${BASE}/platform/talent-intelligence`, { waitUntil: 'networkidle' });
+
+  const band = page.locator('section').first();
+  const art = band.locator('img').first();
+  check('hero screen: the hero shows the command centre cut out of its ground',
+    /command-center-screen/.test(await art.getAttribute('src')));
+
+  const radii = await art.locator('xpath=..').evaluate((el) => {
+    const s = getComputedStyle(el);
+    return [s.borderTopLeftRadius, s.borderTopRightRadius, s.borderBottomLeftRadius, s.borderBottomRightRadius];
+  });
+  check('hero screen: nothing rounds the box around it', radii.every((r) => parseFloat(r) === 0),
+    radii.join(' '));
+
+  for (const width of [1440, 768, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.waitForTimeout(250);
+    const [outer, inner] = [await band.boundingBox(), await art.boundingBox()];
+    const gap = outer.y + outer.height - (inner.y + inner.height);
+    check(`hero screen: it runs off the foot of the band at ${width}`, Math.abs(gap) <= 1,
+      `${gap.toFixed(2)}px of wash below it`);
+  }
+
+  await context.close();
+}
+
 async function main() {
   const browser = await chromium.launch({ executablePath: CHROME });
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
@@ -603,6 +642,8 @@ async function main() {
   await showcase(browser);
   console.log('scorecard');
   await scorecard(browser);
+  console.log('hero screen');
+  await heroScreen(browser);
   console.log('load');
   await loadsWhole(browser);
   console.log('motion');

@@ -33,6 +33,14 @@ type PageHeroProps = {
   note?: string;
   creative?: CreativeName;
   creativeAlt?: string;
+  /**
+   * Whether the artwork carries its own ground — a filled rectangle laid on the band, which is
+   * what the Figma heroes export and what the top-corner rounding below is for. Pass `false` for a
+   * screen cut out of its ground, which arrives transparent to its own edges: its corners are
+   * drawn into the file and scale with it, so a fixed 12px rounding on the box around it agrees
+   * with them only at full size and bites further in the smaller the artwork gets.
+   */
+  grounded?: boolean;
   /** A hand-built panel in place of an exported creative. Takes precedence over `creative`. */
   media?: ReactNode;
   /**
@@ -61,6 +69,7 @@ export function PageHero({
   note,
   creative,
   creativeAlt,
+  grounded = true,
   media,
   wash = 'none',
   reveal = 1,
@@ -118,7 +127,10 @@ export function PageHero({
           <div className="mt-10 lg:mt-12">{media}</div>
         ) : creative ? (
           <div className="mt-10 lg:mt-12">
-            <div style={{ maxWidth }} className="relative mx-auto overflow-hidden rounded-t-card">
+            <div
+              style={{ maxWidth }}
+              className={cn('relative mx-auto overflow-hidden', grounded && 'rounded-t-card')}
+            >
               {reveal < 1 ? <div style={{ paddingTop: aspect }} aria-hidden="true" /> : null}
               <div className={reveal < 1 ? 'absolute inset-x-0 top-0' : undefined}>
                 <Creative

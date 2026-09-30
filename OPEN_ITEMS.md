@@ -226,6 +226,15 @@ None of these is visible damage; they are places where the artwork and the world
   in its place. The export and its entries in `src/data/creatives.ts` and `design/creatives.json`
   are left alone deliberately — those files are generated, so pruning them is a pipeline change
   rather than a copy one.
+- **`ti-hero-database` is no longer referenced by anything either.** The Talent Intelligence hero
+  now shows `command-center-screen`, the command centre cut out of its ground. Same reasoning as
+  above: the export stays.
+- **The same dashboard is now drawn on two pages.** `/` shows it whole, on the blue ground baked
+  into the export; `/platform/talent-intelligence` shows it cut out of that ground, floating on the
+  band. They are the same screen, so a visitor who reads both sees it twice, and the home page is
+  the one that should move — its hero is the site's first impression and the Talent Intelligence
+  hero is the one that was chosen for this artwork. Nothing is broken until that happens; it is a
+  question of what the home page shows instead.
 - **A phone number is baked into a hover state** in the v5 artwork (+91 9945623125).
 - **The gauge arc** on the velocity dashboard is a flat `#60a5fa`, which is not one of the site's own
   six ramps.
