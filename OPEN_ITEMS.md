@@ -235,6 +235,21 @@ None of these is visible damage; they are places where the artwork and the world
   the one that should move — its hero is the site's first impression and the Talent Intelligence
   hero is the one that was chosen for this artwork. Nothing is broken until that happens; it is a
   question of what the home page shows instead.
+- **The AI-calling transcript is written, not recorded.** The three turns on
+  `/for/recruitment-operations` invent a role, a city, a salary and a booking — Senior Python in
+  Pune, ₹32 LPA, Daniel on Tuesday at 11:00 — for the same reason the 312 and the 41 beside them
+  are invented: the section claims the agent checks salary *in natural language*, and that cannot
+  be shown without any. It is not a transcript of the MP3 underneath it and does not claim to be.
+  Swap it for real words from a call you are happy to publish the moment there are some.
+- **The AI-calling panel still outgrows its 588/536 wash in the two-column squeeze**, where the
+  media column is narrow enough that the transcript wraps hard. The wash now holds 1.0970 exactly
+  at **1440, 1280, 768 and 640**; it goes portrait at 1100 (441x495), 1024 (408x495), 500
+  (460x441) and 390 (350x508). Those are all better than they were — 1024 was 408x556 — and the
+  panel did this before the transcript went in too (408x441). What is left cannot be taken out
+  with padding: at 1024 the card is 336px wide and three bubbles wrap to seven lines, which is
+  about 90px more than the ratio allows. The only lever is type under 13px, which is not worth
+  having. If the portrait wash in that band is unacceptable, the fix is a wider slot for this
+  section, not a smaller creative.
 - **A phone number is baked into a hover state** in the v5 artwork (+91 9945623125).
 - **The gauge arc** on the velocity dashboard is a flat `#60a5fa`, which is not one of the site's own
   six ramps.

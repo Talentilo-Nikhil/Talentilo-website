@@ -619,6 +619,100 @@ async function heroScreen(browser) {
   await context.close();
 }
 
+/**
+ * The AI-calling panel, which has to read as a call that is happening rather than a picture of
+ * one. Three things carry that and each can be undone without anyone noticing in a screenshot.
+ *
+ * The one worth the most care is the last. `--animate-speak` squashes each bar with `scaleY` and
+ * deliberately carries no fill mode, because the site-wide reduced-motion block cuts every
+ * animation to 0.01ms with one iteration. With a fill mode the bars would hold their final frame,
+ * which is the quiet one, and a reader who asked for no motion would get a flat grey strip
+ * instead of a waveform. Adding `both` to that token is a one-word change that looks harmless.
+ */
+async function aiCalling(browser) {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await context.newPage();
+  await page.goto(`${BASE}/for/recruitment-operations`, { waitUntil: 'networkidle' });
+
+  const ground = page.locator('[class*="588/536"]').first();
+  await ground.scrollIntoViewIfNeeded();
+
+  const turns = ground.locator('ol > li');
+  check('ai calling: the call is held in words, not listed as topics', (await turns.count()) === 3,
+    `${await turns.count()} turns`);
+
+  // Who is speaking is drawn with side and hue, so it has to be spelled out for a screen reader.
+  const spoken = await turns.allInnerTexts();
+  check('ai calling: every turn names its speaker to a screen reader',
+    spoken.filter((t) => /Talentilo agent:/.test(t)).length === 2 &&
+      spoken.filter((t) => /Rahul Menon:/.test(t)).length === 1);
+
+  const moving = await ground.locator('span.animate-speak').first().evaluate((el) => {
+    const style = getComputedStyle(el);
+    return style.animationName === 'speak' && style.animationPlayState === 'running';
+  });
+  check('ai calling: the line is live — the waveform runs', moving);
+
+  // The strip is grouped into one run per turn, drawn in that speaker's hue, so the picture can be
+  // read as the conversation below it. lavender-400 for the agent, azure-400 for Rahul.
+  const runs = ground.locator('span.animate-floor');
+  check('ai calling: the waveform is cut into one run per turn', (await runs.count()) === 3,
+    `${await runs.count()} runs`);
+
+  const hues = await runs.evaluateAll((els) =>
+    els.map((el) => getComputedStyle(el.firstElementChild).backgroundColor)
+  );
+  check('ai calling: each run is drawn in its own speaker\'s hue',
+    hues[0] === 'rgb(157, 136, 253)' && hues[1] === 'rgb(77, 168, 253)' && hues[2] === hues[0],
+    hues.join(' '));
+
+  // And the floor has to travel rather than rise everywhere at once, which is what the three
+  // different negative delays buy. Equal delays would pulse the whole strip in unison.
+  const delays = await runs.evaluateAll((els) => els.map((el) => getComputedStyle(el).animationDelay));
+  check('ai calling: the floor passes from one speaker to the next',
+    new Set(delays).size === 3, delays.join(' '));
+
+  // The scrubber below is a rail now, not a second waveform. Its drawing carries no information,
+  // so the range input over it has to keep saying where the recording is.
+  const position = await page.getByRole('slider').first().getAttribute('aria-valuetext');
+  check('ai calling: the scrubber still reports its position', /\d:\d\d of \d:\d\d/.test(position ?? ''),
+    position ?? 'none');
+
+  // The card has to stay inside the wash it sits on; the transcript is what could push it out.
+  const [outer, card] = [await ground.boundingBox(), await ground.locator('> div').first().boundingBox()];
+  const inset = Math.min(outer.y + outer.height - card.y - card.height, card.y - outer.y);
+  check('ai calling: the card stays inside its ground at 1440', inset >= 0, `${inset.toFixed(1)}px`);
+
+  await context.close();
+
+  // The bars are drawn at their own heights and only squashed, so switching motion off has to
+  // give the waveform back whole rather than freeze it part-way down.
+  const still = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 900 } });
+  const quiet = await still.newPage();
+  await quiet.goto(`${BASE}/for/recruitment-operations`, { waitUntil: 'networkidle' });
+  await quiet.locator('[class*="588/536"]').first().scrollIntoViewIfNeeded();
+  await quiet.waitForTimeout(400);
+  const tallest = await quiet.locator('span.animate-speak').evaluateAll((els) =>
+    Math.max(...els.map((el) => el.getBoundingClientRect().height))
+  );
+  // The strip is h-14. The tallest bar lands just under 56px rather than on it, because the arch
+  // across a run peaks between two bars unless the run holds an odd number of them — so this is a
+  // floor well clear of both outcomes rather than an equality: frozen squashed is 0.34 of 56, or
+  // about 19px, and a run frozen quiet on top of that is 6px.
+  check('ai calling: with motion off the waveform stands at full height', tallest >= 50,
+    `${tallest.toFixed(1)}px, against ~19px if it were frozen quiet`);
+
+  // The run wrappers carry the second animation and the same no-fill-mode trap. If `--animate-floor`
+  // ever gains a fill mode, two of the three runs freeze at 0.3 and the bars above stay honest
+  // while the strip is still two-thirds flat — which the bar measurement alone would not catch.
+  const squashed = await quiet.locator('span.animate-floor').evaluateAll((els) =>
+    els.map((el) => getComputedStyle(el).transform).filter((t) => t !== 'none' && t !== 'matrix(1, 0, 0, 1, 0, 0)')
+  );
+  check('ai calling: with motion off no run is left squashed', squashed.length === 0,
+    squashed.join(' ') || 'all upright');
+  await still.close();
+}
+
 async function main() {
   const browser = await chromium.launch({ executablePath: CHROME });
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
@@ -644,6 +738,8 @@ async function main() {
   await scorecard(browser);
   console.log('hero screen');
   await heroScreen(browser);
+  console.log('ai calling');
+  await aiCalling(browser);
   console.log('load');
   await loadsWhole(browser);
   console.log('motion');

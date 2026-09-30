@@ -162,6 +162,62 @@
    */
   --animate-rise-in: rise-in 400ms var(--ease-out-soft) both;
 
+  /*
+   * The live level of a voice on a line, for the waveform in AiCallingPanel.
+   *
+   * `scaleY` rather than `height`, so the browser animates it off the main thread and thirty-odd
+   * bars cost one composite rather than thirty layout passes a frame. The bar keeps its authored
+   * height in CSS and this only squashes it, which is what makes the reduced-motion block at the
+   * foot of this file safe here: it cuts the animation to 0.01ms with no fill mode, so every bar
+   * snaps back to the height it was drawn at rather than freezing part-way down. Deliberately no
+   * `both` — a fill mode would leave them stuck at the last frame, which is the quiet one.
+   *
+   * The caller passes each bar its own delay and duration; see Speech for why they are negative.
+   */
+  --animate-speak: speak 1s ease-in-out infinite;
+
+  /*
+   * Which end of the line has the floor, for the same waveform.
+   *
+   * The bars are grouped into runs, one per turn of the transcript below, and each run's wrapper
+   * carries this on a shared six-second period with a different delay, so the energy passes from
+   * the agent to the candidate and back. Transforms nest, so a run's `scaleY` multiplies with each
+   * bar's own — the two animations compose for free and the strip still costs one composite.
+   *
+   * The quiet end rests at 0.3 rather than near zero. A call really does go almost silent on one
+   * side, but most people meet this card as a still in a screenshot, and two-thirds of a flat line
+   * reads as a broken drawing rather than as someone listening.
+   *
+   * No fill mode, for the same reason `--animate-speak` has none: the reduced-motion block at the
+   * foot of this file cuts it to 0.01ms, and every run has to spring back to full size rather than
+   * hold whichever frame it stopped on.
+   */
+  --animate-floor: floor 6s ease-in-out infinite;
+
+  @keyframes floor {
+    0%,
+    22% {
+      transform: scaleY(1);
+    }
+    33%,
+    89% {
+      transform: scaleY(0.3);
+    }
+    100% {
+      transform: scaleY(1);
+    }
+  }
+
+  @keyframes speak {
+    0%,
+    100% {
+      transform: scaleY(0.34);
+    }
+    50% {
+      transform: scaleY(1);
+    }
+  }
+
   @keyframes rise-in {
     from {
       opacity: 0;
