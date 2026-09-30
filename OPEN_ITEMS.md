@@ -250,6 +250,22 @@ None of these is visible damage; they are places where the artwork and the world
   about 90px more than the ratio allows. The only lever is type under 13px, which is not worth
   having. If the portrait wash in that band is unacceptable, the fix is a wider slot for this
   section, not a smaller creative.
+- **Everything in the contact showcase is invented**, and more of it than before. The four
+  drawings beside the contact form now carry Priya Nair's and Arjun Shah's replies in their own
+  words, a folder read to "23 of 128", "309 more delivered", Kavya Reddy moving forward "2m ago",
+  and the same scores and verdicts they always carried. None of it is data. It is drawn because
+  the real thing is four screen recordings the site cannot reach (see the `clips` prop on
+  `ProductShowcase`, which is sitting ready for them) — the moment those MP4s exist, each slide
+  swaps its drawing for the recording and every invented figure on it goes with it.
+- **The showcase steps every 3.5 seconds**, down from seven, because that is what was asked for.
+  It is faster than the captions can comfortably be read, so the captions were cut to thirteen to
+  sixteen words each to suit it. That is the trade: the pictures carry the argument and the line
+  under them is a label. If it turns out to read as rushed, the dwell is one constant — `DWELL` at
+  the top of `ProductShowcase.tsx`.
+- **The reference for the showcase's motion was never seen.** The ask pointed at
+  `talenthirecls18.ceipal.com`, which this environment's egress policy denies (403 on CONNECT), so
+  the animation was built from the description rather than from the page. If the feel is off, a
+  screenshot of that screen is what would close it.
 - **A phone number is baked into a hover state** in the v5 artwork (+91 9945623125).
 - **The gauge arc** on the velocity dashboard is a flat `#60a5fa`, which is not one of the site's own
   six ramps.
