@@ -48,7 +48,22 @@ export default function RecruitmentOperationsPage() {
             applicants={312}
             called={312}
             booked={41}
-            asks={['Interest vs the JD', 'Salary expectations', 'Meeting booked']}
+            /*
+              The three checks the body copy names — interest against the JD, salary, a slot in
+              the diary — held as a conversation rather than listed as topics. The role, the city
+              and the figure are illustrative, like the 312 and the 41 above them; they are here
+              because "checking salary expectations in natural language" is a claim about words,
+              and it cannot be shown without any.
+            */
+            elapsed="01:12"
+            transcript={[
+              {
+                from: 'agent',
+                line: 'Hi Rahul — the Senior Python role in Pune. Is ₹32 LPA within your range?',
+              },
+              { from: 'candidate', line: "That works. I'd want to hear about the team first." },
+              { from: 'agent', line: 'Booked — Daniel calls you Tuesday at 11:00.' },
+            ]}
             recording={{
               src: '/audio/ai-call-screening.mp3',
               label: 'the screening call',

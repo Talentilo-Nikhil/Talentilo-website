@@ -9,8 +9,13 @@ type AiCallingPanelProps = {
   called: number;
   /** How many came out the far end with a meeting in the diary. */
   booked: number;
-  /** What the agent covers on every call, in the order the section names them. */
-  asks: string[];
+  /**
+   * The call as it is being held, turn by turn. Three is what the slot takes at its design size;
+   * see the panel's own note for why the words are here rather than a list of the topics.
+   */
+  transcript: { from: 'agent' | 'candidate'; line: string }[];
+  /** How far into the call this is, e.g. `01:12`. A still of a call in progress, not a clock. */
+  elapsed: string;
   /**
    * The recording, once there is one to play. Omitted, the strip is not drawn.
    *
@@ -36,15 +41,29 @@ type AiCallingPanelProps = {
  * - A call, as the two ends of one. The agent and the candidate either side of a live waveform is
  *   what this product does, and it is the one image the section has been missing while it showed
  *   forms and figures. The waveform peaks toward the middle the way speech does.
- * - The reach, as a bar that is entirely full. Every other funnel on this site narrows at the top;
+ * - The reach, last, as a bar that is entirely full. Every other funnel on this site narrows at the top;
  *   this one cannot, because the claim is that nothing is lost there — so the bar runs the whole
  *   width, and the only thing that narrows is the accent length inside it, drawn at the shortlist's
  *   real share of the list rather than at whatever length looked right.
- * - The three checks, as chips on one line rather than a stacked list, because they are a set and
- *   not a sequence.
+ * - The conversation, in the words it is being held in, directly under the call it belongs to.
+ *   The order matters: you hear the call, and only then are told it happened three hundred times.
+ *   With the counts in between, the numbers cut the call in half and the words read as a separate
+ *   exhibit. This was three chips naming the checks —
+ *   "Interest vs the JD", "Salary expectations", "Meeting booked" — which is a list of topics,
+ *   and the body copy four inches to the left already lists them in better prose. The transcript
+ *   is the one thing on this page that the copy cannot do: it shows that the agent asks a real
+ *   question, hears a real answer, and books off the back of it. The three chips' subjects all
+ *   survive inside it, so nothing was dropped, only said instead of labelled.
+ *
+ * A clock sits under the waveform and the waveform moves, which between them are what make this
+ * read as a call in progress rather than a screenshot of one. The clock is a still — a number set
+ * in type, not a timer — because a figure counting up would be the only thing on the page racing
+ * the real recording underneath it.
  *
  * Underneath, a call you can play — see CallRecording. Nothing is quoted from the file and no
  * timestamps are pinned to it, because what is said inside it is not something this page knows.
+ * The transcript above is likewise not a transcript *of* that recording; it is the shape of the
+ * call the section describes.
  *
  * The card is inset well clear of the ground's edges. It sat 16px off them, which reads as a
  * screenshot that has been pasted onto a colour rather than a thing composed inside a frame; the
@@ -55,7 +74,8 @@ export function AiCallingPanel({
   applicants,
   called,
   booked,
-  asks,
+  transcript,
+  elapsed,
   recording,
   className,
 }: AiCallingPanelProps) {
@@ -89,13 +109,46 @@ export function AiCallingPanel({
             {candidate.initials}
           </span>
         </div>
-        <div className="mt-2 flex items-center justify-between text-caption text-muted">
-          <span>Talentilo agent</span>
-          <span>{candidate.name}</span>
+        {/*
+          The clock goes here rather than beside "On a call": it belongs under the waveform, which
+          is the part of the card that is running. Three-up on one line, so it costs no height.
+        */}
+        <div className="mt-2 flex items-center justify-between gap-3 text-caption text-muted">
+          <span className="min-w-0 truncate">Talentilo agent</span>
+          <span className="font-figure shrink-0 tabular-nums">{elapsed}</span>
+          <span className="min-w-0 truncate text-right">{candidate.name}</span>
         </div>
 
-        {/* 2. The reach: a bar with nothing missing from it. */}
-        <div className="mt-5">
+        {/* 2. The call, in the words it is being held in. */}
+        <ol className="mt-4 space-y-1.5">
+          {transcript.map((turn, index) => {
+            const agent = turn.from === 'agent';
+            return (
+              <li key={index} className={cn('flex', !agent && 'justify-end')}>
+                {/*
+                  Who is speaking is carried by the side and the hue, the way every messaging app
+                  draws it — there is no room for a name over each bubble at this size, and the
+                  line above already names both ends of the call. A screen reader gets neither
+                  side nor hue, so it gets the name instead.
+                */}
+                <p
+                  className={cn(
+                    'max-w-[88%] rounded-2xl px-3 py-1.5 text-small text-ink',
+                    agent ? 'rounded-bl-sm bg-lavender-100' : 'rounded-br-sm bg-woodsmoke-100'
+                  )}
+                >
+                  <span className="sr-only">
+                    {agent ? 'Talentilo agent: ' : `${candidate.name}: `}
+                  </span>
+                  {turn.line}
+                </p>
+              </li>
+            );
+          })}
+        </ol>
+
+        {/* 3. The reach: a bar with nothing missing from it. */}
+        <div className="mt-4">
           <div className="flex items-baseline justify-between gap-3">
             <p className="font-figure text-h5 leading-none font-semibold text-ink">
               {called.toLocaleString()}
@@ -124,20 +177,8 @@ export function AiCallingPanel({
           </div>
         </div>
 
-        {/* 3. The three checks, as a set. */}
-        <ul className="mt-4 flex flex-wrap gap-1.5">
-          {asks.map((ask) => (
-            <li
-              key={ask}
-              className="rounded-pill bg-surface-tint px-2.5 py-1 text-caption font-medium text-ink/75"
-            >
-              {ask}
-            </li>
-          ))}
-        </ul>
-
         {recording ? (
-          <div className="mt-5 border-t border-hairline pt-4">
+          <div className="mt-4 border-t border-hairline pt-3.5">
             <CallRecording
               src={recording.src}
               label={recording.label}
@@ -182,28 +223,49 @@ function Agent() {
   );
 }
 
+const BARS = [
+  14, 26, 44, 22, 58, 36, 70, 48, 86, 60, 96, 74, 100, 66, 88, 52, 78, 40, 64, 30, 72, 46, 90, 56,
+  82, 38, 68, 28, 50, 20, 42, 24, 34, 16,
+];
+
 /**
- * The speech on the line, peaking toward the middle the way a sentence does.
+ * The speech on the line — moving, because a call is a thing that is happening.
  *
- * Two hues rather than one, alternating: the line carries two voices, and a single colour would
- * draw one long noise instead of a conversation.
+ * The static version of this strip drew the shape of speech and then held it, which is a picture
+ * of a waveform rather than of a call. The section's whole claim is that something is talking to
+ * someone right now, and a level that does not move is the one detail that says it is not.
+ *
+ * Each bar keeps its authored height and is squashed on a loop, so the strip still peaks toward
+ * the middle the way a sentence does instead of flattening into an equaliser. Two hues rather than
+ * one, alternating: the line carries two voices, and a single colour would draw one long noise.
+ *
+ * Both timings are per-bar and derived from the index rather than random, so the server and the
+ * client render the same markup.
+ *
+ * - The **delay is negative**, which starts each bar part-way through its own cycle. Without it
+ *   all thirty-four begin flat and rise together on first paint, which reads as an animation
+ *   starting; with it the strip is already mid-speech the moment it is drawn.
+ * - The **durations differ** across five values. On one shared duration the bars return to the
+ *   same relative phase every cycle and the strip loops visibly; a spread of periods drifts, and
+ *   no two passes look alike.
+ *
+ * `--animate-speak` carries the reduced-motion story — it has no fill mode on purpose.
  */
 function Speech() {
-  const bars = [
-    14, 26, 44, 22, 58, 36, 70, 48, 86, 60, 96, 74, 100, 66, 88, 52, 78, 40, 64, 30, 72, 46, 90,
-    56, 82, 38, 68, 28, 50, 20, 42, 24, 34, 16,
-  ];
-
   return (
     <span className="flex h-11 min-w-0 flex-1 items-center gap-[2px]">
-      {bars.map((height, index) => (
+      {BARS.map((height, index) => (
         <span
           key={index}
           className={cn(
-            'w-full rounded-[2px]',
+            'w-full animate-speak rounded-[2px]',
             index % 2 === 0 ? 'bg-azure-400' : 'bg-lavender-300'
           )}
-          style={{ height: `${height}%` }}
+          style={{
+            height: `${height}%`,
+            animationDuration: `${820 + ((index * 7) % 5) * 95}ms`,
+            animationDelay: `-${(index * 137) % 900}ms`,
+          }}
         />
       ))}
     </span>
