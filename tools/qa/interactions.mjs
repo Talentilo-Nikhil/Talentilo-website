@@ -745,7 +745,7 @@ async function demoBooking(browser) {
 
   // The widget is a third-party iframe this environment cannot reach (calendly.com is egress
   // denied), so what is asserted is the embed the page hands it, not the calendar it draws.
-  const host = page.locator('.calendly-inline-widget');
+  const host = page.locator('[data-calendly="inline"]');
   check('demo: the page mounts the booking widget', (await host.count()) === 1);
 
   /*
@@ -773,6 +773,47 @@ async function demoBooking(browser) {
     'demo: the widget is wide enough for Calendly to lay it out side by side',
     mounted >= 1100,
     `${Math.round(mounted)}px at a 1440 viewport, against Calendly's 1100 threshold`
+  );
+
+  /*
+    `widget.js` initialises every `.calendly-inline-widget` it finds when it loads. That scan is a
+    second initialiser and it knows nothing about this component's, so an element carrying the
+    class AND passed to `initInlineWidget` gets built twice — which is what shipped, and what put
+    a second calendar over the footer. The class must not be here.
+  */
+  check(
+    'demo: the mount point does not also invite Calendly to build into it',
+    (await host.evaluate((el) => el.classList.contains('calendly-inline-widget'))) === false
+  );
+
+  /*
+    And the belt to that brace, testable without Calendly: put two stand-ins the size of the iframe
+    Calendly builds into the container, and nothing may escape it. Measured by what the box does,
+    not by the children's rectangles — a clipped child still reports its unclipped geometry, so
+    `getBoundingClientRect` says it is 582px past the footer whether or not any of it is painted.
+    The box keeping its height and clipping its overflow is what actually holds the page together;
+    before the fix the container had neither and a second calendar drew over the footer.
+  */
+  const contained = await page.evaluate(() => {
+    const el = document.querySelector('[data-calendly="inline"]');
+    const before = el.innerHTML;
+    for (let i = 0; i < 2; i++) {
+      const stand = document.createElement('div');
+      stand.style.cssText = 'height:700px;width:100%';
+      el.append(stand);
+    }
+    const result = {
+      overflow: getComputedStyle(el).overflow,
+      height: Math.round(el.getBoundingClientRect().height),
+      content: el.scrollHeight,
+    };
+    el.innerHTML = before;
+    return result;
+  });
+  check(
+    'demo: a calendar that overruns its box cannot reach the footer',
+    contained.overflow === 'hidden' && contained.height === 700,
+    `overflow:${contained.overflow}, box ${contained.height}px holding ${contained.content}px of content`
   );
   check(
     "demo: the widget's script is on the page",

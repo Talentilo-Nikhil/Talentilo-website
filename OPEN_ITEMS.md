@@ -211,6 +211,13 @@ is not 1100px of content width to hand it, whatever the component says. Closing 
 mean breaking the site's 1312px measure on this one page, which is not worth it. `qa:interactions`
 now asserts the mounted width is at least 1100 at 1440, which is the check that was missing.
 
+**The mount point must never carry `calendly-inline-widget`.** That class is what `widget.js`
+scans for when it loads, and the scan initialises everything it finds. With the class on an element
+this component also passed to `initInlineWidget`, the calendar was built twice — two 700px iframes
+in a 700px box, the second drawing over the fallback line and 582px into the footer. The element
+carries `data-calendly="inline"` instead, and `qa:interactions` asserts both that the class is
+absent and that the box clips what it holds.
+
 **The URL carries no parameters**, deliberately — `hide_event_type_details=1` was removing the
 panel with the host, the meeting name, its length and its description, which is half of what the
 page is for. If Calendly's cookie banner turns out to be in the way for EU visitors,

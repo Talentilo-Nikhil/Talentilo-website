@@ -1,7 +1,7 @@
 'use client';
 
 import Script from 'next/script';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { cn } from '@/lib/cn';
 
@@ -21,13 +21,21 @@ const WIDGET_SCRIPT = 'https://assets.calendly.com/assets/external/widget.js';
  * but it is an iframe either way, and blocking hydration on a third-party script to save it a few
  * hundred milliseconds is a bad trade.
  *
- * The part that is easy to get wrong: `widget.js` scans the document for `.calendly-inline-widget`
- * once, when it executes, and never again. Arriving here from one of the site's own buttons is a
- * client-side navigation, so on every visit after the first the script is already parsed, does not
- * re-run, and the container would sit empty. So the component initialises the widget itself —
- * `onLoad` covers the first visit, and the effect covers every one after it, by which time
- * `window.Calendly` is already there. Guarded by a ref, because in development React mounts every
- * effect twice and two calls would stack two iframes.
+ * The part that is easy to get wrong, and that this got wrong once: `widget.js` scans the document
+ * for `.calendly-inline-widget` when it executes and initialises every one it finds. That scan is
+ * a second initialiser, and it does not know about this component's. Mounting the widget on an
+ * element carrying that class while also calling `initInlineWidget` on it therefore built the
+ * calendar twice — two 700px iframes in a 700px box, the second spilling out over the page and
+ * into the footer.
+ *
+ * So the element deliberately does NOT carry `calendly-inline-widget`. The scan finds nothing,
+ * this component is the only initialiser, and the count is one on a first load and one after a
+ * client-side navigation — which is the case that made an explicit `initInlineWidget` necessary in
+ * the first place, since the script does not re-run and the scan never happens again.
+ *
+ * Three things hold that: the missing class, a guard that refuses to build into a container that
+ * already has something in it, and a cleanup that empties the container so a remount — React's
+ * double mount in development, or coming back to the page — starts from nothing.
  */
 export function CalendlyInline({
   url,
@@ -38,16 +46,19 @@ export function CalendlyInline({
   className?: string;
 }) {
   const host = useRef<HTMLDivElement>(null);
-  const started = useRef(false);
   const [failed, setFailed] = useState(false);
 
-  const start = () => {
-    if (started.current || !host.current || !window.Calendly) return;
-    started.current = true;
-    window.Calendly.initInlineWidget({ url, parentElement: host.current });
-  };
+  const start = useCallback(() => {
+    const el = host.current;
+    if (!el || !window.Calendly || el.childElementCount > 0) return;
+    window.Calendly.initInlineWidget({ url, parentElement: el });
+  }, [url]);
 
-  useEffect(start);
+  useEffect(() => {
+    start();
+    const el = host.current;
+    return () => el?.replaceChildren();
+  }, [start]);
 
   return (
     <div className={cn('flex flex-col items-center gap-4', className)}>
@@ -76,8 +87,9 @@ export function CalendlyInline({
       */}
       <div
         ref={host}
-        className="calendly-inline-widget h-[700px] w-full min-w-[320px]"
+        data-calendly="inline"
         data-url={url}
+        className="h-[700px] w-full min-w-[320px] overflow-hidden"
       />
 
       <Script src={WIDGET_SCRIPT} strategy="afterInteractive" onLoad={start} onError={() => setFailed(true)} />
