@@ -24,6 +24,16 @@ export const site = {
     enquiries: 'marketing@talentilo.ai',
   },
   /**
+   * The sales calendar behind every "Request Demo" on the site, embedded on /demo.
+   *
+   * The query string is part of the address, not decoration: `hide_event_type_details` drops the
+   * duplicate title Calendly would otherwise print above a page that already has a heading,
+   * `hide_gdpr_banner` drops its cookie notice, and `primary_color` is the brand lavender so the
+   * widget's buttons are not Calendly blue in the middle of a Talentilo page.
+   */
+  calendly: 'https://calendly.com/talentilo-marketing/30min?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=a2a5ff',
+
+  /**
    * LinkedIn is the only account Talentilo runs. The X and Instagram handles that sat here were
    * never claimed, so the footer linked to pages that do not exist and the organisation's
    * structured data claimed two profiles it does not own.

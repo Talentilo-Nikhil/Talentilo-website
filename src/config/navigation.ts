@@ -109,18 +109,20 @@ export const primaryNav: NavItem[] = [
 /**
  * Where every main call to action on the site goes.
  *
- * The site used to send all of them to `/contact`, which put a demo request and a support
- * question through the same form and the same inbox. The demo now books directly against the
- * sales calendar instead, so this is an absolute URL rather than a route — `ButtonLink` tests the
- * scheme and renders an external href as a new-tab `<a rel="noreferrer noopener">`, so nothing at
- * the call sites has to know which it is.
+ * All thirty-four of them used to land on `/contact`, which put a demo request, a pricing question
+ * and a support ticket through one form and one inbox, and answered none of them faster than a
+ * calendar would. They book against the sales calendar now, on `/demo`.
  *
- * `/contact` is still there and still takes messages; it is reachable from the footer's Company
- * column, from the legal pages' "Request the document" button, and from the few prose links that
- * are about pricing or support rather than about seeing the product. Those are deliberately not
- * pointed here: someone chasing a DPA does not want a calendar.
+ * A route of this site rather than the Calendly address itself, though the calendar is what fills
+ * it. `ButtonLink` would have taken an absolute URL and rendered it as a `target="_blank"` link,
+ * which works — but a visitor mid-decision keeps the header, the footer and a URL worth putting in
+ * a campaign this way, and the site keeps its own analytics on the step. The one constant is why
+ * none of the thirty-four call sites had to change.
+ *
+ * `/contact` is still there and still takes messages. It is reachable from the footer's Company
+ * column, and from `headerActions.signIn` below until that has a real app URL to point at.
  */
-export const DEMO_URL = '/contact';
+export const DEMO_URL = '/demo';
 
 export const headerActions = {
   signIn: { label: 'Sign In', href: '/contact' },
@@ -154,6 +156,7 @@ export const legalNav: NavLink[] = [{ label: 'Privacy Policy', href: '/privacy' 
 /** Every route the site serves, used by the QA link checker. */
 export const allRoutes = [
   '/',
+  '/demo',
   '/platform/recruitment-os',
   '/platform/talent-intelligence',
   '/platform/faster-operations',
