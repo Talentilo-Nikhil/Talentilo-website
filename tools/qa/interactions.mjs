@@ -450,7 +450,7 @@ async function reducedMotion(browser) {
  * The showcase beside the contact form: it must step, it must advance on its own, and it must
  * stop the moment someone is reading it or has asked for no motion.
  *
- * The dwell is seven seconds, so each wait here is a little over one of them. The pointer is
+ * The dwell is 3.5 seconds, so each wait here is a little over one of them. The pointer is
  * parked in a corner first — the showcase pauses under the cursor, and Playwright leaves it
  * wherever the last click put it, which is inside the panel.
  */
@@ -466,13 +466,27 @@ async function showcase(browser) {
   const dots = page.getByRole('tablist', { name: 'Choose a capability' }).getByRole('tab');
   check('showcase: one dot per capability', (await dots.count()) === 4);
 
+  // The capability's name is the panel's own line now, not a pill pinned over the picture.
+  const heading = page.locator('h2.sr-only + p');
+  const firstName = await heading.textContent();
+  check(
+    'showcase: the capability is named above the picture, not on it',
+    (await page.locator('[role="tabpanel"]').getByText(firstName, { exact: true }).count()) === 0,
+    firstName
+  );
+
   const first = await selected(page);
-  await page.waitForTimeout(7800);
+  await page.waitForTimeout(4300);
   check('showcase: advances on its own', (await selected(page)) !== first);
+  check(
+    'showcase: the heading follows the slide',
+    (await heading.textContent()) !== firstName,
+    `${firstName} -> ${await heading.textContent()}`
+  );
 
   await page.getByRole('tablist', { name: 'Choose a capability' }).hover();
   const held = await selected(page);
-  await page.waitForTimeout(7800);
+  await page.waitForTimeout(4300);
   check('showcase: holds while hovered', (await selected(page)) === held);
 
   await page.mouse.move(1430, 20);
@@ -513,7 +527,7 @@ async function showcase(browser) {
   await quiet.goto(`${BASE}/contact`, { waitUntil: 'networkidle' });
   await quiet.mouse.move(1430, 20);
   const parked = await selected(quiet);
-  await quiet.waitForTimeout(8200);
+  await quiet.waitForTimeout(4600);
   check('showcase: never auto-advances under prefers-reduced-motion', (await selected(quiet)) === parked);
   await still.close();
 }

@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react';
+
 import { cn } from '@/lib/cn';
 
 /**
@@ -22,6 +24,7 @@ export function ScoreRing({
   className,
   trackOpacity = 0.15,
   stroke = 3,
+  animated = false,
 }: {
   /** The score, 0–100. Clamped, because a ring cannot draw more than its own circumference. */
   value: number;
@@ -31,6 +34,20 @@ export function ScoreRing({
   className: string;
   trackOpacity?: number;
   stroke?: number;
+  /**
+   * Whether the arc fills to its value rather than arriving drawn. Off by default, so the two
+   * callers that want a static ring are untouched.
+   *
+   * The animation only runs inside an element marked `data-active="true"`, because the one place
+   * that asks for it is the contact showcase, where all four slides stay in the DOM and only the
+   * one on show should be moving. Somewhere with nothing to gate on, mark the wrapper
+   * `data-active="true"` and it runs on mount.
+   *
+   * The arc's own length is already in `strokeDasharray`, so filling it is a matter of walking
+   * `stroke-dashoffset` back from that length to zero — which `--drawn` hands to the keyframe, and
+   * is why one keyframe serves every score. See `draw-ring` in globals.css.
+   */
+  animated?: boolean;
 }) {
   const circumference = 2 * Math.PI * 14;
   const drawn = (Math.min(Math.max(value, 0), 100) / 100) * circumference;
@@ -56,6 +73,8 @@ export function ScoreRing({
           strokeWidth={stroke}
           strokeLinecap="round"
           strokeDasharray={`${drawn} ${circumference}`}
+          className={animated ? 'group-data-[active=true]:animate-draw-ring' : undefined}
+          style={animated ? ({ '--drawn': drawn } as CSSProperties) : undefined}
         />
       </svg>
       <span className="text-caption font-semibold text-ink">{label ?? value}</span>
