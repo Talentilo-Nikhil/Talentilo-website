@@ -578,6 +578,26 @@ function teamChartFunnel() {
 /** Each Offered bar keeps the x the file gave it; only its height is in question. */
 const BAR_X = { '#2': 587.94, '#3': 700.53, '#4': 813.11 };
 
+/**
+ * The two corrections the home page's hero dashboard has always carried, held here rather than
+ * inline because two creatives are now cut from that one frame and they must not drift apart.
+ */
+const commandCenterFixes = {
+  // The "What's New" pill — see brandWash.
+  patch: [{ path: '#4/#1/#0/#1/#0/#0', fills: [brandWash()] }, ...teamChartFunnel()],
+  // The file's demo data names real companies — Oracle, Tata Motors, Bajaj Inc, Microsoft —
+  // and HDFC Bank as the employers behind these jobs. Shipping that on marketing artwork
+  // reads as a customer list. Swapped for invented ones, each measured to sit inside the
+  // string it replaces so no cell re-flows: Arden, Vero Auto, Lyra Inc, Halden, Nord Bank.
+  retext: [
+    { path: '#4/#1/#1/#1/#0/#0/#0/#1/#2/#0/#1/#1', text: 'Sara K. has a final round interview with Halden.' },
+    { path: '#4/#1/#1/#1/#0/#0/#0/#1/#2/#0/#1/#0/#0', text: 'Manoj Trivedi joins Nord Bank (Fee: ₹2.0L).' },
+    { path: '#4/#1/#1/#1/#1/#1/#1/#1/#1/#0/#0/#0/#1/#0/#1/#0', text: 'Data scientist | Arden' },
+    { path: '#4/#1/#1/#1/#1/#1/#1/#1/#1/#1/#0/#0/#0/#1/#1/#0', text: 'Full stack developer | Arden' },
+    { path: '#4/#1/#1/#1/#1/#1/#1/#1/#1/#2/#0/#0/#0/#1/#1/#0', text: 'UI/UX Designer | Arden' },
+  ],
+};
+
 /** page slug → [{ file, path, label, scale?, graft?, hide?, overlay? }] */
 const EXPORTS = {
   // The four approved lockups, taken from the Design system canvas rather than lifted off a page.
@@ -885,19 +905,43 @@ const EXPORTS = {
       file: 'hero-command-center',
       path: '',
       label: 'Talentilo command centre dashboard',
-      // The "What's New" pill — see brandWash.
-      patch: [{ path: '#4/#1/#0/#1/#0/#0', fills: [brandWash()] }, ...teamChartFunnel()],
-      // The file's demo data names real companies — Oracle, Tata Motors, Bajaj Inc, Microsoft —
-      // and HDFC Bank as the employers behind these jobs. Shipping that on marketing artwork
-      // reads as a customer list. Swapped for invented ones, each measured to sit inside the
-      // string it replaces so no cell re-flows: Arden, Vero Auto, Lyra Inc, Halden, Nord Bank.
-      retext: [
-        { path: '#4/#1/#1/#1/#0/#0/#0/#1/#2/#0/#1/#1', text: 'Sara K. has a final round interview with Halden.' },
-        { path: '#4/#1/#1/#1/#0/#0/#0/#1/#2/#0/#1/#0/#0', text: 'Manoj Trivedi joins Nord Bank (Fee: ₹2.0L).' },
-        { path: '#4/#1/#1/#1/#1/#1/#1/#1/#1/#0/#0/#0/#1/#0/#1/#0', text: 'Data scientist | Arden' },
-        { path: '#4/#1/#1/#1/#1/#1/#1/#1/#1/#1/#0/#0/#0/#1/#1/#0', text: 'Full stack developer | Arden' },
-        { path: '#4/#1/#1/#1/#1/#1/#1/#1/#1/#2/#0/#0/#0/#1/#1/#0', text: 'UI/UX Designer | Arden' },
+      patch: commandCenterFixes.patch,
+      retext: commandCenterFixes.retext,
+    },
+    /*
+     * The same frame with its ground taken away: the screen, the two alerts that float beside it,
+     * and nothing else.
+     *
+     * The frame's own fill is `linear-gradient(180deg, #fdfcff/.8, #b1a4ff/.8 69.09%, #4da8fd/.8)`
+     * — which is `--gradient-brand-vertical` to the stop, the exact wash a `PageHero wash="brand"`
+     * band already paints. Baking that ground into the artwork and then setting the artwork down
+     * on the same ground draws it twice, so it is dropped here along with the four white ray arcs
+     * that decorate it, and the band underneath supplies it instead.
+     *
+     * The box is the union of what survives: x from the alert group's left edge (165.87) to the
+     * screen's right (205.67 + 900.66 = 1106.33); y from the screen's top (-622) down to the
+     * frame's own foot (0), which is where the design already cuts the screen off mid-row. The
+     * crop is the point — it is what makes the file transparent to its own edges, so a hero can
+     * set it on any ground without a rectangle of nothing around it.
+     *
+     * `clipsContent` goes off with the fill, and it has to. The writer takes the render origin
+     * from the root's box but draws the root's own clip rectangle from its `matrix`, and this
+     * frame's matrix is [1, 0, 0, -1, 0, 0] — a y-flip pinned to the uncropped origin. Moving the
+     * box alone therefore slides that clip 165.87px left of the crop and shears the right-hand
+     * column off the screen. Nothing is lost by dropping it: the SVG viewport is the crop, so it
+     * bounds the drawing on all four sides by itself.
+     */
+    {
+      file: 'command-center-screen',
+      path: '',
+      label:
+        'The Talentilo command centre: a recruiter workspace with news, velocity, team output and the day\u2019s interviews, beside alerts for missing offer dates and offers awaiting acceptance',
+      hide: ['Rectangle 79', 'Rectangle 80', 'Rectangle 81', 'Rectangle 82'],
+      patch: [
+        { path: '', fills: [], clipsContent: false, box: { x: 165.87, y: -622, w: 940.46, h: 622 } },
+        ...commandCenterFixes.patch,
       ],
+      retext: commandCenterFixes.retext,
     },
   ],
   'upd-velocity-index': [
