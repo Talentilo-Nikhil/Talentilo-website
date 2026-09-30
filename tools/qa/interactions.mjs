@@ -653,6 +653,31 @@ async function aiCalling(browser) {
   });
   check('ai calling: the line is live — the waveform runs', moving);
 
+  // The strip is grouped into one run per turn, drawn in that speaker's hue, so the picture can be
+  // read as the conversation below it. lavender-400 for the agent, azure-400 for Rahul.
+  const runs = ground.locator('span.animate-floor');
+  check('ai calling: the waveform is cut into one run per turn', (await runs.count()) === 3,
+    `${await runs.count()} runs`);
+
+  const hues = await runs.evaluateAll((els) =>
+    els.map((el) => getComputedStyle(el.firstElementChild).backgroundColor)
+  );
+  check('ai calling: each run is drawn in its own speaker\'s hue',
+    hues[0] === 'rgb(157, 136, 253)' && hues[1] === 'rgb(77, 168, 253)' && hues[2] === hues[0],
+    hues.join(' '));
+
+  // And the floor has to travel rather than rise everywhere at once, which is what the three
+  // different negative delays buy. Equal delays would pulse the whole strip in unison.
+  const delays = await runs.evaluateAll((els) => els.map((el) => getComputedStyle(el).animationDelay));
+  check('ai calling: the floor passes from one speaker to the next',
+    new Set(delays).size === 3, delays.join(' '));
+
+  // The scrubber below is a rail now, not a second waveform. Its drawing carries no information,
+  // so the range input over it has to keep saying where the recording is.
+  const position = await page.getByRole('slider').first().getAttribute('aria-valuetext');
+  check('ai calling: the scrubber still reports its position', /\d:\d\d of \d:\d\d/.test(position ?? ''),
+    position ?? 'none');
+
   // The card has to stay inside the wash it sits on; the transcript is what could push it out.
   const [outer, card] = [await ground.boundingBox(), await ground.locator('> div').first().boundingBox()];
   const inset = Math.min(outer.y + outer.height - card.y - card.height, card.y - outer.y);
@@ -670,9 +695,21 @@ async function aiCalling(browser) {
   const tallest = await quiet.locator('span.animate-speak').evaluateAll((els) =>
     Math.max(...els.map((el) => el.getBoundingClientRect().height))
   );
-  // The strip is h-11, and one bar in the set is authored at 100%.
-  check('ai calling: with motion off the waveform stands at full height', tallest >= 43,
-    `${tallest.toFixed(1)}px of 44`);
+  // The strip is h-14. The tallest bar lands just under 56px rather than on it, because the arch
+  // across a run peaks between two bars unless the run holds an odd number of them — so this is a
+  // floor well clear of both outcomes rather than an equality: frozen squashed is 0.34 of 56, or
+  // about 19px, and a run frozen quiet on top of that is 6px.
+  check('ai calling: with motion off the waveform stands at full height', tallest >= 50,
+    `${tallest.toFixed(1)}px, against ~19px if it were frozen quiet`);
+
+  // The run wrappers carry the second animation and the same no-fill-mode trap. If `--animate-floor`
+  // ever gains a fill mode, two of the three runs freeze at 0.3 and the bars above stay honest
+  // while the strip is still two-thirds flat — which the bar measurement alone would not catch.
+  const squashed = await quiet.locator('span.animate-floor').evaluateAll((els) =>
+    els.map((el) => getComputedStyle(el).transform).filter((t) => t !== 'none' && t !== 'matrix(1, 0, 0, 1, 0, 0)')
+  );
+  check('ai calling: with motion off no run is left squashed', squashed.length === 0,
+    squashed.join(' ') || 'all upright');
   await still.close();
 }
 

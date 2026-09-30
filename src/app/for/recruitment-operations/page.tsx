@@ -61,7 +61,7 @@ export default function RecruitmentOperationsPage() {
                 from: 'agent',
                 line: 'Hi Rahul — the Senior Python role in Pune. Is ₹32 LPA within your range?',
               },
-              { from: 'candidate', line: "That works. I'd want to hear about the team first." },
+              { from: 'candidate', line: 'That works — tell me about the team.' },
               { from: 'agent', line: 'Booked — Daniel calls you Tuesday at 11:00.' },
             ]}
             recording={{
