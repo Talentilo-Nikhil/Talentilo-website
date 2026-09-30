@@ -53,7 +53,15 @@ export default function TalentIntelligencePage() {
          * now ends where the screen does, and keeps the money in it: a job board you paid for.
          */
         lede="Your ATS is likely a graveyard where great talent goes to be forgotten. Talentilo reads your job descriptions like a human and ranks the best matches out of your existing database — so your next hire is already on your desk, not on a job board you paid for."
-        cta={{ label: 'Rank Your Existing Candidates', href: DEMO_URL }}
+        /*
+         * The last of the three lines the table used to justify. "Rank Your Existing Candidates"
+         * described the screen that was here; it also ran a second time, word for word, on the
+         * Boolean section below — where it still belongs, because that section is about ranking.
+         * Here it now closes the loop the headline opens: not a search away, already on your desk,
+         * so go and meet them. It is ten characters shorter too, which the phone wants: the button
+         * floats over the artwork, and at 390 the old label ran nearly the artwork's whole width.
+         */
+        cta={{ label: 'Meet Your Next Hire', href: DEMO_URL }}
         ctaPlacement="overlay"
         wash="brand"
         /*
