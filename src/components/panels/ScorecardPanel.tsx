@@ -62,10 +62,26 @@ type ScorecardPanelProps = {
 export function ScorecardPanel({ leader, rest, className }: ScorecardPanelProps) {
   return (
     <CreativeGround tone="brand" className={className}>
-      <div className="overflow-hidden rounded-card bg-surface shadow-[0_20px_50px_rgb(12_10_16/0.18)]">
-        <p className="bg-ink px-5 py-3 text-body font-semibold text-white">Contextual Fit Score</p>
+      {/*
+        The card is pulled in off the ground's edges, and it takes two knobs to do it because they
+        buy different things.
 
-        <div className="p-5">
+        `max-w` narrows it: the slot's grid cell is the full 588 less CreativeGround's own 32px
+        padding, so without a cap the card is 524 wide however little it has to say, and the wash
+        either side is a 32px border rather than a ground. The exported artwork this replaced sat
+        about 40px in.
+
+        `scale` shrinks it whole. The trimmed internal spacing bought the height back at no cost to
+        type, and this closes the rest — uniformly, so nothing reflows and the composition is the
+        one that was designed. It is deliberately shallow: at 1440 the slot renders about 1:1 with
+        the design, which makes the factor a straight multiplier on rendered type, and the smallest
+        thing here is an 11px caption. 0.95 puts it at 10.5px. Much below 0.9 and the notes under
+        each ring stop being readable.
+      */}
+      <div className="mx-auto max-w-[500px] scale-[0.95] overflow-hidden rounded-card bg-surface shadow-[0_20px_50px_rgb(12_10_16/0.18)]">
+        <p className="bg-ink px-4 py-2.5 text-body font-semibold text-white">Contextual Fit Score</p>
+
+        <div className="p-4">
           {/* The leader, and the arithmetic behind them. */}
           <div className="flex items-center justify-between gap-4">
             <div className="flex min-w-0 items-center gap-3">
@@ -95,7 +111,7 @@ export function ScorecardPanel({ leader, rest, className }: ScorecardPanelProps)
             the same moment and not a sequence — and because four stacked rows plus the skills and
             the ranking below them do not fit the 536 the slot is.
           */}
-          <ul className="mt-4 grid grid-cols-2 gap-2.5">
+          <ul className="mt-3 grid grid-cols-2 gap-2">
             {/*
               A list, not a <dl>, though a dimension and its note look exactly like a term and its
               definition. A <dl> may only hold dt/dd pairs, optionally grouped in a <div> that holds
@@ -106,7 +122,7 @@ export function ScorecardPanel({ leader, rest, className }: ScorecardPanelProps)
             {leader.dimensions.map((dimension) => (
               <li
                 key={dimension.label}
-                className="flex items-center gap-2.5 rounded-lg border border-hairline p-2.5"
+                className="flex items-center gap-2.5 rounded-lg border border-hairline p-2"
               >
                 {/*
                   One hue across all four, darkening as the score climbs — not the reference's
@@ -118,7 +134,7 @@ export function ScorecardPanel({ leader, rest, className }: ScorecardPanelProps)
                 <ScoreRing
                   value={dimension.value}
                   label={`${dimension.value}`}
-                  className={cn('size-11', hue(dimension.value))}
+                  className={cn('size-10', hue(dimension.value))}
                 />
                 <div className="min-w-0">
                   <p className="truncate text-small font-semibold text-ink">{dimension.label}</p>
@@ -128,18 +144,18 @@ export function ScorecardPanel({ leader, rest, className }: ScorecardPanelProps)
             ))}
           </ul>
 
-          <div className="mt-4 grid grid-cols-[1fr_auto] gap-x-4 gap-y-1.5">
+          <div className="mt-3 grid grid-cols-[1fr_auto] gap-x-4 gap-y-1.5">
             <Skills title="Skills match" items={leader.matched} tone="matched" />
             <Skills title="Missing" items={leader.missing} tone="missing" />
           </div>
 
           {/* The rest of the ranking. Bare on purpose: the argument above is what one score is
               made of, and repeating it three times would bury it. */}
-          <ol className="mt-4 border-t border-hairline">
+          <ol className="mt-3 border-t border-hairline">
             {rest.map((candidate, index) => (
               <li
                 key={candidate.name}
-                className="flex items-center gap-3 border-b border-hairline py-2.5 last:border-b-0"
+                className="flex items-center gap-3 border-b border-hairline py-2 last:border-b-0"
               >
                 <span className="w-4 shrink-0 text-caption font-semibold text-muted tabular-nums">
                   {index + 2}
