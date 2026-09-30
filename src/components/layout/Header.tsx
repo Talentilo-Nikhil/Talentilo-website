@@ -182,8 +182,18 @@ export function Header() {
 
   return (
     <header
+      /*
+        Opaque, not frosted. This was `bg-white/95` with a 12px backdrop blur, which is a nice bar
+        to look at and a bad one to read a page through: every heading on the site is 65px and
+        starts 159px down, so scrolling about 110px slid one under here and left a smear of it
+        showing through the 5% it let past. At that size it read as the heading breaking apart
+        rather than as glass. Content passing behind the header should disappear, and now it does.
+
+        The blur goes with it — with nothing translucent left to blur it only costs a compositing
+        layer on every scroll.
+      */
       className={cn(
-        'sticky top-0 z-50 bg-white/95 backdrop-blur-md transition-shadow duration-300',
+        'sticky top-0 z-50 bg-white transition-shadow duration-300',
         scrolled ? 'shadow-[0_1px_0_var(--color-hairline),0_8px_24px_rgb(12_10_16/0.06)]' : 'shadow-none'
       )}
     >

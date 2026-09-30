@@ -237,21 +237,6 @@ something is only unreadable while it is arriving, this will not catch it. The f
 each page's check still runs against the live, animating page — only the axe pass sees the settled
 one.
 
-### Large headings ghost under the sticky header
-
-The header is `sticky top-0` with `bg-white/95` and `backdrop-blur-md`, and every page's `h1` is
-65px and starts 159px down the page. Scroll about 110px on any of them and the heading passes under
-the header, where 5% transparency plus a 12px blur leaves a smear of it showing through — at 65px
-that reads as the heading breaking apart rather than as a frosted bar.
-
-Identical on `/demo`, `/contact` and `/migration`, measured: same header height, same background,
-same blur, same heading size and offset. So it is the header's design, not any one page's bug, and
-it has been there since the header was built.
-
-The fix is one token — `bg-white/95` to `bg-white` in `src/components/layout/Header.tsx` — and it
-trades the frosted-glass effect for headings that disappear cleanly. That is a look decision for
-the whole site, so it is recorded here rather than made inside a bug fix.
-
 ### The Recruiter tab describes the wrong screen
 
 On `/platform/recruitment-os` the Recruiter tab reads *"Today's pipeline, today's follow-ups, and
