@@ -557,6 +557,26 @@ async function scorecard(browser) {
       ratio.toFixed(4));
   }
 
+  // The card has to float in the wash, not fill it. Measured as a share of the ground rather than
+  // in pixels, because the whole slot is scaled to whatever width it gets and a pixel figure would
+  // only ever be true at one of them. 9% a side is the 56px the design was pulled back to at 1440.
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.waitForTimeout(250);
+  const ground = await panel.boundingBox();
+  const card = await page.getByText('Contextual Fit Score').locator('xpath=..').boundingBox();
+  const inset = Math.min(card.x - ground.x, ground.x + ground.width - card.x - card.width) / ground.width;
+  check('scorecard: the card is inset from the ground it sits on', inset > 0.09,
+    `${(inset * 100).toFixed(1)}% a side`);
+
+  // And it must stay readable while it is inset: the slot renders about 1:1 at 1440, so the scale
+  // factor is a straight multiplier on the smallest type in the panel.
+  const caption = await page.getByText('In Pune, where the role is').evaluate((el) => {
+    const style = getComputedStyle(el);
+    return (el.getBoundingClientRect().height / parseFloat(style.lineHeight)) * parseFloat(style.fontSize);
+  });
+  check('scorecard: its smallest type still renders at 10px or more', caption >= 10,
+    `${caption.toFixed(2)}px`);
+
   await context.close();
 }
 
