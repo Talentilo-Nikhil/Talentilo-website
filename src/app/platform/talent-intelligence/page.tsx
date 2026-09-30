@@ -46,7 +46,13 @@ export default function TalentIntelligencePage() {
 
       <PageHero
         title={'Your Next Hire is NOT\na Search Away.'}
-        lede="Your ATS is likely a graveyard where great talent goes to be forgotten. Talentilo reads your job descriptions like a human and helps you find the best matches from your existing database — before you spend a rupee on new job ads or portals."
+        /*
+         * The last clause follows the artwork. It used to end on "before you spend a rupee on new
+         * job ads or portals" — a cost argument, which the All Candidates table under it illustrated
+         * by being a database. The command centre is not a database; it is the desk. So the clause
+         * now ends where the screen does, and keeps the money in it: a job board you paid for.
+         */
+        lede="Your ATS is likely a graveyard where great talent goes to be forgotten. Talentilo reads your job descriptions like a human and ranks the best matches out of your existing database — so your next hire is already on your desk, not on a job board you paid for."
         cta={{ label: 'Rank Your Existing Candidates', href: DEMO_URL }}
         ctaPlacement="overlay"
         wash="brand"
@@ -55,8 +61,10 @@ export default function TalentIntelligencePage() {
          * tools/figma/illustrations.mjs.
          *
          * It replaces `ti-hero-database`, the All Candidates table, which said the same thing as
-         * the page's own headline and then again as its first section. The screen says the part
-         * the headline cannot: that the ranking lands in a workspace someone runs a desk from.
+         * the page's own headline and then again as its first section. The screen shows where a
+         * ranking ends up instead — held-up CVs, today's interviews, an offer waiting on a date —
+         * which is a claim the copy has to make too, or the picture is only decoration. See the
+         * lede's last clause.
          *
          * `grounded={false}` because the file arrives transparent: the wash under it is this
          * band's, and the band already paints `--gradient-brand-vertical`, which is the very
