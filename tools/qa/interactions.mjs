@@ -747,12 +747,32 @@ async function demoBooking(browser) {
   // denied), so what is asserted is the embed the page hands it, not the calendar it draws.
   const host = page.locator('.calendly-inline-widget');
   check('demo: the page mounts the booking widget', (await host.count()) === 1);
+
+  /*
+    An exact match, not a pattern. Calendly's query parameters are the embed's settings, not
+    decoration — `hide_event_type_details=1` alone removes the panel carrying the host, the
+    meeting's name, its length and its description. One arriving by accident should fail here
+    rather than change what visitors see on the live site.
+  */
   check(
-    'demo: the widget carries the booking URL and its embed options',
-    /^https:\/\/calendly\.com\/.+hide_event_type_details=1.+hide_gdpr_banner=1.+primary_color=/.test(
-      (await host.getAttribute('data-url')) ?? ''
-    ),
+    'demo: the widget carries the plain booking URL, with no embed options',
+    (await host.getAttribute('data-url')) === 'https://calendly.com/talentilo-marketing/30min',
     (await host.getAttribute('data-url')) ?? 'no data-url'
+  );
+
+  /*
+    The check this group was missing, and the reason a release shipped with the widget stacked.
+
+    Calendly picks its layout from the width of the element it is mounted in: 1100px and up gets
+    the side-by-side view, 650 to 1099 a narrower one, under 650 it stacks. A `max-w` on that
+    element therefore decides what the booking page looks like, and one picked by eye — 920px —
+    landed in the middle band. Nothing in the repository knew 1100 mattered. Now something does.
+  */
+  const mounted = await host.evaluate((el) => el.getBoundingClientRect().width);
+  check(
+    'demo: the widget is wide enough for Calendly to lay it out side by side',
+    mounted >= 1100,
+    `${Math.round(mounted)}px at a 1440 viewport, against Calendly's 1100 threshold`
   );
   check(
     "demo: the widget's script is on the page",
