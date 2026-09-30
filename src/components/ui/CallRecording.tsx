@@ -4,19 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 
 import { cn } from '@/lib/cn';
 
-/**
- * A bar per slice of the recording, at heights that read as speech rather than as a chart.
- *
- * Fixed rather than measured: reading real levels means decoding the file in the browser, which
- * costs a fetch and a decode before anything can be drawn. What this has to say is "this is a
- * recording, and you are this far through it" — a shape does that, and the elapsed time beside it
- * carries the part that has to be accurate.
- */
-const LEVELS = [
-  22, 48, 76, 40, 62, 88, 34, 70, 52, 94, 30, 58, 82, 44, 66, 38, 90, 56, 28, 74, 46, 84, 36, 60,
-  50, 96, 32, 68, 42, 78, 54, 26, 72, 86, 40, 64, 48, 92, 34, 58, 44, 80, 30, 66,
-];
-
 const clock = (seconds: number) => {
   if (!Number.isFinite(seconds) || seconds < 0) return '0:00';
   const whole = Math.floor(seconds);
@@ -144,20 +131,25 @@ export function CallRecording({
 
       <div className="min-w-0 flex-1">
         <div className="relative h-5">
-          {/* The drawing. The control that does the work is the range input over it. */}
-          <div aria-hidden="true" className="flex h-full items-center gap-[3px]">
-            {LEVELS.map((level, index) => (
-              <span
-                key={index}
-                className={cn(
-                  'w-full rounded-[2px] transition-colors duration-150',
-                  index % 2 === 1 && 'hidden @[22rem]:block',
-                  index / LEVELS.length <= played ? 'bg-ink' : 'bg-ink/20'
-                )}
-                style={{ height: `${level}%` }}
-              />
-            ))}
+          {/*
+            A rail, not a waveform.
+
+            This drew forty-four bars at speech-like heights, and it sits directly under the live
+            waveform in AiCallingPanel — the card's only caller. Two strips of bars, one above the
+            other, read as the same object twice, and the one down here is the one that is not a
+            voice: it is a position in a file. So it says position, in the plainest shape there is,
+            and leaves being a waveform to the strip that is actually listening to someone.
+
+            The control that does the work is still the range input over it; this is only paint.
+          */}
+          <div aria-hidden="true" className="absolute inset-x-0 top-1/2 h-1.5 -translate-y-1/2 rounded-pill bg-ink/15">
+            <div className="h-full rounded-pill bg-ink" style={{ width: `${played * 100}%` }} />
           </div>
+          <span
+            aria-hidden="true"
+            className="absolute top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-surface bg-ink"
+            style={{ left: `${played * 100}%` }}
+          />
           <input
             type="range"
             min={0}
