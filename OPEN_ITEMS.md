@@ -250,13 +250,21 @@ None of these is visible damage; they are places where the artwork and the world
   about 90px more than the ratio allows. The only lever is type under 13px, which is not worth
   having. If the portrait wash in that band is unacceptable, the fix is a wider slot for this
   section, not a smaller creative.
-- **Everything in the contact showcase is invented**, and more of it than before. The four
-  drawings beside the contact form now carry Priya Nair's and Arjun Shah's replies in their own
-  words, a folder read to "23 of 128", "309 more delivered", Kavya Reddy moving forward "2m ago",
-  and the same scores and verdicts they always carried. None of it is data. It is drawn because
-  the real thing is four screen recordings the site cannot reach (see the `clips` prop on
-  `ProductShowcase`, which is sitting ready for them) — the moment those MP4s exist, each slide
-  swaps its drawing for the recording and every invented figure on it goes with it.
+- **Everything in the contact showcase is invented**, and there is a good deal more of it since
+  the drawings were made to fill their card. Three replies in their own words, four scored CVs with
+  the skills that earned each score, four call verdicts, and a board of seventeen named candidates
+  with their years and stacks. None of it is data. It is drawn because the real thing is four
+  screen recordings the site cannot reach (see the `clips` prop on `ProductShowcase`, which is
+  sitting ready for them) — the moment those MP4s exist, each slide swaps its drawing for the
+  recording and every invented name and figure on it goes with it. Until then, the one rule the
+  drawings do keep is internal consistency: the board's column counts match the cards under them,
+  and 312 sent minus the three replying is the 309 the thread says are still landing.
+- **The drawings grow at `lg`, and only there.** The contact page goes to two columns at that
+  breakpoint and the form beside the showcase starts setting the panel's height, which is the only
+  place there is spare height to fill — so the board's second lines and the scoring slide's fourth
+  CV appear there and nowhere else. It is the one thing in these drawings decided by the viewport
+  rather than by a container query on the card's own width. If the contact page's grid ever moves
+  off `lg`, those variants move with it.
 - **The showcase steps every 3.5 seconds**, down from seven, because that is what was asked for.
   It is faster than the captions can comfortably be read, so the captions were cut to thirteen to
   sixteen words each to suit it. That is the trade: the pictures carry the argument and the line
