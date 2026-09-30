@@ -32,12 +32,18 @@ export const metadata: Metadata = {
 export default function DemoPage() {
   return (
     <Section padding="normal">
+      {/*
+        Short, because the widget under it is not just a calendar any more: with the event details
+        showing, Calendly prints the meeting's name, its length and a description of its own a few
+        inches below this. An eyebrow reading "30 minutes" over a panel that says "30 min", and a
+        four-line lede over Calendly's own one, is the same page saying everything twice. The
+        heading stays — `qa:audit` wants exactly one `h1` per page, and this is it.
+      */}
       <SectionHeading
         as="h1"
         level="display"
-        eyebrow="30 minutes"
         title="See Talentilo on your own roles"
-        lede="Bring a job description and a corner of your database. We will rank it live, show you what the screening agent hears back, and leave you with the shortlist — whether or not you go any further with us."
+        lede="Bring a job description and a corner of your database — we will rank it live."
       />
 
       <CalendlyInline url={site.calendly} className="mt-10" />
