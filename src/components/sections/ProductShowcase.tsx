@@ -144,7 +144,7 @@ export function ProductShowcase({ clips, className }: ProductShowcaseProps) {
       <div
         role="tabpanel"
         aria-labelledby={`${id}-d${active}`}
-        className="relative grid flex-1 place-items-center"
+        className="relative grid flex-1 items-stretch justify-items-center"
       >
         {/*
           Each picture travels: the one arriving slides in from the side the showcase is heading
@@ -309,7 +309,27 @@ function Stage({
   );
 }
 
-const CARD = 'relative rounded-card bg-surface p-4 shadow-[0_18px_44px_rgb(12_10_16/0.12)] sm:p-5';
+/*
+ * Every drawing fills the stage rather than floating in the middle of it.
+ *
+ * The stage is `flex-1` in a panel whose height the contact form beside it decides, so on a
+ * desktop it runs about 115px taller than the tallest card — and the shorter cards left far more
+ * than that: the board was 213px inside a 414px stage, two hundred pixels of nothing under a
+ * picture. Stretching them is only half of it. A card told to be 414 tall with its content packed
+ * at the top has moved the gap rather than used it, so each drawing below names the one region
+ * that should absorb the height — the thread, the tiles, the call, the board — and that region
+ * carries `flex-1`. The rest keep their natural size.
+ *
+ * `flex-1` alone only moves the gap inside the picture, though — a tile stretched to twice its
+ * content is as empty as the card was. So the drawings also grow at `lg`, and `lg` specifically:
+ * that is the breakpoint where the contact page goes to two columns and the form starts setting
+ * this panel's height, which is the only place the spare height exists. Below it the panel sizes
+ * to its own content and there is nothing to fill. Note that this is the one thing here decided
+ * by the viewport — every width decision in these drawings is a container query on the card's own
+ * width, because width is the card's business and this height is the page's.
+ */
+const CARD =
+  'relative flex h-full flex-col rounded-card bg-surface p-4 shadow-[0_18px_44px_rgb(12_10_16/0.12)] sm:p-5';
 const HEAD = 'text-caption font-semibold tracking-[0.1em] text-muted uppercase';
 const COUNT = 'shrink-0 rounded-pill bg-surface-tint px-2 py-0.5 text-caption font-medium text-ink/75';
 /** Sizeless, like ScoreRing's: `cn` is a plain join, so a size here would race one passed in. */
@@ -339,6 +359,7 @@ function Outreach() {
   const replies = [
     { name: 'Priya Nair', initials: 'PN', line: 'Yes — still looking.' },
     { name: 'Arjun Shah', initials: 'AS', line: "What's the salary band?" },
+    { name: 'Meera Iyer', initials: 'MI', line: 'Can you send the JD?' },
   ];
 
   return (
@@ -348,9 +369,14 @@ function Outreach() {
         <p className={COUNT}>312 candidates</p>
       </div>
 
-      {/* The one message every name below received, drawn as the channel sends it. */}
-      <div className={cn('mt-3 flex justify-end', RISE)}>
-        <div className="max-w-[86%] rounded-2xl rounded-br-sm bg-frost-100 px-3.5 py-2 text-small text-ink">
+      {/*
+        The thread takes the card's spare height and sits at the bottom of it, which is where a
+        chat client puts the newest message. Centring it would have left matching gaps above and
+        below and read as a layout problem; ending it reads as scrollback.
+      */}
+      <div className="mt-3 flex flex-1 flex-col justify-end gap-2.5 lg:gap-4">
+      <div className={cn('flex justify-end', RISE)}>
+        <div className="max-w-[86%] rounded-2xl rounded-br-sm bg-frost-100 px-3.5 py-2 text-small text-ink lg:px-4 lg:py-3 lg:text-body">
           <p>Hi Priya — the Java role in Pune is still open. Still looking?</p>
           {/* Bottom-right, where the channel puts them, and where they cannot be wrapped alone
               onto a line of their own by a sentence that happens to fill the last one. */}
@@ -360,25 +386,27 @@ function Outreach() {
         </div>
       </div>
 
-      <ul className="mt-3 flex flex-col gap-2.5">
+      <ul className="flex flex-col gap-2.5 lg:gap-4">
         {replies.map((reply, index) => (
           <li
             key={reply.name}
             className={cn('flex items-end gap-2', RISE)}
             style={after(260 + index * 200)}
           >
-            <span aria-hidden="true" className={cn(AVATAR, 'size-8 text-caption')}>
+            <span aria-hidden="true" className={cn(AVATAR, 'size-8 text-caption lg:size-10')}>
               {reply.initials}
             </span>
             <span className="min-w-0">
               <span className="block text-caption font-medium text-muted">{reply.name}</span>
-              <span className="mt-1 block rounded-2xl rounded-bl-sm bg-surface-tint px-3.5 py-2 text-small text-ink">
+              <span className="mt-1 block rounded-2xl rounded-bl-sm bg-surface-tint px-3.5 py-2 text-small text-ink lg:px-4 lg:py-3 lg:text-body">
                 {reply.line}
               </span>
             </span>
           </li>
         ))}
       </ul>
+
+      </div>
 
       <p
         className={cn('mt-3 flex items-center gap-2 text-caption text-muted', RISE)}
@@ -420,10 +448,12 @@ function Typing() {
  * opposite. Every ring carries its own number, so the ranking never rests on the shade alone.
  */
 function Scoring() {
+  /* The matched skills are why each score is what it is, so the tile says them. */
   const scored = [
-    { name: 'Rahul_Menon.pdf', score: 92, ring: 'text-azure-600' },
-    { name: 'Sana_Qureshi.docx', score: 78, ring: 'text-azure-500' },
-    { name: 'Dev_Patel.pdf', score: 54, ring: 'text-azure-300' },
+    { name: 'Rahul_Menon.pdf', score: 92, ring: 'text-azure-600', skills: ['Java', 'Spring', 'AWS'] },
+    { name: 'Sana_Qureshi.docx', score: 78, ring: 'text-azure-500', skills: ['Java', 'Spring'] },
+    { name: 'Dev_Patel.pdf', score: 54, ring: 'text-azure-300', skills: ['Java'] },
+    { name: 'Asha_Menon.pdf', score: 41, ring: 'text-azure-200', skills: ['Spring'] },
   ];
 
   return (
@@ -443,17 +473,24 @@ function Scoring() {
         <p className={COUNT}>128 CVs in</p>
       </div>
 
-      <ul className="relative mt-3 grid grid-cols-3 gap-2">
+      {/*
+        Three across, four in a two-by-two at `lg`. A score tile is a short thing by nature, so
+        stretching three of them to fill a 330px stage only centres each one in a tall empty box —
+        the fourth CV and a second row is what actually fills it. Narrow there is no spare height
+        to fill, so the fourth is held back and three sit in a row, as they did.
+      */}
+      <ul className="relative mt-3 grid flex-1 grid-cols-3 gap-2 lg:grid-cols-2">
         {scored.map((cv, index) => (
           <li
             key={cv.name}
             className={cn(
-              'flex flex-col items-center gap-1.5 rounded-lg bg-surface-tint px-2 py-3 text-center',
+              'flex flex-col items-center justify-center gap-2 rounded-lg bg-surface-tint px-2 py-3 text-center lg:gap-1.5 lg:py-2',
+              index >= 3 && 'hidden lg:flex',
               RISE
             )}
             style={after(index * 160)}
           >
-            <ScoreRing value={cv.score} animated className={cn('size-12', cv.ring)} />
+            <ScoreRing value={cv.score} animated className={cn('size-12 sm:size-16', cv.ring)} />
             <span className="w-full truncate text-caption font-medium text-ink">{cv.name}</span>
             <span
               className={cn(
@@ -463,6 +500,13 @@ function Scoring() {
             >
               {cv.score >= 70 ? 'Shortlist' : 'Later'}
             </span>
+            {/*
+              One line, not a chip per skill. Chips wrap by the tile's width and by how many each
+              CV matched, so at 390 the tile with three sat three rows deep and the tile with one
+              sat one — and with the tiles centring their contents, every ring landed at a
+              different height. A single truncating line is the same height in every tile.
+            */}
+            <span className="w-full truncate text-caption text-ink/60">{cv.skills.join(' · ')}</span>
           </li>
         ))}
       </ul>
@@ -497,6 +541,7 @@ function Scoring() {
 function Screening() {
   const verdicts = [
     { name: 'Priya Nair', verdict: 'Shortlisted', warm: true },
+    { name: 'Sana Qureshi', verdict: 'Shortlisted', warm: true },
     { name: 'Arjun Shah', verdict: 'Call back 6pm', warm: false },
     { name: 'Meera Iyer', verdict: 'Not looking', warm: false },
   ];
@@ -515,11 +560,16 @@ function Screening() {
       </div>
 
       {/* The two ends of one call, with the line live between them. */}
+      {/*
+        The call is what should grow. A waveform is the one thing on this card that reads better
+        the taller it is, so the row takes the spare height and the strip stretches with it — but
+        capped, because past about ten rems it stops being a call and becomes a chart.
+      */}
       <div
         aria-hidden="true"
-        className="mt-3 flex items-center gap-2.5 rounded-xl bg-surface-tint px-3 py-2.5"
+        className="mt-3 flex max-h-40 flex-1 items-stretch gap-2.5 rounded-xl bg-surface-tint px-3 py-2.5"
       >
-        <span className="grid size-9 shrink-0 place-items-center rounded-full bg-ink text-white">
+        <span className="grid size-9 shrink-0 self-center place-items-center rounded-full bg-ink text-white">
           <svg
             viewBox="0 0 16 16"
             className="size-4"
@@ -532,21 +582,26 @@ function Screening() {
             <path d="M5.2 2.2 6.5 5 5.2 6.4a8.2 8.2 0 0 0 4.4 4.4L11 9.5l2.8 1.3v2.1c0 .6-.5 1.1-1.1 1a11.6 11.6 0 0 1-10.6-10.6c0-.6.4-1.1 1-1.1h2.1Z" />
           </svg>
         </span>
-        <CallWave className="h-11 flex-1" />
-        <span className={cn(AVATAR, 'size-9 text-caption')}>PN</span>
+        <CallWave className="min-h-11 flex-1 self-stretch" />
+        <span className={cn(AVATAR, 'size-9 self-center text-caption')}>PN</span>
       </div>
 
       <p className="mt-2 text-center text-caption text-muted">Priya Nair · 01:12</p>
 
-      <ul className="mt-3 flex flex-col gap-2">
+      {/*
+        The rows take the height, not the gaps between them. `justify-between` on the list spread
+        three rows across 200px and they read as three things that had come apart; growing the
+        rows themselves gives four roomy ones and degrades to whatever height the card has.
+      */}
+      <ul className="mt-3 flex flex-1 flex-col gap-2">
         {verdicts.map((row, index) => (
           <li
             key={row.name}
             className={cn(
-              'flex items-center gap-3 rounded-lg bg-surface-tint px-2.5 py-1.5',
+              'flex flex-1 items-center gap-3 rounded-lg bg-surface-tint px-2.5 py-1.5',
               RISE
             )}
-            style={after(200 + index * 160)}
+            style={after(200 + index * 130)}
           >
             <span className="min-w-0 flex-1 truncate text-small font-medium text-ink">
               {row.name}
@@ -587,21 +642,71 @@ function Screening() {
  * starts one in rather than two.
  */
 function Kanban() {
+  /*
+   * Every column lists every candidate its count claims, which is what fills the board: five, five,
+   * four and three, with Submitted showing four beside the card on its way out and Interview three
+   * beside the slot it lands in. A count that does not match the cards under it is the kind of
+   * thing a recruiter reads a board to catch, so they match.
+   *
+   * The second line under each name is held back below `lg` \u2014 not for width, which the container
+   * queries handle, but because that is the only place the board has the height for it.
+   */
   const columns = [
-    { stage: 'Screened', count: 6, names: ['Priya Nair', 'Dev Patel'], late: false },
-    { stage: 'Submitted', count: 5, names: ['Arjun Shah'], late: false },
-    { stage: 'Interview', count: 4, names: ['Meera Iyer'], late: false },
-    { stage: 'Offer', count: 3, names: ['Rahul Menon'], late: true },
+    {
+      stage: 'Screened',
+      count: 5,
+      names: [
+        ['Priya Nair', '6y \u00b7 Java'],
+        ['Dev Patel', '4y \u00b7 Spring'],
+        ['Nikhil Rao', '7y \u00b7 Java'],
+        ['Asha Menon', '5y \u00b7 AWS'],
+        ['Farah Khan', '3y \u00b7 Java'],
+      ],
+      late: false,
+    },
+    {
+      stage: 'Submitted',
+      count: 5,
+      moving: true,
+      names: [
+        ['Arjun Shah', '5y \u00b7 Java'],
+        ['Ritu Kapoor', '8y \u00b7 Spring'],
+        ['Sam Joseph', '3y \u00b7 Java'],
+        ['Imran Sheikh', '6y \u00b7 AWS'],
+      ],
+      late: false,
+    },
+    {
+      stage: 'Interview',
+      count: 4,
+      names: [
+        ['Meera Iyer', '6y \u00b7 Java'],
+        ['Vikram Das', '9y \u00b7 AWS'],
+        ['Tara Nair', '4y \u00b7 Spring'],
+      ],
+      late: false,
+    },
+    {
+      stage: 'Offer',
+      count: 3,
+      names: [
+        ['Rahul Menon', '7y \u00b7 Java'],
+        ['Neha Gupta', '6y \u00b7 Spring'],
+        ['Karan Bose', '8y \u00b7 Java'],
+      ],
+      late: true,
+    },
   ];
 
   return (
     <div className={cn(CARD, '@container')}>
       <div className="flex items-center justify-between gap-3">
         <p className={HEAD}>Java Developer — Pune</p>
-        <p className={COUNT}>18 in play</p>
+        <p className={COUNT}>17 in play</p>
       </div>
 
-      <div className="relative mt-3 grid grid-cols-3 gap-2 @[20rem]:grid-cols-4">
+      {/* The board absorbs it: taller columns, which is what a board with room looks like. */}
+      <div className="mt-3 grid flex-1 grid-cols-3 gap-2 @[20rem]:grid-cols-4">
         {columns.map((column) => (
           <div
             key={column.stage}
@@ -614,29 +719,19 @@ function Kanban() {
               <span className="truncate">{column.stage}</span>
               <span className="shrink-0 text-muted">{column.count}</span>
             </p>
-            {column.names.map((name) => (
+            {column.moving && <Moving />}
+            {column.names.map(([name, meta]) => (
               <p
                 key={name}
-                className="truncate rounded-md bg-surface px-1.5 py-1 text-caption text-ink shadow-[0_1px_3px_rgb(12_10_16/0.08)]"
+                className="rounded-md bg-surface px-1.5 py-1 text-caption text-ink shadow-[0_1px_3px_rgb(12_10_16/0.08)]"
               >
-                {name}
+                <span className="block truncate">{name}</span>
+                <span className="hidden truncate text-muted lg:block">{meta}</span>
               </p>
             ))}
           </div>
         ))}
 
-        <span
-          aria-hidden="true"
-          style={{ '--travel-x': 'calc(100% + 0.5rem)' } as CSSProperties}
-          className={cn(
-            'absolute bottom-2 block truncate rounded-md bg-surface px-1.5 py-1 text-caption font-medium text-ink shadow-[0_8px_20px_rgb(12_10_16/0.18)] ring-1 ring-azure-300',
-            'w-[calc((100%_-_1rem)/3)] left-[calc((100%_-_1rem)/3_+_0.5rem)]',
-            '@[20rem]:w-[calc((100%_-_1.5rem)/4)] @[20rem]:left-[calc(2*((100%_-_1.5rem)/4_+_0.5rem))]',
-            'group-data-[active=true]:animate-travel'
-          )}
-        >
-          Kavya Reddy
-        </span>
       </div>
 
       <p
@@ -650,6 +745,32 @@ function Kanban() {
         Kavya Reddy moved forward · 2m ago
       </p>
     </div>
+  );
+}
+
+/**
+ * The card in transit: Submitted to Interview, on a loop.
+ *
+ * It is an ordinary card in the Submitted column rather than an overlay positioned across the
+ * board, which is what it was. A transform moves it without disturbing the layout, so it starts in
+ * its own column's next open slot and lands in the neighbouring column's — no offsets to compute,
+ * and nothing to keep in step when the board drops a column narrow.
+ *
+ * One step is `100% + 1.5rem`: the card is its column's inner width, so the distance to the same
+ * slot one column over is its own width plus that column's two paddings and the grid gap. Stated
+ * in the card's own terms it holds at every board width. Submitted and Interview are the pair
+ * because they are the two columns on the board at both layouts — Offer is dropped narrow, so a
+ * card travelling into it would walk off the edge of a three-column board.
+ */
+function Moving() {
+  return (
+    <span
+      aria-hidden="true"
+      style={{ '--travel-x': 'calc(100% + 1.5rem)' } as CSSProperties}
+      className="order-last block truncate rounded-md bg-surface px-1.5 py-1 text-caption font-medium text-ink shadow-[0_8px_20px_rgb(12_10_16/0.18)] ring-1 ring-azure-300 group-data-[active=true]:animate-travel"
+    >
+      Kavya Reddy
+    </span>
   );
 }
 
