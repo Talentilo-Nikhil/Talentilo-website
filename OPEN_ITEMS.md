@@ -211,6 +211,13 @@ is not 1100px of content width to hand it, whatever the component says. Closing 
 mean breaking the site's 1312px measure on this one page, which is not worth it. `qa:interactions`
 now asserts the mounted width is at least 1100 at 1440, which is the check that was missing.
 
+**The mount point must never carry `calendly-inline-widget`.** That class is what `widget.js`
+scans for when it loads, and the scan initialises everything it finds. With the class on an element
+this component also passed to `initInlineWidget`, the calendar was built twice — two 700px iframes
+in a 700px box, the second drawing over the fallback line and 582px into the footer. The element
+carries `data-calendly="inline"` instead, and `qa:interactions` asserts both that the class is
+absent and that the box clips what it holds.
+
 **The URL carries no parameters**, deliberately — `hide_event_type_details=1` was removing the
 panel with the host, the meeting name, its length and its description, which is half of what the
 page is for. If Calendly's cookie banner turns out to be in the way for EU visitors,
@@ -229,6 +236,21 @@ The cost is real and worth stating: the audit no longer sees contrast in mid-ani
 something is only unreadable while it is arriving, this will not catch it. The functional half of
 each page's check still runs against the live, animating page — only the axe pass sees the settled
 one.
+
+### Large headings ghost under the sticky header
+
+The header is `sticky top-0` with `bg-white/95` and `backdrop-blur-md`, and every page's `h1` is
+65px and starts 159px down the page. Scroll about 110px on any of them and the heading passes under
+the header, where 5% transparency plus a 12px blur leaves a smear of it showing through — at 65px
+that reads as the heading breaking apart rather than as a frosted bar.
+
+Identical on `/demo`, `/contact` and `/migration`, measured: same header height, same background,
+same blur, same heading size and offset. So it is the header's design, not any one page's bug, and
+it has been there since the header was built.
+
+The fix is one token — `bg-white/95` to `bg-white` in `src/components/layout/Header.tsx` — and it
+trades the frosted-glass effect for headings that disappear cleanly. That is a look decision for
+the whole site, so it is recorded here rather than made inside a bug fix.
 
 ### The Recruiter tab describes the wrong screen
 
