@@ -727,6 +727,86 @@ async function aiCalling(browser) {
   await still.close();
 }
 
+/**
+ * Where the calls to action go.
+ *
+ * The site had thirty-four of them and every one landed on `/contact`. They book against the sales
+ * calendar now, on `/demo`. The check that matters is the last one: not that the buttons changed,
+ * but that nothing anywhere still routes to the contact form except the two places that should.
+ */
+async function demoBooking(browser) {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await context.newPage();
+
+  await page.goto(`${BASE}/platform/talent-intelligence`, { waitUntil: 'networkidle' });
+  await page.getByRole('banner').getByRole('link', { name: /Request Demo/ }).click();
+  await page.waitForURL('**/demo');
+  check('demo: the header button books a call', new URL(page.url()).pathname === '/demo', page.url());
+
+  // The widget is a third-party iframe this environment cannot reach (calendly.com is egress
+  // denied), so what is asserted is the embed the page hands it, not the calendar it draws.
+  const host = page.locator('.calendly-inline-widget');
+  check('demo: the page mounts the booking widget', (await host.count()) === 1);
+  check(
+    'demo: the widget carries the booking URL and its embed options',
+    /^https:\/\/calendly\.com\/.+hide_event_type_details=1.+hide_gdpr_banner=1.+primary_color=/.test(
+      (await host.getAttribute('data-url')) ?? ''
+    ),
+    (await host.getAttribute('data-url')) ?? 'no data-url'
+  );
+  check(
+    "demo: the widget's script is on the page",
+    (await page.locator('script[src="https://assets.calendly.com/assets/external/widget.js"]').count()) === 1
+  );
+  check(
+    'demo: there is a way through if the embed is blocked',
+    await page.getByRole('link', { name: 'Open it in a new tab' }).isVisible()
+  );
+
+  await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+  await page.getByRole('contentinfo').getByRole('link', { name: /Let.s Talk/ }).click();
+  await page.waitForURL('**/demo');
+  check('demo: the footer pill books a call', new URL(page.url()).pathname === '/demo', page.url());
+
+  await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+  await page.getByRole('contentinfo').getByRole('link', { name: 'Contact', exact: true }).click();
+  await page.waitForURL('**/contact');
+  check('demo: the footer still reaches the contact form', new URL(page.url()).pathname === '/contact');
+
+  /*
+    The request was "contact only from the footer", so it is measured rather than trusted: every
+    route is crawled and every anchor resolving to /contact has to be one of the two that may.
+    Sign In is the exception the user chose to keep until there is an app URL to point it at.
+  */
+  const strays = [];
+  let booking = 0;
+  for (const route of ROUTES) {
+    await page.goto(`${BASE}${route}`, { waitUntil: 'domcontentloaded' });
+    const links = await page.evaluate(() =>
+      [...document.querySelectorAll('a[href]')].map((a) => ({
+        href: a.getAttribute('href'),
+        text: (a.textContent || '').trim().replace(/\s+/g, ' '),
+        footer: Boolean(a.closest('footer')),
+        header: Boolean(a.closest('header')),
+      }))
+    );
+    booking += links.filter((l) => l.href === '/demo').length;
+    for (const link of links) {
+      if (link.href !== '/contact') continue;
+      const allowed = (link.footer && link.text === 'Contact') || (link.header && /Sign In/.test(link.text));
+      if (!allowed) strays.push(`${route}: "${link.text}"`);
+    }
+  }
+  check('demo: every page offers the booking page', booking >= ROUTES.length, `${booking} links`);
+  check(
+    'demo: nothing outside the footer and Sign In still routes to the contact form',
+    strays.length === 0,
+    strays.join(' | ')
+  );
+
+  await context.close();
+}
+
 async function main() {
   const browser = await chromium.launch({ executablePath: CHROME });
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
@@ -748,6 +828,8 @@ async function main() {
   console.log('contact');
   await contactForm(page);
   await showcase(browser);
+  console.log('demo');
+  await demoBooking(browser);
   console.log('scorecard');
   await scorecard(browser);
   console.log('hero screen');

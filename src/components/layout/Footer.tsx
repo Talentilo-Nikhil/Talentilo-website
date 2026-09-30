@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { ArrowUpRight, LinkedIn } from '@/components/icons';
 import { Logo } from '@/components/layout/Logo';
-import { footerColumns, legalNav } from '@/config/navigation';
+import { DEMO_URL, footerColumns, legalNav } from '@/config/navigation';
 import { site } from '@/config/site';
 
 /** LinkedIn is the only account Talentilo runs — see the note on `social` in src/config/site.ts. */
@@ -25,9 +25,17 @@ export function Footer() {
               <span className="text-brand-orange italic">Human</span> in Recruitment.
             </h2>
 
-            {/* The oversized pill CTA from the file: ink fill inside a gradient hairline. */}
+            {/*
+              The oversized pill CTA from the file: ink fill inside a gradient hairline.
+
+              It books a demo rather than opening the contact form. "Let's Talk" is a sales line
+              and this is the largest button on the site, so sending it to the same calendar as
+              every other call to action leaves the Company column's "Contact" as the one route to
+              the form — which is where someone with a support question or an invoice query is
+              looking anyway.
+            */}
             <Link
-              href="/contact"
+              href={DEMO_URL}
               className="group relative block w-full max-w-[625px] rounded-[112px] p-px
                          [background-image:var(--gradient-brand)]"
             >
