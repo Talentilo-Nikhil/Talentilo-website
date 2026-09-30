@@ -194,6 +194,44 @@
    */
   --animate-floor: floor 6s ease-in-out infinite;
 
+  /*
+   * A score ring filling to its value, for the showcase's resume-scoring slide.
+   *
+   * One keyframe serves every value. The arc's length is already in its `stroke-dasharray`, so the
+   * only thing that has to vary per ring is where the dash starts — the caller sets `--drawn` to
+   * that length inline and this walks the offset back to zero. Without the custom property this
+   * would need one rule per score.
+   *
+   * An entrance, so `both` is correct and deliberate: the reduced-motion block at the foot of this
+   * file cuts it to 0.01ms, which lands it on the last frame — the ring at its full value. A loop
+   * must never carry a fill mode for exactly the opposite reason; see `--animate-speak`.
+   */
+  --animate-draw-ring: draw-ring 900ms var(--ease-out-soft) both;
+
+  /*
+   * A read passing down a list, for the same slide.
+   *
+   * A soft band travelling the height of the card, which is what a batch being worked through
+   * looks like from outside. Slower than the ring fill on purpose — the rings land first and the
+   * sweep keeps going, so the slide reads as "these are done, the rest are coming".
+   *
+   * No fill mode: a loop that ends on its last frame leaves the band parked at the bottom of the
+   * card under reduced motion, which is a smear rather than a rest state.
+   */
+  --animate-sweep: sweep 2.6s ease-in-out infinite;
+
+  /*
+   * A card crossing from one column to the next, for the showcase's board slide.
+   *
+   * The board's argument is that a candidate moves, so one of them does. It lifts (the scale and
+   * the y dip), travels the column gap, and settles — the easing is the soft one, so it arrives
+   * rather than stopping. The x distance is a custom property because the gap it crosses is the
+   * board's own column width, which the caller knows and this does not.
+   *
+   * No fill mode, as above: at rest the card belongs at its start, sitting in its column.
+   */
+  --animate-travel: travel 3.6s var(--ease-out-soft) infinite;
+
   @keyframes floor {
     0%,
     22% {
@@ -225,6 +263,45 @@
     }
     to {
       opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes draw-ring {
+    from {
+      stroke-dashoffset: var(--drawn);
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes sweep {
+    0% {
+      opacity: 0;
+      transform: translateY(-40%);
+    }
+    40%,
+    60% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(340%);
+    }
+  }
+
+  @keyframes travel {
+    0%,
+    12% {
+      transform: none;
+    }
+    34%,
+    62% {
+      transform: translate(var(--travel-x), -6px) scale(1.04) rotate(-3deg);
+    }
+    84%,
+    100% {
       transform: none;
     }
   }
@@ -323,6 +400,15 @@
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    /*
+     * Delays go too, not just durations. A staggered entrance is built from delays, so cutting
+     * only the duration leaves the elements holding their opening frame — invisible — for however
+     * long the stagger ran, and content appearing over half a second is exactly the thing the
+     * switch was flicked to avoid. The only other delays on the site are the negative ones that
+     * phase CallWave's runs, and those sit on loops that this block has already frozen at their
+     * authored size, so zeroing them changes nothing.
+     */
+    animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }

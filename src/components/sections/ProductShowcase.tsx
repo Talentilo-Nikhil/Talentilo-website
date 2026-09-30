@@ -1,17 +1,24 @@
 'use client';
 
-import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 
+import { CallWave } from '@/components/ui/CallWave';
 import { ScoreRing } from '@/components/ui/ScoreRing';
-import { site } from '@/config/site';
 import { cn } from '@/lib/cn';
 
-/** How long one slide holds before the showcase moves on. */
-const DWELL = 7000;
+/**
+ * How long one slide holds before the showcase moves on.
+ *
+ * Three and a half seconds, down from seven. That is deliberately below what the captions used to
+ * take to read — so the captions came down with it, to thirteen to sixteen words each. A dwell
+ * this short only works if the picture is the argument and the line under it is a label; at the
+ * old length the copy would be cut off mid-sentence every time.
+ */
+const DWELL = 3500;
 
 type Slide = {
-  /** The pill over the stage, naming the capability. */
-  chip: string;
+  /** The capability's name, printed as the panel's heading while this slide is up. */
+  name: string;
   title: string;
   detail: string;
   /** The drawn stand-in, shown until there is a recording of the real thing. */
@@ -39,8 +46,8 @@ type ClipSource = { src: string; poster?: string };
  * It replaces a stock photograph of a desk. The photograph was decorative — it said nothing about
  * Talentilo, and the moment a visitor spends on this page filling in four fields is the longest
  * uninterrupted attention any page here gets. Three capabilities, one at a time, is a better use
- * of it, and it is the shape the reference the request came with uses: a tinted stage, a chip
- * naming the feature, a line of copy under it, dots to step through.
+ * of it, and it is the shape the reference the request came with uses: a tinted stage, the
+ * capability named above it, a line of copy under it, dots to step through.
  *
  * Auto-advance is a courtesy, not a demand. It stops on hover, stops while anything inside has
  * focus, and never starts at all under `prefers-reduced-motion` — which leaves the dots as the
@@ -112,39 +119,33 @@ export function ProductShowcase({ clips, className }: ProductShowcaseProps) {
       onBlur={() => setPaused(false)}
     >
       {/*
-        The one line on this panel that never changes, the way the reference opens with the claim
-        its whole sign-in screen is making. It is the site's own tagline rather than a sentence
-        written for this slot, so the panel cannot drift into promising something no other page
-        does. Being fixed, it is safe as a real heading — the rotating line below is not.
+        The capability's name, where the site's tagline used to sit. The name was a pill pinned to
+        the picture's top-left corner; it reads better as the panel's own heading, and moving it
+        gave every drawing back the 44px the pill was reserving.
+
+        Two elements, because the visible line rotates and a heading must not. A heading that
+        rewrites itself every 3.5s puts a different entry in the page outline each time anyone
+        looks at it, which is the same reason the title further down is a styled `<p>` and says so
+        in its own note. So the outline gets one fixed, screen-reader-only heading and the eye gets
+        the rotating line — keyed on the slide, so React replaces the element and the rise runs
+        again rather than swapping text under a finished animation.
+
+        The key is prefixed, and so is the rotating copy block's at the foot of this panel. They
+        are siblings in one child array and both key off `active`, so a bare `key={active}` gives
+        two children of the same parent the same key. React cannot tell them apart in that case:
+        it left the stale line in place and appended the new one, so the panel grew by a heading
+        every time it stepped. Distinct prefixes, and each replaces itself.
       */}
-      <h2 className="text-center font-display text-h5 text-ink">{site.tagline}</h2>
+      <h2 className="sr-only">What Talentilo does</h2>
+      <p key={`name-${active}`} className="animate-rise-in text-center font-display text-h5 text-ink">
+        {slides[active].name}
+      </p>
 
       <div
         role="tabpanel"
         aria-labelledby={`${id}-d${active}`}
-        className="relative grid flex-1 place-items-center pt-11"
+        className="relative grid flex-1 place-items-center"
       >
-        {/*
-          The chip rides the stage's top-left corner, as it does in the reference, where it reads
-          as a label pinned to the picture rather than a stray line above it.
-
-          It gets there by reserving the room instead of taking it: the stage carries 44px of top
-          padding, which is the chip's own height and a little air, and the drawings centre in
-          what is left. Absolutely positioned without that padding it sat squarely on the card's
-          header at 390px, where a desktop panel's slack does not exist — and a label that covers
-          the thing it labels is worse than one in a row of its own.
-        */}
-        {/*
-          Keyed on the slide, so React replaces the element rather than editing its text and the
-          animation runs again each time. Editing it in place would play the rise once, on mount,
-          and then never — the text would swap under a finished animation.
-        */}
-        <p
-          key={active}
-          className="absolute top-0 left-0 animate-rise-in rounded-pill bg-surface px-3.5 py-1.5 text-small font-semibold text-ink shadow-[0_2px_10px_rgb(12_10_16/0.06)]"
-        >
-          {slides[active].chip}
-        </p>
         {/*
           Each picture travels: the one arriving slides in from the side the showcase is heading
           towards, the one it replaces slides out the other way, and both cross-fade on the way.
@@ -167,8 +168,17 @@ export function ProductShowcase({ clips, className }: ProductShowcaseProps) {
           <div
             key={slide.title}
             aria-hidden={index === active ? undefined : true}
+            /*
+              `group` + `data-active` is what every animation inside the drawings hangs off, via
+              `group-data-[active=true]:animate-…`. All four slides stay in the DOM — that is what
+              stops the panel resizing as it steps — so without a gate all four would be running
+              their loops at once, three of them behind `visibility: hidden`, four compositors deep
+              for one visible picture. Flipping the attribute also restarts the entrances, so each
+              slide plays in again every time it comes round rather than once on mount.
+            */
+            data-active={index === active}
             className={cn(
-              'col-start-1 row-start-1 w-full max-w-[520px] transition-all ease-out-soft',
+              'group col-start-1 row-start-1 w-full max-w-[520px] transition-all ease-out-soft',
               /*
                 The two halves are not the same length on purpose. Given equal durations the
                 outgoing card is still at half opacity while the incoming one is only at half its
@@ -230,7 +240,7 @@ export function ProductShowcase({ clips, className }: ProductShowcaseProps) {
                   : 'w-1.5 bg-ink/20 group-hover:bg-ink/40'
               )}
             />
-            <span className="sr-only">{slide.chip}</span>
+            <span className="sr-only">{slide.name}</span>
           </button>
         ))}
       </div>
@@ -246,7 +256,7 @@ export function ProductShowcase({ clips, className }: ProductShowcaseProps) {
         shape colour, and this is 23px text on the panel's tint, where 400 reads 1.9:1. The 700
         step is 5.53.
       */}
-      <div key={active} className="flex animate-rise-in flex-col items-center gap-2 text-center">
+      <div key={`copy-${active}`} className="flex animate-rise-in flex-col items-center gap-2 text-center">
         <p className="font-sans text-lede leading-snug font-semibold text-azure-700">
           {slides[active].title}
         </p>
@@ -299,29 +309,47 @@ function Stage({
   );
 }
 
-const CARD = 'rounded-card bg-surface p-4 shadow-[0_18px_44px_rgb(12_10_16/0.12)] sm:p-5';
+const CARD = 'relative rounded-card bg-surface p-4 shadow-[0_18px_44px_rgb(12_10_16/0.12)] sm:p-5';
 const HEAD = 'text-caption font-semibold tracking-[0.1em] text-muted uppercase';
-const ROW = 'flex items-center gap-3 border-t border-hairline pt-3';
+const COUNT = 'shrink-0 rounded-pill bg-surface-tint px-2 py-0.5 text-caption font-medium text-ink/75';
+/** Sizeless, like ScoreRing's: `cn` is a plain join, so a size here would race one passed in. */
+const AVATAR = 'grid shrink-0 place-items-center rounded-full bg-azure-100 font-semibold text-azure-800';
 
-/** One message, the whole list — drawn as the broadcast and what came back from it. */
+/**
+ * The entrance every drawing's parts share, and the gate that decides when it runs.
+ *
+ * `rise-in` carries `both`, which is what makes a stagger safe under the OS motion switch: the
+ * reduced-motion block in globals.css cuts the duration to 0.01ms *and* the delay to 0, so every
+ * part lands on its final frame at once rather than queueing up invisible. Without the delay rule
+ * a 600ms stagger would still be a 600ms stagger, just with each step instantaneous.
+ */
+const RISE = 'group-data-[active=true]:animate-rise-in';
+const after = (ms: number) => ({ animationDelay: `${ms}ms` }) as CSSProperties;
+
+/**
+ * One message out, and the thread it starts.
+ *
+ * Drawn as the conversation rather than as a table of send states, which is what it was: a header,
+ * a bubble, then three rows of name-plus-status pill divided by hairlines. The pills said "Replied
+ * · yes" and "Replied · salary?" — a column reporting that a reply exists, in a drawing that had
+ * room to simply show the reply. Two bubbles come back and say it themselves; the rest of the list
+ * is a line at the foot, still going out.
+ */
 function Outreach() {
   const replies = [
-    { name: 'Priya Nair', state: 'Replied · yes' },
-    { name: 'Arjun Shah', state: 'Replied · salary?' },
-    { name: 'Meera Iyer', state: 'Delivered' },
+    { name: 'Priya Nair', initials: 'PN', line: 'Yes — still looking.' },
+    { name: 'Arjun Shah', initials: 'AS', line: "What's the salary band?" },
   ];
 
   return (
     <div className={CARD}>
       <div className="flex items-center justify-between gap-3">
         <p className={HEAD}>WhatsApp broadcast</p>
-        <p className="shrink-0 rounded-pill bg-surface-tint px-2 py-0.5 text-caption font-medium text-ink/75">
-          312 candidates
-        </p>
+        <p className={COUNT}>312 candidates</p>
       </div>
 
       {/* The one message every name below received, drawn as the channel sends it. */}
-      <div className="mt-3 flex justify-end">
+      <div className={cn('mt-3 flex justify-end', RISE)}>
         <div className="max-w-[86%] rounded-2xl rounded-br-sm bg-frost-100 px-3.5 py-2 text-small text-ink">
           <p>Hi Priya — the Java role in Pune is still open. Still looking?</p>
           {/* Bottom-right, where the channel puts them, and where they cannot be wrapped alone
@@ -332,41 +360,63 @@ function Outreach() {
         </div>
       </div>
 
-      <ul className="mt-3 flex flex-col gap-3">
+      <ul className="mt-3 flex flex-col gap-2.5">
         {replies.map((reply, index) => (
-          <li key={reply.name} className={ROW}>
-            <span
-              aria-hidden="true"
-              className="grid size-8 shrink-0 place-items-center rounded-full bg-azure-100 text-caption font-semibold text-azure-800"
-            >
-              {reply.name
-                .split(' ')
-                .map((part) => part[0])
-                .join('')}
+          <li
+            key={reply.name}
+            className={cn('flex items-end gap-2', RISE)}
+            style={after(260 + index * 200)}
+          >
+            <span aria-hidden="true" className={cn(AVATAR, 'size-8 text-caption')}>
+              {reply.initials}
             </span>
-            <span className="min-w-0 flex-1 truncate text-small font-medium text-ink">
-              {reply.name}
-            </span>
-            <span
-              className={cn(
-                'shrink-0 rounded-pill px-2 py-0.5 text-caption font-medium',
-                index === 2 ? 'bg-surface-tint text-ink/75' : 'bg-frost-100 text-frost-800'
-              )}
-            >
-              {reply.state}
+            <span className="min-w-0">
+              <span className="block text-caption font-medium text-muted">{reply.name}</span>
+              <span className="mt-1 block rounded-2xl rounded-bl-sm bg-surface-tint px-3.5 py-2 text-small text-ink">
+                {reply.line}
+              </span>
             </span>
           </li>
         ))}
       </ul>
+
+      <p
+        className={cn('mt-3 flex items-center gap-2 text-caption text-muted', RISE)}
+        style={after(660)}
+      >
+        <Typing />
+        309 more delivered, replies still landing
+      </p>
     </div>
   );
 }
 
+/** Three dots on the same fade at staggered offsets — the thread is still working. */
+function Typing() {
+  return (
+    <span aria-hidden="true" className="flex shrink-0 items-center gap-0.5">
+      {[0, 1, 2].map((dot) => (
+        <span
+          key={dot}
+          className="size-1 rounded-full bg-ink/30 group-data-[active=true]:animate-pulse"
+          style={after(dot * 240)}
+        />
+      ))}
+    </span>
+  );
+}
+
 /**
- * A folder of CVs coming back ranked.
+ * A folder of CVs coming back ranked, mid-pass.
+ *
+ * Three tiles rather than three rows, so the scores lead and the slide stops being the same list
+ * as the one before it. Each ring fills to its value as the slide arrives and a soft band sweeps
+ * the card behind them, because the claim is that this happens to a folder you drop in, not that
+ * a table exists somewhere with numbers already in it. The rail at the foot is why the sweep never
+ * finishes: 23 of 128 read, and these three are the ranking so far.
  *
  * The scores are one hue getting darker as they climb, not a traffic light: nothing in a ranked
- * list is failing, it is only further down, and spending red on the bottom row would say the
+ * list is failing, it is only further down, and spending red on the bottom tile would say the
  * opposite. Every ring carries its own number, so the ranking never rests on the shade alone.
  */
 function Scoring() {
@@ -377,36 +427,73 @@ function Scoring() {
   ];
 
   return (
-    <div className={CARD}>
-      <div className="flex items-center justify-between gap-3">
+    <div className={cn(CARD, 'overflow-hidden')}>
+      {/*
+        The read passing down the list. It sits behind everything else in the card, which is the
+        only reason a band tinted this lightly is safe over type: azure-100 at 80% over white is a
+        wash, not a layer, and the text above it keeps its own contrast either way.
+      */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-transparent via-azure-100/80 to-transparent opacity-0 group-data-[active=true]:animate-sweep"
+      />
+
+      <div className="relative flex items-center justify-between gap-3">
         <p className={HEAD}>Scored against the JD</p>
-        <p className="shrink-0 rounded-pill bg-surface-tint px-2 py-0.5 text-caption font-medium text-ink/75">
-          128 CVs in
-        </p>
+        <p className={COUNT}>128 CVs in</p>
       </div>
 
-      <ul className="mt-3 flex flex-col gap-3">
-        {scored.map((cv) => (
-          <li key={cv.name} className={ROW}>
-            <ScoreRing value={cv.score} className={cn('size-10', cv.ring)} />
-            <span className="min-w-0 flex-1">
-              <span className="block truncate text-small font-medium text-ink">{cv.name}</span>
-              <span className="block text-caption text-muted">
-                {cv.score >= 70 ? 'Shortlist' : 'Review later'}
-              </span>
+      <ul className="relative mt-3 grid grid-cols-3 gap-2">
+        {scored.map((cv, index) => (
+          <li
+            key={cv.name}
+            className={cn(
+              'flex flex-col items-center gap-1.5 rounded-lg bg-surface-tint px-2 py-3 text-center',
+              RISE
+            )}
+            style={after(index * 160)}
+          >
+            <ScoreRing value={cv.score} animated className={cn('size-12', cv.ring)} />
+            <span className="w-full truncate text-caption font-medium text-ink">{cv.name}</span>
+            <span
+              className={cn(
+                'rounded-pill px-2 py-0.5 text-caption font-medium',
+                cv.score >= 70 ? 'bg-frost-100 text-frost-800' : 'bg-surface text-ink/75'
+              )}
+            >
+              {cv.score >= 70 ? 'Shortlist' : 'Later'}
             </span>
           </li>
         ))}
       </ul>
 
-      <p className="mt-3 border-t border-hairline pt-3 text-caption text-muted">
-        …and 125 more, ranked in the same pass.
-      </p>
+      <div className="relative mt-3 border-t border-hairline pt-3">
+        {/*
+          `text-ink/65`, not the `text-muted` every other caption on this card uses. The sweep
+          passes over this line too, and muted (#667085) against the band at its densest is
+          4.32:1 — under the 4.5 floor for a moment each cycle, which axe never sees because it
+          measures a still. This step is 5.91:1 there and 8.3:1 once the band has gone by.
+        */}
+        <p className="flex items-center justify-between gap-2 text-caption text-ink/65">
+          <span>Still reading the folder</span>
+          <span className="shrink-0 font-medium text-ink/75">23 of 128</span>
+        </p>
+        <div className="mt-2 h-1 overflow-hidden rounded-pill bg-ink/10">
+          <div className="h-full w-[18%] rounded-pill bg-azure-400" />
+        </div>
+      </div>
     </div>
   );
 }
 
-/** The voice agent on the line, and the verdicts it hands back. */
+/**
+ * The voice agent on the line, and the verdicts it hands back.
+ *
+ * The strip between the two ends used to be a hand-written array of forty-four flat bars — the
+ * same band of stripes AiCallingPanel stopped drawing on /for/recruitment-operations. It is that
+ * panel's waveform now, shared rather than copied: runs grouped one per turn, each in its
+ * speaker's hue, with the level travelling between them. See CallWave.
+ */
 function Screening() {
   const verdicts = [
     { name: 'Priya Nair', verdict: 'Shortlisted', warm: true },
@@ -419,13 +506,19 @@ function Screening() {
       <div className="flex items-center justify-between gap-3">
         <p className={HEAD}>AI voice agent</p>
         <p className="flex shrink-0 items-center gap-1.5 text-caption text-muted">
-          <span aria-hidden="true" className="size-1.5 rounded-full bg-emerald-400" />
+          <span
+            aria-hidden="true"
+            className="size-1.5 rounded-full bg-emerald-400 group-data-[active=true]:animate-pulse"
+          />
           On a call
         </p>
       </div>
 
-      {/* The two ends of one call, with the speech running between them. */}
-      <div aria-hidden="true" className="mt-3 flex items-center gap-2.5">
+      {/* The two ends of one call, with the line live between them. */}
+      <div
+        aria-hidden="true"
+        className="mt-3 flex items-center gap-2.5 rounded-xl bg-surface-tint px-3 py-2.5"
+      >
         <span className="grid size-9 shrink-0 place-items-center rounded-full bg-ink text-white">
           <svg
             viewBox="0 0 16 16"
@@ -439,33 +532,29 @@ function Screening() {
             <path d="M5.2 2.2 6.5 5 5.2 6.4a8.2 8.2 0 0 0 4.4 4.4L11 9.5l2.8 1.3v2.1c0 .6-.5 1.1-1.1 1a11.6 11.6 0 0 1-10.6-10.6c0-.6.4-1.1 1-1.1h2.1Z" />
           </svg>
         </span>
-        <span className="flex h-9 min-w-0 flex-1 items-center gap-[2px]">
-          {SPEECH.map((height, index) => (
-            <span
-              key={index}
-              className={cn(
-                'w-full rounded-[2px]',
-                index % 2 === 0 ? 'bg-azure-400' : 'bg-lavender-300'
-              )}
-              style={{ height: `${height}%` }}
-            />
-          ))}
-        </span>
-        <span className="grid size-9 shrink-0 place-items-center rounded-full bg-azure-100 text-caption font-semibold text-azure-800">
-          PN
-        </span>
+        <CallWave className="h-11 flex-1" />
+        <span className={cn(AVATAR, 'size-9 text-caption')}>PN</span>
       </div>
 
-      <ul className="mt-4 flex flex-col gap-3">
-        {verdicts.map((row) => (
-          <li key={row.name} className={ROW}>
+      <p className="mt-2 text-center text-caption text-muted">Priya Nair · 01:12</p>
+
+      <ul className="mt-3 flex flex-col gap-2">
+        {verdicts.map((row, index) => (
+          <li
+            key={row.name}
+            className={cn(
+              'flex items-center gap-3 rounded-lg bg-surface-tint px-2.5 py-1.5',
+              RISE
+            )}
+            style={after(200 + index * 160)}
+          >
             <span className="min-w-0 flex-1 truncate text-small font-medium text-ink">
               {row.name}
             </span>
             <span
               className={cn(
                 'shrink-0 rounded-pill px-2 py-0.5 text-caption font-medium',
-                row.warm ? 'bg-crusta-100 text-crusta-800' : 'bg-surface-tint text-ink/75'
+                row.warm ? 'bg-crusta-100 text-crusta-800' : 'bg-surface text-ink/75'
               )}
             >
               {row.verdict}
@@ -478,22 +567,30 @@ function Screening() {
 }
 
 /**
- * The pipeline as a board: every candidate in a column, and one of them on the move.
+ * The pipeline as a board, with one candidate crossing it.
  *
  * `@container` rather than a viewport breakpoint, because what has to give is decided by the
  * card's own width: the same board is ~490px wide in the desktop panel and ~270 on a phone, where
  * four columns leave each one about 60px and the names inside them stop being names. Narrow, the
  * last column goes and the board keeps three readable ones.
  *
- * One card is drawn tilted, lifted and held between two columns. A board of neat stacks is a
- * table with gaps in it; the whole argument for this view is that a candidate moves, so one of
- * them is caught mid-move.
+ * The card in transit used to be parked on a rule underneath the board, tilted, with an arrow and
+ * a destination pill beside it — a diagram of a move rather than a move. It is on the board now
+ * and it travels: it lifts out of one column's open slot, crosses the gap, and settles into the
+ * next one's. Every column has an open slot at its foot because grid items stretch to the row's
+ * height and only the first column carries two names, which is what makes both ends of the trip
+ * land somewhere real rather than on top of a name.
+ *
+ * One step is `100% + 0.5rem` — the card is exactly one column wide, so its own width plus the
+ * gap is the distance to the next column, whichever of the two layouts is in force. Only the
+ * starting offset differs between them, since narrow the board has three columns and the card
+ * starts one in rather than two.
  */
 function Kanban() {
   const columns = [
     { stage: 'Screened', count: 6, names: ['Priya Nair', 'Dev Patel'], late: false },
     { stage: 'Submitted', count: 5, names: ['Arjun Shah'], late: false },
-    { stage: 'Interview', count: 4, names: ['Meera Iyer', 'Sana Qureshi'], late: false },
+    { stage: 'Interview', count: 4, names: ['Meera Iyer'], late: false },
     { stage: 'Offer', count: 3, names: ['Rahul Menon'], late: true },
   ];
 
@@ -501,12 +598,10 @@ function Kanban() {
     <div className={cn(CARD, '@container')}>
       <div className="flex items-center justify-between gap-3">
         <p className={HEAD}>Java Developer — Pune</p>
-        <p className="shrink-0 rounded-pill bg-surface-tint px-2 py-0.5 text-caption font-medium text-ink/75">
-          18 in play
-        </p>
+        <p className={COUNT}>18 in play</p>
       </div>
 
-      <div className="mt-3 grid grid-cols-3 gap-2 @[20rem]:grid-cols-4">
+      <div className="relative mt-3 grid grid-cols-3 gap-2 @[20rem]:grid-cols-4">
         {columns.map((column) => (
           <div
             key={column.stage}
@@ -529,70 +624,60 @@ function Kanban() {
             ))}
           </div>
         ))}
-      </div>
 
-      {/* The one in transit, lifted off the board and tipped the way a dragged card tips. */}
-      <div aria-hidden="true" className="mt-3 flex items-center gap-2 border-t border-hairline pt-3">
-        <span className="-rotate-3 rounded-md bg-surface px-2 py-1 text-caption font-medium text-ink shadow-[0_8px_20px_rgb(12_10_16/0.18)] ring-1 ring-azure-300">
+        <span
+          aria-hidden="true"
+          style={{ '--travel-x': 'calc(100% + 0.5rem)' } as CSSProperties}
+          className={cn(
+            'absolute bottom-2 block truncate rounded-md bg-surface px-1.5 py-1 text-caption font-medium text-ink shadow-[0_8px_20px_rgb(12_10_16/0.18)] ring-1 ring-azure-300',
+            'w-[calc((100%_-_1rem)/3)] left-[calc((100%_-_1rem)/3_+_0.5rem)]',
+            '@[20rem]:w-[calc((100%_-_1.5rem)/4)] @[20rem]:left-[calc(2*((100%_-_1.5rem)/4_+_0.5rem))]',
+            'group-data-[active=true]:animate-travel'
+          )}
+        >
           Kavya Reddy
         </span>
-        <svg
-          viewBox="0 0 24 8"
-          className="h-2 w-6 shrink-0 text-azure-400"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M0 4h20M17 1l3 3-3 3" />
-        </svg>
-        <span className="rounded-pill bg-crusta-100 px-2 py-0.5 text-caption font-medium text-crusta-800">
-          Interview
-        </span>
       </div>
+
+      <p
+        className={cn(
+          'mt-3 flex items-center gap-2 border-t border-hairline pt-3 text-caption text-muted',
+          RISE
+        )}
+        style={after(320)}
+      >
+        <span aria-hidden="true" className="size-1.5 shrink-0 rounded-full bg-crusta-500" />
+        Kavya Reddy moved forward · 2m ago
+      </p>
     </div>
   );
 }
 
-/**
- * Peaks toward the middle, the way a sentence does.
- *
- * Long, because the count is what makes it read as speech. Eighteen bars across the stage's width
- * drew 25px blocks — a bar chart of nothing. These are about 8px each, which is a trace.
- */
-const SPEECH = [
-  14, 26, 44, 22, 58, 36, 70, 48, 86, 60, 96, 74, 100, 66, 88, 52, 78, 40, 64, 30, 72, 46, 90, 56,
-  82, 38, 68, 28, 76, 42, 62, 34, 54, 24, 48, 20, 40, 30, 34, 18, 28, 22, 24, 16,
-];
-
 const slides: Slide[] = [
   {
-    chip: 'Bulk outreach',
+    name: 'Bulk outreach',
     title: 'Reach the whole list on WhatsApp',
     detail:
-      'One message goes to every candidate on the shortlist, personalised to each of them, on the channel they actually answer.',
+      'One message to the whole shortlist, personalised to each — on the channel they answer.',
     visual: <Outreach />,
   },
   {
-    chip: 'Resume scoring',
+    name: 'Resume scoring',
     title: 'Upload the CVs, get them ranked',
-    detail:
-      'Drop in a folder of resumes and each one comes back scored against the job description — ordered before anyone opens a file.',
+    detail: 'Drop in a folder of CVs and each comes back scored against the JD, ranked.',
     visual: <Scoring />,
   },
   {
-    chip: 'AI screening',
+    name: 'AI screening',
     title: 'Screened before you pick up the phone',
     detail:
-      'The voice agent works the list, checks interest and salary against the role, and hands back a shortlist with the calls attached.',
+      'The voice agent works the list, checks interest and salary, and hands back a shortlist.',
     visual: <Screening />,
   },
   {
-    chip: 'Kanban board',
+    name: 'Kanban board',
     title: 'Move candidates, not spreadsheets',
-    detail:
-      "Every role's pipeline on one board — screened, submitted, interviewing, offered — and moving a candidate forward is one drag.",
+    detail: "Every role's pipeline on one board, and moving a candidate forward is one drag.",
     visual: <Kanban />,
   },
 ];
