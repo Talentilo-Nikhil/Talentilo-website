@@ -197,6 +197,15 @@
   "designHeight": 650,
   "alt": "Talentilo command centre dashboard"
  },
+ "command-center-screen": {
+  "src": "/figma/creatives/command-center-screen.webp",
+  "fallback": "/figma/creatives/command-center-screen.png",
+  "width": 1881,
+  "height": 1244,
+  "designWidth": 940.46,
+  "designHeight": 622,
+  "alt": "The Talentilo command centre: a recruiter workspace with news, velocity, team output and the day’s interviews, beside alerts for missing offer dates and offers awaiting acceptance"
+ },
  "velocity-index": {
   "src": "/figma/creatives/velocity-index.webp",
   "fallback": "/figma/creatives/velocity-index.png",

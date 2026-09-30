@@ -5,7 +5,7 @@ import { ScorecardPanel } from '@/components/panels/ScorecardPanel';
 import { CenteredFeature } from '@/components/sections/CenteredFeature';
 import { CtaCentered } from '@/components/sections/CtaCentered';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
-import { HERO_REVEAL, PageHero } from '@/components/sections/PageHero';
+import { PageHero } from '@/components/sections/PageHero';
 import { Creative } from '@/components/ui/Creative';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { DEMO_URL } from '@/config/navigation';
@@ -50,8 +50,22 @@ export default function TalentIntelligencePage() {
         cta={{ label: 'Rank Your Existing Candidates', href: DEMO_URL }}
         ctaPlacement="overlay"
         wash="brand"
-        creative="ti-hero-database"
-        reveal={HERO_REVEAL}
+        /*
+         * The command centre, cut out of its ground — see `command-center-screen` in
+         * tools/figma/illustrations.mjs.
+         *
+         * It replaces `ti-hero-database`, the All Candidates table, which said the same thing as
+         * the page's own headline and then again as its first section. The screen says the part
+         * the headline cannot: that the ranking lands in a workspace someone runs a desk from.
+         *
+         * `grounded={false}` because the file arrives transparent: the wash under it is this
+         * band's, and the band already paints `--gradient-brand-vertical`, which is the very
+         * gradient the export's own frame carried. There is no `reveal` either — the export is
+         * already cut at the frame's foot, mid-row, so the artwork's bottom edge and the band's
+         * are the same line.
+         */
+        creative="command-center-screen"
+        grounded={false}
       />
 
       <CenteredFeature
