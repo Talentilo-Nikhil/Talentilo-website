@@ -42,7 +42,16 @@ const desks = [
 export default function ContactPage() {
   return (
     <>
-      <Section padding="normal">
+      {/*
+        The top padding is halved here, and only here.
+
+        This section is the page: a heading, a lede and the two columns under them, and the whole
+        thing wants to be on the first screen. At the shared `normal` padding it was 1039px from
+        the bottom of the sticky header to the foot of the grid, which overran a 1920x1080 screen
+        by 38px and a 1728x1117 one by 1. Forty of those pixels were air above a heading that has
+        a 79px white header above it already.
+      */}
+      <Section padding="normal" className="pt-8 md:pt-10 lg:pt-10">
         <SectionHeading
           as="h1"
           level="display"
@@ -50,7 +59,7 @@ export default function ContactPage() {
           lede="Whether you have a question, need support, or just want to learn more about Talentilo.ai, our team is here to help."
         />
 
-        <div className="mt-10 grid gap-5 lg:grid-cols-[740px_552px] lg:justify-center">
+        <div className="mt-8 grid gap-5 lg:grid-cols-[740px_552px] lg:justify-center">
           {/*
             A stock photograph of someone at a laptop stood here. It was decorative in the strict
             sense — it carried no information, and the alt text was empty because there was none
