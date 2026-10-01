@@ -1,20 +1,30 @@
 import type { CSSProperties, ReactNode } from 'react';
 
 import { E, mix } from './engine';
+import { I, ic } from './icons';
 import { B, GRAD, GROUND, HD, SANS, SB, SERIF } from './theme';
 
 export const abs = (s: CSSProperties): CSSProperties => ({ position: 'absolute', ...s });
 
-const NAV = [
-  'Jobs',
-  'Calling Performance',
-  'Offers',
-  'Users',
-  'Targets',
-  'Clients',
-  'All Candidates',
-  'Emails',
-  'WhatsApp',
+/**
+ * The sidebar, each item with its own icon.
+ *
+ * The handoff drew all nine as the same empty 16px rounded square — a placeholder that reads as
+ * nine identical checkboxes, and the single clearest tell that the window is a mockup rather than
+ * a product. The real portal (reference/product-screen-1.png) gives every item a distinct
+ * Lucide-style mark, so these are drawn to match: briefcase, clock, clock variant, and the rest
+ * in the same 24-box, 1.8-stroke family.
+ */
+const NAV: [string, ReactNode][] = [
+  ['Jobs', I.briefcase],
+  ['Calling Performance', I.clock],
+  ['Offers', I.clockFlag],
+  ['Users', I.user],
+  ['Targets', I.target],
+  ['Clients', I.building],
+  ['All Candidates', I.users],
+  ['Emails', I.mail],
+  ['WhatsApp', I.wa],
 ];
 
 /** The app's header and sidebar, behind every product scene. Unchanged from the handoff. */
@@ -68,7 +78,7 @@ export function Shell({ nav, tab }: { nav: string | null; tab: number }) {
           display: 'flex', flexDirection: 'column', gap: 6,
         })}
       >
-        {NAV.map((n) => (
+        {NAV.map(([n, icon]) => (
           <div
             key={n}
             style={{
@@ -78,12 +88,15 @@ export function Shell({ nav, tab }: { nav: string | null; tab: number }) {
               color: n === nav ? B.ink : B.muted,
             }}
           >
-            <span
-              style={{
-                width: 16, height: 16, borderRadius: 4,
-                border: `1.6px solid ${n === nav ? B.purple : B.faint}`,
-              }}
-            />
+            {/*
+              `flexShrink: 0` is load-bearing. Without it the icon is the only flexible thing in a
+              `nowrap` row, so the longest label — "Calling Performance" — squeezed it to a 2px
+              vertical sliver while every other row kept a square. That asymmetry was visible in
+              the film.
+            */}
+            <span style={{ flexShrink: 0, display: 'flex' }}>
+              {ic(icon, 19, n === nav ? B.ink : '#8a8a95', 1.7)}
+            </span>
             {n}
           </div>
         ))}

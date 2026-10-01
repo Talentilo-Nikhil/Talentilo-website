@@ -36,6 +36,11 @@ const KEYS = [
 
 const STEPS = ['Job Details', 'Requirements', 'Job Description'];
 
+/** The description box, and the line box the text inside it sets on. */
+const JD_BOX = 140;
+const JD_LINE = 16.5 * 1.55;
+const JD_CHARS = JD_TEXT.join('\n').length;
+
 /**
  * Where each JD line starts in the joined text, so the typewriter can be a pure lookup.
  *
@@ -54,7 +59,15 @@ export function JD({ r }: { r: number }) {
   const press = (t: number) => E.io(t - 0.05, t)(r) * (1 - E.io(t + 0.02, t + 0.18)(r));
   const title = 'Java Developer';
   const typed = Math.floor(title.length * E.io(0.2, 0.9)(r));
-  const jdChars = E.io(3.3, 4.6)(r) * JD_TEXT.join('\n').length;
+  const jdChars = E.io(3.3, 4.6)(r) * JD_CHARS;
+  /*
+    How far the text has slid up so the line being written stays in view. Clamped at both ends, so
+    it does not move until the text is taller than the box and never runs past the last line.
+  */
+  const jdScroll = Math.max(
+    0,
+    Math.min(JD_TEXT.length * JD_LINE - (JD_BOX - 28), (jdChars / JD_CHARS) * JD_TEXT.length * JD_LINE - (JD_BOX - 28))
+  );
 
   return (
     <div style={abs({ inset: 0, background: 'rgba(20,18,30,0.35)' })}>
@@ -190,19 +203,31 @@ export function JD({ r }: { r: number }) {
             </div>
             <div
               style={{
-                height: 140, borderRadius: 18,
+                height: JD_BOX, borderRadius: 18,
                 border: `1px solid ${r > 3.2 && r < 4.7 ? '#9cc4ff' : '#e3e3ea'}`,
                 padding: '14px 20px', boxSizing: 'border-box', overflow: 'hidden',
                 fontFamily: SANS, fontSize: 16.5, lineHeight: 1.55, color: B.ink,
               }}
             >
-              {JD_TEXT.map((l, i) => {
-                const show = Math.max(0, Math.min(l.length, Math.floor(jdChars - JD_OFFSETS[i])));
-                return show > 0 ? (
-                  <div key={l} style={{ fontWeight: i === 4 ? 600 : 400 }}>{l.slice(0, show)}</div>
-                ) : null;
-              })}
-              {r > 3.2 && r < 3.4 && <span style={{ color: B.muted }}>Generating…</span>}
+              {/*
+                The text tracks the caret, the way a textarea does.
+
+                The handoff wrote seven lines into a fixed box with `overflow: hidden` and never
+                moved them, so the last two requirements were simply cut off and stayed cut — text
+                truncated by its container, which is not something a real form does. Growing the box
+                is not the fix either: the pane has 628px and already wants 670. A textarea being
+                typed into scrolls to keep the caret in view, so this does that, and the reader sees
+                the JD finish writing itself.
+              */}
+              <div style={{ transform: `translateY(${-jdScroll}px)` }}>
+                {JD_TEXT.map((l, i) => {
+                  const show = Math.max(0, Math.min(l.length, Math.floor(jdChars - JD_OFFSETS[i])));
+                  return show > 0 ? (
+                    <div key={l} style={{ fontWeight: i === 4 ? 600 : 400 }}>{l.slice(0, show)}</div>
+                  ) : null;
+                })}
+                {r > 3.2 && r < 3.4 && <span style={{ color: B.muted }}>Generating…</span>}
+              </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '10px 0 10px' }}>
               <SoftBtn press={press(4.8)}>Generate JD Keyword</SoftBtn>
