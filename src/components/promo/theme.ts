@@ -12,13 +12,29 @@
  * | on #55a7fd / #faf8ff            | original | ours                  |
  * |---------------------------------|----------|-----------------------|
  * | headline                        | #fff     | ink      7.81 / 18.69 |
- * | accent gradient                 | 1.10:1 ✗ | 6.20 / 5.67 at worst  |
+ * | accent gradient                 | 1.10:1 ✗ | 4.66 / 6.24 at worst  |
  * | kicker                          | #b9b4cc  | 4.99 / 11.93          |
  *
- * The accent is the interesting one. Left alone it measures **1.10:1** on the blue — not dim,
- * invisible — so it could not survive the move. Rather than drop the device, it keeps the gradient
- * and reverses its lightness: the original is a light lavender running to a light blue, this is a
- * dark lavender running to a dark blue. Same hues, same direction, same idea, legible.
+ * The accent took two passes, and the second one is the reason this note is long.
+ *
+ * Left alone it measures **1.10:1** on the blue — not dim, invisible — so it could not survive the
+ * move. The first attempt kept the device and reversed only its lightness: a dark lavender running
+ * to a dark blue, the original's hues, 6.70:1 at worst. Every number passed and it still read
+ * wrong. Sampled off the rendered pixels, the sans headline beside it lands at 11.6:1 and the
+ * accent at 7.4:1 — so the word being emphasised was the softest thing on screen, which is
+ * backwards.
+ *
+ * The cause was hue, not luminance. A dark blue-violet on a blue-violet wash shares the ground's
+ * colour family and sinks into it, while the near-black beside it separates on hue as well as
+ * lightness and punches. So the accent moved to the other end of the brand's own pair — the site's
+ * gradient is lavender→crusta, and this is the crusta end. `#7e2110 → #440d06` gives up some
+ * luminance contrast (4.66:1 at worst, against 6.70) to buy hue contrast, and the warm word is the
+ * one that now carries the line. Still clear of the 3:1 floor these 112–128px display cuts answer
+ * to, and clear of 4.5:1 everywhere but the deepest periwinkle.
+ *
+ * White was asked for and measured rather than argued: **1.19 – 2.24:1** on this ground, worst at
+ * the foot where it is effectively invisible. It cannot be had without darkening the ground, which
+ * is the opposite of the brief this film was brought over under.
  *
  * Everything inside the app window is untouched. Scenes 3–12 were already light — a white card on
  * `#f6f6f9` — and a white window on a blue wash keeps exactly the separation the dark canvas was
@@ -47,8 +63,14 @@ export const GROUND = {
   wash: 'linear-gradient(180deg, #55a7fd 0%, #b1a4ff 46%, #faf8ff 100%)',
   ink: '#0c0a10',
   kicker: '#372f4b',
-  /** The accent gradient, reversed. See the note above for why it could not stay as it was. */
-  accent: 'linear-gradient(90deg, #270e67, #162855)',
+  /**
+   * The accent gradient, on the warm end of the brand's own lavender→crusta pair.
+   *
+   * Deliberately not a hue-reversal of the original — see the note above. Reversing only the
+   * lightness passed every contrast check and still let the emphasis word sink into a ground of
+   * its own colour family.
+   */
+  accent: 'linear-gradient(90deg, #7e2110, #440d06)',
 } as const;
 
 /** The gradient inside the window — buttons, rings, the active tab — stays the bright one. */

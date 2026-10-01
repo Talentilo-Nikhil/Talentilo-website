@@ -120,8 +120,9 @@ export const Pill = ({
  *
  * The accent words are the reversal's one real casualty and its one real decision. In the handoff
  * they are filled with a light `#9b8cff → #5aa7ff` gradient, which measures 1.10:1 on our ground —
- * invisible, not dim. They keep the gradient device and reverse its lightness instead; see
- * GROUND.accent.
+ * invisible, not dim. They keep the gradient device but take the warm end of the brand's pair
+ * rather than a darkened version of the original's hue, because a dark blue-violet on a
+ * blue-violet wash passes every contrast check and still recedes. See GROUND.accent.
  */
 export function Words({
   text, T, at, size = 120, color = GROUND.ink, serifWords = [], stagger = 0.08,
