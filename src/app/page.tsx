@@ -10,6 +10,7 @@ import { ButtonLink } from '@/components/ui/Button';
 import { Creative } from '@/components/ui/Creative';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { PromoHero } from '@/components/promo/PromoFilm';
 import { DEMO_URL } from '@/config/navigation';
 import { site } from '@/config/site';
 import { companyStats } from '@/data/stats';
@@ -115,12 +116,20 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="mt-10 overflow-hidden rounded-card lg:mt-10">
-          <Creative
-            name="hero-command-center"
-            priority
-            sizes="(min-width: 1440px) 1312px, 100vw"
-          />
+        {/*
+          The promo film, where `hero-command-center` was.
+
+          That creative was a still of the command centre, and it was also the one this site drew
+          twice — whole here and cut out of its ground on Talent Intelligence. The film replaces it
+          and closes that: the dashboard now appears once, moving, and Talent Intelligence keeps
+          the cut-out to itself.
+
+          Re-themed rather than re-cut. The piece is authored on a near-black canvas; here it runs
+          on the same vertical wash the still was drawn on, with every piece of type that sits on
+          that wash reversed to ink. See PromoFilm.
+        */}
+        <div className="mt-10 lg:mt-10">
+          <PromoHero />
         </div>
       </Section>
 
