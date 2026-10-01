@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Albert_Sans, EB_Garamond } from 'next/font/google';
+import { Albert_Sans, EB_Garamond, Instrument_Serif, Outfit } from 'next/font/google';
 
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
@@ -19,6 +19,34 @@ const ebGaramond = EB_Garamond({
   display: 'swap',
   // The file sets one word per heading in italic ("Everything Else", "Human") — without this,
   // font-style: italic falls back to the browser's synthetic slant instead of the real face.
+  style: ['normal', 'italic'],
+});
+
+/*
+ * The promo film's own two faces, kept rather than mapped onto the site's.
+ *
+ * The film is authored in Outfit and Instrument Serif and the brief for bringing it onto the site
+ * was its background, its text colour and its logo — not its typography. Mapping it to Albert Sans
+ * and EB Garamond would have cost nothing to load and would have been a change nobody asked for,
+ * so the film keeps what it was drawn in.
+ *
+ * `next/font/google` self-hosts both at build, so there is no runtime request to Google and no
+ * layout shift from a late swap; the cost is the two files themselves, measured rather than
+ * assumed — see the note in OPEN_ITEMS.md.
+ */
+const promoSans = Outfit({
+  variable: '--font-promo-sans',
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+});
+
+const promoSerif = Instrument_Serif({
+  variable: '--font-promo-serif',
+  subsets: ['latin'],
+  display: 'swap',
+  weight: '400',
+  // Every accent word in the film is the italic cut; without this it is a synthetic slant.
   style: ['normal', 'italic'],
 });
 
@@ -65,7 +93,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="en"
-      className={`${albertSans.variable} ${ebGaramond.variable} h-full antialiased`}
+      className={`${albertSans.variable} ${ebGaramond.variable} ${promoSans.variable} ${promoSerif.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <JsonLd data={organizationJsonLd} />
