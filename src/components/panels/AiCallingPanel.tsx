@@ -18,6 +18,23 @@ type AiCallingPanelProps = {
   /** How far into the call this is, e.g. `01:12`. A still of a call in progress, not a clock. */
   elapsed: string;
   /**
+   * What the agent has taken out of the call so far, e.g. `['Interest confirmed', '\u20b932 LPA']`.
+   *
+   * The transcript shows it talking; this shows it understanding, which is the harder half of the
+   * claim and the one the body copy actually makes — "verifying interest against the JD, checking
+   * salary expectations in natural language". Words alone do not demonstrate that anything was
+   * parsed out of them.
+   */
+  captured: string[];
+  /**
+   * The meeting the call produced, drawn on a card of its own.
+   *
+   * It sits outside the transcript on purpose. A booking announced in a bubble is the agent saying
+   * it happened; a card hanging off the corner of the call is the thing itself, which is what the
+   * section is promising — a meeting lands on a recruiter's calendar without anyone chasing.
+   */
+  meeting: { title: string; detail: string };
+  /**
    * The recording, once there is one to play. Omitted, the strip is not drawn.
    *
    * `date` is optional in its own right: a page with a recording but no record of when the call
@@ -82,6 +99,8 @@ export function AiCallingPanel({
   booked,
   transcript,
   elapsed,
+  captured,
+  meeting,
   recording,
   className,
 }: AiCallingPanelProps) {
@@ -89,20 +108,20 @@ export function AiCallingPanel({
   const shortlisted = Math.min(booked / applicants, 1) * 100;
 
   return (
-    <div
-      className={cn(
-        'flex items-center justify-center rounded-card p-5 sm:aspect-[588/536] sm:p-9',
-        className
-      )}
-      style={{ backgroundImage: 'var(--gradient-brand)' }}
-    >
-      {/*
-        A container, so the card can give ground on its own width rather than the viewport's. In
-        the two-column squeeze around 1280 it is 448px against the 518 it gets at 1440, and the
-        transcript wraps to a line more; the padding it gives back here is most of what that line
-        costs, which is what keeps the wash behind it at its own 588/536.
-      */}
-      <div className="@container w-full rounded-card bg-surface p-4 shadow-[0_20px_50px_rgb(12_10_16/0.18)] @[29rem]:p-5">
+    /*
+      No ground of its own any more. This drew its own wash on a `sm:aspect-[588/536]` box and laid
+      the card out against whatever width the column gave it, which is exactly the reflow
+      CreativeGround was built to stop: below `sm` there was no ratio at all, and in the two-column
+      squeeze the transcript wrapped a line further and pushed the wash portrait. The page wraps it
+      in CreativeGround now, so it is laid out once in the design's own 588x536 space and scaled by
+      a single factor like the exported creatives beside it.
+
+      That is also what makes the card below this one possible. A satellite positioned against a
+      box that reflows lands somewhere different at every width; against a fixed design space it
+      lands where it was put.
+    */
+    <div className={cn('relative w-full', className)}>
+      <div className="rounded-card bg-surface p-4 shadow-[0_20px_50px_rgb(12_10_16/0.18)]">
         <div className="flex items-center justify-between gap-4">
           <p className="text-caption font-semibold tracking-[0.1em] text-muted uppercase">
             AI voice agent
@@ -114,9 +133,9 @@ export function AiCallingPanel({
         </div>
 
         {/* 1. The call itself: two ends and the speech between them. */}
-        <div aria-hidden="true" className="mt-3 flex items-center gap-3 @[29rem]:mt-4">
+        <div aria-hidden="true" className="mt-3 flex items-center gap-3">
           <Agent />
-          <CallWave className="h-14 flex-1" />
+          <CallWave className="h-12 flex-1" />
           <span className="grid size-11 shrink-0 place-items-center rounded-full bg-azure-100 text-small font-semibold text-azure-800">
             {candidate.initials}
           </span>
@@ -125,14 +144,14 @@ export function AiCallingPanel({
           The clock goes here rather than beside "On a call": it belongs under the waveform, which
           is the part of the card that is running. Three-up on one line, so it costs no height.
         */}
-        <div className="mt-1.5 flex items-center justify-between gap-3 text-caption text-muted @[29rem]:mt-2">
+        <div className="mt-2 flex items-center justify-between gap-3 text-caption text-muted">
           <span className="min-w-0 truncate">Talentilo agent</span>
           <span className="font-figure shrink-0 tabular-nums">{elapsed}</span>
           <span className="min-w-0 truncate text-right">{candidate.name}</span>
         </div>
 
         {/* 2. The call, in the words it is being held in. */}
-        <ol className="mt-3 space-y-1 @[29rem]:mt-4 @[29rem]:space-y-1.5">
+        <ol className="mt-3 space-y-1.5">
           {transcript.map((turn, index) => {
             const agent = turn.from === 'agent';
             return (
@@ -156,7 +175,7 @@ export function AiCallingPanel({
                 */}
                 <p
                   className={cn(
-                    'max-w-[88%] rounded-2xl px-3 py-1 text-small text-ink @[29rem]:py-1.5',
+                    'max-w-[88%] rounded-2xl px-3 py-1.5 text-small text-ink',
                     agent ? 'rounded-bl-sm bg-lavender-100' : 'rounded-br-sm bg-azure-50'
                   )}
                 >
@@ -170,8 +189,40 @@ export function AiCallingPanel({
           })}
         </ol>
 
-        {/* 3. The reach: a bar with nothing missing from it. */}
-        <div className="mt-3 @[29rem]:mt-4">
+        {/*
+          3. What it took out of the call.
+
+          The step between hearing and acting, and the one the card was missing: the transcript
+          showed the agent speaking and the figures showed the run's size, with nothing in between
+          saying anything had been understood. Each of these answers a check the body copy names.
+          Ticked facts rather than more bubbles, so they read as a record rather than as more
+          talking.
+        */}
+        <ul aria-label="Captured from the call" className="mt-3 flex flex-wrap gap-1.5">
+          {captured.map((fact) => (
+            <li
+              key={fact}
+              className="flex items-center gap-1.5 rounded-pill bg-surface-tint px-2.5 py-1 text-caption font-medium text-ink/80"
+            >
+              <svg
+                viewBox="0 0 12 12"
+                aria-hidden="true"
+                className="size-3 shrink-0 text-frost-800"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M2.5 6.4 4.8 8.7 9.5 3.6" />
+              </svg>
+              {fact}
+            </li>
+          ))}
+        </ul>
+
+        {/* 4. The reach: a bar with nothing missing from it. */}
+        <div className="mt-3">
           <div className="flex items-baseline justify-between gap-3">
             <p className="font-figure text-h5 leading-none font-semibold text-ink">
               {called.toLocaleString()}
@@ -207,7 +258,7 @@ export function AiCallingPanel({
         </div>
 
         {recording ? (
-          <div className="mt-3 border-t border-hairline pt-3 @[29rem]:mt-4 @[29rem]:pt-3.5">
+          <div className="mt-2.5 border-t border-hairline pt-3">
             <CallRecording
               src={recording.src}
               label={recording.label}
@@ -217,6 +268,72 @@ export function AiCallingPanel({
           </div>
         ) : null}
       </div>
+
+      <Booked title={meeting.title} detail={meeting.detail} />
+    </div>
+  );
+}
+
+/**
+ * The meeting the call produced, hanging off the card's lower-right corner.
+ *
+ * The one thing on this creative that is not part of the call, drawn as a separate object because
+ * that is what it is: the call happens on the phone, and a slot appears in someone's diary. Said
+ * inside a bubble it was the agent claiming a booking; said on its own card, overlapping the one
+ * it came out of, it is the outcome the section's last sentence promises.
+ *
+ * It hangs below the card rather than over it, and the offset is measured rather than chosen. At a
+ * shallower one it sat across the recording and hid the running time, and a satellite that covers
+ * what it is commenting on is worse than no satellite. At this one it crosses the recording block's
+ * last few pixels and the card's bottom edge, which puts it over nothing a reader needs — the play
+ * button and the time are both clear of it, asserted in qa:interactions rather than eyeballed,
+ * because "near the corner" is the kind of thing that is true until someone adds a line.
+ *
+ * The whole composition is 470px against the 472 the design space leaves once CreativeGround's
+ * padding is taken out. There is no room to be careless with: anything added to the card has to
+ * come out of something else. And it is placed against that fixed space rather than a live width,
+ * so it lands where it was put at every viewport rather than drifting with the column.
+ */
+function Booked({ title, detail }: { title: string; detail: string }) {
+  return (
+    <div className="absolute -bottom-11 right-4 flex items-center gap-3 rounded-2xl bg-surface px-4 py-3 shadow-[0_18px_40px_rgb(12_10_16/0.22)] ring-1 ring-ink/5">
+      <span
+        aria-hidden="true"
+        className="grid size-9 shrink-0 place-items-center rounded-xl bg-lavender-100 text-lavender-700"
+      >
+        <svg
+          viewBox="0 0 20 20"
+          className="size-4.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <rect x="2.75" y="4.25" width="14.5" height="13" rx="2.5" />
+          <path d="M2.75 8.25h14.5M6.75 2.75v3M13.25 2.75v3" />
+        </svg>
+      </span>
+      <span className="min-w-0">
+        <span className="block text-small font-semibold text-ink">{title}</span>
+        <span className="block text-caption text-muted">{detail}</span>
+      </span>
+      {/*
+        The tick is the whole point of the card, so it is drawn rather than written: frost-800 on
+        white is 7.35:1, and the card already says in words what it is confirming.
+      */}
+      <svg
+        viewBox="0 0 16 16"
+        aria-hidden="true"
+        className="size-4 shrink-0 text-frost-800"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M3.2 8.6 6.4 11.8 12.8 4.8" />
+      </svg>
     </div>
   );
 }

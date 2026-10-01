@@ -648,8 +648,16 @@ async function aiCalling(browser) {
   const page = await context.newPage();
   await page.goto(`${BASE}/for/recruitment-operations`, { waitUntil: 'networkidle' });
 
-  const ground = page.locator('[class*="588/536"]').first();
+  /*
+    The panel used to draw its own ground on a `sm:aspect-[588/536]` box, which is what this used
+    to find it by. It sits in CreativeGround now, which sets the ratio in a style rather than a
+    class — so the ground is located by that, from the panel's own text outwards.
+  */
+  const ground = page
+    .getByText('AI voice agent')
+    .locator('xpath=ancestor::*[contains(@style,"aspect-ratio")][1]');
   await ground.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(300);
 
   const turns = ground.locator('ol > li');
   check('ai calling: the call is held in words, not listed as topics', (await turns.count()) === 3,
@@ -692,10 +700,55 @@ async function aiCalling(browser) {
   check('ai calling: the scrubber still reports its position', /\d:\d\d of \d:\d\d/.test(position ?? ''),
     position ?? 'none');
 
-  // The card has to stay inside the wash it sits on; the transcript is what could push it out.
-  const [outer, card] = [await ground.boundingBox(), await ground.locator('> div').first().boundingBox()];
-  const inset = Math.min(outer.y + outer.height - card.y - card.height, card.y - outer.y);
-  check('ai calling: the card stays inside its ground at 1440', inset >= 0, `${inset.toFixed(1)}px`);
+  /*
+    What the agent took out of the call. The transcript shows it talking; these show it parsing,
+    which is the half of the body copy's claim words alone cannot make.
+  */
+  const captured = ground.getByRole('list', { name: 'Captured from the call' }).locator('li');
+  check('ai calling: the call is parsed, not just held', (await captured.count()) === 3,
+    (await captured.allInnerTexts()).join(' / '));
+
+  // The outcome is a card of its own hanging off the corner, not a line in the transcript.
+  const booked = ground.getByText('Meeting booked');
+  check('ai calling: the meeting it produced is drawn as its own object', await booked.isVisible());
+
+  /*
+    And it must not sit on top of what it is commenting on. The offset that puts it clear of the
+    recording was measured, and "near the corner" is the kind of thing that stays true until
+    someone adds a line to the card — so the two controls it could cover are asserted directly.
+  */
+  const hidden = await page.evaluate(() => {
+    const card = document.querySelector('.rounded-card.bg-surface');
+    const wrap = card.parentElement;
+    const sat = [...wrap.querySelectorAll('div')].find((d) => d.className.includes('-bottom-'));
+    const time = [...card.querySelectorAll('*')].find(
+      (e) => /^\d:\d\d \/ \d:\d\d$/.test(e.textContent.trim()) && e.children.length === 0
+    );
+    const play = card.querySelector('button');
+    const r = (e) => e.getBoundingClientRect();
+    const hits = (a, b) => !(a.right <= b.left || a.left >= b.right || a.bottom <= b.top || a.top >= b.bottom);
+    const s = r(sat);
+    return [time && hits(s, r(time)) && 'the running time', play && hits(s, r(play)) && 'the play button']
+      .filter(Boolean);
+  });
+  check('ai calling: the booked card covers nothing on the recording', hidden.length === 0,
+    hidden.join(' and ') || 'play button and time both clear');
+
+  /*
+    The ratio, which is why this moved into CreativeGround at all. Laid out against the column's
+    live width the card reflowed, the transcript wrapped a line further in the two-column squeeze,
+    and the wash went portrait — 1.097 at 1440 but 0.891 at 1100 and 0.824 at 1024. Scaled from one
+    588x536 layout it is the same shape everywhere, like the exported creatives beside it.
+  */
+  for (const width of [1440, 1100, 1024, 768, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.waitForTimeout(250);
+    const box = await ground.boundingBox();
+    const ratio = box.width / box.height;
+    check(`ai calling: holds the 588/536 slot at ${width}`, Math.abs(ratio - 588 / 536) < 0.01,
+      ratio.toFixed(4));
+  }
+  await page.setViewportSize({ width: 1440, height: 900 });
 
   await context.close();
 
@@ -704,17 +757,20 @@ async function aiCalling(browser) {
   const still = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 900 } });
   const quiet = await still.newPage();
   await quiet.goto(`${BASE}/for/recruitment-operations`, { waitUntil: 'networkidle' });
-  await quiet.locator('[class*="588/536"]').first().scrollIntoViewIfNeeded();
+  await quiet
+    .getByText('AI voice agent')
+    .locator('xpath=ancestor::*[contains(@style,"aspect-ratio")][1]')
+    .scrollIntoViewIfNeeded();
   await quiet.waitForTimeout(400);
   const tallest = await quiet.locator('span.animate-speak').evaluateAll((els) =>
     Math.max(...els.map((el) => el.getBoundingClientRect().height))
   );
-  // The strip is h-14. The tallest bar lands just under 56px rather than on it, because the arch
+  // The strip is h-12. The tallest bar lands just under 48px rather than on it, because the arch
   // across a run peaks between two bars unless the run holds an odd number of them — so this is a
   // floor well clear of both outcomes rather than an equality: frozen squashed is 0.34 of 56, or
   // about 19px, and a run frozen quiet on top of that is 6px.
-  check('ai calling: with motion off the waveform stands at full height', tallest >= 50,
-    `${tallest.toFixed(1)}px, against ~19px if it were frozen quiet`);
+  check('ai calling: with motion off the waveform stands at full height', tallest >= 42,
+    `${tallest.toFixed(1)}px, against ~16px if it were frozen quiet`);
 
   // The run wrappers carry the second animation and the same no-fill-mode trap. If `--animate-floor`
   // ever gains a fill mode, two of the three runs freeze at 0.3 and the bars above stay honest
