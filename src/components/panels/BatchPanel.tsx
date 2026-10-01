@@ -13,6 +13,11 @@ type BatchPanelProps = {
   tone?: PanelTone;
   /** What the run took, e.g. "30 min". */
   duration: string;
+  /**
+   * What the figure is measuring, e.g. "Time spent". Optional; without one the figure stands bare,
+   * which is how this read before and which only works when the caption beside it does the naming.
+   */
+  durationLabel?: string;
   /** The steps the list passes through, largest first. */
   stages: BatchStage[];
   /** The line beside the figure, qualifying what the duration covers. */
@@ -70,6 +75,7 @@ const count = (value: string) => Number(String(value).replace(/,/g, '')) || 0;
 export function BatchPanel({
   tone = 'light',
   duration,
+  durationLabel,
   stages,
   caption,
   manual,
@@ -121,13 +127,40 @@ export function BatchPanel({
         ))}
       </ol>
 
+      {/*
+        The figure was 44px and unlabelled: a number large enough to be the first thing read, and
+        nothing on it saying what it measured. The label answers that, and the figure steps down to
+        make room for it — 44px was not on the site's scale at all, sitting between `h3` and `h2`
+        as an arbitrary value, so it lands on `h4` rather than on another number chosen by eye.
+
+        33px keeps what the size was for. These panels share a device, described in TrackerPanel's
+        own note: one figure set far larger than anything around it. Against 14px rows this is
+        still 2.4x everything near it, and it is still where the eye goes first.
+
+        The label is stacked above rather than set inline before the figure, in the same treatment
+        as this card's own header, so it needs no contrast reasoning of its own and costs only its
+        line height. Inline, 11px against 33px sits badly on the baseline and takes the width the
+        caption wants.
+      */}
       <div className="mt-7 flex items-end justify-between gap-6">
-        <p className={cn('font-figure text-[44px] leading-none font-semibold', panelText(tone))}>
-          {duration}
-        </p>
+        <div>
+          {durationLabel ? (
+            <p
+              className={cn(
+                'mb-1.5 text-caption font-semibold tracking-[0.1em] uppercase',
+                panelMuted(tone)
+              )}
+            >
+              {durationLabel}
+            </p>
+          ) : null}
+          <p className={cn('font-figure text-h4 leading-none font-semibold', panelText(tone))}>
+            {duration}
+          </p>
+        </div>
         <p
           className={cn(
-            'max-w-[15rem] text-right text-small',
+            'max-w-[17rem] text-right text-small',
             tone === 'dark' ? 'text-white/75' : 'text-ink/75'
           )}
         >
