@@ -829,7 +829,13 @@ async function aiCalling(browser) {
   const hidden = await page.evaluate(() => {
     const card = document.querySelector('.rounded-card.bg-surface');
     const wrap = card.parentElement;
-    const sat = [...wrap.querySelectorAll('div')].find((d) => d.className.includes('-bottom-'));
+    /*
+      Found by its own hook rather than by a Tailwind class. This read `className.includes('-bottom-')`,
+      which tied the check to the exact offset the card happened to use: the day that offset became
+      `bottom-0` the selector returned undefined and the check threw instead of failing, which is
+      the worst way for an assertion to go wrong.
+    */
+    const sat = wrap.querySelector('[data-satellite="booked"]');
     const time = [...card.querySelectorAll('*')].find(
       (e) => /^\d:\d\d \/ \d:\d\d$/.test(e.textContent.trim()) && e.children.length === 0
     );
