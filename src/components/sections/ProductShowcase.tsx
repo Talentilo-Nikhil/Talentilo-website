@@ -648,19 +648,24 @@ function Kanban() {
    * beside the slot it lands in. A count that does not match the cards under it is the kind of
    * thing a recruiter reads a board to catch, so they match.
    *
-   * The second line under each name is held back below `lg` \u2014 not for width, which the container
-   * queries handle, but because that is the only place the board has the height for it.
+   * The tints are the product's own, carried over from the board the promo film draws on the home
+   * page — see scenes/WhatsApp. That board stains each column by stage and this one painted all
+   * four the same grey, which is most of why the two did not look like the same product. The hexes
+   * there are raw; here they are the site tokens nearest to them, so the board stays inside the
+   * palette the rest of the page is drawn from.
    */
   const columns = [
     {
       stage: 'Screened',
       count: 5,
+      tint: 'bg-surface-tint border-hairline',
+      badge: 'bg-ink/8',
       names: [
-        ['Priya Nair', '6y \u00b7 Java'],
-        ['Dev Patel', '4y \u00b7 Spring'],
-        ['Nikhil Rao', '7y \u00b7 Java'],
-        ['Asha Menon', '5y \u00b7 AWS'],
-        ['Farah Khan', '3y \u00b7 Java'],
+        ['Priya Nair', 'Pune', 78],
+        ['Dev Patel', 'Pune', 71],
+        ['Nikhil Rao', 'Nagpur', 66],
+        ['Asha Menon', 'Mumbai', 64],
+        ['Farah Khan', 'Pune', 61],
       ],
       late: false,
     },
@@ -668,31 +673,37 @@ function Kanban() {
       stage: 'Submitted',
       count: 5,
       moving: true,
+      tint: 'bg-azure-50 border-azure-100',
+      badge: 'bg-azure-100',
       names: [
-        ['Arjun Shah', '5y \u00b7 Java'],
-        ['Ritu Kapoor', '8y \u00b7 Spring'],
-        ['Sam Joseph', '3y \u00b7 Java'],
-        ['Imran Sheikh', '6y \u00b7 AWS'],
+        ['Arjun Shah', 'Pune', 88],
+        ['Ritu Kapoor', 'Mumbai', 84],
+        ['Sam Joseph', 'Pune', 79],
+        ['Imran Sheikh', 'Nagpur', 75],
       ],
       late: false,
     },
     {
       stage: 'Interview',
       count: 4,
+      tint: 'bg-rose-50 border-rose-100',
+      badge: 'bg-rose-100',
       names: [
-        ['Meera Iyer', '6y \u00b7 Java'],
-        ['Vikram Das', '9y \u00b7 AWS'],
-        ['Tara Nair', '4y \u00b7 Spring'],
+        ['Meera Iyer', 'Pune', 93],
+        ['Vikram Das', 'Mumbai', 90],
+        ['Tara Nair', 'Pune', 86],
       ],
       late: false,
     },
     {
       stage: 'Offer',
       count: 3,
+      tint: 'bg-lavender-100 border-lavender-200',
+      badge: 'bg-lavender-200',
       names: [
-        ['Rahul Menon', '7y \u00b7 Java'],
-        ['Neha Gupta', '6y \u00b7 Spring'],
-        ['Karan Bose', '8y \u00b7 Java'],
+        ['Rahul Menon', 'Mumbai', 96],
+        ['Neha Gupta', 'Pune', 94],
+        ['Karan Bose', 'Nagpur', 91],
       ],
       late: true,
     },
@@ -711,23 +722,25 @@ function Kanban() {
           <div
             key={column.stage}
             className={cn(
-              'flex flex-col gap-1.5 rounded-lg bg-surface-tint p-2',
+              'flex flex-col gap-1.5 rounded-lg border p-2',
+              column.tint,
               column.late && 'hidden @[20rem]:flex'
             )}
           >
-            <p className="flex items-baseline justify-between gap-1 text-caption font-semibold text-ink/75">
-              <span className="truncate">{column.stage}</span>
-              <span className="shrink-0 text-muted">{column.count}</span>
+            {/*
+              A chevron, the stage, and the count in a badge tinted to the column: the real board's
+              header, which this drew as a bare name and a grey number.
+            */}
+            <p className="flex items-center gap-1 text-caption font-semibold text-ink/75">
+              <Chevron />
+              <span className="min-w-0 flex-1 truncate">{column.stage}</span>
+              <span className={cn('shrink-0 rounded px-1 text-ink/70', column.badge)}>
+                {column.count}
+              </span>
             </p>
             {column.moving && <Moving />}
-            {column.names.map(([name, meta]) => (
-              <p
-                key={name}
-                className="rounded-md bg-surface px-1.5 py-1 text-caption text-ink shadow-[0_1px_3px_rgb(12_10_16/0.08)]"
-              >
-                <span className="block truncate">{name}</span>
-                <span className="hidden truncate text-muted lg:block">{meta}</span>
-              </p>
+            {column.names.map(([name, city, score]) => (
+              <KCard key={name as string} name={name as string} city={city as string} score={score as number} />
             ))}
           </div>
         ))}
@@ -745,6 +758,81 @@ function Kanban() {
         Kavya Reddy moved forward · 2m ago
       </p>
     </div>
+  );
+}
+
+/** The column header's disclosure chevron, as the product's board draws it. */
+function Chevron() {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      className="size-2.5 shrink-0 text-ink/60"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M4 6l4 4 4-4" />
+    </svg>
+  );
+}
+
+/**
+ * One candidate on the board.
+ *
+ * The product's card carries an avatar, the name, the city, a contact number, a scoring figure,
+ * four action buttons and a byline footer, in 276x228 — see scenes/WhatsApp, where the film draws
+ * it at that size on a 1920-wide stage. This board gives a card 98x58 at 1440, so four of those
+ * seven do not fit at any type size worth reading: the contact number, the four buttons and the
+ * footer are left to the film.
+ *
+ * What came across is what identifies the card without them — the avatar disc in the same azure,
+ * the name over the city rather than over a skills string, and the scoring figure the product
+ * sorts this board by. The old card had a name and "6y · Java", which is a line no screen in the
+ * product prints.
+ */
+function KCard({ name, city, score }: { name: string; city: string; score: number }) {
+  const initials = name
+    .split(' ')
+    .map((part) => part[0])
+    .join('');
+  return (
+    <div className="rounded-md bg-surface px-1.5 py-1 shadow-[0_1px_3px_rgb(12_10_16/0.08)]">
+      <KBody name={name} city={city} score={score} initials={initials} />
+    </div>
+  );
+}
+
+/** A card's contents, shared with the one in transit so the two cannot drift apart. */
+function KBody({
+  name, city, score, initials,
+}: { name: string; city: string; score: number; initials?: string }) {
+  const marks = initials ?? name.split(' ').map((part) => part[0]).join('');
+  return (
+    <>
+      <span className="flex items-center gap-1">
+        {/*
+          The disc is held back narrow along with the line below it, and for the same reason. At
+          390 a column is 85px and the card 69px; a 16px disc and its gap take 20 of those, which
+          truncated "Nikhil Rao" to "Nikhil…" and "Dev Patel" to "Dev…". A board whose names are
+          all elided is worse than a board without avatars, so narrow it is the name alone, which
+          is what this drew before.
+        */}
+        <span aria-hidden="true" className="hidden shrink-0 lg:block">
+          <span className={cn(AVATAR, 'size-4 text-[9px] leading-none')}>{marks}</span>
+        </span>
+        <span className="min-w-0 flex-1 truncate text-caption text-ink">{name}</span>
+      </span>
+      {/*
+        Held back below the wide layout for the same reason the line it replaces was: narrow, the
+        board has three columns in the width four had, and there is no height for a third line.
+      */}
+      <span className="hidden text-caption text-muted lg:block">
+        {city} · <span className="font-medium text-ink/80">{score}%</span>
+      </span>
+    </>
   );
 }
 
@@ -767,9 +855,14 @@ function Moving() {
     <span
       aria-hidden="true"
       style={{ '--travel-x': 'calc(100% + 1.5rem)' } as CSSProperties}
-      className="order-last block truncate rounded-md bg-surface px-1.5 py-1 text-caption font-medium text-ink shadow-[0_8px_20px_rgb(12_10_16/0.18)] ring-1 ring-azure-300 group-data-[active=true]:animate-travel"
+      className="order-last block rounded-md bg-surface px-1.5 py-1 shadow-[0_8px_20px_rgb(12_10_16/0.18)] ring-1 ring-azure-300 group-data-[active=true]:animate-travel"
     >
-      Kavya Reddy
+      {/*
+        The same card as the ones it travels between, not a name on a pill. A card that loses its
+        avatar and its score the moment it is picked up is a different object arriving than the one
+        that left, and the board's whole claim is that this is one candidate crossing a stage.
+      */}
+      <KBody name="Kavya Reddy" city="Pune" score={92} />
     </span>
   );
 }
