@@ -68,7 +68,7 @@ export function ContactForm() {
 
   if (status === 'sent') {
     return (
-      <div className="flex min-h-[420px] flex-col justify-center gap-4 rounded-card bg-surface-mint p-10">
+      <div className="flex h-full min-h-[420px] flex-col justify-center gap-4 rounded-card bg-surface-mint p-10">
         <p className="font-sans text-h5 font-medium text-ink">Thanks — your message is on its way.</p>
         {/*
           No address named here. Enquiries deliver to whichever inbox `CONTACT_TO_EMAIL` points at,
@@ -86,8 +86,24 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="rounded-card bg-surface-mint p-6 sm:p-10">
-      <div className="flex flex-col gap-6">
+    /*
+      The card fills its column rather than stopping where its fields happen to end.
+
+      On /contact this sits beside ProductShowcase in a two-column grid, and the showcase is the
+      taller of the two: the mint card stopped 49px above it and the two bottom edges did not line
+      up. Matching the number the other way — trimming 49px out of the showcase's padding — would
+      have been a coincidence rather than a fix, true until either side gained a line. Filling the
+      row is the grid doing it, so the two stay level whichever of them is taller.
+
+      Below `lg` the grid is one column and the cell's height is its content, so `h-full` resolves
+      against an auto height and changes nothing.
+    */
+    <form
+      onSubmit={onSubmit}
+      noValidate
+      className="flex h-full flex-col rounded-card bg-surface-mint p-6 sm:p-10"
+    >
+      <div className="flex flex-1 flex-col gap-6">
         <div className="flex flex-col gap-2">
           <label htmlFor={`${id}-name`} className="text-body font-medium text-ink">
             Your Name<span aria-hidden="true">*</span>
@@ -192,7 +208,7 @@ export function ContactForm() {
           {formError ? <p className="text-small text-negative">{formError}</p> : null}
         </div>
 
-        <div className="flex justify-end">
+        <div className="mt-auto flex justify-end">
           <Button type="submit" variant="dark" disabled={status === 'sending'} withArrow>
             {status === 'sending' ? 'Sending…' : 'Send message'}
           </Button>
