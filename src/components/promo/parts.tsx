@@ -119,7 +119,7 @@ export const Pill = ({
  * A headline revealed word by word, each rising out of its own clipped box.
  *
  * The accent words are the reversal's one real casualty and its one real decision. In the handoff
- * they are filled with a light `#9b8cff → #5aa7ff` gradient, which measures 1.10:1 on our ground —
+ * they are filled with a light `#9b8cff → #5aa7ff` gradient, which measures 1.39:1 on our ground —
  * invisible, not dim. They keep the gradient device and reverse its lightness instead; see
  * GROUND.accent.
  */

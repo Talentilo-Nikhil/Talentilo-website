@@ -3,22 +3,40 @@
  *
  * The handoff is built for a `#0c0a10` canvas: white headlines, a pale grey kicker, and accent
  * words filled with a light `#9b8cff → #5aa7ff` gradient. Our hero ground is the opposite — a
- * vertical wash running `#55a7fd` at the top to `#faf8ff` at the foot, sampled off the creative it
- * replaces — so every one of those inverts.
+ * vertical wash, blue at the top running to near-white at the foot — so every one of those
+ * inverts.
  *
- * The replacements were measured against both ends of that wash, not picked by eye, and the
- * numbers are why they are what they are:
+ * The replacements were measured against both ends of that wash, not picked by eye:
  *
- * | on #55a7fd / #faf8ff            | original | ours                  |
- * |---------------------------------|----------|-----------------------|
- * | headline                        | #fff     | ink      7.81 / 18.69 |
- * | accent gradient                 | 1.10:1 ✗ | 6.20 / 5.67 at worst  |
- * | kicker                          | #b9b4cc  | 4.99 / 11.93          |
+ * | on #90c6fe / #fcfaff            | original | ours                   |
+ * |---------------------------------|----------|------------------------|
+ * | headline                        | #fff     | ink       10.97 / 18.99 |
+ * | accent gradient                 | 1.39 ✗   | 7.96 / 13.79           |
+ * | kicker                          | #b9b4cc  | 7.00 / 12.13           |
  *
- * The accent is the interesting one. Left alone it measures **1.10:1** on the blue — not dim,
- * invisible — so it could not survive the move. Rather than drop the device, it keeps the gradient
- * and reverses its lightness: the original is a light lavender running to a light blue, this is a
- * dark lavender running to a dark blue. Same hues, same direction, same idea, legible.
+ * The accent could not survive the move untouched: left alone it measures **1.39:1** on the blue —
+ * not dim, invisible. Rather than drop the device it keeps the gradient and reverses its lightness.
+ * The original is a light lavender running to a light blue; this is a dark lavender running to a
+ * dark blue. Same hues, same direction, same idea, legible.
+ *
+ * The wash itself is the second pass, and the reason this note is long.
+ *
+ * It started as `#55a7fd → #b1a4ff → #faf8ff`, lifted straight off the still creative the film
+ * replaced. Everything on it passed — ink at 7.81, the accent at 6.20 — and the emphasis words
+ * still read as the softest mark in the frame, because a mid-tone saturated ground gives nothing
+ * much to contrast against and the accent shares its colour family. Two sharper accent colours were
+ * built and measured before the better lever turned up: turn the ground down instead. Mixing each
+ * stop 35% toward white keeps the gradient, the three hues and the stop positions exactly as they
+ * were, and lifts every piece of type at once — ink 7.81 → 10.97, the accent 6.20 → 7.96 — without
+ * changing a single text colour.
+ *
+ * White was asked for twice and measured rather than argued: **1.80 / 1.04** here, worst at the
+ * foot, against a 3:1 floor. It cannot be had without darkening the ground, which is the opposite
+ * of the brief this film was brought over under.
+ *
+ * This is the film's own copy of the wash, not the shared `--gradient-brand-vertical` token. The
+ * five /platform/* heroes still paint that token at full strength, deliberately: they have no type
+ * sitting directly on the wash, so they do not have this problem to solve.
  *
  * Everything inside the app window is untouched. Scenes 3–12 were already light — a white card on
  * `#f6f6f9` — and a white window on a blue wash keeps exactly the separation the dark canvas was
@@ -43,11 +61,20 @@ export const B = {
 
 /** The canvas, and the type that sits directly on it. */
 export const GROUND = {
-  /** `--gradient-brand-vertical`, which is what the creative this replaces was drawn on. */
-  wash: 'linear-gradient(180deg, #55a7fd 0%, #b1a4ff 46%, #faf8ff 100%)',
+  /**
+   * `--gradient-brand-vertical` with each stop mixed 35% toward white.
+   *
+   * The token's own strength is what the still creative was drawn on, and it is still what the
+   * /platform/* heroes use. The film needs a quieter version of it because, unlike those heroes, it
+   * sets display type directly on the wash. See the note above.
+   */
+  wash: 'linear-gradient(180deg, #90c6fe 0%, #ccc4ff 46%, #fcfaff 100%)',
   ink: '#0c0a10',
   kicker: '#372f4b',
-  /** The accent gradient, reversed. See the note above for why it could not stay as it was. */
+  /**
+   * The accent gradient, reversed. See the note above for why it could not stay as it was — and
+   * why it did not need changing again once the ground came down.
+   */
   accent: 'linear-gradient(90deg, #270e67, #162855)',
 } as const;
 
