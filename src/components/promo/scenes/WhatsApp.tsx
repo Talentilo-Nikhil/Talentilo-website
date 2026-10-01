@@ -154,7 +154,10 @@ export function WhatsApp({ r }: { r: number }) {
                   alignItems: 'center', gap: 12, fontFamily: SANS,
                 })}
               >
-                <span style={{ fontSize: 18, color: B.ink }}>›</span>
+                {/* Was the glyph `›`. The real board uses a chevron icon here. */}
+                <span style={{ display: 'flex', transform: 'rotate(-90deg)' }}>
+                  {ic(I.chev, 16, B.ink)}
+                </span>
                 <span
                   style={{
                     writingMode: 'vertical-rl', fontSize: 18, fontWeight: 600, color: B.ink,
