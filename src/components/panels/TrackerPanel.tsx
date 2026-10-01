@@ -104,7 +104,7 @@ const columnHide = (index: number) =>
  * panels it shares a site with. Those are built on three devices this now uses: a figure set far
  * larger than anything around it, and one saturated element carrying the argument — see
  * QueuePanel, whose call list bleeds left while the passed-on candidate breaks out over its
- * corner, and BatchPanel, whose "30 min" is set at 44px against 14px rows. Here the middle step
+ * corner, and BatchPanel, whose "30 min" is set at 33px against 14px rows. Here the middle step
  * is the ink card: it is the only saturated thing in the frame, and it is the step where the work
  * actually happens. The two documents either side stay white.
  *
