@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import { AiCallingPanel } from '@/components/panels/AiCallingPanel';
+import { CreativeGround } from '@/components/panels/CreativeGround';
 import { CtaBanner } from '@/components/sections/CtaBanner';
 import { FeatureSplit } from '@/components/sections/FeatureSplit';
 import { PageHero } from '@/components/sections/PageHero';
@@ -29,9 +30,10 @@ export default function RecruitmentOperationsPage() {
         The AI-calling slot, which held a bare wash and a TODO for a video that never arrived. The
         wash stays — it was never a separate background, it was painted into `ro-governance.png`
         along with the compliance-rules card, so dropping that creative took it with it and left
-        the column empty. `--gradient-brand` is the same one the file used, sampled off the old
-        export: #4da8fd through #b1a4ff to #fdfcff, and the 588x536 ratio is the one every
-        exported creative is drawn at, so the column is the height it has always been.
+        the column empty. It is CreativeGround's `brand` tone now rather than a wash the panel
+        painted for itself: the same `--gradient-brand` and the same 588x536, but laid out once in
+        the design's space and scaled, which is how every other markup creative on the site behaves
+        and what stops this one going portrait in the two-column squeeze.
 
         What fills it argues the section's own sentence rather than showing the screen behind it —
         see AiCallingPanel.
@@ -43,6 +45,7 @@ export default function RecruitmentOperationsPage() {
         points={[]}
         cta={{ label: 'Explore AI Powers', href: '/platform/ai-powers' }}
         media={
+          <CreativeGround tone="brand">
           <AiCallingPanel
             candidate={{ name: 'Rahul Menon', initials: 'RM' }}
             applicants={312}
@@ -59,11 +62,25 @@ export default function RecruitmentOperationsPage() {
             transcript={[
               {
                 from: 'agent',
-                line: 'Hi Rahul — the Senior Python role in Pune. Is ₹32 LPA within your range?',
+                line: 'Hi Rahul — Senior Python, Pune. Is ₹32 LPA workable?',
               },
               { from: 'candidate', line: 'That works — tell me about the team.' },
-              { from: 'agent', line: 'Booked — Daniel calls you Tuesday at 11:00.' },
+              { from: 'agent', line: 'Noted — 30 days. Let me find you a slot with Daniel.' },
             ]}
+            /*
+              What the agent took out of those words, which is the half of the claim the transcript
+              cannot make on its own: "verifying interest against the JD, checking salary
+              expectations in natural language" is about parsing, not about talking. One fact per
+              check the body copy names.
+            */
+            captured={['Interest confirmed', '₹32 LPA — in range', 'Notice: 30 days']}
+            /*
+              The third turn now says the agent will find a slot rather than announcing the booking
+              itself; the meeting is the card hanging off the corner. Said twice it was the agent
+              claiming an outcome and then the outcome appearing, which read as a repetition rather
+              than as a consequence.
+            */
+            meeting={{ title: 'Meeting booked', detail: 'Tue 11:00 · Daniel Fernandes' }}
             recording={{
               src: '/audio/ai-call-screening.mp3',
               label: 'the screening call',
@@ -74,6 +91,7 @@ export default function RecruitmentOperationsPage() {
               // again the day someone does.
             }}
           />
+          </CreativeGround>
         }
       />
 

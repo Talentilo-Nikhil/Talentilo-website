@@ -283,45 +283,17 @@ None of these is visible damage; they are places where the artwork and the world
   the one that should move — its hero is the site's first impression and the Talent Intelligence
   hero is the one that was chosen for this artwork. Nothing is broken until that happens; it is a
   question of what the home page shows instead.
+- **The AI-calling panel's captured facts and its booked meeting are invented too.** "Interest
+  confirmed", "₹32 LPA — in range", "Notice: 30 days" and "Tue 11:00 · Daniel Fernandes" are
+  written for the same reason the transcript below is: the section claims the agent parses an
+  answer and puts a meeting in a diary, and neither can be drawn without an example. Swap them for
+  a real screened call the moment there is one that can be published.
 - **The AI-calling transcript is written, not recorded.** The three turns on
   `/for/recruitment-operations` invent a role, a city, a salary and a booking — Senior Python in
   Pune, ₹32 LPA, Daniel on Tuesday at 11:00 — for the same reason the 312 and the 41 beside them
   are invented: the section claims the agent checks salary *in natural language*, and that cannot
   be shown without any. It is not a transcript of the MP3 underneath it and does not claim to be.
   Swap it for real words from a call you are happy to publish the moment there are some.
-- **The AI-calling panel still outgrows its 588/536 wash in the two-column squeeze**, where the
-  media column is narrow enough that the transcript wraps hard. The wash now holds 1.0970 exactly
-  at **1440, 1280, 768 and 640**; it goes portrait at 1100 (441x495), 1024 (408x495), 500
-  (460x441) and 390 (350x508). Those are all better than they were — 1024 was 408x556 — and the
-  panel did this before the transcript went in too (408x441). What is left cannot be taken out
-  with padding: at 1024 the card is 336px wide and three bubbles wrap to seven lines, which is
-  about 90px more than the ratio allows. The only lever is type under 13px, which is not worth
-  having. If the portrait wash in that band is unacceptable, the fix is a wider slot for this
-  section, not a smaller creative.
-- **Everything in the contact showcase is invented**, and there is a good deal more of it since
-  the drawings were made to fill their card. Three replies in their own words, four scored CVs with
-  the skills that earned each score, four call verdicts, and a board of seventeen named candidates
-  with their years and stacks. None of it is data. It is drawn because the real thing is four
-  screen recordings the site cannot reach (see the `clips` prop on `ProductShowcase`, which is
-  sitting ready for them) — the moment those MP4s exist, each slide swaps its drawing for the
-  recording and every invented name and figure on it goes with it. Until then, the one rule the
-  drawings do keep is internal consistency: the board's column counts match the cards under them,
-  and 312 sent minus the three replying is the 309 the thread says are still landing.
-- **The drawings grow at `lg`, and only there.** The contact page goes to two columns at that
-  breakpoint and the form beside the showcase starts setting the panel's height, which is the only
-  place there is spare height to fill — so the board's second lines and the scoring slide's fourth
-  CV appear there and nowhere else. It is the one thing in these drawings decided by the viewport
-  rather than by a container query on the card's own width. If the contact page's grid ever moves
-  off `lg`, those variants move with it.
-- **The showcase steps every 3.5 seconds**, down from seven, because that is what was asked for.
-  It is faster than the captions can comfortably be read, so the captions were cut to thirteen to
-  sixteen words each to suit it. That is the trade: the pictures carry the argument and the line
-  under them is a label. If it turns out to read as rushed, the dwell is one constant — `DWELL` at
-  the top of `ProductShowcase.tsx`.
-- **The reference for the showcase's motion was never seen.** The ask pointed at
-  `talenthirecls18.ceipal.com`, which this environment's egress policy denies (403 on CONNECT), so
-  the animation was built from the description rather than from the page. If the feel is off, a
-  screenshot of that screen is what would close it.
 - **A phone number is baked into a hover state** in the v5 artwork (+91 9945623125).
 - **The gauge arc** on the velocity dashboard is a flat `#60a5fa`, which is not one of the site's own
   six ramps.
