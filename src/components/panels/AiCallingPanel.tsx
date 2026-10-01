@@ -126,7 +126,21 @@ export function AiCallingPanel({
       box that reflows lands somewhere different at every width; against a fixed design space it
       lands where it was put.
     */
-    <div className={cn('relative w-full', className)}>
+    /*
+      The padding is the satellite's own height below the card, and it is there so the ground can
+      see it.
+
+      The booked card is absolutely positioned, so it never counted towards this element's height.
+      CreativeGround centres what it is given, which was the card alone: 426px in a 536px frame put
+      55px above the card and 55px below it, and the satellite then hung 44 into that lower 55 and
+      finished 11px off the frame's edge. The composition read as if it had slipped down the
+      ground. Measured, not guessed: 55 top against 11 bottom.
+
+      Reserving the overhang in the flow makes the box 470px, which the ground centres at 33 and 33.
+      Nothing moves relative to the card — the satellite is pinned to the bottom of that reserved
+      strip, exactly where `-bottom-11` used to put it — and the whole composition rises 22px.
+    */
+    <div className={cn('relative w-full pb-11', className)}>
       <div className="rounded-card bg-surface p-4 shadow-[0_20px_50px_rgb(12_10_16/0.18)]">
         <div className="flex items-center justify-between gap-4">
           <p className="text-caption font-semibold tracking-[0.1em] text-muted uppercase">
@@ -305,7 +319,10 @@ export function AiCallingPanel({
  */
 function Booked({ title, detail }: { title: string; detail: string }) {
   return (
-    <div className="absolute -bottom-11 right-4 flex items-center gap-3 rounded-2xl bg-surface px-4 py-3 shadow-[0_18px_40px_rgb(12_10_16/0.22)] ring-1 ring-ink/5">
+    <div
+      data-satellite="booked"
+      className="absolute bottom-0 right-4 flex items-center gap-3 rounded-2xl bg-surface px-4 py-3 shadow-[0_18px_40px_rgb(12_10_16/0.22)] ring-1 ring-ink/5"
+    >
       <span
         aria-hidden="true"
         className="grid size-9 shrink-0 place-items-center rounded-xl bg-lavender-100 text-lavender-700"
