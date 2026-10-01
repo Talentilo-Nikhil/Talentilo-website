@@ -59,14 +59,13 @@ type AiCallingPanelProps = {
  * - A call, as the two ends of one. The agent and the candidate either side of a live waveform is
  *   what this product does, and it is the one image the section has been missing while it showed
  *   forms and figures. The waveform peaks toward the middle the way speech does.
- * - The reach, last, as a bar that is entirely full. Every other funnel on this site narrows at the top;
- *   this one cannot, because the claim is that nothing is lost there — so the bar runs the whole
- *   width, and the only thing that narrows is the accent length inside it, drawn at the shortlist's
- *   real share of the list rather than at whatever length looked right.
- * The three horizontal striped bars this card used to carry are down to one. The live waveform,
- * the reach bar and the recording's own forty-four-bar strip read as the same object three times,
- * which is most of why the card looked like a dashboard offcut: the reach bar is a rule now, and
- * the scrubber is a rail (see CallRecording). The height that bought went into the waveform.
+ * - The reach, last, in type. It was a bar as well, running the full width because the claim is
+ *   that nothing is lost at the top of this funnel — but a bar that is always full carries no
+ *   length, and "312 of 312 called" beside "41 booked" says the same thing in words that can be
+ *   read. What the bar did carry was weight: it was the third full-width horizontal rail in the
+ *   column, after the waveform and the scrubber, 28px from the scrubber and parallel to it, and
+ *   two parallel rails at the foot of a card is most of what made this read as a dashboard
+ *   offcut. The figures stayed, the rail went, and the card lost 31px with it.
  *
  * - The conversation, in the words it is being held in, directly under the call it belongs to.
  *   The order matters: you hear the call, and only then are told it happened three hundred times.
@@ -77,6 +76,16 @@ type AiCallingPanelProps = {
  *   is the one thing on this page that the copy cannot do: it shows that the agent asks a real
  *   question, hears a real answer, and books off the back of it. The three chips' subjects all
  *   survive inside it, so nothing was dropped, only said instead of labelled.
+ *
+ * The card is in two halves now, divided by one hairline, and that is the change that did the most
+ * for it. Everything above the line is one call; everything below is the run that call came out of.
+ * Drawn as eight equal blocks 12px apart, nothing was primary and the eye had eight things to
+ * place rather than two — which is what "cluttered" describes, and no amount of trimming
+ * individual elements fixes it. Nothing was removed to make that division: the facts the agent
+ * captured went from three bordered pills to one line of muted type under the words they came
+ * from, where they read as a footnote to the conversation rather than a fourth exhibit, and the
+ * recording lost the tinted pill around it and became a bare transport line. Both still say
+ * exactly what they said.
  *
  * A clock sits under the waveform and the waveform moves, which between them are what make this
  * read as a call in progress rather than a screenshot of one. The clock is a still — a number set
@@ -104,9 +113,6 @@ export function AiCallingPanel({
   recording,
   className,
 }: AiCallingPanelProps) {
-  const reach = Math.min(called / applicants, 1) * 100;
-  const shortlisted = Math.min(booked / applicants, 1) * 100;
-
   return (
     /*
       No ground of its own any more. This drew its own wash on a `sm:aspect-[588/536]` box and laid
@@ -198,32 +204,40 @@ export function AiCallingPanel({
           Ticked facts rather than more bubbles, so they read as a record rather than as more
           talking.
         */}
-        <ul aria-label="Captured from the call" className="mt-3 flex flex-wrap gap-1.5">
-          {captured.map((fact) => (
-            <li
-              key={fact}
-              className="flex items-center gap-1.5 rounded-pill bg-surface-tint px-2.5 py-1 text-caption font-medium text-ink/80"
-            >
-              <svg
-                viewBox="0 0 12 12"
-                aria-hidden="true"
-                className="size-3 shrink-0 text-frost-800"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M2.5 6.4 4.8 8.7 9.5 3.6" />
-              </svg>
-              {fact}
-            </li>
-          ))}
-        </ul>
+        <div className="mt-2.5 flex items-start gap-1.5">
+          <svg
+            viewBox="0 0 12 12"
+            aria-hidden="true"
+            className="mt-[3px] size-3 shrink-0 text-frost-800"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M2.5 6.4 4.8 8.7 9.5 3.6" />
+          </svg>
+          <ul aria-label="Captured from the call" className="text-caption text-muted">
+            {captured.map((fact, index) => (
+              <li key={fact} className="inline">
+                {index > 0 ? <span aria-hidden="true"> · </span> : null}
+                {fact}
+              </li>
+            ))}
+          </ul>
+        </div>
 
-        {/* 4. The reach: a bar with nothing missing from it. */}
-        <div className="mt-3">
-          <div className="flex items-baseline justify-between gap-3">
+        {/*
+          4. The reach, and the card's one division.
+
+          Above this line is one call: who is on it, what is being said, what was taken out of it.
+          Below it is the run that call came out of — the whole list, the meetings it produced, and
+          one of the calls to listen to. They are two different scales of claim, and drawn as eight
+          equal blocks 12px apart the card read as a dashboard offcut rather than an argument. One
+          hairline and a wider gap is most of the fix: the eye sees two groups instead of eight
+          items, and stops reading the card as a column of unrelated widgets.
+        */}
+        <div className="mt-4 flex items-baseline justify-between gap-3 border-t border-hairline pt-4">
             <p className="font-figure text-h5 leading-none font-semibold text-ink">
               {called.toLocaleString()}
               <span className="ml-1.5 text-body font-medium text-muted">
@@ -239,32 +253,20 @@ export function AiCallingPanel({
             <p className="font-figure text-body leading-none font-semibold text-crusta-700">
               {booked} booked
             </p>
-          </div>
-          {/* The whole width is the list. The accent is the shortlist's real share of it. */}
-          {/*
-            A rule rather than a stripe. At 10px this was the boldest thing on the card, and it was
-            competing with a waveform and a scrubber for the same horizontal-bar reading; the card
-            had three of them and looked like a dashboard offcut. Thin, it still carries the same
-            two lengths.
-          */}
-          <div className="mt-2.5 h-1 overflow-hidden rounded-pill bg-ink/10">
-            <div className="relative h-full rounded-pill bg-ink" style={{ width: `${reach}%` }}>
-              <span
-                className="absolute inset-y-0 right-0 rounded-pill bg-crusta-500"
-                style={{ width: `${(shortlisted / reach) * 100}%` }}
-              />
-            </div>
-          </div>
         </div>
 
+        {/*
+          One of those calls, playable. It used to sit in a tinted pill with a rule above it, which
+          made it a third card inside the card and the third horizontal rail in a column that
+          already had a waveform and a reach bar. Bare, it is a transport line and nothing more:
+          the same button, the same scrubber, the same position reported to a screen reader.
+
+          It stays last, below the rule, for two reasons: the satellite's offset is measured
+          against this block, and below the rule is the run — this is one call out of it.
+        */}
         {recording ? (
-          <div className="mt-2.5 border-t border-hairline pt-3">
-            <CallRecording
-              src={recording.src}
-              label={recording.label}
-              date={recording.date}
-              className="rounded-pill bg-surface-tint px-3 py-2"
-            />
+          <div className="mt-3">
+            <CallRecording src={recording.src} label={recording.label} date={recording.date} />
           </div>
         ) : null}
       </div>
