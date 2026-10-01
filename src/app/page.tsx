@@ -75,7 +75,7 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <Section padding="normal" className="pb-0 lg:pb-0">
+      <Section padding="normal" className="pt-7 pb-0 md:pt-8 lg:pt-10 lg:pb-0">
         <div className="flex flex-col items-center gap-6">
           <SectionHeading
             as="h1"
@@ -101,7 +101,7 @@ export default function HomePage() {
             }
             className="max-w-[950px]"
           >
-            <div className="mt-4 flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
+            <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
               <ButtonLink href="/platform/recruitment-os" variant="dark">
                 See the OS in Action
               </ButtonLink>
@@ -111,7 +111,7 @@ export default function HomePage() {
             </div>
           </SectionHeading>
 
-          <p className="pt-2 text-center text-small text-ink">
+          <p className="text-center text-small text-ink">
             Replaces your Legacy ATS + CRM + Spreadsheet. Instantly.
           </p>
         </div>
@@ -134,7 +134,7 @@ export default function HomePage() {
       </Section>
 
       {/* Proof */}
-      <Section padding="normal">
+      <Section padding="normal" className="pt-10 md:pt-10 lg:pt-10">
         <SectionHeading
           title={
             <>

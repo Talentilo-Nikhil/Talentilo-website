@@ -286,6 +286,15 @@ None of these is visible damage; they are places where the artwork and the world
   home page draws with them. Scoping them to the home page, or mapping the film onto Albert Sans
   and EB Garamond, would both drop the cost; the second is a change to the film nobody asked for.
   The measured figures are in the promo film's PR.
+- **The film cannot fit in one viewport while the hero copy sits above it.** Every piece of
+  spacing above it that is not shared site-wide has been taken out, which got the stack from the
+  header to the film down from 578px to 514px. The remainder is type, not air: 234px of headline,
+  54px of lede, 51px of buttons and a 22px tagline, 361px before a single gap. A 1440x900 laptop
+  has 821px under the sticky header and the film is 696px of it, leaving 125px — so the copy
+  alone overruns the budget by 236px, and 1920x1080 is still 98px short. Getting the film onto
+  the first screen whole means shrinking the display headline, dropping an element from the hero,
+  or capping the film's slot height, each of which changes the composition rather than the
+  spacing. Measured 2026-10-01.
 - **The film re-themes the ground, the type and the logo, and nothing else.** Inside the app window
   every colour, figure and line of copy is the handoff's — including a dial counter that runs to
   500 where `/for/recruitment-operations` says 312 of 312, and an outro that repeats the footer's
