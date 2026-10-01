@@ -1,9 +1,22 @@
 'use client';
 
-import { CUES, E, mix, TOTAL } from './engine';
+import type { ReactElement } from 'react';
+
+import { CreativeZoom } from '@/components/ui/CreativeZoom';
+
+import { CUES, E, mix, path, TOTAL } from './engine';
 import { abs, Cursor, SideCopy, Shell, Words } from './parts';
+import { AICalls } from './scenes/AICalls';
+import { Calls } from './scenes/Calls';
+import { Interview } from './scenes/Interview';
+import { JD, JD_MODAL } from './scenes/JD';
+import { Offers } from './scenes/Offers';
+import { Reports } from './scenes/Reports';
+import { Scoring } from './scenes/Scoring';
+import { Targets } from './scenes/Targets';
+import { WhatsApp } from './scenes/WhatsApp';
 import { Workspace } from './scenes/Workspace';
-import { B, GROUND, H, SANS, W, WH, WW, WX, WY } from './theme';
+import { B, GRAD, GROUND, H, HD, SANS, SB, W, WH, WW, WX, WY } from './theme';
 import { useFilmClock } from './useFilmClock';
 
 /**
@@ -13,7 +26,8 @@ import { useFilmClock } from './useFilmClock';
  * bringing it here and nothing else did: the canvas became our wash, every piece of type sitting
  * on that canvas reversed, and the logo swapped to the light-ground cut the bundle already ships.
  * Inside the app window nothing moved — those scenes were drawn light to begin with, and a white
- * window on a blue wash keeps exactly the separation the dark canvas was giving it.
+ * window on a blue wash keeps exactly the separation the dark canvas was giving it. All thirteen
+ * scenes, their copy, their timing, their figures and their choreography are the film's own.
  *
  * It is laid out once at 1920x1080 and scaled by a single factor, the same device CreativeGround
  * uses for every other markup creative on the site, so it cannot reflow: an exported image and
@@ -23,20 +37,96 @@ import { useFilmClock } from './useFilmClock';
  * pinned to an exact second and screenshotted — which is how the port is checked against the
  * original, and how the QA suite asserts a frame.
  */
+
+type Scene = (p: { r: number }) => ReactElement;
+/** `[scene, in, out, highlighted sidebar item, highlighted top tab]`. `-1` means neither tab. */
+type ScreenRow = [Scene, number, number, string | null, number];
+
+/** Where in the window a cursor stop is, in stage coordinates. */
+const toStage = (x: number, y: number): [number, number] => [WX + x, WY + y];
+/** The vertical centre of sidebar item `i`. */
+const navY = (i: number) => HD + 72 + 22 + i * 50;
+
+const { MX, MY } = JD_MODAL;
+
 export function PromoFilm({ at }: { at?: number }) {
   const { T, still } = useFilmClock(at);
   const C = CUES;
 
   const Ws = C.Workspace;
   const Jd = C.JD;
+  const Sc = C.Scoring;
+  const Ai = C.AICalling;
+  const Wa = C.WhatsApp;
+  const Iv = C.Interview;
+  const Ca = C.Calls;
+  const Tg = C.Targets;
+  const Rp = C.Reports;
+  const Of = C.Offers;
   const Ou = C.Outro;
 
-  // Scene 3 is the only product screen ported so far; the rest land in the same table.
-  const screens: [(p: { r: number }) => React.ReactElement, number, number, string | null, number][] = [
+  const screens: ScreenRow[] = [
     [Workspace, Ws, Jd, null, 0],
+    [JD, Jd, Sc, 'Jobs', -1],
+    [Scoring, Sc, Ai, 'Jobs', -1],
+    [AICalls, Ai, Wa, 'Jobs', -1],
+    [WhatsApp, Wa, Iv, 'Jobs', -1],
+    [Interview, Iv, Ca, 'Jobs', -1],
+    [Calls, Ca, Tg, 'Calling Performance', -1],
+    [Targets, Tg, Rp, 'Targets', -1],
+    [Reports, Rp, Of, null, 1],
+    [Offers, Of, 1e9, 'Offers', -1],
   ];
   const current = screens.findIndex((s) => T < s[2]);
   const scr = screens[Math.max(0, current)];
+
+  /*
+    The pointer's script.
+
+    Each row is `[scene start, which nav item it clicks first, [[at, x, y, click at?], …]]`, in
+    window-local coordinates. The loop below turns that into a keyframe list the easing walks: a
+    stop before the nav click, a stop per target, a held position while a click lands, and a hold at
+    the last target until just before the cut. Both the path and the click rings come out of the
+    same list, so a ripple can never appear anywhere the cursor is not.
+  */
+  const plan: [number, number | 'tab' | null, [number, number, number, number | null][]][] = [
+    [Jd, 0, [
+      [1.7, MX + 1010 - 28 - 60, MY + 706, 1.9],
+      [2.95, MX + 935, MY + 104 + 29 + 96 + 10 + 23, 3.1],
+      [4.6, MX + 905, MY + 104 + 29 + 96 + 10 + 46 + 10 + 29 + 140 + 10 + 23, 4.8],
+    ]],
+    [Sc, 0, [[1.2, SB + 571, HD + 448, 1.3]]],
+    [Ai, 0, [[1.2, SB + 700, HD + 560, null]]],
+    [Wa, 0, [[0.35, SB + 121, HD + 157, 0.45], [1.45, SB + 884, HD + 447, 1.55]]],
+    [Iv, null, [[0.4, 860, 272, 0.45], [3.5, 1142, 767, 3.7]]],
+    [Ca, 1, [[2.65, 700, HD + 249, 2.75]]],
+    [Tg, 4, [[1.2, SB + 200, HD + 520, null]]],
+    [Rp, 'tab', [[1.3, SB + 36 + 253 + 20 + 55, HD + 210 + 270 - 20 - 21, 1.45]]],
+    [Of, 2, [[1.9, 1030, HD + 254, 2.0]]],
+  ];
+
+  const cp: number[][] = [[Jd - 1.2, ...toStage(600, 500)]];
+  const clickTimes: number[] = [];
+  plan.forEach(([st, nav, stops], i) => {
+    const nx = nav === 'tab' ? 470 : 110;
+    const ny = nav === 'tab' ? 34 : navY(nav ?? 0);
+    const end = i + 1 < plan.length ? plan[i + 1][0] : Ou;
+    if (nav !== null) {
+      cp.push([st - 0.35, ...toStage(nx, ny)]);
+      clickTimes.push(st - 0.35);
+    }
+    stops.forEach(([t, x, y, ct]) => {
+      cp.push([st + t, ...toStage(x, y)]);
+      if (ct) {
+        cp.push([st + ct + 0.05, ...toStage(x, y)]);
+        clickTimes.push(st + ct);
+      }
+    });
+    const last = stops[stops.length - 1];
+    cp.push([end - 0.9, ...toStage(last[1], last[2])]);
+  });
+  const [px, py] = path(cp, T);
+  const showCursor = T > Jd - 1.2 && T < Ou - 0.1;
 
   const winIn = E.io(Ws - 0.9, Ws + 0.5)(T);
   const winOut = E.io(Ou - 0.1, Ou + 0.7)(T);
@@ -44,6 +134,8 @@ export function PromoFilm({ at }: { at?: number }) {
   const lg = E.pop(C.Logo + 0.1, C.Logo + 0.9)(T);
   const lgWipe = E.io(C.Logo + 0.5, C.Logo + 1.3)(T);
   const lgOut = E.io(Ws - 1.0, Ws - 0.4)(T);
+  const oK = E.in(Ou + 0.6, Ou + 1.3)(T);
+  const oIn = E.in(Ou + 1.7, Ou + 2.3)(T);
   const fade = E.io(TOTAL - 0.5, TOTAL)(T);
 
   return (
@@ -106,7 +198,7 @@ export function PromoFilm({ at }: { at?: number }) {
               clipPath: `inset(0 ${(1 - lgWipe) * 88}% 0 0)`,
             }}
           >
-            {/* The light-ground cut, which the bundle already shipped. eslint-disable-next-line @next/next/no-img-element */}
+            {/* The light-ground cut, which the bundle already shipped. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/promo/logo-color.png" alt="" style={{ height: 110, width: 'auto', display: 'block' }} />
           </div>
@@ -121,10 +213,17 @@ export function PromoFilm({ at }: { at?: number }) {
         </div>
       )}
 
-      <SideCopy
-        T={T} a={Ws + 0.3} b={Jd} kicker="My Workspace"
-        title={['Every offer,', 'interview, win.', 'One screen.']} serif={2}
-      />
+      {/* One per product scene, cross-fading on every cut — the film's own copy, unchanged. */}
+      <SideCopy T={T} a={Ws + 0.3} b={Jd} kicker="My Workspace" title={['Every offer,', 'interview, win.', 'One screen.']} serif={2} />
+      <SideCopy T={T} a={Jd - 0.05} b={Sc} kicker="AI JD creation" title={['Fill the basics.', 'AI writes', 'the JD.']} serif={2} />
+      <SideCopy T={T} a={Sc - 0.05} b={Ai} kicker="Candidate scoring" title={['Every resume', 'scored against', 'the JD.']} serif={2} />
+      <SideCopy T={T} a={Ai - 0.05} b={Wa} kicker="AI voice screening" title={['AI calls', 'every candidate.', 'You meet the fit.']} serif={2} />
+      <SideCopy T={T} a={Wa - 0.05} b={Iv} kicker="Pipeline + WhatsApp" title={['Shortlist,', 'then invite on', 'WhatsApp.']} serif={2} />
+      <SideCopy T={T} a={Iv - 0.05} b={Ca} kicker="Candidate call" title={['Questions', 'and answers,', 'ready to ask.']} serif={2} />
+      <SideCopy T={T} a={Ca - 0.05} b={Tg} kicker="Calling performance" title={['Every call', 'logged,', '& scored.']} serif={2} />
+      <SideCopy T={T} a={Tg - 0.05} b={Rp} kicker="Targets" title={['Live targets', 'for every', 'recruiter.']} serif={2} />
+      <SideCopy T={T} a={Rp - 0.05} b={Of} kicker="Reports & Analytics" title={['Every report,', 'one click', 'away.']} serif={2} />
+      <SideCopy T={T} a={Of - 0.05} b={Ou} kicker="Offers" title={['From offer', 'to', 'joining day.']} serif={2} />
 
       {winIn > 0 && winOut < 1 && (
         <div style={abs({ left: 0, top: 0, width: W, height: H, perspective: winIn < 1 ? 2400 : 'none' })}>
@@ -176,9 +275,80 @@ export function PromoFilm({ at }: { at?: number }) {
         </div>
       )}
 
+      {showCursor && <Cursor x={px} y={py} T={T} clicks={clickTimes} />}
+
+      {oK > 0 && (
+        <div
+          style={abs({
+            inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center',
+            justifyContent: 'center', gap: 20, opacity: 1 - fade,
+          })}
+        >
+          <Words text="Bring back the human" T={T} at={Ou + 0.6} size={128} serifWords={[3]} />
+          <Words text="in recruitment." T={T} at={Ou + 0.95} size={128} />
+          <div
+            style={{
+              marginTop: 56, display: 'flex', flexDirection: 'column', alignItems: 'center',
+              gap: 34, opacity: oIn, transform: `translateY(${(1 - oIn) * 16}px)`,
+            }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/promo/logo-color.png" alt="" style={{ height: 44, width: 'auto', display: 'block' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
+              {/*
+                The closing pill. On the dark canvas a white pill needed no edge and got a lavender
+                bloom; on the pale foot of the wash white-on-white has none, so it takes the same
+                hairline-and-shadow treatment as the window. The sheen that sweeps it is the
+                handoff's own and is kept — on white it still reads.
+              */}
+              <div
+                style={{
+                  position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center',
+                  gap: 18, padding: '10px 10px 10px 28px', borderRadius: 999, background: '#fff',
+                  boxShadow: '0 10px 40px rgba(12,10,16,0.16), inset 0 0 0 1px rgba(12,10,16,0.08)',
+                  transform: `scale(${mix(0.94, 1, E.pop(Ou + 2.0, Ou + 2.6)(T))})`,
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: SANS, fontSize: 22, fontWeight: 500, color: B.ink,
+                    letterSpacing: '-0.01em',
+                  }}
+                >
+                  Book a demo
+                </span>
+                <span
+                  style={{
+                    width: 40, height: 40, borderRadius: 20, background: GRAD, display: 'flex',
+                    alignItems: 'center', justifyContent: 'center',
+                  }}
+                >
+                  <svg
+                    width="16" height="16" viewBox="0 0 16 16"
+                    style={{ transform: `translateX(${Math.sin(T * 3) * 1.5}px)` }}
+                  >
+                    <path
+                      d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="#fff" strokeWidth="1.8"
+                      strokeLinecap="round" strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+                <span
+                  style={{
+                    position: 'absolute', top: 0, bottom: 0, width: 60,
+                    left: `${-20 + (((T - Ou - 2.4) % 2.4) / 1.2) * 140}%`,
+                    background: 'linear-gradient(90deg, transparent, rgba(155,140,255,0.18), transparent)',
+                    transform: 'skewX(-20deg)',
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* The dark vignette the handoff closed with is gone: it existed to sink a black canvas's
           edges, and on the wash it would be a grey ring round a bright picture. */}
-      <div style={abs({ inset: 0, opacity: fade, background: GROUND.wash })} />
     </div>
   );
 }
@@ -197,7 +367,7 @@ export function PromoFilm({ at }: { at?: number }) {
  * cropping it and letterboxing it.
  */
 export function PromoHero({ at }: { at?: number }) {
-  return (
+  const scaled = (
     <div
       className="@container relative overflow-hidden rounded-card"
       style={{ aspectRatio: `${W} / ${H}` }}
@@ -214,6 +384,29 @@ export function PromoHero({ at }: { at?: number }) {
       </div>
     </div>
   );
-}
 
-export { Cursor };
+  /*
+    Below `lg` the film gets the same treatment every wide mockup on this site gets.
+
+    It is authored at 1920 across. In a 335px phone column that is a 0.17 scale, which puts the
+    app window's 16px body type at under 3px — a picture of a film rather than something anyone
+    can watch. The still creative this replaced had exactly that problem and the site's answer was
+    already built, so the film uses it: a tap opens it at its design width in the pannable dialog,
+    and above `lg`, where it reads on its own, no control is added at all.
+  */
+  return (
+    <CreativeZoom
+      alt="The Talentilo platform, scene by scene: creating a job, scoring candidates, AI screening calls, the pipeline, targets and offers"
+      zoomed={() => (
+        <div
+          className="relative overflow-hidden rounded-card"
+          style={{ width: `${W}px`, height: `${H}px`, maxWidth: 'none' }}
+        >
+          <PromoFilm at={at} />
+        </div>
+      )}
+    >
+      {scaled}
+    </CreativeZoom>
+  );
+}
