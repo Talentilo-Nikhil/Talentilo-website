@@ -310,6 +310,14 @@ None of these is visible damage; they are places where the artwork and the world
   are invented: the section claims the agent checks salary *in natural language*, and that cannot
   be shown without any. It is not a transcript of the MP3 underneath it and does not claim to be.
   Swap it for real words from a call you are happy to publish the moment there are some.
+- **`offer-risk-alerts` no longer matches its Figma source.** The export had "GenAI Specialist"
+  indented 4px against the Job column's other two rows and its header — measured in the file's own
+  pixels at 82 where "Job" and "Data Scientist" sit at 78 — and it was fixed here by moving those
+  pixels rather than in Figma, which this environment cannot reach. Both the `.webp` and the `.png`
+  were re-encoded from the patched canvas. **Anyone re-exporting this creative from Figma will
+  bring the misalignment back**, so fix it at source before replacing these files. Nothing else in
+  the image was touched: the patched band held only white and the word itself, asserted before the
+  shift.
 - **A phone number is baked into a hover state** in the v5 artwork (+91 9945623125).
 - **The gauge arc** on the velocity dashboard is a flat `#60a5fa`, which is not one of the site's own
   six ramps.
