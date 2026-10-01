@@ -43,9 +43,19 @@ function useDesktop() {
 }
 
 type CreativeZoomProps = {
-  asset: Asset;
+  /** The image the dialog pans, unless `zoomed` replaces it. */
+  asset?: Asset;
   alt: string;
   children: React.ReactNode;
+  /**
+   * What the dialog shows instead of `asset`, for artwork that is markup rather than an export.
+   *
+   * It is a function, and it is called only while the dialog is open: the promo film the home
+   * page passes runs a `requestAnimationFrame` clock, and a copy of it mounted behind a hidden
+   * dialog would run that clock for every reader on a phone, all the time, for a picture nobody
+   * has asked to see.
+   */
+  zoomed?: () => React.ReactNode;
 };
 
 /**
@@ -56,7 +66,7 @@ type CreativeZoomProps = {
  * that opens it at its design width in a pannable dialog. Above `lg` nothing is added: the plain
  * artwork renders on its own, with no control in the tab order.
  */
-export function CreativeZoom({ asset, alt, children }: CreativeZoomProps) {
+export function CreativeZoom({ asset, alt, children, zoomed }: CreativeZoomProps) {
   const [open, setOpen] = useState(false);
   const mounted = useMounted();
   const desktop = useDesktop();
@@ -158,18 +168,22 @@ export function CreativeZoom({ asset, alt, children }: CreativeZoomProps) {
               </div>
 
               <div ref={viewport} className="flex-1 overflow-auto overscroll-contain p-4">
-                <picture>
-                  <source srcSet={asset.src} type="image/webp" />
-                  {/* Its design width, so the mockup is exactly as readable as it is on a desktop. */}
-                  <img
-                    src={asset.fallback}
-                    alt={alt}
-                    width={asset.width}
-                    height={asset.height}
-                    style={{ width: `${asset.designWidth}px`, maxWidth: 'none' }}
-                    className="h-auto rounded-card"
-                  />
-                </picture>
+                {zoomed
+                  ? open && zoomed()
+                  : asset && (
+                      <picture>
+                        <source srcSet={asset.src} type="image/webp" />
+                        {/* Its design width, so the mockup is exactly as readable as it is on a desktop. */}
+                        <img
+                          src={asset.fallback}
+                          alt={alt}
+                          width={asset.width}
+                          height={asset.height}
+                          style={{ width: `${asset.designWidth}px`, maxWidth: 'none' }}
+                          className="h-auto rounded-card"
+                        />
+                      </picture>
+                    )}
               </div>
             </div>,
             document.body

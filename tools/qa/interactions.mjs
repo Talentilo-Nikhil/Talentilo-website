@@ -231,7 +231,9 @@ async function enlargeMockups(browser) {
   const page = await context.newPage();
   await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
 
-  const trigger = page.getByRole('button', { name: /^Enlarge:/ }).first();
+  // The last control on the page, which is an exported image creative. The first is the hero's
+  // promo film, whose design width is its own 1920 — asserted in the promo film group instead.
+  const trigger = page.getByRole('button', { name: /^Enlarge:/ }).last();
   check('zoom: a phone gets the control', (await page.getByRole('button', { name: /^Enlarge:/ }).count()) > 0);
 
   await trigger.scrollIntoViewIfNeeded();
@@ -241,9 +243,23 @@ async function enlargeMockups(browser) {
   const dialog = page.getByRole('dialog', { name: /.+/ }).last();
   const box = await dialog.boundingBox();
   check('zoom: the dialog covers the screen', box?.width === 390 && box?.height === 844);
+  /*
+    It opens at the creative's own design width rather than fitted to the column.
+
+    The number is read off the element rather than written here: the creatives are authored at
+    different widths (this one at 1440, the Talent Intelligence screen at 1312), so a literal only
+    ever matched whichever one happened to come first on the page. What can actually break is the
+    clamp — any `max-width` reaching this image shrinks it back to the phone column and there is
+    nothing left to pan, which is what `maxWidth: 'none'` in CreativeZoom exists to stop.
+  */
+  const zoomed = await dialog.locator('img').evaluate((el) => ({
+    declared: parseFloat(el.style.width),
+    rendered: Math.round(el.getBoundingClientRect().width),
+  }));
   check(
-    'zoom: the mockup opens at its design width',
-    Math.round((await dialog.locator('img').boundingBox()).width) === 1312
+    'zoom: the mockup opens at its design width, unclamped',
+    zoomed.rendered === Math.round(zoomed.declared) && zoomed.rendered > 390,
+    `declared ${zoomed.declared}, rendered ${zoomed.rendered}`
   );
   check(
     'zoom: the page behind is locked',
@@ -634,6 +650,99 @@ async function heroScreen(browser) {
 }
 
 /**
+ * The promo film in the homepage hero.
+ *
+ * It is thirteen scenes of ported markup scaled into one slot, and three things about it can break
+ * silently. The slot can drift off 16:9, which crops or letterboxes a composition authored at
+ * 1920x1080. A scene can stop registering in the `screens` table, which shows as the window
+ * holding the previous scene rather than as an error. And the still frame can land somewhere
+ * other than the settled workspace, which is what a reader who has asked for no motion is left
+ * looking at.
+ *
+ * Every assertion pins the clock with `?film=` rather than racing it: the film is a pure function
+ * of one number, so a pinned second is reproducible where a timer is not.
+ */
+async function promoFilm(browser) {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1800 } });
+  const page = await context.newPage();
+  const problems = [];
+  page.on('pageerror', (e) => problems.push(e.message));
+
+  await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+  const slot = page.locator('[data-promo-film]').first().locator('xpath=ancestor::*[contains(@style,"aspect-ratio")][1]');
+  check('promo film: the hero holds the film', await slot.isVisible());
+
+  for (const width of [1440, 1280, 1024, 768, 390]) {
+    await page.setViewportSize({ width, height: 1800 });
+    await page.waitForTimeout(250);
+    const box = await slot.boundingBox();
+    const ratio = box.width / box.height;
+    check(`promo film: the slot is 16:9 at ${width}`, Math.abs(ratio - 16 / 9) < 0.01,
+      `${ratio.toFixed(4)} (${Math.round(box.width)}x${Math.round(box.height)})`);
+  }
+  await page.setViewportSize({ width: 1440, height: 1800 });
+
+  /*
+    One frame per scene, each a second into it so the entrance has resolved, asserted by a string
+    only that scene draws. A scene dropped from the table takes its row with it.
+  */
+  const SCENES = [
+    // The hook and the outro set one word per span, so they are matched a word at a time.
+    [1.6, 'Recruiters'], [4.4, 'The AI-native recruitment OS'], [8.9, 'Hello, Alex'],
+    [10.6, 'Create New Job'], [16.4, 'Junior Accountant'], [18.4, 'Overall Score'],
+    [24.5, 'AI Screening'], [26.4, 'Move Stage'], [28.8, 'WhatsApp Business'],
+    [33.0, 'Candidate Call'], [37.0, 'Calling Performance'], [40.0, 'Recruiter Performance'],
+    [43.0, 'Pre-built performance'], [47.5, 'Total Candidates'], [51.6, 'recruitment.'],
+  ];
+  for (const [at, text] of SCENES) {
+    await page.goto(`${BASE}/?film=${at}`, { waitUntil: 'networkidle' });
+    await page.waitForTimeout(300);
+    const found = await page.locator('[data-promo-film]').first().getByText(text, { exact: false }).count();
+    check(`promo film: t=${at}s draws "${text}"`, found > 0);
+  }
+
+  /*
+    The phone affordance. At 390 the film scales to about 0.17, which puts the app window's 16px
+    body type under 3px, so below `lg` it opens at its design width in the pannable dialog — the
+    same treatment the still creative it replaced had. The film inside that dialog is mounted only
+    while it is open, because it runs a clock.
+  */
+  const phone = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  const small = await phone.newPage();
+  await small.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+  const zoom = small.getByRole('button', { name: /^Enlarge: The Talentilo platform/ });
+  check('promo film: a phone gets a control to open it', (await zoom.count()) === 1);
+  check('promo film: no film runs behind the closed dialog',
+    (await small.locator('[data-promo-film]').count()) === 1);
+  await zoom.scrollIntoViewIfNeeded();
+  await zoom.click();
+  await small.waitForTimeout(500);
+  const opened = small.getByRole('dialog').last().locator('[data-promo-film]');
+  check('promo film: it opens at its design width',
+    Math.round((await opened.boundingBox()).width) === 1920);
+  await small.keyboard.press('Escape');
+  await small.waitForTimeout(400);
+  check('promo film: closing it stops the second clock',
+    (await small.locator('[data-promo-film]').count()) === 1);
+  await phone.close();
+
+  // Reduced motion holds the settled workspace — the nearest thing to the still creative it
+  // replaced — rather than freezing mid-scene or landing on the outro.
+  const quiet = await browser.newContext({ viewport: { width: 1440, height: 1800 }, reducedMotion: 'reduce' });
+  const still = await quiet.newPage();
+  await still.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+  await still.waitForTimeout(400);
+  const film = still.locator('[data-promo-film]').first();
+  check('promo film: motion off holds one frame', (await film.getAttribute('data-still')) === 'true');
+  check('promo film: the held frame is the settled workspace',
+    await film.getByText('Hello, Alex').isVisible());
+  await quiet.close();
+
+  check('promo film: nothing throws across the timeline', problems.length === 0, problems[0] ?? '');
+  await context.close();
+}
+
+/**
  * The AI-calling panel, which has to read as a call that is happening rather than a picture of
  * one. Three things carry that and each can be undone without anyone noticing in a screenshot.
  *
@@ -951,6 +1060,8 @@ async function main() {
   await scorecard(browser);
   console.log('hero screen');
   await heroScreen(browser);
+  console.log('promo film');
+  await promoFilm(browser);
   console.log('ai calling');
   await aiCalling(browser);
   console.log('load');

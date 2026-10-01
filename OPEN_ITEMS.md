@@ -277,12 +277,19 @@ None of these is visible damage; they are places where the artwork and the world
 - **`ti-hero-database` is no longer referenced by anything either.** The Talent Intelligence hero
   now shows `command-center-screen`, the command centre cut out of its ground. Same reasoning as
   above: the export stays.
-- **The same dashboard is now drawn on two pages.** `/` shows it whole, on the blue ground baked
-  into the export; `/platform/talent-intelligence` shows it cut out of that ground, floating on the
-  band. They are the same screen, so a visitor who reads both sees it twice, and the home page is
-  the one that should move — its hero is the site's first impression and the Talent Intelligence
-  hero is the one that was chosen for this artwork. Nothing is broken until that happens; it is a
-  question of what the home page shows instead.
+- ~~**The same dashboard is now drawn on two pages.**~~ Closed. The home page hero no longer shows
+  `hero-command-center`; it runs the Talentilo Promo Video v10 animation, ported from the Claude
+  Design handoff in `design/promo/` and re-themed onto our ground.
+  `/platform/talent-intelligence` keeps `command-center-screen`, so the screen is drawn once.
+- **The promo film's two faces cost two extra font families on the LCP page.** Outfit and
+  Instrument Serif are loaded on every page, because they are in the root layout, but only the
+  home page draws with them. Scoping them to the home page, or mapping the film onto Albert Sans
+  and EB Garamond, would both drop the cost; the second is a change to the film nobody asked for.
+  The measured figures are in the promo film's PR.
+- **The film re-themes the ground, the type and the logo, and nothing else.** Inside the app window
+  every colour, figure and line of copy is the handoff's — including a dial counter that runs to
+  500 where `/for/recruitment-operations` says 312 of 312, and an outro that repeats the footer's
+  headline and the hero's own CTA. That was raised and the decision was to keep the film whole.
 - **The AI-calling panel's captured facts and its booked meeting are invented too.** "Interest
   confirmed", "₹32 LPA — in range", "Notice: 30 days" and "Tue 11:00 · Daniel Fernandes" are
   written for the same reason the transcript below is: the section claims the agent parses an
