@@ -916,12 +916,17 @@ async function demoBooking(browser) {
   /*
     An exact match, not a pattern. Calendly's query parameters are the embed's settings, not
     decoration — `hide_event_type_details=1` alone removes the panel carrying the host, the
-    meeting's name, its length and its description. One arriving by accident should fail here
+    meeting's name, its length and its description, and `hide_gdpr_banner=1` removes the only
+    cookie notice an EU visitor gets on this site. One arriving by accident should fail here
     rather than change what visitors see on the live site.
+
+    The one option carried is `primary_color`, which tints the widget's buttons and its selected
+    date. Asserted by the whole URL rather than by a `includes`, so dropping it fails too.
   */
   check(
-    'demo: the widget carries the plain booking URL, with no embed options',
-    (await host.getAttribute('data-url')) === 'https://calendly.com/talentilo-marketing/30min',
+    'demo: the widget carries the booking URL with its one embed option',
+    (await host.getAttribute('data-url')) ===
+      'https://calendly.com/talentilo-marketing/30min?primary_color=394ccb',
     (await host.getAttribute('data-url')) ?? 'no data-url'
   );
 
