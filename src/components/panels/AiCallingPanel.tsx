@@ -157,7 +157,14 @@ export function AiCallingPanel({
         </div>
 
         {/* 2. The call, in the words it is being held in. */}
-        <ol className="mt-3 space-y-1.5">
+        {/*
+          The gaps here are spent, not saved. Dropping the fact pills, the tinted recording and the
+          reach bar took the card from 426px to 395 against a composition the design space allows
+          470 for, and a conversation held at 6px between turns reads as a log rather than as
+          speech. 10px between the bubbles and 8px of leading inside them is where that headroom
+          went: the card is still shorter than it was, with three fewer objects in it.
+        */}
+        <ol className="mt-3 space-y-2.5">
           {transcript.map((turn, index) => {
             const agent = turn.from === 'agent';
             return (
@@ -181,7 +188,7 @@ export function AiCallingPanel({
                 */}
                 <p
                   className={cn(
-                    'max-w-[88%] rounded-2xl px-3 py-1.5 text-small text-ink',
+                    'max-w-[88%] rounded-2xl px-3.5 py-2 text-small text-ink',
                     agent ? 'rounded-bl-sm bg-lavender-100' : 'rounded-br-sm bg-azure-50'
                   )}
                 >
@@ -204,7 +211,7 @@ export function AiCallingPanel({
           Ticked facts rather than more bubbles, so they read as a record rather than as more
           talking.
         */}
-        <div className="mt-2.5 flex items-start gap-1.5">
+        <div className="mt-3.5 flex items-start gap-1.5">
           <svg
             viewBox="0 0 12 12"
             aria-hidden="true"
