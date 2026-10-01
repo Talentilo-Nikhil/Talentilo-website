@@ -15,6 +15,21 @@ const CARDS: [string, string, number, string, string][] = [
 ];
 
 const MONTHS = [22, 30, 26, 38, 44, 36, 52, 61];
+
+/**
+ * The bars share one scale, with a tick where target sits.
+ *
+ * The handoff clamped every fill to `Math.min(100, pct)`, so Revenue at 112% and Resume Submission
+ * at 101% both rendered as a completely full bar with no track showing — two different numbers,
+ * one identical mark, and no way to see that either had passed its target. A dashboard whose
+ * figures and bars disagree is the thing that reads as invented.
+ *
+ * So the track runs 0 to `SCALE` for all three, and a tick marks 100%. Over-target bars now run
+ * visibly past the tick and short ones stop before it, which is what the numbers were already
+ * saying.
+ */
+const SCALE = Math.ceil(Math.max(...[112, 85, 101]) / 20) * 20;
+const TARGET_AT = (100 / SCALE) * 100;
 const LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'];
 
 export function Targets({ r }: { r: number }) {
@@ -57,11 +72,22 @@ export function Targets({ r }: { r: number }) {
               {Math.round(pct * b)}%
             </div>
             <div
-              style={{ marginTop: 8, height: 8, borderRadius: 4, background: '#f0eff4', overflow: 'hidden' }}
+              style={{
+                position: 'relative', marginTop: 8, height: 8, borderRadius: 4,
+                background: '#f0eff4',
+              }}
             >
               <div
                 style={{
-                  height: '100%', width: `${Math.min(100, pct) * b}%`, background: c, borderRadius: 4,
+                  height: '100%', width: `${(pct / SCALE) * 100 * b}%`, background: c,
+                  borderRadius: 4,
+                }}
+              />
+              <div
+                aria-hidden="true"
+                style={{
+                  position: 'absolute', left: `${TARGET_AT}%`, top: -3, width: 2, height: 14,
+                  borderRadius: 1, background: '#9a94ad',
                 }}
               />
             </div>

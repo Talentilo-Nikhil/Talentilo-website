@@ -59,7 +59,11 @@ export function Reports({ r }: { r: number }) {
             background: '#fff', fontSize: 16, fontWeight: 500, color: B.ink,
           }}
         >
-          Select Date Range<span style={{ color: '#e8742f' }}>▦</span>
+          {/*
+            Was the literal glyph `▦` in orange — a box-drawing character standing in for an icon,
+            which no product ships. The set already carries a calendar.
+          */}
+          Select Date Range{ic(I.calendar, 18, '#e8742f')}
         </div>
         <div
           style={{
