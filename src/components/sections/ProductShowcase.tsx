@@ -110,7 +110,7 @@ export function ProductShowcase({ clips, className }: ProductShowcaseProps) {
   return (
     <div
       className={cn(
-        'flex flex-col gap-6 rounded-card bg-surface-tint p-6 sm:p-8 lg:gap-8 lg:p-10',
+        'flex flex-col gap-4 rounded-card bg-surface-tint p-5 sm:p-6 lg:gap-5 lg:p-7',
         className
       )}
       onMouseEnter={() => setPaused(true)}
@@ -137,7 +137,7 @@ export function ProductShowcase({ clips, className }: ProductShowcaseProps) {
         every time it stepped. Distinct prefixes, and each replaces itself.
       */}
       <h2 className="sr-only">What Talentilo does</h2>
-      <p key={`name-${active}`} className="animate-rise-in text-center font-display text-h5 text-ink">
+      <p key={`name-${active}`} className="animate-rise-in text-center font-display text-lede text-ink">
         {slides[active].name}
       </p>
 
@@ -257,10 +257,10 @@ export function ProductShowcase({ clips, className }: ProductShowcaseProps) {
         step is 5.53.
       */}
       <div key={`copy-${active}`} className="flex animate-rise-in flex-col items-center gap-2 text-center">
-        <p className="font-sans text-lede leading-snug font-semibold text-azure-700">
+        <p className="font-sans text-body leading-snug font-semibold text-azure-700">
           {slides[active].title}
         </p>
-        <p className="max-w-[46ch] text-body text-ink/75">{slides[active].detail}</p>
+        <p className="max-w-[46ch] text-small text-ink/75">{slides[active].detail}</p>
       </div>
     </div>
   );
