@@ -181,6 +181,7 @@ export default function AiPowersPage() {
         media={
           <CreativeGround tone="magenta">
             <BatchPanel
+              durationLabel="Time spent"
               duration="30 min"
               stages={[
                 { value: '500', label: 'Dialled' },
