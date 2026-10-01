@@ -9,8 +9,17 @@ import { cn } from '@/lib/cn';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 
+/*
+  Smaller than it was, on purpose.
+
+  The control was `px-4 py-3` at `text-body` — 53px tall for a single line of 17px type, which is
+  a touch target drawn at desktop size. Four of those, their labels and the gaps between them put
+  the card at 741px beside a 790px showcase, and the pair were the reason /contact did not fit a
+  laptop screen. At `px-3.5 py-2.5` and `text-small` the control is 44px: still the 44px minimum
+  a finger needs, and 9px shorter four times over.
+*/
 const field =
-  'w-full rounded-xl border bg-white px-4 py-3 text-body text-ink placeholder:text-muted ' +
+  'w-full rounded-xl border bg-white px-3.5 py-2.5 text-small text-ink placeholder:text-muted ' +
   'transition-colors duration-200 focus:border-ink focus:outline-none';
 
 export function ContactForm() {
@@ -68,7 +77,7 @@ export function ContactForm() {
 
   if (status === 'sent') {
     return (
-      <div className="flex h-full min-h-[420px] flex-col justify-center gap-4 rounded-card bg-surface-mint p-10">
+      <div className="flex h-full min-h-[360px] flex-col justify-center gap-4 rounded-card bg-surface-mint p-7">
         <p className="font-sans text-h5 font-medium text-ink">Thanks — your message is on its way.</p>
         {/*
           No address named here. Enquiries deliver to whichever inbox `CONTACT_TO_EMAIL` points at,
@@ -101,11 +110,11 @@ export function ContactForm() {
     <form
       onSubmit={onSubmit}
       noValidate
-      className="flex h-full flex-col rounded-card bg-surface-mint p-6 sm:p-10"
+      className="flex h-full flex-col rounded-card bg-surface-mint p-5 sm:p-7"
     >
-      <div className="flex flex-1 flex-col gap-6">
+      <div className="flex flex-1 flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <label htmlFor={`${id}-name`} className="text-body font-medium text-ink">
+          <label htmlFor={`${id}-name`} className="text-small font-medium text-ink">
             Your Name<span aria-hidden="true">*</span>
           </label>
           <input
@@ -127,7 +136,7 @@ export function ContactForm() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label htmlFor={`${id}-email`} className="text-body font-medium text-ink">
+          <label htmlFor={`${id}-email`} className="text-small font-medium text-ink">
             Company Email<span aria-hidden="true">*</span>
           </label>
           <input
@@ -149,7 +158,7 @@ export function ContactForm() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label htmlFor={`${id}-company`} className="text-body font-medium text-ink">
+          <label htmlFor={`${id}-company`} className="text-small font-medium text-ink">
             Company Name<span aria-hidden="true">*</span>
           </label>
           <input
@@ -170,19 +179,28 @@ export function ContactForm() {
           ) : null}
         </div>
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor={`${id}-message`} className="text-body font-medium text-ink">
+        {/*
+          The message box takes whatever slack the column has.
+
+          This card fills its column so the two on /contact end on the same line, and the column is
+          as tall as the showcase beside it. Once the fields got smaller that left 163px of bare
+          mint between the last one and the button — a void where the equal height used to be
+          invisible. Growing the box into it costs nothing and gives the one field anybody writes
+          more than a line into the room to show it. `rows` is the floor it never goes below.
+        */}
+        <div className="flex flex-1 flex-col gap-2">
+          <label htmlFor={`${id}-message`} className="text-small font-medium text-ink">
             Message<span aria-hidden="true">*</span>
           </label>
           <textarea
             id={`${id}-message`}
             name="message"
-            rows={6}
+            rows={4}
             required
             placeholder="This space is yours, share your message..."
             aria-invalid={errors.message ? true : undefined}
             aria-describedby={errors.message ? `${id}-message-error` : undefined}
-            className={cn(field, 'resize-y', errors.message ? 'border-negative' : 'border-transparent')}
+            className={cn(field, 'min-h-[112px] flex-1 resize-y', errors.message ? 'border-negative' : 'border-transparent')}
           />
           {errors.message ? (
             <p id={`${id}-message-error`} className="text-small text-negative">
@@ -208,7 +226,7 @@ export function ContactForm() {
           {formError ? <p className="text-small text-negative">{formError}</p> : null}
         </div>
 
-        <div className="mt-auto flex justify-end">
+        <div className="flex justify-end">
           <Button type="submit" variant="dark" disabled={status === 'sending'} withArrow>
             {status === 'sending' ? 'Sending…' : 'Send message'}
           </Button>
