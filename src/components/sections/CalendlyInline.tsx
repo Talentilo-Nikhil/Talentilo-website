@@ -51,7 +51,16 @@ export function CalendlyInline({
   const start = useCallback(() => {
     const el = host.current;
     if (!el || !window.Calendly || el.childElementCount > 0) return;
-    window.Calendly.initInlineWidget({ url, parentElement: el });
+    /*
+      `resize: true` is Calendly's own auto-height, and the reason the calendar no longer scrolls
+      inside itself. The widget measures its content and sets the height on this element — the
+      iframe's parent — as the flow moves from the month view to a chosen day to the booking form,
+      each of which is a different height.
+
+      Its documented constraints are both met here: one auto-resizing embed per page, and no
+      dropdowns in the booking form.
+    */
+    window.Calendly.initInlineWidget({ url, parentElement: el, resize: true });
   }, [url]);
 
   useEffect(() => {
@@ -82,14 +91,28 @@ export function CalendlyInline({
         360px viewport, and there `Section`'s `overflow-hidden` clips the right edge rather than
         giving the whole page a horizontal scrollbar.
 
-        The height is Calendly's 700px, which is what its month view needs; shorter and the widget
-        scrolls inside its own iframe, which is a worse place to scroll than the page.
+        The height is a floor, not a height, and that is the fix for the scrollbar that ran down
+        the event-details panel. Calendly's 700px is what its month view needs and no more: the
+        panel beside the calendar carries the meeting's name, its length, its description and the
+        cookie and privacy links under them, and on a narrow column that stack is taller than 700.
+        A fixed box gave the widget no way to say so, so it scrolled inside its own iframe — a
+        worse place to scroll than the page, and easy to miss entirely on a trackpad.
+
+        With `resize: true` above, Calendly sets the height here itself. 700 stays as `min-h` so
+        the space is reserved before the widget arrives and nothing below it jumps on load.
+
+        `overflow-hidden` stays, and now earns its keep differently. It was the belt to the
+        double-build braces: a fixed 700px box that clipped was what stopped a second calendar
+        painting over the footer. The box is free to grow now, so a second one would push the
+        footer down rather than cover it — but the clip still contains anything Calendly's own
+        height does not account for, and the three real guards (no `calendly-inline-widget` class,
+        the child-count refusal above, the cleanup below) are untouched.
       */}
       <div
         ref={host}
         data-calendly="inline"
         data-url={url}
-        className="h-[700px] w-full min-w-[320px] overflow-hidden"
+        className="min-h-[700px] w-full min-w-[320px] overflow-hidden"
       />
 
       <Script src={WIDGET_SCRIPT} strategy="afterInteractive" onLoad={start} onError={() => setFailed(true)} />
@@ -119,6 +142,12 @@ export function CalendlyInline({
 
 declare global {
   interface Window {
-    Calendly?: { initInlineWidget: (options: { url: string; parentElement: HTMLElement }) => void };
+    Calendly?: {
+      initInlineWidget: (options: {
+        url: string;
+        parentElement: HTMLElement;
+        resize?: boolean;
+      }) => void;
+    };
   }
 }

@@ -957,34 +957,48 @@ async function demoBooking(browser) {
   );
 
   /*
-    And the belt to that brace, testable without Calendly: put two stand-ins the size of the iframe
-    Calendly builds into the container, and nothing may escape it. Measured by what the box does,
-    not by the children's rectangles — a clipped child still reports its unclipped geometry, so
-    `getBoundingClientRect` says it is 582px past the footer whether or not any of it is painted.
-    The box keeping its height and clipping its overflow is what actually holds the page together;
-    before the fix the container had neither and a second calendar drew over the footer.
+    And the belt to that brace. The box used to be a fixed 700px that clipped, so a second calendar
+    was cut off rather than drawn over the footer. It cannot be fixed any more — a fixed box is
+    exactly what made the widget scroll inside its own iframe — so what is asserted is what the box
+    still guarantees: it clips, and it reserves 700px before the widget arrives so nothing below it
+    jumps on load. A second calendar now pushes the footer down instead of covering it, which is
+    visible rather than destructive, and the three real guards above and below this are untouched.
   */
-  const contained = await page.evaluate(() => {
-    const el = document.querySelector('[data-calendly="inline"]');
-    const before = el.innerHTML;
-    for (let i = 0; i < 2; i++) {
-      const stand = document.createElement('div');
-      stand.style.cssText = 'height:700px;width:100%';
-      el.append(stand);
-    }
-    const result = {
-      overflow: getComputedStyle(el).overflow,
-      height: Math.round(el.getBoundingClientRect().height),
-      content: el.scrollHeight,
-    };
-    el.innerHTML = before;
-    return result;
+  const box = await host.evaluate((el) => ({
+    overflow: getComputedStyle(el).overflow,
+    minHeight: getComputedStyle(el).minHeight,
+    height: Math.round(el.getBoundingClientRect().height),
+  }));
+  check(
+    'demo: the mount clips, and reserves its height before the widget lands',
+    box.overflow === 'hidden' && box.minHeight === '700px' && box.height >= 700,
+    `overflow:${box.overflow}, min-height:${box.minHeight}, box ${box.height}px`
+  );
+
+  /*
+    The scrollbar that ran down the event-details panel, asserted at its cause.
+
+    Calendly's own auto-height is an option on the init call, not something visible in the DOM, and
+    the script that would act on it is egress denied here. So the call itself is what is checked: a
+    stand-in for `window.Calendly` installed before the page loads records the options the
+    component passes it. Without `resize: true` the widget takes the box's height as final and
+    scrolls its own content inside it, which is what shipped and what this stops coming back.
+  */
+  const probe = await context.newPage();
+  await probe.addInitScript(() => {
+    window.Calendly = { initInlineWidget: (options) => { window.__calendlyOptions = options; } };
+  });
+  await probe.goto(`${BASE}/demo`, { waitUntil: 'networkidle' });
+  const opts = await probe.evaluate(() => {
+    const o = window.__calendlyOptions;
+    return o ? { url: o.url, resize: o.resize, mounted: o.parentElement?.dataset?.calendly } : null;
   });
   check(
-    'demo: a calendar that overruns its box cannot reach the footer',
-    contained.overflow === 'hidden' && contained.height === 700,
-    `overflow:${contained.overflow}, box ${contained.height}px holding ${contained.content}px of content`
+    'demo: the widget is told to size itself, so it never scrolls inside its own frame',
+    opts?.resize === true,
+    opts ? `resize:${opts.resize}, into [data-calendly="${opts.mounted}"]` : 'initInlineWidget was never called'
   );
+  await probe.close();
   check(
     "demo: the widget's script is on the page",
     (await page.locator('script[src="https://assets.calendly.com/assets/external/widget.js"]').count()) === 1
