@@ -90,10 +90,21 @@ export function PromoFilm({ at }: { at?: number }) {
     same list, so a ripple can never appear anywhere the cursor is not.
   */
   const plan: [number, number | 'tab' | null, [number, number, number, number | null][]][] = [
+    /*
+      The three JD targets are measured off the rendered buttons, not stacked up from assumed
+      heights.
+
+      The handoff built them by adding guessed box heights — `104 + 29 + 96 + 10 + 23` for the
+      first — and two of the three guesses were wrong: the label renders 40px (30 plus a 10
+      margin), not 29, and the skills box renders 119px, not 96, because seven chips wrap to two
+      rows. The errors compound down the column, so "Generate JD" was clicked 38px above the
+      button and "Generate JD Keyword" 57px above it — both landing on empty panel. Measured
+      centres, modal-local: (939, 300), (903, 554), and the Next button at (950, 705).
+    */
     [Jd, 0, [
-      [1.7, MX + 1010 - 28 - 60, MY + 706, 1.9],
-      [2.95, MX + 935, MY + 104 + 29 + 96 + 10 + 23, 3.1],
-      [4.6, MX + 905, MY + 104 + 29 + 96 + 10 + 46 + 10 + 29 + 140 + 10 + 23, 4.8],
+      [1.7, MX + 950, MY + 705, 1.9],
+      [2.95, MX + 939, MY + 300, 3.1],
+      [4.6, MX + 903, MY + 554, 4.8],
     ]],
     [Sc, 0, [[1.2, SB + 571, HD + 448, 1.3]]],
     [Ai, 0, [[1.2, SB + 700, HD + 560, null]]],
