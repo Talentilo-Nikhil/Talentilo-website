@@ -26,18 +26,25 @@ export const site = {
   /**
    * The sales calendar behind every "Request Demo" on the site, embedded on /demo.
    *
-   * The plain booking link, with no query string, and that is deliberate. It carried three of
-   * Calendly's embed options for a while — the first of them, `hide_event_type_details=1`, is what
-   * removes the panel with the logo, the host, the meeting name, its length and its description,
-   * and that panel is half of what the page is meant to show. `hide_gdpr_banner=1` and
-   * `primary_color` went with it, so the widget draws its own cookie notice where a region
-   * requires one and uses Calendly's blue rather than a brand tint.
+   * One embed option, and only one. Calendly's query parameters are the widget's settings rather
+   * than decoration, so each is a decision about what visitors see:
    *
-   * Any option added back here is a change to what visitors see, not a tidy-up: the parameters
-   * are the embed's settings. `qa:interactions` asserts this URL exactly, so one arriving by
-   * accident fails the suite rather than surprising someone on the live site.
+   * - `primary_color=394ccb` tints the widget's buttons, its selected date and its confirmation
+   *   from Calendly's own `006bff` to a deeper blue. The widget puts white on this colour, and
+   *   394ccb carries it at 6.84:1 — better than the default it replaces at 4.62. It is close to
+   *   but not one of the azure ramp: `brand-blue` is `4da8fd`, which holds white at only 2.52 and
+   *   would have failed where this passes.
+   * - `hide_event_type_details=1` is deliberately absent. It removes the panel carrying the logo,
+   *   the host, the meeting's name, its length and its description, and that panel is half of what
+   *   the page is meant to show — /demo's lede is one line precisely because the panel says the
+   *   rest.
+   * - `hide_gdpr_banner=1` is deliberately absent too. This site has no consent banner of its own,
+   *   so Calendly's is the only notice an EU visitor gets.
+   *
+   * `qa:interactions` asserts this URL exactly, so a parameter arriving by accident fails the
+   * suite rather than surprising someone on the live site.
    */
-  calendly: 'https://calendly.com/talentilo-marketing/30min',
+  calendly: 'https://calendly.com/talentilo-marketing/30min?primary_color=394ccb',
 
   /**
    * LinkedIn is the only account Talentilo runs. The X and Instagram handles that sat here were
