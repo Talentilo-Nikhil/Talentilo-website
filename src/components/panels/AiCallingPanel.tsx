@@ -139,9 +139,9 @@ export function AiCallingPanel({
         </div>
 
         {/* 1. The call itself: two ends and the speech between them. */}
-        <div aria-hidden="true" className="mt-3 flex items-center gap-3">
+        <div aria-hidden="true" className="mt-3.5 flex items-center gap-3">
           <Agent />
-          <CallWave className="h-12 flex-1" />
+          <CallWave className="h-11 flex-1" />
           <span className="grid size-11 shrink-0 place-items-center rounded-full bg-azure-100 text-small font-semibold text-azure-800">
             {candidate.initials}
           </span>
@@ -164,7 +164,7 @@ export function AiCallingPanel({
           speech. 10px between the bubbles and 8px of leading inside them is where that headroom
           went: the card is still shorter than it was, with three fewer objects in it.
         */}
-        <ol className="mt-3 space-y-2.5">
+        <ol className="mt-[18px] space-y-3">
           {transcript.map((turn, index) => {
             const agent = turn.from === 'agent';
             return (
